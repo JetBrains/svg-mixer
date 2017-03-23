@@ -55,7 +55,7 @@ function plugin(options = {}) {
   const fill = opts.fill || null;
   const matcher = selectorToMatcher(opts.selector);
 
-  return (tree, done) => {
+  return (tree) => {
     tree.match(matcher, (node) => {
       if (fill) {
         node.attrs = node.attrs || {};
@@ -63,8 +63,6 @@ function plugin(options = {}) {
       }
       return node;
     });
-
-    done(null, tree);
   };
 }
 
