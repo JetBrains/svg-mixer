@@ -1,6 +1,6 @@
 # PostHTML rename plugin
 
-[posthtml](https://github.com/posthtml/posthtml) plugin to rename id attributes and it's references. 
+Plugin to rename id attributes and it's references. 
 Inspired by [grunt-svgstore](https://github.com/FWeinb/grunt-svgstore).
 
 Handle following cases:
