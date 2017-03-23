@@ -14,7 +14,8 @@ const defaultOptions = {
     'rect',
     'use',
     'animateTransform',
-  ],
+    'stop'
+  ]
 };
 
 /**
