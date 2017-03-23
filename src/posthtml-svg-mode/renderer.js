@@ -18,8 +18,8 @@ const defaultOptions = {
 };
 
 /**
- * @param {Object} tree - PostHTML AST tree {@see https://github.com/posthtml/posthtml/blob/master/docs/tree.md#json}
- * @param {Object|null} [options] - {@see https://github.com/posthtml/posthtml-render#options}
+ * @param {PostHTMLTree} tree
+ * @param {Object|null} [options] {@see https://github.com/posthtml/posthtml-render#options}
  */
 module.exports = function xmlRenderer(tree, options) {
   const opts = merge(defaultOptions, options || {});
