@@ -1,0 +1,14 @@
+{
+  "name": "posthtml-svg-mode",
+  "version": "1.0.0",
+  "description": "",
+  "license": "MIT",
+  "repository": "https://github.com/kisenka/svg-baker/src/posthtml-svg-mode",
+  "main": "index.js",
+  "dependencies": {
+    "merge-options": "0.0.64",
+    "posthtml-parser": "^0.2.1",
+    "posthtml-render": "^1.0.6"
+  },
+  "devDependencies": {}
+}
