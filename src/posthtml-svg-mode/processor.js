@@ -7,7 +7,7 @@ const renderer = require('./renderer');
  * @see https://github.com/posthtml/posthtml/blob/master/docs/tree.md#json
  */
 
-class ProcessingResult {
+class PostHTMLProcessingResult {
   constructor(tree) {
     this.tree = tree;
   }
@@ -44,11 +44,11 @@ class Processor {
   /**
    * @param {PostHTMLTree} ast
    * @param {Object} options {@see https://github.com/posthtml/posthtml-render#options}
-   * @return {Promise<ProcessingResult>}
+   * @return {Promise<PostHTMLProcessingResult>}
    */
   process(ast, options = null) {
     const opts = Object.assign({ parser }, options);
-    return this.posthtml.process(ast, opts).then(({ tree }) => new ProcessingResult(tree));
+    return this.posthtml.process(ast, opts).then(({ tree }) => new PostHTMLProcessingResult(tree));
   }
 }
 
@@ -62,5 +62,5 @@ Processor.render = renderer;
 module.exports = plugins => new Processor(plugins);
 module.exports.parser = parser;
 module.exports.renderer = renderer;
-module.exports.Processor = ProcessingResult;
-module.exports.Result = ProcessingResult;
+module.exports.Processor = Processor;
+module.exports.Result = PostHTMLProcessingResult;
