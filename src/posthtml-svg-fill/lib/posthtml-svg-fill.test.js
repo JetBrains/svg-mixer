@@ -47,7 +47,7 @@ describe('selectorToMatcher()', () => {
 
 describe('plugin()', () => {
   it('should do nothing if fill option not provided', () => {
-    t(
+    return t(
       null,
       '<path />',
       '<path />'
@@ -55,7 +55,7 @@ describe('plugin()', () => {
   });
 
   it('should process single tag', () => {
-    t(
+    return t(
       { fill: '#f00', selector: 'path' },
       '<path /><circle />',
       '<path fill="#f00" /><circle />'
@@ -63,7 +63,7 @@ describe('plugin()', () => {
   });
 
   it('should process multiple tags', () => {
-    t(
+    return t(
       { fill: 'red', selector: 'path, circle' },
       '<path /><circle />',
       '<path fill="red" /><circle fill="red" />'
@@ -71,7 +71,7 @@ describe('plugin()', () => {
   });
 
   it('should process #id selectors', () => {
-    t(
+    return t(
       { fill: 'red', selector: '#id' },
       '<path id="id" /><circle />',
       '<path id="id" fill="red" /><circle />'
@@ -79,7 +79,7 @@ describe('plugin()', () => {
   });
 
   it('should process .class selectors', () => {
-    t(
+    return t(
       { fill: 'red', selector: '.class' },
       '<path class="class" /><circle />',
       '<path class="class" fill="red" /><circle />'
@@ -87,26 +87,10 @@ describe('plugin()', () => {
   });
 
   it('should overwrite fill attribute', () => {
-    t(
+    return t(
       { fill: 'blue' },
       '<path fill="red" />',
       '<path fill="blue" />'
-    );
-  });
-
-  it('should preserve nested tags', () => {
-    t(
-      { fill: 'red' },
-      '<rect><animate /></rect>',
-      '<rect fill="red"><animate /></rect>'
-    );
-  });
-
-  it('should detect if single element used with start & end tags', () => {
-    t(
-      { fill: 'red' },
-      '<path><animateTransform /></path>',
-      '<path fill="red"><animateTransform /></path>'
     );
   });
 });

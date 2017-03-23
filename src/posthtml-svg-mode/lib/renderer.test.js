@@ -1,15 +1,15 @@
 const t = require('../../../utils/index').setupPluginTest();
 
 it('should properly render self-closing tags', () => {
-  t(
+  return t(
     null,
     '<path />',
     '<path />'
   );
 });
 
-it('should detect if self-closing element used as blocked element', () => {
-  t(
+it('should detect if self-closing element used as block element', () => {
+  return t(
     null,
     '<path><animateTransform /></path>',
     '<path><animateTransform /></path>'
