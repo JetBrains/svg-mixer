@@ -55,6 +55,12 @@ class Processor {
 Processor.parser = parser;
 Processor.render = renderer;
 
+/**
+ * @param {Array<Function>} [plugins]
+ * @return {Processor}
+ */
 module.exports = plugins => new Processor(plugins);
+module.exports.parser = parser;
+module.exports.renderer = renderer;
 module.exports.Processor = ProcessingResult;
 module.exports.Result = ProcessingResult;
