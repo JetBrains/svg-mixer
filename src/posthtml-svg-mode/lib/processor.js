@@ -12,11 +12,15 @@ class PostHTMLProcessingResult {
     this.tree = tree;
   }
 
+  get html() {
+    return this.toString();
+  }
+
   toString() {
     return renderer(this.tree, this.tree.options);
   }
 
-  get html() {
+  render() {
     return this.toString();
   }
 }
