@@ -1,5 +1,7 @@
+/* global utils */
 const plugin = require('./posthtml-rename-id');
-const t = require('../../../utils').setupPluginTest(plugin);
+
+const t = utils.setupPluginTest(plugin);
 
 const pattern = 'test_[id]';
 

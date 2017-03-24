@@ -1,4 +1,5 @@
-const t = require('../../../utils/index').setupPluginTest();
+/* global utils */
+const t = utils.setupPluginTest();
 
 it('should properly render self-closing tags', () => {
   return t(

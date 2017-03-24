@@ -15,7 +15,8 @@
     "posthtml": "^0.9.2"
   },
   "jest": {
-    "testEnvironment": "node"
+    "testEnvironment": "node",
+    "setupFiles": ["./utils/setup-test-env.js"]
   },
   "config": {
     "commitizen": {

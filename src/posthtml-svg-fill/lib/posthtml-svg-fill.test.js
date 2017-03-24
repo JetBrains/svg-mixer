@@ -1,5 +1,7 @@
+/* global utils */
 const plugin = require('./posthtml-svg-fill');
-const t = require('../../../utils').setupPluginTest(plugin);
+
+const t = utils.setupPluginTest(plugin);
 
 const matcher = plugin.selectorToMatcher;
 
