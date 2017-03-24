@@ -7,5 +7,5 @@ module.exports = createParser(({
   xmlMode: true,
   lowerCaseTags: false,
   decodeEntities: false,
-  lowerCaseAttributeNames: false,
+  lowerCaseAttributeNames: false
 }));

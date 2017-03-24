@@ -56,7 +56,7 @@ function plugin(config = {}) {
   });
 
   return (tree) => {
-    const sprite = {
+    tree[0] = {
       tag: 'svg',
       attrs,
       content: [{
@@ -67,8 +67,6 @@ function plugin(config = {}) {
         }].concat(trees)
       }].concat(usages)
     };
-
-    tree[0] = sprite;
 
     return tree;
   };
