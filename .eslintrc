@@ -8,6 +8,7 @@
   },
   "rules": {
     "arrow-body-style":  "off",
+    "no-param-reassign": "off",
     "comma-dangle": ["error", "never"],
     "import/no-extraneous-dependencies": ["error", {"devDependencies": ["utils/*.js", "**/*.test.js"]}]
   }
