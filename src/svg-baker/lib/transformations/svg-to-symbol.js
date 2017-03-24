@@ -1,8 +1,7 @@
-const merge = require('merge-options');
 const { getRoot } = require('../utils');
 
 const defaultConfig = {
-  id: null,
+  id: '',
   preserve: ['viewBox', 'preserveAspectRatio', 'class']
 };
 
@@ -10,8 +9,8 @@ const defaultConfig = {
  * @param {Object} [config] {@see defaultConfig}
  * @return {Function} PostHTML plugin
  */
-function svgToSymbol(config = {}) {
-  const cfg = merge(defaultConfig, config);
+function svgToSymbol(config = null) {
+  const cfg = Object.assign({}, defaultConfig, config);
 
   return (tree) => {
     const root = getRoot(tree);
@@ -24,7 +23,9 @@ function svgToSymbol(config = {}) {
       }
     });
 
-    root.attrs.id = cfg.id;
+    if (cfg.id) {
+      root.attrs.id = cfg.id;
+    }
 
     return tree;
   };
