@@ -1,0 +1,20 @@
+{
+  "name": "svg-baker",
+  "version": "1.0.0",
+  "description": "",
+  "author": "kisenka <qtuzov@gmail.com> (https://github.com/kisenka)",
+  "homepage": "https://github.com/kisenka/svg-baker",
+  "license": "MIT",
+  "repository": "https://github.com/kisenka/svg-baker",
+  "main": "lib/compiler.js",
+  "dependencies": {
+    "bluebird": "^3.5.0",
+    "image-size": "^0.5.1",
+    "loader-utils": "^1.1.0",
+    "merge-options": "0.0.64",
+    "posthtml": "^0.9.2",
+    "posthtml-parser": "^0.2.1",
+    "posthtml-render": "^1.0.6",
+    "query-string": "^4.3.2"
+  }
+}
