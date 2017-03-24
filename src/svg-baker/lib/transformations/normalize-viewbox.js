@@ -2,7 +2,7 @@ const merge = require('merge-options');
 const { getRoot } = require('../utils');
 
 const defaultConfig = {
-  removeDimensions: true
+  removeDimensions: false
 };
 
 /**
