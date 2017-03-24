@@ -1,5 +1,5 @@
 {
-  "name": "posthtml-rename-id",
+  "name": "posthtml-svg-fill",
   "version": "1.0.0",
   "description": "PostHTML plugin that changes chapes colors in SVG images",
   "license": "MIT",
