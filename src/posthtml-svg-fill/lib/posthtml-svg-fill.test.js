@@ -7,40 +7,40 @@ const matcher = plugin.selectorToMatcher;
 
 describe('selectorToMatcher()', () => {
   it('should support single tag selector', () => {
-    expect(matcher('path')).toEqual([
+    expect(matcher('path')).to.eql([
       { tag: 'path' }
     ]);
 
-    expect(matcher('circle,path')).toEqual([
+    expect(matcher('circle,path')).to.eql([
       { tag: 'circle' },
       { tag: 'path' }
     ]);
   });
 
   it('should trim whitespaces in selectors', () => {
-    expect(matcher('         circle,  path ')).toEqual([
+    expect(matcher('         circle,  path ')).to.eql([
       { tag: 'circle' },
       { tag: 'path' }
     ]);
   });
 
   it('should support #id selector', () => {
-    expect(matcher('#circle')).toEqual([
+    expect(matcher('#circle')).to.eql([
       { attrs: { id: 'circle' } }
     ]);
 
-    expect(matcher('path, #circle')).toEqual([
+    expect(matcher('path, #circle')).to.eql([
       { tag: 'path' },
       { attrs: { id: 'circle' } }
     ]);
   });
 
   it('should support #class selector', () => {
-    expect(matcher('.circle')).toEqual([
+    expect(matcher('.circle')).to.eql([
       { attrs: { class: 'circle' } }
     ]);
 
-    expect(matcher('path, .circle')).toEqual([
+    expect(matcher('path, .circle')).to.eql([
       { tag: 'path' },
       { attrs: { class: 'circle' } }
     ]);

@@ -6,6 +6,6 @@ exports.setupPluginTest = (plugin = null) => {
 
     return processor(args)
       .process(input)
-      .then(result => expect(result.toString()).toEqual(expected));
+      .then(result => expect(result.toString()).to.equal(expected));
   };
 };

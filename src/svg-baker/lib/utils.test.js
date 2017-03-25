@@ -15,5 +15,7 @@ describe('getRoot()', () => {
     root,
     '\n'
   ];
-  it('should work properly', () => expect(getRoot(tree)).toEqual(root));
+  it('should work properly', () => {
+    expect(getRoot(tree)).to.equal(root);
+  });
 });
