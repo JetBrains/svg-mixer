@@ -16,7 +16,7 @@ class Sprite {
    */
   static create(options) {
     const { filename, factory = defaultFactory } = options;
-    return factory(options).then(({ tree }) => new this.constructor({ tree, filename }));
+    return factory(options).then(({ tree }) => new Sprite({ tree, filename }));
   }
 
   /**
