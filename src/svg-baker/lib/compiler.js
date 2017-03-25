@@ -76,9 +76,9 @@ class Compiler {
         }
       });
 
-      return spriteSymbols.length > 0
-        ? Sprite.create({ symbols: spriteSymbols, filename, factory })
-        : null;
+      return spriteSymbols.length > 0 ?
+        Sprite.create({ symbols: spriteSymbols, filename, factory }) :
+        null;
     }).filter(result => result !== null);
   }
 }
