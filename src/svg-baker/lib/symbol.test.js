@@ -11,7 +11,7 @@ beforeEach(() => {
   };
 });
 
-it('#create', async () => {
+it('static create()', async () => {
   data.content = '<svg></svg>';
   delete data.tree;
 
