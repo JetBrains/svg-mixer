@@ -50,6 +50,9 @@ class FileRequest {
    * @return {boolean}
    */
   equals(request) {
+    if (!(request instanceof FileRequest)) {
+      throw TypeError('request should be instance of FileRequest');
+    }
     return this.toString() === request.toString();
   }
 
@@ -67,6 +70,24 @@ class FileRequest {
    */
   queryEquals(request) {
     return this.stringifyQuery() === request.stringifyQuery();
+  }
+
+  /**
+   * @param {string} param
+   * @return {boolean}
+   */
+  hasParam(param) {
+    return this.query && param in this.query;
+  }
+
+  /**
+   * @param {string} param
+   * @return {string}
+   */
+  getParam(param) {
+    const has = this.hasParam(param);
+    const value = has ? this.query[param] : null;
+    return value;
   }
 }
 
