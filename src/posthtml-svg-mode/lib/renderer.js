@@ -1,5 +1,6 @@
 const merge = require('merge-options');
 const renderer = require('posthtml-render');
+const api = require('posthtml/lib/api');
 
 const defaultOptions = {
   closingSingleTag: 'slash',
@@ -32,7 +33,7 @@ module.exports = function xmlRenderer(tree, options) {
   opts.singleTags = opts.singleTags.filter((tag) => {
     let hasContent = false;
 
-    tree.match({ tag }, (node) => {
+    api.match.call(tree, { tag }, (node) => {
       if (typeof node.content !== 'undefined' && !hasContent) {
         hasContent = true;
       }
