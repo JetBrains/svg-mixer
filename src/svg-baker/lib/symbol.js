@@ -14,13 +14,14 @@ class SpriteSymbol {
    * @param {Object} options
    * @param {string} options.id
    * @param {string} options.content
-   * @param {FileRequest} options.request
+   * @param {string|FileRequest} options.request
    * @param {Function<Promise<PostHTMLProcessingResult>>} [options.factory]
    * @return {Promise<SpriteSymbol>}
    */
   static create(options) {
-    const { id, request, factory = defaultFactory } = options;
-    return factory(options).then(({ tree }) => new this.constructor({ id, request, tree }));
+    const { id, request, content, factory = defaultFactory } = options;
+    return factory({ id, request, content })
+      .then(({ tree }) => new SpriteSymbol({ id, request, tree }));
   }
 
   /**
