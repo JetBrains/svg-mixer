@@ -1,6 +1,6 @@
 /* global utils */
 // const Promise = require('bluebird');
-const toSymbol = require('./svg-to-symbol');
+const toSymbol = require('../svg-to-symbol');
 
 const t = utils.setupPluginTest(toSymbol);
 

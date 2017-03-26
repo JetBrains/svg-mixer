@@ -1,4 +1,4 @@
-const { interpolateName } = require('loader-utils');
+const { interpolateName, getHashDigest } = require('loader-utils');
 
 /**
  * @param {PostHTMLTree} tree
@@ -20,4 +20,8 @@ exports.interpolate = function interpolate(pattern, resourcePath, options = null
   const opts = Object.assign({ context: process.cwd() }, options);
 
   return interpolateName({ resourcePath }, pattern, opts);
+};
+
+exports.getHash = function getHash(content) {
+  return getHashDigest(content, 'md5', 'hex', 6);
 };

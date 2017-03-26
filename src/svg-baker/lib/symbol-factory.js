@@ -5,29 +5,33 @@ const renameId = require('../../posthtml-rename-id/lib/posthtml-rename-id');
 const normalizeViewBox = require('./transformations/normalize-viewbox');
 const rasterToSVG = require('./transformations/raster-to-svg');
 const svgToSymbol = require('./transformations/svg-to-symbol');
+const { getHash } = require('./utils');
 
 /**
- * @param {Object} config
- * @param {string} config.id
- * @param {string} config.content
- * @param {FileRequest} config.request
+ * @param {Object} options
+ * @param {string} [options.id]
+ * @param {string} options.content
+ * @param {FileRequest} options.request
  * @return {Promise<PostHTMLProcessingResult>}
  */
-function symbolFactory(config) {
-  const { id, request } = config;
-  const { query } = request;
-  const fillParam = (query && query.fill) ? query.fill : null;
+function symbolFactory(options) {
+  const { id, request } = options;
+  const plugins = [];
 
-  const content = Buffer.isBuffer(config.content)
-    ? rasterToSVG(config.content)
-    : config.content;
+  // convert raster image to svg
+  const content = Buffer.isBuffer(options.content)
+    ? rasterToSVG(options.content)
+    : options.content;
 
-  const plugins = [
-    normalizeViewBox(),
-    fill({ fill: fillParam }),
-    renameId({ pattern: `${id}_[id]` }),
-    svgToSymbol({ id })
-  ];
+  plugins.push(normalizeViewBox());
+
+  // fill plugin
+  if (request.hasParam('fill')) {
+    plugins.push(fill({ fill: request.getParam('fill') }));
+  }
+
+  plugins.push(renameId({ pattern: `${id}_[id]` }));
+  plugins.push(svgToSymbol({ id }));
 
   return processor(plugins).process(content);
 }

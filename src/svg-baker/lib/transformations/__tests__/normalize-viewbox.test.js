@@ -1,5 +1,5 @@
 /* global utils */
-const plugin = require('./normalize-viewbox');
+const plugin = require('../normalize-viewbox');
 
 const t = utils.setupPluginTest(plugin);
 

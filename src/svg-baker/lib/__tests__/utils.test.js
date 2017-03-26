@@ -1,4 +1,4 @@
-import { getRoot } from './utils';
+import { getRoot } from '../utils';
 
 describe('getRoot()', () => {
   const root = {
