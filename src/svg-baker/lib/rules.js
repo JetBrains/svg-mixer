@@ -8,20 +8,31 @@ class Rule {
     this.value = value;
   }
 
+  /**
+   * @param {string} value
+   * @return {boolean}
+   */
   match(value) {
     return this.test(value);
   }
 }
 
 class RuleSet {
-  constructor(data) {
-    if (!Array.isArray(data)) {
+  /**
+   * @param {Array<{test: RegExp, value: string}>} rules
+   */
+  constructor(rules) {
+    if (!Array.isArray(rules)) {
       throw new TypeError('`data` should be an array');
     }
 
-    this.rules = data.map(params => new Rule(params));
+    this.rules = rules.map(params => new Rule(params));
   }
 
+  /**
+   * @param {string} value
+   * @return {Rule|null}
+   */
   getMatchedRule(value) {
     return this.rules.find(rule => rule.match(value)) || null;
   }
