@@ -1,31 +1,43 @@
 import SpriteSymbol from './symbol';
 import FileRequest from './request';
+import { parser } from '../../posthtml-svg-mode';
 
-let data;
+let fixture;
 
 beforeEach(() => {
-  data = {
+  const content = '<svg><path id="qqq" d=""/></svg>';
+  const rawRequest = 'image.svg';
+  fixture = {
     id: 'qwe',
-    tree: [],
-    request: new FileRequest('image.svg')
+    content,
+    tree: parser(content),
+    rawRequest,
+    request: new FileRequest(rawRequest)
   };
 });
 
-it('static create()', async () => {
-  data.content = '<svg></svg>';
-  delete data.tree;
+describe('static create()', () => {
+  it('should resolve with symbol instance', async () => {
+    const { id, content, request } = fixture;
+    const s = await SpriteSymbol.create({ id, content, request });
+    s.should.be.instanceof(SpriteSymbol);
+  });
 
-  const s = await SpriteSymbol.create(data);
-  const { id, request, tree } = s;
+  it('should autogenerate id if it\'s omitted', async () => {
+    const { content, request } = fixture;
+    const s = await SpriteSymbol.create({ content, request });
+    s.id.should.be.a('string').and.be.not.empty; // eslint-disable-line no-unused-expressions
+  });
 
-  s.should.be.instanceof(SpriteSymbol);
-  id.should.be.a('string');
-  tree.should.be.an('array');
-  request.should.be.instanceOf(FileRequest);
+  it('should allow to pass request as a string', async () => {
+    const { content, rawRequest } = fixture;
+    const s = await SpriteSymbol.create({ content, request: rawRequest });
+    s.request.should.be.instanceOf(FileRequest);
+  });
 });
 
 it('constructor', () => {
-  const s = new SpriteSymbol(data);
+  const s = new SpriteSymbol(fixture);
   const { id, request, tree, usageId } = s;
 
   id.should.be.a('string');
@@ -36,10 +48,11 @@ it('constructor', () => {
 
 it('get viewBox()', () => {
   const expected = '0 0 0 0';
-  data.tree = [{ tag: 'svg', attrs: { viewBox: expected } }];
-  new SpriteSymbol(data).viewBox.should.be.equal(expected);
+  const inputTree = parser('<svg viewBox="0 0 0 0"></svg>');
+  const { id, request } = fixture;
+  new SpriteSymbol({ id, request, tree: inputTree }).viewBox.should.be.equal(expected);
 });
 
 it('render()', () => {
-  new SpriteSymbol(data).render().should.be.a('string');
+  new SpriteSymbol(fixture).render().should.be.a('string');
 });

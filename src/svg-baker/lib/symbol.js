@@ -1,6 +1,7 @@
 const { renderer } = require('../../posthtml-svg-mode');
-const { getRoot } = require('./utils');
+const { getRoot, getHash } = require('./utils');
 const defaultFactory = require('./symbol-factory');
+const FileRequest = require('./request');
 
 class SpriteSymbol {
   constructor({ id, tree, request }) {
@@ -19,8 +20,11 @@ class SpriteSymbol {
    * @return {Promise<SpriteSymbol>}
    */
   static create(options) {
-    const { id, request, content, factory = defaultFactory } = options;
-    return factory({ id, request, content })
+    const { content, factory = defaultFactory } = options;
+    const request = typeof options.request === 'string' ? new FileRequest(options.request) : options.request;
+    const id = typeof options.id === 'undefined' ? getHash(`${request.toString()}_${content}`) : options.id;
+
+    return factory({ content, request, id })
       .then(({ tree }) => new SpriteSymbol({ id, request, tree }));
   }
 
