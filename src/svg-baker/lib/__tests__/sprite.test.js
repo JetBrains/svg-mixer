@@ -1,12 +1,11 @@
-import { parser } from '../../../posthtml-svg-mode';
 import Sprite from '../sprite';
 import SpriteSymbol from '../symbol';
-import FileRequest from '../request';
+import factory from '../sprite-factory';
 
 const symbolData = {
   id: 'qwe',
-  tree: parser('<svg><path d=""/></svg>'),
-  request: new FileRequest('image.svg')
+  content: '<svg><path d=""/></svg>',
+  request: 'image.svg'
 };
 
 const filename = 'sprite.svg';
@@ -14,14 +13,25 @@ let symbol;
 
 beforeEach(() => SpriteSymbol.create(symbolData).then(s => symbol = s));
 
-it('static create()', async () => {
-  const s = await Sprite.create({ symbols: [symbol], filename });
-  s.should.be.instanceOf(Sprite);
-  s.tree.should.be.an('array');
-  s.filename.should.be.a('string');
+describe('static create()', () => {
+  it('should work', async () => {
+    const sprite = await Sprite.create({ symbols: [symbol], filename });
+    sprite.should.be.instanceOf(Sprite);
+    sprite.tree.should.be.an('array');
+    sprite.filename.should.be.a('string');
+  });
+
+  // TODO should allow to use custom factory
 });
 
-it('constructor', () => {
-  // const s = new Sprite(data);
+it('constructor', async () => {
+  const { tree } = await factory({ symbols: [symbol] });
+  const sprite = new Sprite({ tree, filename });
+  sprite.tree.should.be.an('array');
+  sprite.filename.should.be.a('string');
 });
 
+it('render()', async () => {
+  const sprite = await Sprite.create({ symbols: [symbol], filename });
+  sprite.render().should.be.a('string');
+});

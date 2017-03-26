@@ -10,13 +10,13 @@ class Sprite {
   /**
    * @param {Object} options
    * @param {Array<SpriteSymbol>} options.symbols
-   * @param {string} options.filename
+   * @param {string} options.filename Output sprite filename
    * @param {Function<Promise<PostHTMLProcessingResult>>} [options.factory]
    * @return {Promise<Sprite>}
    */
   static create(options) {
-    const { filename, factory = defaultFactory } = options;
-    return factory(options).then(({ tree }) => new Sprite({ tree, filename }));
+    const { symbols, filename, factory = defaultFactory } = options;
+    return factory({ symbols }).then(({ tree }) => new Sprite({ tree, filename }));
   }
 
   /**
