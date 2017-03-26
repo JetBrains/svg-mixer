@@ -1,5 +1,9 @@
 class Rule {
   constructor({ test, value }) {
+    if (!(test instanceof RegExp)) {
+      throw new TypeError('`test` should be a regexp');
+    }
+
     this.test = test;
     this.value = value;
   }
