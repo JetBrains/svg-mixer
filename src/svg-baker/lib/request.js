@@ -82,12 +82,10 @@ class FileRequest {
 
   /**
    * @param {string} param
-   * @return {string}
+   * @return {string|null}
    */
   getParam(param) {
-    const has = this.hasParam(param);
-    const value = has ? this.query[param] : null;
-    return value;
+    return this.hasParam(param) ? this.query[param] : null;
   }
 }
 
