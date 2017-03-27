@@ -1,6 +1,6 @@
-const processor = require('../../posthtml-svg-mode/lib/processor');
 const merge = require('merge-options');
-const match = require('posthtml/lib/api').match;
+const processor = require('../../posthtml-svg-mode/lib/processor');
+const extractNamespacesToRoot = require('./transformations/extract-namespaces-to-root');
 const { svg, xlink } = require('./namespaces');
 
 const defaultConfig = {
@@ -13,39 +13,14 @@ const defaultConfig = {
 };
 
 /**
- * @param {PostHTMLTree} tree
- * @return {Object|null}
- */
-function collectNamespaces(tree) {
-  const namespaces = {};
-
-  match.call(tree, { tag: /.*/ }, (node) => {
-    const attrs = node.attrs || {};
-
-    Object.keys(attrs).forEach((attr) => {
-      if (attr.startsWith('xmlns')) {
-        namespaces[attr] = attrs[attr];
-      }
-    });
-
-    return node;
-  });
-
-  return Object.keys(namespaces).length > 0 ? namespaces : null;
-}
-
-/**
  * TODO simplify
  * @param {Object} [config] {@see defaultConfig}
  * @return {Function} PostHTML plugin
  */
-function plugin(config = {}) {
+function spritePlugin(config = {}) {
   const cfg = merge(defaultConfig, config);
-  const styles = cfg.css;
   const symbols = cfg.symbols;
   const trees = symbols.map(s => s.tree);
-  const namespaces = collectNamespaces(trees);
-  const attrs = Object.assign({}, cfg.attrs, namespaces);
 
   const usages = symbols.map((symbol) => {
     const { id, usageId } = symbol;
@@ -58,12 +33,12 @@ function plugin(config = {}) {
   return (tree) => {
     tree[0] = {
       tag: 'svg',
-      attrs,
+      attrs: cfg.attrs,
       content: [{
         tag: 'defs',
         content: [{
           tag: 'style',
-          content: styles
+          content: cfg.styles
         }].concat(trees)
       }].concat(usages)
     };
@@ -77,9 +52,12 @@ function plugin(config = {}) {
  * @return {Promise<PostHTMLProcessingResult>}
  */
 function spriteFactory(options) {
-  return processor([plugin(options)]).process('');
+  const plugins = [
+    spritePlugin(options),
+    extractNamespacesToRoot()
+  ];
+  return processor(plugins).process('');
 }
 
 module.exports = spriteFactory;
-module.exports.plugin = plugin;
-module.exports.collectNamespaces = collectNamespaces;
+module.exports.spritePlugin = spritePlugin;
