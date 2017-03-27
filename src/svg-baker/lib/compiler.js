@@ -23,12 +23,12 @@ class Compiler {
   }
 
   /**
-   * @param {string} id
-   * @param {string} path
    * @param {string} content
+   * @param {string} path
+   * @param {string} [id]
    * @return {Promise<SpriteSymbol>}
    */
-  addSymbol(id, path, content) {
+  addSymbol({ id, path, content }) {
     const symbols = this.symbols;
     const factory = this.config.symbolFactory;
     const request = new FileRequest(path);
