@@ -3,7 +3,7 @@
   "license": "MIT",
   "scripts": {
     "bootstrap": "npm i && lerna bootstrap",
-    "test": "jest"
+    "test": "jest --config jest.json"
   },
   "devDependencies": {
     "babel-jest": "19.0.0",
@@ -17,13 +17,6 @@
     "jest": "^19.0.2",
     "lerna": "2.0.0-beta.38",
     "posthtml": "^0.9.2"
-  },
-  "jest": {
-    "testEnvironment": "node",
-    "transform": {
-      "\\.test\\.js$": "babel-jest"
-    },
-    "setupTestFrameworkScriptFile": "./utils/setup-test-env.js"
   },
   "config": {
     "commitizen": {
