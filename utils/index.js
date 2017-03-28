@@ -1,4 +1,4 @@
-const processor = require('../src/posthtml-svg-mode');
+const processor = require('posthtml-svg-mode');
 
 exports.setupPluginTest = (plugin = null) => {
   return (options, input, expected) => {
