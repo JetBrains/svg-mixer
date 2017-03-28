@@ -8,7 +8,6 @@ class SpriteSymbol {
     this.id = id;
     this.tree = tree;
     this.request = request;
-    this.usageId = `${id}-usage`;
   }
 
   /**
@@ -34,6 +33,13 @@ class SpriteSymbol {
   get viewBox() {
     const root = getRoot(this.tree);
     return root.attrs ? root.attrs.viewBox : null;
+  }
+
+  /**
+   * @return {string}
+   */
+  get usageId() {
+    return `${this.id}-usage`;
   }
 
   /**
