@@ -28,7 +28,7 @@ class Compiler {
    * @param {string} [id]
    * @return {Promise<SpriteSymbol>}
    */
-  addSymbol({ id, path, content }) {
+  addSymbol({ path, content, id }) {
     const symbols = this.symbols;
     const factory = this.config.symbolFactory;
     const request = new FileRequest(path);
@@ -37,7 +37,7 @@ class Compiler {
     const existing = symbols.find(s => s.request.equals(request));
     const existingIndex = existing ? symbols.indexOf(existing) : -1;
     const allExceptCurrent = symbols
-      .filter(({ req }) => req.fileEquals(request) && !req.queryEquals(request))
+      .filter(s => s.request.fileEquals(request) && !s.request.queryEquals(request))
       .map(symbol => ({ symbol, index: symbols.indexOf(symbol) }));
 
     return SpriteSymbol.create(options).then((newSymbol) => {
@@ -50,8 +50,6 @@ class Compiler {
 
       return Promise.map(allExceptCurrent, ({ symbol, index }) => {
         const opts = { id: symbol.id, request: symbol.request, content, factory };
-
-        // eslint-disable-next-line no-return-assign
         return SpriteSymbol.create(opts).then(created => symbols[index] = created);
       }).then(() => newSymbol);
     });
