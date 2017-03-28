@@ -1,5 +1,5 @@
 const merge = require('merge-options');
-const processor = require('../../posthtml-svg-mode/lib/processor');
+const processor = require('posthtml-svg-mode');
 const extractNamespacesToRoot = require('./transformations/extract-namespaces-to-root');
 const { svg, xlink } = require('./namespaces');
 

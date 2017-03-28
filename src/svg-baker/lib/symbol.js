@@ -1,4 +1,4 @@
-const { renderer } = require('../../posthtml-svg-mode');
+const { renderer } = require('posthtml-svg-mode');
 const { getRoot, getHash } = require('./utils');
 const defaultFactory = require('./symbol-factory');
 const FileRequest = require('./request');
