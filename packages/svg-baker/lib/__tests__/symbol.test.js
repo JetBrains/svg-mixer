@@ -1,6 +1,6 @@
+import { parser } from 'posthtml-svg-mode';
 import SpriteSymbol from '../symbol';
 import FileRequest from '../request';
-import { parser } from 'posthtml-svg-mode';
 
 let fixture;
 

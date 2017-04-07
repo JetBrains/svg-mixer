@@ -1,3 +1,4 @@
+/* global utils */
 const plugin = require('../extract-namespaces-to-root');
 
 const t = utils.setupPluginTest(plugin);
