@@ -38,7 +38,7 @@ class SpriteSymbol {
   /**
    * @return {string}
    */
-  get usageId() {
+  get useId() {
     return `${this.id}-usage`;
   }
 

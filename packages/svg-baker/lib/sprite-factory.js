@@ -23,10 +23,10 @@ function spritePlugin(config = {}) {
   const trees = symbols.map(s => s.tree);
 
   const usages = symbols.map((symbol) => {
-    const { id, usageId } = symbol;
+    const { id, useId } = symbol;
     return {
       tag: 'use',
-      attrs: { id: usageId, 'xlink:href': `#${id}` }
+      attrs: { id: useId, 'xlink:href': `#${id}` }
     };
   });
 

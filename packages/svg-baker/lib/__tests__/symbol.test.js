@@ -38,10 +38,10 @@ describe('static create()', () => {
 
 it('constructor', () => {
   const s = new SpriteSymbol(fixture);
-  const { id, request, tree, usageId } = s;
+  const { id, request, tree, useId } = s;
 
   id.should.be.a('string');
-  usageId.should.be.a('string');
+  useId.should.be.a('string');
   tree.should.be.an('array');
   request.should.be.instanceOf(FileRequest);
 });
