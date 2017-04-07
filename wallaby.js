@@ -1,12 +1,12 @@
 module.exports = (wallaby) => {
   return {
     files: [
-      { pattern: 'src/**/*.js' },
-      { pattern: 'src/**/*.test.js', ignore: true }
+      { pattern: 'packages/**/*.js' },
+      { pattern: 'packages/**/*.test.js', ignore: true }
     ],
 
     tests: [
-      { pattern: 'src/**/*.test.js' }
+      { pattern: 'packages/**/*.test.js' }
     ],
 
     env: {
