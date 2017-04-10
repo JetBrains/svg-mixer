@@ -38,7 +38,7 @@ function spritePlugin(config = {}) {
         tag: 'defs',
         content: [{
           tag: 'style',
-          content: cfg.styles
+          content: cfg.css
         }].concat(trees)
       }].concat(usages)
     };
