@@ -1,6 +1,6 @@
 const processor = require('posthtml-svg-mode');
 const fill = require('posthtml-svg-fill');
-const renameId = require('posthtml-rename-id/lib/posthtml-rename-id');
+const renameId = require('posthtml-rename-id');
 const normalizeViewBox = require('./transformations/normalize-viewbox');
 const rasterToSVG = require('./transformations/raster-to-svg');
 const svgToSymbol = require('./transformations/svg-to-symbol');
