@@ -1,6 +1,7 @@
 const merge = require('merge-options');
 const processor = require('posthtml-svg-mode');
 const extractNamespacesToRoot = require('./transformations/extract-namespaces-to-root');
+const moveFromSymbolToRoot = require('./transformations/move-from-symbol-to-root');
 const { svg, xlink } = require('./namespaces');
 
 const defaultConfig = {
@@ -54,7 +55,8 @@ function spritePlugin(config = {}) {
 function spriteFactory(options) {
   const plugins = [
     spritePlugin(options),
-    extractNamespacesToRoot()
+    extractNamespacesToRoot(),
+    moveFromSymbolToRoot()
   ];
   return processor(plugins).process('');
 }
