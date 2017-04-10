@@ -1,6 +1,4 @@
-const match = require('posthtml/lib/api').match;
 const { getRoot } = require('../utils');
-
 
 /**
  * @return {Function} PostHTML plugin
@@ -9,7 +7,7 @@ function extractNamespacesToRoot() {
   return (tree) => {
     const namespaces = {};
 
-    match.call(tree, { tag: /.*/ }, (node) => {
+    tree.match({ tag: /.*/ }, (node) => {
       const attrs = node.attrs || {};
 
       Object.keys(attrs).forEach((attr) => {
