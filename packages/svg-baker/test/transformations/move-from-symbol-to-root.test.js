@@ -1,5 +1,5 @@
 /* global utils */
-const plugin = require('../move-from-symbol-to-root');
+const plugin = require('../../lib/transformations/move-from-symbol-to-root');
 
 const t = utils.setupPluginTest(plugin);
 

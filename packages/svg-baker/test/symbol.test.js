@@ -1,6 +1,6 @@
-import { parser } from 'posthtml-svg-mode';
-import SpriteSymbol from '../symbol';
-import FileRequest from '../request';
+const { parser } = require('posthtml-svg-mode');
+const SpriteSymbol = require('../lib/symbol');
+const FileRequest = require('../lib/request');
 
 let fixture;
 

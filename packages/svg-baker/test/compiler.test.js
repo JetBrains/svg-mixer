@@ -1,5 +1,5 @@
-import Compiler from '../compiler';
-import SpriteSymbol from '../symbol';
+const Compiler = require('../lib/compiler');
+const SpriteSymbol = require('../lib/symbol');
 
 describe('addSymbol()', () => {
   let data;

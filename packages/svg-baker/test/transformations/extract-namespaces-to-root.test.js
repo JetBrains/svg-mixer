@@ -1,5 +1,5 @@
 /* global utils */
-const plugin = require('../extract-namespaces-to-root');
+const plugin = require('../../lib/transformations/extract-namespaces-to-root');
 
 const t = utils.setupPluginTest(plugin);
 

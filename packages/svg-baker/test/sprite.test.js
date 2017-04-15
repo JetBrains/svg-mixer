@@ -1,6 +1,6 @@
-import Sprite from '../sprite';
-import SpriteSymbol from '../symbol';
-import factory from '../sprite-factory';
+const Sprite = require('../lib/sprite');
+const SpriteSymbol = require('../lib/symbol');
+const spriteFactory = require('../lib/sprite-factory');
 
 const symbolData = {
   id: 'qwe',
@@ -25,7 +25,7 @@ describe('static create()', () => {
 });
 
 it('constructor', async () => {
-  const { tree } = await factory({ symbols: [symbol] });
+  const { tree } = await spriteFactory({ symbols: [symbol] });
   const sprite = new Sprite({ tree, filename });
   sprite.tree.should.be.an('array');
   sprite.filename.should.be.a('string');

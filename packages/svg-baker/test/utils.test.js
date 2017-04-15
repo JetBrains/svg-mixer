@@ -1,4 +1,4 @@
-import { getRoot } from '../utils';
+const { getRoot } = require('../lib/utils');
 
 describe('getRoot()', () => {
   const root = {

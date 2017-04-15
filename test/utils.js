@@ -1,4 +1,5 @@
 const processor = require('posthtml-svg-mode');
+const { strictEqual } = require('assert');
 
 exports.setupPluginTest = (plugin = null) => {
   return (options, input, expected) => {
@@ -6,6 +7,6 @@ exports.setupPluginTest = (plugin = null) => {
 
     return processor(args)
       .process(input)
-      .then(result => expect(result.toString()).to.equal(expected));
+      .then(result => strictEqual(result.toString(), expected));
   };
 };

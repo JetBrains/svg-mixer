@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-expressions */
-import Request from '../request';
+const Request = require('../lib/request');
 
 const f = 'qwe';
 const q = 'param=1';
