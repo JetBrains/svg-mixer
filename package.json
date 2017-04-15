@@ -3,8 +3,8 @@
   "license": "MIT",
   "scripts": {
     "bootstrap": "npm i && lerna bootstrap",
-    "coverage": "istanbul cover --report html --report lcov _mocha packages/*/test/{*.test.js,**/*.test.js}",
-    "test": "mocha packages/*/test/{*.test.js,**/*.test.js}"
+    "coverage": "istanbul cover --report html --report lcov _mocha packages/**/*.test.js",
+    "test": "mocha packages/**/*.test.js"
   },
   "devDependencies": {
     "babel-jest": "19.0.0",
@@ -17,7 +17,6 @@
     "eslint-config-airbnb-base": "^9.0.0",
     "eslint-plugin-import": "^2.2.0",
     "istanbul": "0.4.5",
-    "jest": "^19.0.2",
     "karma": "1.6.0",
     "karma-mocha": "^1.3.0",
     "karma-phantomjs-launcher": "^1.0.4",
