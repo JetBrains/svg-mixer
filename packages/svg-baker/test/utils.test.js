@@ -1,4 +1,4 @@
-const { getRoot } = require('../../lib/utils');
+const { getRoot } = require('../lib/utils');
 
 describe('svg-baker/utils', () => {
   describe('getRoot()', () => {

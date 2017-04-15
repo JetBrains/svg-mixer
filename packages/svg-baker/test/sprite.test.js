@@ -1,6 +1,6 @@
-const Sprite = require('../../lib/sprite');
-const SpriteSymbol = require('../../lib/symbol');
-const spriteFactory = require('../../lib/sprite-factory');
+const Sprite = require('../lib/sprite');
+const SpriteSymbol = require('../lib/symbol');
+const spriteFactory = require('../lib/sprite-factory');
 
 const symbolData = {
   id: 'qwe',

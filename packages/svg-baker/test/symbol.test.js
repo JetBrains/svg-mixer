@@ -1,6 +1,6 @@
 const { parser } = require('posthtml-svg-mode');
-const SpriteSymbol = require('../../lib/symbol');
-const FileRequest = require('../../lib/request');
+const SpriteSymbol = require('../lib/symbol');
+const FileRequest = require('../lib/request');
 
 let fixture;
 

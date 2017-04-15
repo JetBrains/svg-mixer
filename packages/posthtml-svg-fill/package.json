@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "PostHTML plugin that changes chapes colors in SVG images",
   "license": "MIT",
-  "repository": "https://github.com/kisenka/svg-baker/src/posthtml-svg-fill",
+  "repository": "https://github.com/kisenka/svg-baker/packages/posthtml-svg-fill",
   "main": "lib/posthtml-svg-fill.js",
   "dependencies": {
     "merge-options": "0.0.64"

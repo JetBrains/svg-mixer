@@ -1,5 +1,5 @@
 /* global utils */
-const toSymbol = require('../../../lib/transformations/svg-to-symbol');
+const toSymbol = require('../../lib/transformations/svg-to-symbol');
 
 const t = utils.setupPluginTest(toSymbol);
 

@@ -1,5 +1,5 @@
 const getImageSize = require('image-size');
-const { svg, xlink } = require('../namespaces');
+const { svg, xlink } = require('../../namespaces');
 
 /**
  * TODO rasterToSVG#getPixelRatioFromFilename

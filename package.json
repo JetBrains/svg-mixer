@@ -4,31 +4,18 @@
   "scripts": {
     "bootstrap": "npm i && lerna bootstrap",
     "coverage": "istanbul cover --report html --report lcov _mocha packages/**/*.test.js",
-    "test": "mocha packages/**/*.test.js"
+    "test": "mocha \"packages/!(svg-baker-runtime)/test/**/*.test.js\""
   },
   "devDependencies": {
-    "babel-jest": "19.0.0",
-    "babel-plugin-async-to-promises": "1.0.5",
-    "babel-plugin-transform-runtime": "6.23.0",
-    "babel-preset-es2015": "6.24.0",
     "chai": "3.5.0",
     "cz-lerna-changelog": "^1.2.1",
     "eslint": "^3.8.1",
     "eslint-config-airbnb-base": "^9.0.0",
     "eslint-plugin-import": "^2.2.0",
     "istanbul": "0.4.5",
-    "karma": "1.6.0",
-    "karma-mocha": "^1.3.0",
-    "karma-phantomjs-launcher": "^1.0.4",
-    "karma-sourcemap-loader": "^0.3.7",
-    "karma-webdriver-launcher": "^1.0.5",
-    "karma-webpack": "^2.0.3",
     "lerna": "2.0.0-beta.38",
     "mocha": "3.2.0",
-    "phantomjs-prebuilt": "^2.1.14",
-    "posthtml-svg-mode": "1.0.0",
-    "wallaby-webpack": "0.0.38",
-    "webpack": "2.4.1"
+    "posthtml-svg-mode": "1.0.0"
   },
   "config": {
     "commitizen": {

@@ -2,7 +2,7 @@ const merge = require('merge-options');
 const processor = require('posthtml-svg-mode');
 const extractNamespacesToRoot = require('./transformations/extract-namespaces-to-root');
 const moveFromSymbolToRoot = require('./transformations/move-from-symbol-to-root');
-const { svg, xlink } = require('./namespaces');
+const { svg, xlink } = require('../namespaces');
 
 const defaultConfig = {
   attrs: {

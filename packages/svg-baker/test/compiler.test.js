@@ -1,5 +1,5 @@
-const Compiler = require('../../lib/compiler');
-const SpriteSymbol = require('../../lib/symbol');
+const Compiler = require('../lib/compiler');
+const SpriteSymbol = require('../lib/symbol');
 
 describe('svg-baker/compiler', () => {
   describe('addSymbol()', () => {
