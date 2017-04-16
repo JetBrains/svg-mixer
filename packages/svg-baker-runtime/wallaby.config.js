@@ -7,7 +7,7 @@ webpackConfig.devtool = false;
 module.exports = (wallaby) => {
   const config = {
     files: [
-      { pattern: 'lib/*.js', load: false }
+      { pattern: 'lib/**/*.js', load: false }
     ],
 
     tests: [
@@ -17,7 +17,8 @@ module.exports = (wallaby) => {
     testFramework: 'mocha',
 
     env: {
-      runner: require('phantomjs-prebuilt').path
+      // runner: require('phantomjs-prebuilt').path
+      kind: 'electron'
     },
 
     compilers: {

@@ -1,7 +1,7 @@
 const path = require('path');
 
 const config = {
-  // entry: './entry',
+  entry: './lib/utils',
 
   output: {
     path: path.resolve(__dirname, 'build'),
