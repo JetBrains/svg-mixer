@@ -61,8 +61,8 @@ export default class Sprite {
     const { svg, xlink } = namespaces;
 
     const attrs = {
-      xmlns: 'http://www.w3.org/2000/svg',
-      'xmlns:xlink': 'http://www.w3.org/1999/xlink',
+      [svg.name]: svg.value,
+      [xlink.name]: xlink.uri,
       style: ['position: absolute', 'width: 0', 'height: 0'].join('; ')
     };
 

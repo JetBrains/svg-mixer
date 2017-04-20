@@ -10,7 +10,7 @@ function rasterToSVG(buffer) {
   const info = getImageSize(buffer);
   const { width, height, type } = info;
   const defaultNS = `${svg.name}="${svg.value}"`;
-  const xlinkNS = `${xlink.name}="${xlink.value}"`;
+  const xlinkNS = `${xlink.name}="${xlink.uri}"`;
   const data = `data:image/${type};base64,${buffer.toString('base64')}`;
 
   return [

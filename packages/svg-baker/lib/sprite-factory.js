@@ -7,7 +7,7 @@ const { svg, xlink } = require('../namespaces');
 const defaultConfig = {
   attrs: {
     [svg.name]: svg.value,
-    [xlink.name]: xlink.value
+    [xlink.name]: xlink.uri
   },
   css: 'use {display: none;} use:target {display: inline;}',
   symbols: []

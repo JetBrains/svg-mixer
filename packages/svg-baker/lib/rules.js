@@ -19,7 +19,7 @@ class Rule {
 
 class RuleSet {
   /**
-   * @param {Array<{test: RegExp, value: string}>} rules
+   * @param {Array<{test: RegExp, uri: string}>} rules
    */
   constructor(rules) {
     if (!Array.isArray(rules)) {

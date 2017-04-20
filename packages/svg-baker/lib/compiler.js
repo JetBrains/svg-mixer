@@ -65,7 +65,7 @@ class Compiler {
 
     return Promise.map(rules, (rule) => {
       const spriteSymbols = [];
-      const filename = rule.value;
+      const filename = rule.uri;
 
       symbols.forEach((symbol) => {
         const isMatch = rule.match(symbol.request.file);

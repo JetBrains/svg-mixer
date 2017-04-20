@@ -29,7 +29,7 @@ describe('posthtml-rename-id', () => {
     '<svg><path id="AAA" /></svg>'
   ));
 
-  it('pattern: function with placeholder in returned value', () => t(
+  it('pattern: function with placeholder in returned uri', () => t(
     { pattern: () => 'qwe_[id]_[id]' },
     '<svg><path id="aaa" /></svg>',
     '<svg><path id="qwe_aaa_aaa" /></svg>'
@@ -41,13 +41,13 @@ describe('posthtml-rename-id', () => {
     '<svg><path /></svg>'
   ));
 
-  it('should modify any attribute value which contains `url(#id)`', () => t(
+  it('should modify any attribute uri which contains `url(#id)`', () => t(
     { pattern },
     '<svg><linearGradient id="gradient"><stop stop-color="red" /></linearGradient><path fill="url(#gradient)" /></svg>',
     '<svg><linearGradient id="test_gradient"><stop stop-color="red" /></linearGradient><path fill="url(#test_gradient)" /></svg>'
   ));
 
-  it('should not modify attribute value which contains `url(#id)` when correspondent id not found', () => t(
+  it('should not modify attribute uri which contains `url(#id)` when correspondent id not found', () => t(
     { pattern },
     '<svg><linearGradient><stop stop-color="red" /></linearGradient><path fill="url(#gradient)" /></svg>',
     '<svg><linearGradient><stop stop-color="red" /></linearGradient><path fill="url(#gradient)" /></svg>'

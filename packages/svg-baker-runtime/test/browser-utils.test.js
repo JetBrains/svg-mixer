@@ -7,8 +7,8 @@ import * as u from '../lib/browser-utils';
 const { parseSVG, stringify } = u;
 
 const svgAttrsStr = objectToAttrsString({
-  [svg.name]: svg.value,
-  [xlink.name]: xlink.value
+  [svg.name]: svg.uri,
+  [xlink.name]: xlink.uri
 });
 
 function wrapWithSVG(content) {
