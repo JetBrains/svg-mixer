@@ -21,32 +21,8 @@ module.exports = () => {
     },
 
     // eslint-disable-next-line no-shadow
-    setup: (wallaby) => {
-      const mocha = wallaby.testFramework;
+    setup: () => {
       require('./test/mocha-setup');
-
-      // const { PACKAGE_NAME } = require('./lib/config');
-      //
-      // const OldInMemoryCompiler = webpackToolkit.InMemoryCompiler;
-      // if (!OldInMemoryCompiler.patched) {
-      //   // eslint-disable-next-line no-multi-assign
-      //   const NewInMemoryCompiler = webpackToolkit.InMemoryCompiler = function patched(cfg) {
-      //     cfg.resolve = {
-      //       alias: {
-      //         [PACKAGE_NAME]: `${wallaby.localProjectDir}`
-      //       }
-      //     };
-      //
-      //     cfg.resolveLoader = {
-      //       modules: [`${wallaby.localProjectDir}/node_modules`]
-      //     };
-      //
-      //     NewInMemoryCompiler.prototype = OldInMemoryCompiler.prototype;
-      //     // eslint-disable-next-line prefer-rest-params
-      //     return OldInMemoryCompiler.apply(this, arguments);
-      //   };
-      //   NewInMemoryCompiler.patched = true;
-      // }
     }
   };
 
