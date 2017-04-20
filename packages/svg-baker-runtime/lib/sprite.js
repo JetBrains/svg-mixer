@@ -1,10 +1,17 @@
-const namespaces = require('svg-baker/namespaces');
+import { namespaces, objectToAttrsString } from './utils';
 
-class Sprite {
+export default class Sprite {
+  /**
+   * @param {SpriteSymbol[]} [symbols]
+   */
   constructor(symbols = []) {
     this.symbols = symbols;
   }
 
+  /**
+   * @param {SpriteSymbol} symbol
+   * @return {SpriteSymbol}
+   */
   add(symbol) {
     const { symbols } = this;
     const existing = this.find(symbol.id);
@@ -16,6 +23,10 @@ class Sprite {
     return symbols.push(symbol);
   }
 
+  /**
+   * Remove from list & destroy symbol
+   * @param {string} id
+   */
   remove(id) {
     const { symbols } = this;
     const symbol = this.find(id);
@@ -27,10 +38,18 @@ class Sprite {
     }
   }
 
+  /**
+   * @param {string} id
+   * @return {SpriteSymbol}
+   */
   find(id) {
     return this.symbols.find(s => s.id === id);
   }
 
+  /**
+   * @param {string} id
+   * @return {boolean}
+   */
   has(id) {
     return !!this.find(id);
   }
@@ -44,11 +63,9 @@ class Sprite {
       style: ['position: absolute', 'width: 0', 'height: 0'].join('; ')
     };
 
-    const attrsRendered = Object.keys(attrs).map(attr => `${attr}="${attrs[attr]}"`).join(' ');
+    const attrsRendered = objectToAttrsString(attrs);
     const symbolsRendered = this.symbols.map(s => s.toString());
 
     return `<svg ${attrsRendered}>${symbolsRendered}</svg>`;
   }
 }
-
-module.exports = new Sprite();

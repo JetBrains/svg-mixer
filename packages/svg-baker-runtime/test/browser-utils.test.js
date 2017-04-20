@@ -1,11 +1,12 @@
 /* eslint-disable max-len */
 import { strictEqual, ok } from 'assert';
 import { svg, xlink } from 'svg-baker/namespaces';
+import { objectToAttrsString } from '../lib/utils';
 import * as u from '../lib/browser-utils';
 
 const { parseSVG, stringify } = u;
 
-const svgAttrsStr = u.objectToAttrsString({
+const svgAttrsStr = objectToAttrsString({
   [svg.name]: svg.value,
   [xlink.name]: xlink.value
 });
@@ -40,19 +41,10 @@ function createTestFactory(func) {
   };
 }
 
-describe('svg-baker-runtime/utils', () => {
+describe('svg-baker-runtime/browser-utils', () => {
   describe('parseSVG()', () => {
     it('should return Element instance', () => {
       ok(parseSVG(`<svg ${svgAttrsStr}></svg>`) instanceof Element);
-    });
-  });
-
-  describe('objectToAttrString()', () => {
-    it('should properly serialize object to attributes string', () => {
-      strictEqual(
-        u.objectToAttrsString({ fill: '#f0f', styles: 'color: red' }),
-        'fill="#f0f" styles="color: red"'
-      );
     });
   });
 

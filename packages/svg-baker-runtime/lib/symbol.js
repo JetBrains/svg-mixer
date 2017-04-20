@@ -1,7 +1,6 @@
-class SpriteSymbol {
-  constructor({ id, useId, viewBox, content }) {
+export default class SpriteSymbol {
+  constructor({ id, viewBox, content }) {
     this.id = id;
-    this.useId = useId;
     this.viewBox = viewBox;
     this.content = content;
   }
@@ -11,8 +10,6 @@ class SpriteSymbol {
   }
 
   destroy() {
-    ['id', 'useId', 'viewBox', 'content'].forEach(prop => delete this[prop]);
+    ['id', 'viewBox', 'content'].forEach(prop => delete this[prop]);
   }
 }
-
-module.exports = SpriteSymbol;
