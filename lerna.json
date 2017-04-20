@@ -4,9 +4,11 @@
     "packages/*"
   ],
   "version": "independent",
+  "npmClient": "yarn",
   "publishConfig": {
     "ignore": [
-      "__tests__/**"
+      "__tests__/**",
+      "test/**"
     ]
   }
 }

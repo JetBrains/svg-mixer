@@ -11,6 +11,7 @@
     "cz-lerna-changelog": "^1.2.1",
     "eslint": "^3.8.1",
     "eslint-config-airbnb-base": "^9.0.0",
+    "eslint-plugin-bdd": "2.1.1",
     "eslint-plugin-import": "^2.2.0",
     "istanbul": "0.4.5",
     "lerna": "2.0.0-beta.38",

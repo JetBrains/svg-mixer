@@ -1,8 +1,6 @@
 const path = require('path');
 
 const config = {
-  entry: './lib/utils',
-
   output: {
     path: path.resolve(__dirname, 'build'),
     filename: '[name].js'

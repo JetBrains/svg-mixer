@@ -2,12 +2,37 @@
 const wallabyWebpack = require('wallaby-webpack');
 const webpackConfig = require('./webpack.config.js');
 
-webpackConfig.devtool = false;
-
 module.exports = (wallaby) => {
+  webpackConfig.devtool = false;
+  webpackConfig.entryPatterns = ['test/mocha-setup.js', 'test/*.test.js'];
+
   const config = {
     files: [
-      { pattern: 'lib/**/*.js', load: false }
+      {
+        pattern: 'lib/**/*.js',
+        load: false
+      },
+      {
+        pattern: 'test/mocha-setup.js',
+        instrument: false,
+        load: false
+      },
+      {
+        pattern: 'node_modules/chai/chai.js',
+        instrument: false
+      },
+      {
+        pattern: 'node_modules/sinon/pkg/sinon.js',
+        instrument: false
+      },
+      {
+        pattern: 'node_modules/sinon-chai/lib/sinon-chai.js',
+        instrument: false
+      },
+      {
+        pattern: 'node_modules/karma-chai-plugins/chai-adapter.js',
+        instrument: false
+      }
     ],
 
     tests: [
@@ -30,7 +55,13 @@ module.exports = (wallaby) => {
     reportConsoleErrorAsError: true,
 
     // eslint-disable-next-line no-shadow
-    setup: () => {
+    setup: (wallaby) => {
+      const mocha = wallaby.testFramework;
+      mocha.fullTrace();
+
+      window.expect = chai.expect;
+      const should = chai.should();
+
       window.__moduleBundler.loadTests();
     }
   };
