@@ -1,1 +1,1 @@
-export default from 'svg-baker/namespaces';
+export { default as namespaces } from 'svg-baker/namespaces';

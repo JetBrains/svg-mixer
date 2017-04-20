@@ -17,10 +17,12 @@ export default class Sprite {
     const existing = this.find(symbol.id);
 
     if (existing) {
-      return existing;
+      symbols[symbols.indexOf(existing)] = symbol;
+      return symbol;
     }
 
-    return symbols.push(symbol);
+    symbols.push(symbol);
+    return symbol;
   }
 
   /**
@@ -32,8 +34,8 @@ export default class Sprite {
     const symbol = this.find(id);
 
     if (symbol) {
-      const i = symbols.indexOf(symbol);
-      symbols.splice(i, 1);
+      console.log(symbol.destroy.toString());
+      symbols.splice(symbols.indexOf(symbol), 1);
       symbol.destroy();
     }
   }
@@ -43,7 +45,7 @@ export default class Sprite {
    * @return {SpriteSymbol}
    */
   find(id) {
-    return this.symbols.find(s => s.id === id);
+    return this.symbols.filter(s => s.id === id)[0];
   }
 
   /**
