@@ -2,8 +2,8 @@
   "private": true,
   "license": "MIT",
   "scripts": {
-    "bootstrap": "npm i && lerna bootstrap",
-    "coverage": "istanbul cover --report html --report lcov _mocha packages/**/*.test.js",
+    "bootstrap": "yarn && lerna bootstrap",
+    "coverage": "istanbul cover --report html --report lcov _mocha \"packages/!(svg-baker-runtime)/test/**/*.test.js\"",
     "test": "mocha \"packages/!(svg-baker-runtime)/test/**/*.test.js\""
   },
   "devDependencies": {
