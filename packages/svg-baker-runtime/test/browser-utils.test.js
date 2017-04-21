@@ -136,8 +136,8 @@ describe('svg-baker-runtime/browser-utils', () => {
     });
   });
 
-  describe('fixCurrentURL()', () => {
-    const test = createTestFactory(u.fixCurrentURL);
+  describe('fixUpdatedURL()', () => {
+    const test = createTestFactory(u.fixUpdatedURL);
 
     it('should work like a charm', () => {
       const input = '<linearGradient id="qwe"></linearGradient><use xlink:href="#qwe"></use>';
