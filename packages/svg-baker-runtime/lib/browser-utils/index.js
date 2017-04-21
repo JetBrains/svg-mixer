@@ -4,7 +4,7 @@ export { default as replaceURLInAttributes } from './replace-url-in-attributes';
 export { default as selectAttributes } from './select-attributes';
 export { default as updateReferences } from './update-references';
 export { default as browserDetector } from './browser-detector';
-
-// Workarounds
-export { default as fixGradientsInsideSymbol } from './fix-gradients-inside-symbol';
-export { default as fixUpdatedURL } from './fix-updated-url';
+export { default as dispatchCustomEvent } from './dispatch-custom-event';
+export { default as getURLWithoutFragment } from './get-url-without-fragment';
+export { default as moveGradientsOutsideSymbol } from './move-gradients-outside-symbol';
+export { default as updateBaseURLInSVG } from './update-base-url-in-svg';
