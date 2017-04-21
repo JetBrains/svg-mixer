@@ -5,9 +5,8 @@
   ],
   "version": "independent",
   "npmClient": "yarn",
-  "publishConfig": {
+  "publish": {
     "ignore": [
-      "__tests__/**",
       "test/**"
     ]
   }
