@@ -8,7 +8,7 @@ const URL_FUNCTION_PATTERN = /url\(#?([^)]+?)\)/g;
  */
 export default function (attributes, startsWith, replaceWith) {
   attributes.forEach((attr) => {
-    const value = attr.nodeValue;
+    const value = attr.value;
     const match = URL_FUNCTION_PATTERN.exec(value);
     const url = match !== null && match[1] ? match[1] : null;
 
@@ -18,7 +18,7 @@ export default function (attributes, startsWith, replaceWith) {
       return;
     }
 
-    attr.nodeValue = attr.nodeValue.replace(startsWith, replaceWith);
+    attr.value = attr.value.replace(startsWith, replaceWith);
   });
 
   return attributes;
