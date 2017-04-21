@@ -58,22 +58,22 @@ describe('svg-baker-runtime/sprite', () => {
   });
 
   describe('has()', () => {
-    it('should work like a charm', () => {
+    it('should return true if symbol with id exist, false otherwise', () => {
       sprite.has(fixture.id).should.be.false;
       sprite.add(symbol);
       sprite.has(fixture.id).should.be.true;
     });
   });
 
-  describe('toString()', () => {
-    it('should call `toString` on each symbol', () => {
-      const toString = sinon.spy(symbol, 'toString');
+  describe('stringify()', () => {
+    it('should call `stringify` on each symbol', () => {
+      const stringify = sinon.spy(symbol, 'stringify');
 
       sprite.add(symbol);
-      sprite.toString().should.be.a('string');
-      toString.should.have.been.calledOnce;
+      sprite.stringify().should.be.a('string');
+      stringify.should.have.been.calledOnce;
 
-      toString.restore();
+      stringify.restore();
     });
   });
 });

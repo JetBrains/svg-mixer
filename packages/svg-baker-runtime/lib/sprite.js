@@ -1,13 +1,25 @@
-import { objectToAttrsString } from './utils';
+import merge from 'deepmerge';
+import { wrapWithSVG } from './utils';
 
 const namespaces = require('svg-baker/namespaces');
 
+const { svg, xlink } = namespaces;
+
+const defaultConfig = {
+  attrs: {
+    [svg.name]: svg.uri,
+    [xlink.name]: xlink.uri,
+    style: ['position: absolute', 'width: 0', 'height: 0'].join('; ')
+  }
+};
+
 export default class Sprite {
   /**
-   * @param {SpriteSymbol[]} [symbols]
+   * @param {Object} [config]
    */
-  constructor(symbols = []) {
-    this.symbols = symbols;
+  constructor(config) {
+    this.config = merge(defaultConfig, config || {});
+    this.symbols = [];
   }
 
   /**
@@ -57,18 +69,25 @@ export default class Sprite {
     return this.find(id) !== null;
   }
 
+  /**
+   * @return {string}
+   */
+  stringify() {
+    const { attrs } = this.config;
+    return wrapWithSVG(this.stringifySymbols(), attrs);
+  }
+
+  /**
+   * @return {string}
+   */
+  stringifySymbols() {
+    return this.symbols.map(s => s.stringify()).join('');
+  }
+
+  /**
+   * @return {string}
+   */
   toString() {
-    const { svg, xlink } = namespaces;
-
-    const attrs = {
-      [svg.name]: svg.value,
-      [xlink.name]: xlink.uri,
-      style: ['position: absolute', 'width: 0', 'height: 0'].join('; ')
-    };
-
-    const attrsRendered = objectToAttrsString(attrs);
-    const symbolsRendered = this.symbols.map(s => s.toString());
-
-    return `<svg ${attrsRendered}>${symbolsRendered}</svg>`;
+    return this.stringify();
   }
 }

@@ -5,8 +5,18 @@ export default class SpriteSymbol {
     this.content = content;
   }
 
-  toString() {
+  /**
+   * @return {string}
+   */
+  stringify() {
     return this.content;
+  }
+
+  /**
+   * @return {string}
+   */
+  toString() {
+    return this.stringify();
   }
 
   destroy() {
