@@ -5,6 +5,10 @@
   "license": "MIT",
   "repository": "https://github.com/kisenka/svg-baker/packages/svg-baker-runtime",
   "main": "dist/sprite.js",
+  "files": [
+    "lib/",
+    "README.md"
+  ],
   "scripts": {
     "build": "webpack",
     "test": "karma start"

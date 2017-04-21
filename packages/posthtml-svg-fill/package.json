@@ -5,6 +5,10 @@
   "license": "MIT",
   "repository": "https://github.com/kisenka/svg-baker/packages/posthtml-svg-fill",
   "main": "lib/posthtml-svg-fill.js",
+  "files": [
+    "lib/",
+    "README.md"
+  ],
   "dependencies": {
     "merge-options": "0.0.64"
   }

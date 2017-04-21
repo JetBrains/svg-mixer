@@ -5,6 +5,10 @@
   "license": "MIT",
   "repository": "https://github.com/kisenka/svg-baker/packages/posthtml-rename-id",
   "main": "lib/posthtml-rename-id.js",
+  "files": [
+    "lib/",
+    "README.md"
+  ],
   "dependencies": {
     "escape-string-regexp": "1.0.5"
   }
