@@ -1,19 +1,9 @@
 /* eslint-disable max-len */
 import { strictEqual, ok } from 'assert';
-import { svg, xlink } from 'svg-baker/namespaces';
-import { objectToAttrsString } from '../lib/utils';
+import { wrapWithSVG } from '../lib/utils';
 import * as u from '../lib/browser-utils';
 
 const { parseSVG, stringify } = u;
-
-const svgAttrsStr = objectToAttrsString({
-  [svg.name]: svg.uri,
-  [xlink.name]: xlink.uri
-});
-
-function wrapWithSVG(content) {
-  return `<svg ${svgAttrsStr}>${content}</svg>`;
-}
 
 function wrapWithSVGAndParse(content) {
   return parseSVG(wrapWithSVG(content));
@@ -44,13 +34,13 @@ function createTestFactory(func) {
 describe('svg-baker-runtime/browser-utils', () => {
   describe('parseSVG()', () => {
     it('should return Element instance', () => {
-      ok(parseSVG(`<svg ${svgAttrsStr}></svg>`) instanceof Element);
+      ok(parseSVG(wrapWithSVG('<path/>')) instanceof Element);
     });
   });
 
   describe('stringify()', () => {
     it('should properly serialize single node to string', () => {
-      const input = `<svg ${svgAttrsStr}><defs><symbol id="foo"></symbol></defs><use xlink:href="#foo"></use></svg>`;
+      const input = wrapWithSVG('<defs><symbol id="foo"></symbol></defs><use xlink:href="#foo"></use>');
       const doc = parseSVG(input);
       strictEqual(u.stringify(doc), input);
     });
