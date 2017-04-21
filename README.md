@@ -9,7 +9,7 @@ Node.js library for creating and manipulating SVG sprites. Build on top of [post
 - Node.js >= 6 for usage and Node.js >= 7 for development (some tests use async/await).
 - [yarn](https://yarnpkg.com).
 
-## Getting started
+## Introduction
 
 This project contain multiple packages which managed by [Lerna](https://github.com/lerna/lerna).
 
