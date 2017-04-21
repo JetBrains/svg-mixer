@@ -1,13 +1,12 @@
 # SVG Baker
 
-Tool for creating and manipulating SVG sprites. Build on top of [posthtml](https://github.com/posthtml/posthtml).
+Node.js library for creating and manipulating SVG sprites. Build on top of [posthtml](https://github.com/posthtml/posthtml).
 
 **Work in progress!**
 
 ## Prerequisites
 
-- NodeJS >= 7 (some tests use async/await).
-- NPM 3 for installing yarn globally.
+- Node.js >= 6 for usage and Node.js >= 7 for development (some tests use async/await).
 - [yarn](https://yarnpkg.com).
 
 ## Getting started
