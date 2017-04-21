@@ -1,5 +1,5 @@
 import merge from 'deepmerge';
-import { wrapWithSVG } from './utils';
+import wrapWithSVG from './utils/wrap-with-svg';
 
 const namespaces = require('svg-baker/namespaces');
 
@@ -23,6 +23,7 @@ export default class Sprite {
   }
 
   /**
+   * TODO return add | replace instead of symbol instance
    * @param {SpriteSymbol} symbol
    * @return {SpriteSymbol}
    */

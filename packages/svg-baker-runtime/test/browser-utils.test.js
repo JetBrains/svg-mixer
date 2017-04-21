@@ -117,8 +117,8 @@ describe('svg-baker-runtime/browser-utils', () => {
     });
   });
 
-  describe('fixGradientsInsideSymbol()', () => {
-    const test = createTestFactory(u.fixGradientsInsideSymbol);
+  describe('moveGradientsOutsideSymbol()', () => {
+    const test = createTestFactory(u.moveGradientsOutsideSymbol);
 
     it('should work like a charm', () => {
       test({
@@ -136,8 +136,8 @@ describe('svg-baker-runtime/browser-utils', () => {
     });
   });
 
-  describe('fixUpdatedURL()', () => {
-    const test = createTestFactory(u.fixUpdatedURL);
+  describe('updateBaseURLInSVG()', () => {
+    const test = createTestFactory(u.updateBaseURLInSVG);
 
     it('should work like a charm', () => {
       const input = '<linearGradient id="qwe"></linearGradient><use xlink:href="#qwe"></use>';

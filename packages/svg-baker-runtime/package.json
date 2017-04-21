@@ -28,6 +28,7 @@
     "karma-sourcemap-loader": "^0.3.7",
     "karma-webdriver-launcher": "^1.0.5",
     "karma-webpack": "^2.0.3",
+    "query-string": "4.3.4",
     "wallaby-webpack": "0.0.38",
     "webpack": "2.4.1"
   }
