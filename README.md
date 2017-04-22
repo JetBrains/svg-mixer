@@ -1,6 +1,6 @@
 # SVG Baker
 
-<img src="logo.svg" width="130" align="right">
+<img src="https://cdn.rawgit.com/kisenka/svg-baker/0ba4d/logo.svg" width="130" align="right">
 Node.js library for creating and manipulating SVG sprites. Build on top of [posthtml](https://github.com/posthtml/posthtml).
 
 **Work in progress!**
