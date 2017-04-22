@@ -29,5 +29,5 @@ This project contain multiple packages which managed by [Lerna](https://github.c
 
 ## Credits
 
-- Logo: bread icon from [bakery icon set](https://www.iconfinder.com/iconsets/bakery-10) 
+- Logo: bread icon from [bakery icon set](https://www.iconfinder.com/iconsets/bakery-10?ref=aomam.ss) 
   by [Salinee Pimpakun](https://www.iconfinder.com/aomam.ss). 
