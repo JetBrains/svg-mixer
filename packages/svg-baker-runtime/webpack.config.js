@@ -1,12 +1,19 @@
 const path = require('path');
 
 const config = {
-  output: {
-    path: path.resolve(__dirname, 'build'),
-    filename: '[name].js'
+  entry: {
+    sprite: './lib/sprite',
+    symbol: './lib/symbol',
+    'browser-sprite': './lib/browser-sprite'
   },
 
-  devtool: 'source-map',
+  output: {
+    path: path.resolve(__dirname, 'dist'),
+    filename: '[name].js',
+    libraryTarget: 'umd'
+  },
+
+  devtool: false,
 
   module: {
     rules: [
