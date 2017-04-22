@@ -1,4 +1,4 @@
-import arrayFrom from 'array-from';
+import arrayFrom from '../utils/array-from';
 
 /**
  * @param {NodeList} nodes

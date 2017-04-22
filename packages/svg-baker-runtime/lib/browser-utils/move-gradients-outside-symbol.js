@@ -1,4 +1,4 @@
-import arrayFrom from 'array-from';
+import arrayFrom from '../utils/array-from';
 
 const defaultSelector = 'linearGradient, radialGradient, pattern';
 

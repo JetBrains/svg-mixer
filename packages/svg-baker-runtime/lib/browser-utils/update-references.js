@@ -1,5 +1,5 @@
 import { xlink } from 'svg-baker/namespaces';
-import arrayFrom from 'array-from';
+import arrayFrom from '../utils/array-from';
 
 const xLinkNS = xlink.uri;
 const xLinkAttrName = 'xlink:href';
