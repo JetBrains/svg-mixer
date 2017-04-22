@@ -7,11 +7,7 @@ export default {
   format: 'umd',
   plugins: [
     resolve(),
-    commonjs({
-      namedExports: {
-        '../svg-baker/namespaces.js': ['xlink']
-      }
-    }),
+    commonjs(),
     buble()
   ]
 };

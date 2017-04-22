@@ -1,7 +1,6 @@
 import merge from 'deepmerge';
+import namespaces from 'svg-baker/namespaces';
 import objectToAttrsString from './object-to-attrs-string';
-
-const namespaces = require('svg-baker/namespaces');
 
 const { svg, xlink } = namespaces;
 
