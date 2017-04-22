@@ -1,5 +1,6 @@
 # SVG Baker
 
+<img src="logo.svg" width="130" align="right">
 Node.js library for creating and manipulating SVG sprites. Build on top of [posthtml](https://github.com/posthtml/posthtml).
 
 **Work in progress!**
@@ -25,3 +26,8 @@ This project contain multiple packages which managed by [Lerna](https://github.c
 - `yarn bootstrap` - init project (install all dependencies and link packages).
 - `yarn test` - run mocha in every package.
 - `yarn coverage` - collect coverage info.
+
+## Credits
+
+- Logo: bread icon from [bakery icon set](https://www.iconfinder.com/iconsets/bakery-10) 
+  by [Salinee Pimpakun](https://www.iconfinder.com/aomam.ss). 
