@@ -6,9 +6,9 @@ build() {
 
   ./node_modules/.bin/rollup \
     --config rollup.config.js \
-    --output dist/$filename \
+    --output ./$filename \
     --name $exportName \
-      ./lib/$filename
+      ./src/$filename
 }
 
 build sprite.js Sprite

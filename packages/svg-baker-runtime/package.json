@@ -7,8 +7,10 @@
   "main": "dist/browser-sprite.js",
   "module": "lib/browser-sprite.js",
   "files": [
-    "lib/",
-    "dist/",
+    "src/",
+    "sprite.js",
+    "browser-sprite.js",
+    "symbol.js",
     "README.md"
   ],
   "scripts": {

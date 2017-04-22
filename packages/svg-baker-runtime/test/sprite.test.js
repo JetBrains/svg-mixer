@@ -1,5 +1,5 @@
-import Sprite from '../lib/sprite';
-import SpriteSymbol from '../lib/symbol';
+import Sprite from '../src/sprite';
+import SpriteSymbol from '../src/symbol';
 
 describe('svg-baker-runtime/sprite', () => {
   let sprite;

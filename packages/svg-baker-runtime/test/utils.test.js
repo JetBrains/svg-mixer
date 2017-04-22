@@ -1,5 +1,5 @@
 import { strictEqual, ok } from 'assert';
-import * as u from '../lib/utils';
+import * as u from '../src/utils';
 
 describe('svg-baker-runtime/utils', () => {
   describe('objectToAttrString()', () => {

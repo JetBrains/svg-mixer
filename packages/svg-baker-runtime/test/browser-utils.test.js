@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 import { strictEqual, ok } from 'assert';
-import { wrapWithSVG } from '../lib/utils';
-import * as u from '../lib/browser-utils';
+import { wrapWithSVG } from '../src/utils';
+import * as u from '../src/browser-utils';
 
 const { parseSVG, stringify } = u;
 
