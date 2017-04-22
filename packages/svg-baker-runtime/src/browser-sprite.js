@@ -9,7 +9,7 @@ import {
   getURLWithoutFragment
 } from './browser-utils';
 
-export const defaultConfig = {
+const defaultConfig = {
   locationUpdatedEventName: 'locationUpdated',
   referencesToUpdate: 'use[*|href]',
   baseURLFix: undefined
