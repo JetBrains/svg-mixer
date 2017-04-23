@@ -9,7 +9,7 @@ const { svg, xlink } = require('../../namespaces');
 function rasterToSVG(buffer) {
   const info = getImageSize(buffer);
   const { width, height, type } = info;
-  const defaultNS = `${svg.name}="${svg.value}"`;
+  const defaultNS = `${svg.name}="${svg.uri}"`;
   const xlinkNS = `${xlink.name}="${xlink.uri}"`;
   const data = `data:image/${type};base64,${buffer.toString('base64')}`;
 
