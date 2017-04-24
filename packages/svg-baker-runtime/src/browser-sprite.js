@@ -2,32 +2,36 @@ import merge from 'deepmerge';
 import Sprite from './sprite';
 
 import {
-  parseSVG,
+  parse,
+  updateSvgUrls,
   browserDetector as browser,
-  updateBaseURLInSVG,
   moveGradientsOutsideSymbol,
-  getURLWithoutFragment
-} from './browser-utils';
+  getUrlWithoutFragment,
+  angularBaseFix
+} from './utils';
 
 const defaultConfig = {
+  mountTo: 'body',
   locationUpdatedEventName: 'locationUpdated',
   referencesToUpdate: 'use[*|href]',
-  baseURLFix: undefined
+  baseFix: undefined,
+  angularBaseFix: undefined
 };
 
 export default class BrowserSprite extends Sprite {
-  constructor(config) {
-    super(merge(defaultConfig, config || {}));
+  constructor(cfg) {
+    super(merge(defaultConfig, cfg || {}));
+    const { config } = this;
 
     this.node = false;
     this.isMounted = false;
 
     /**
-     * Autodetect is base URL fix needed
+     * Autodetect is base URL fix is needed
      */
-    if (typeof this.config.baseURLFix === 'undefined') {
+    if (config.baseFix === undefined) {
       const baseTag = document.getElementsByTagName('base')[0];
-      this.baseURLFix = baseTag && baseTag.getAttribute('href') !== null;
+      this.baseFix = baseTag && baseTag.getAttribute('href') !== null;
     }
 
     /**
@@ -35,30 +39,38 @@ export default class BrowserSprite extends Sprite {
      * @see https://bugzilla.mozilla.org/show_bug.cgi?id=652991
      */
     if (!browser.isIE) {
-      const eventName = this.config.locationUpdatedEventName;
+      const eventName = config.locationUpdatedEventName;
+
       window.addEventListener(eventName, (event) => {
-        this.updateURL(event.detail.oldURL, event.detail.newURL);
+        this.updateUrls(event.detail.oldURL, event.detail.newURL);
       });
+
+      if (
+          (config.angularBaseFix === undefined && 'angular' in window) ||
+          config.angularBaseFix === true
+      ) {
+        angularBaseFix(eventName);
+      }
     }
   }
 
   /**
    * Update URLs in sprite and referencing elements
-   * @param {string} startsWith
+   * @param {string} oldURL
    * @param {string} newURL
    */
-  updateURL(startsWith, newURL) {
+  updateUrls(oldURL, newURL) {
     if (!this.isMounted) {
-      throw new Error('Sprite should be mounted to apply updateBaseURLInSVG');
+      throw new Error('Sprite should be mounted to apply updateUrls');
     }
 
     const { referencesToUpdate } = this.config;
 
-    const searchURL = `${getURLWithoutFragment(startsWith)}#`;
-    const replaceURL = `${getURLWithoutFragment(newURL)}#`;
+    const searchURL = `${getUrlWithoutFragment(oldURL)}#`;
+    const replaceURL = `${getUrlWithoutFragment(newURL)}#`;
     const references = document.querySelectorAll(referencesToUpdate);
 
-    updateBaseURLInSVG(this.node, references, searchURL, replaceURL);
+    updateSvgUrls(this.node, references, searchURL, replaceURL);
   }
 
   /**
@@ -67,12 +79,12 @@ export default class BrowserSprite extends Sprite {
    * @see https://github.com/everdimension/angular-svg-base-fix
    * @see https://github.com/angular/angular.js/issues/8934#issuecomment-56568466
    */
-  baseURLFix() {
-    const currentURL = getURLWithoutFragment();
+  baseFix() {
+    const currentURL = getUrlWithoutFragment();
     const baseURL = document.querySelector('base').getAttribute('href');
 
     if (baseURL !== currentURL) {
-      this.updateURL('#', baseURL);
+      this.updateUrls('#', baseURL);
     }
   }
 
@@ -80,7 +92,7 @@ export default class BrowserSprite extends Sprite {
    * @return {Element}
    */
   render() {
-    const svg = parseSVG(this.stringify());
+    const svg = parse(this.stringify());
 
     /**
      * Fix Firefox bug when gradients and patterns don't work if they are within a symbol
@@ -96,12 +108,28 @@ export default class BrowserSprite extends Sprite {
   }
 
   /**
+   * @param {boolean} [prepend=false]
+   * @return {Element} rendered sprite element
+   */
+  mount(prepend = false) {
+    const selector = this.config.mountTo;
+    const target = document.querySelector(selector);
+
+    if (target === null) {
+      throw new Error(`Mount node '${selector}' not found`);
+    }
+
+    return this.mountTo(target, prepend);
+  }
+
+  /**
    * @param {Element} target
    * @param {boolean} [prepend=false]
+   * @return {Element} rendered sprite element
    */
-  mount(target, prepend = false) {
+  mountTo(target, prepend = false) {
     if (this.isMounted) {
-      return;
+      return this.node;
     }
 
     if (target instanceof Element === false || target.nodeType !== 1) {
@@ -119,8 +147,10 @@ export default class BrowserSprite extends Sprite {
     this.node = node;
     this.isMounted = true;
 
-    if (this.config.baseURLFix) {
-      this.baseURLFix();
+    if (this.config.baseFix) {
+      this.baseFix();
     }
+
+    return node;
   }
 }

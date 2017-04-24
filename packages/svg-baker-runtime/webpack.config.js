@@ -2,9 +2,9 @@ const path = require('path');
 
 const config = {
   entry: {
-    sprite: './lib/sprite',
-    symbol: './lib/symbol',
-    'browser-sprite': './lib/browser-sprite'
+    sprite: './src/sprite',
+    symbol: './src/symbol',
+    'browser-sprite': './src/browser-sprite'
   },
 
   output: {

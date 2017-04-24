@@ -1,6 +1,27 @@
+import namespaces from 'svg-baker/namespaces';
 import selectAttributes from './select-attributes';
-import replaceURLInAttributes from './replace-url-in-attributes';
-import updateReferences from './update-references';
+import arrayFrom from './array-from';
+
+const xLinkNS = namespaces.xlink.uri;
+const xLinkAttrName = 'xlink:href';
+
+/**
+ * @param {NodeList} nodes
+ * @param {string} startsWith
+ * @param {string} replaceWith
+ * @return {NodeList}
+ */
+function updateReferences(nodes, startsWith, replaceWith) {
+  arrayFrom(nodes).forEach((node) => {
+    const href = node.getAttribute(xLinkAttrName);
+    if (href && href.indexOf(startsWith) === 0) {
+      const newUrl = href.replace(startsWith, replaceWith);
+      node.setAttributeNS(xLinkNS, xLinkAttrName, newUrl);
+    }
+  });
+
+  return nodes;
+}
 
 /**
  * List of SVG attributes to update url() target in them
@@ -27,7 +48,7 @@ const fixSelector = attList.map(attr => `[${attr}]`).join(',');
  * Update URLs in sprite and referencing elements
  * @param {Element} svg
  * @param {NodeList} references
- * @param {string} startsWith
+ * @param {string|RegExp} startsWith
  * @param {string} replaceWith
  */
 export default function (svg, references, startsWith, replaceWith) {
@@ -36,6 +57,6 @@ export default function (svg, references, startsWith, replaceWith) {
     return attList.indexOf(localName) !== -1 && value.indexOf(`url(${startsWith}`) !== -1;
   });
 
-  replaceURLInAttributes(attrs, startsWith, replaceWith);
+  attrs.forEach(attr => attr.value = attr.value.replace(startsWith, replaceWith));
   updateReferences(references, startsWith, replaceWith);
 }

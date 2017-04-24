@@ -9,7 +9,7 @@ module.exports = (wallaby) => {
   const config = {
     files: [
       {
-        pattern: 'lib/**/*.js',
+        pattern: 'src/**/*.js',
         load: false
       },
       {

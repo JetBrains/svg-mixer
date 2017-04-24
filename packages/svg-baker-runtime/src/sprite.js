@@ -1,6 +1,6 @@
 import merge from 'deepmerge';
 import namespaces from 'svg-baker/namespaces';
-import wrapWithSVG from './utils/wrap-with-svg';
+import wrapInSvg from './utils/wrap-in-svg';
 
 const { svg, xlink } = namespaces;
 
@@ -74,7 +74,7 @@ export default class Sprite {
    */
   stringify() {
     const { attrs } = this.config;
-    return wrapWithSVG(this.stringifySymbols(), attrs);
+    return wrapInSvg(this.stringifySymbols(), attrs);
   }
 
   /**

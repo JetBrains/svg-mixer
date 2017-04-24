@@ -1,18 +1,24 @@
 /* eslint-disable max-len */
-import { strictEqual, ok } from 'assert';
-import { wrapWithSVG } from '../src/utils';
-import * as u from '../src/browser-utils';
+import {
+  parse,
+  stringify,
+  wrapInSvg,
+  updateSvgUrls,
+  selectAttributes,
+  objectToAttrsString,
+  dispatchCustomEvent,
+  getUrlWithoutFragment,
+  moveGradientsOutsideSymbol
+} from '../src/utils';
 
-const { parseSVG, stringify } = u;
-
-function wrapWithSVGAndParse(content) {
-  return parseSVG(wrapWithSVG(content));
+function wrapInSvgAndParse(content) {
+  return parse(wrapInSvg(content));
 }
 
 function createTestFactory(func) {
   return ({ input, expected, args, selector, wrap = true }) => {
     const doc = typeof input === 'string' ?
-      parseSVG(wrap ? wrapWithSVG(input) : input) :
+      parse(wrap ? wrapInSvg(input) : input) :
       input;
 
     const nodes = selector ? doc.querySelectorAll(selector) : doc;
@@ -20,107 +26,47 @@ function createTestFactory(func) {
 
     func(...opts);
 
-    const ex = wrap ? wrapWithSVG(expected) : expected;
-    const stringifiedResult = stringify(doc);
+    const ex = wrap ? wrapInSvg(expected) : expected;
 
-    strictEqual(
-      ex,
-      stringifiedResult,
-      `Expected: ${ex}\nActual: ${stringifiedResult}`
-    );
+    stringify(doc).should.be.equal(ex);
   };
 }
 
-describe('svg-baker-runtime/browser-utils', () => {
-  describe('parseSVG()', () => {
-    it('should return Element instance', () => {
-      ok(parseSVG(wrapWithSVG('<path/>')) instanceof Element);
+describe('svg-baker-runtime/utils', () => {
+  describe('dispatchCustomEvent()', () => {
+    it('should dispatch', (done) => {
+      const eventName = 'qwe';
+      const eventDetail = {
+        a: 1,
+        b: 2
+      };
+
+      window.addEventListener(eventName, (e) => {
+        e.detail.should.be.deep.equal(eventDetail);
+        done();
+      });
+
+      dispatchCustomEvent(eventName, eventDetail);
     });
   });
 
-  describe('stringify()', () => {
-    it('should properly serialize single node to string', () => {
-      const input = wrapWithSVG('<defs><symbol id="foo"></symbol></defs><use xlink:href="#foo"></use>');
-      const doc = parseSVG(input);
-      strictEqual(u.stringify(doc), input);
+  describe('getUrlWithoutFragment()', () => {
+    it('should work', () => {
+      getUrlWithoutFragment('http://www.example.com/#qwe')
+        .should.be.equal('http://www.example.com/');
     });
 
-    it('should properly serialize node list to string', () => {
-      const expected = '<path id="p1"></path><path id="p2"></path><path id="p3"></path>';
-      const doc = wrapWithSVGAndParse(expected);
-
-      strictEqual(
-        u.stringify(doc.querySelectorAll('path')),
-        expected
-      );
-    });
-  });
-
-  describe('replaceURLInAttributes()', () => {
-    const test = ({ input, expected, args, selector }) => {
-      const doc = wrapWithSVGAndParse(input);
-
-      u.replaceURLInAttributes(
-        u.selectAttributes(doc.querySelectorAll(selector)),
-        ...args
-      );
-
-      strictEqual(
-        stringify(doc),
-        wrapWithSVG(expected),
-        `Expected: ${wrapWithSVG(expected)}\nActual: ${stringify(doc)}`
-      );
-    };
-
-    it('should replace URL in specified attributes', () => {
-      test({
-        input: '<linearGradient id="foo"></linearGradient><path fill="url(#foo)" style="fill:url(#foo);"></path>',
-        expected: '<linearGradient id="foo"></linearGradient><path fill="url(bar#foo)" style="fill:url(bar#foo);"></path>',
-        selector: 'path',
-        args: ['#', 'bar#']
-      });
-    });
-
-    it('should not modify non matched attributes', () => {
-      const input = '<linearGradient id="foo"></linearGradient><path fill="url(bar#foo)" style="fill:url(bar#foo);"></path>';
-
-      test({
-        input,
-        expected: input,
-        selector: '[fill]',
-        args: ['qwe2#', 'tralala#']
-      });
-    });
-  });
-
-  describe('updateReferences()', () => {
-    const test = createTestFactory(u.updateReferences);
-
-    it('should update references in xlink:href attributes', () => {
-      test({
-        input: '<path id="foo"></path><use xlink:href="#foo"></use>',
-        expected: '<path id="foo"></path><use xlink:href="#bar"></use>',
-        args: ['#foo', '#bar'],
-        selector: 'use[*|href]'
-      });
-    });
-
-    it('should not modify non matched attributes', () => {
-      const input = '<path id="foo"></path><use xlink:href="#foo"></use>';
-
-      test({
-        input,
-        expected: input,
-        args: ['#qfoo', '#qbar'],
-        selector: 'use[*|href]'
-      });
+    it('should return current URL if no arg provided', () => {
+      window.location.hash = '#qwe';
+      getUrlWithoutFragment().should.be.equal(window.location.href.split('#')[0]);
+      window.location.hash = '';
     });
   });
 
   describe('moveGradientsOutsideSymbol()', () => {
-    const test = createTestFactory(u.moveGradientsOutsideSymbol);
+    const test = createTestFactory(moveGradientsOutsideSymbol);
 
-    it('should work like a charm', () => {
+    it('should work', () => {
       test({
         input: '<defs><symbol><pattern></pattern></symbol></defs>',
         expected: '<defs><pattern></pattern><symbol></symbol></defs>'
@@ -136,13 +82,47 @@ describe('svg-baker-runtime/browser-utils', () => {
     });
   });
 
-  describe('updateBaseURLInSVG()', () => {
-    const test = createTestFactory(u.updateBaseURLInSVG);
+  describe('objectToAttrString()', () => {
+    it('should properly serialize object to attributes string', () => {
+      objectToAttrsString({ fill: 'url("#id")', styles: 'color: #f0f' })
+        .should.be.equal('fill="url(&quot;#id&quot;)" styles="color: #f0f"');
+    });
+  });
 
-    it('should work like a charm', () => {
-      const input = '<linearGradient id="qwe"></linearGradient><use xlink:href="#qwe"></use>';
-      const expected = '<linearGradient id="qwe"></linearGradient><use xlink:href="/path#qwe"></use>';
-      const doc = wrapWithSVGAndParse(input);
+  describe('parse()', () => {
+    it('should return Element instance', () => {
+      parse(wrapInSvg('<path/>')).should.be.instanceOf(Element);
+    });
+  });
+
+  describe('stringify()', () => {
+    it('should properly serialize DOM nodes', () => {
+      let input;
+
+      input = wrapInSvg('<defs><symbol id="foo"></symbol></defs><use xlink:href="#foo"></use>');
+      stringify(parse(input)).should.be.equal(input);
+
+      input = wrapInSvg('<path id="p1"></path><path id="p2"></path><path id="p3"></path>');
+      stringify(parse(input)).should.be.equal(input);
+    });
+  });
+
+  describe('selectAttributes()', () => {
+    it('should work', () => {
+      const doc = wrapInSvgAndParse('<path d="" class="q" fill="red" />');
+      const result = selectAttributes(doc.querySelectorAll('path'), ({ value }) => value === 'red');
+      result.should.be.lengthOf(1);
+      result[0].value.should.be.equal('red');
+    });
+  });
+
+  describe('updateSvgUrls()', () => {
+    const test = createTestFactory(updateSvgUrls);
+
+    it('should replace URLs in attributes and references', () => {
+      const input = '<linearGradient id="id"></linearGradient><path fill="url(#id)" style="fill:url(#id);"></path><use xlink:href="#id"></use>';
+      const expected = '<linearGradient id="id"></linearGradient><path fill="url(prefix#id)" style="fill:url(prefix#id);"></path><use xlink:href="prefix#id"></use>';
+      const doc = wrapInSvgAndParse(input);
 
       test({
         input: doc,
@@ -150,7 +130,22 @@ describe('svg-baker-runtime/browser-utils', () => {
         args: [
           doc.querySelectorAll('use'),
           '#',
-          '/path#'
+          'prefix#'
+        ]
+      });
+    });
+
+    it('should not modify non matched attributes and references', () => {
+      const input = '<linearGradient id="id"></linearGradient><path fill="url(#id)" style="fill:url(#id);"></path><use xlink:href="#id"></use>';
+      const doc = wrapInSvgAndParse(input);
+
+      test({
+        input: doc,
+        expected: input,
+        args: [
+          doc.querySelectorAll('use'),
+          '#qwe',
+          'prefix#qwe'
         ]
       });
     });
