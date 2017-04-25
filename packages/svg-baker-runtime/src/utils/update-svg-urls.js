@@ -45,11 +45,17 @@ const attList = [
 const fixSelector = attList.map(attr => `[${attr}]`).join(',');
 
 /**
- * Update URLs in sprite and referencing elements
+ * Update URLs in svg image (like `fill="url(...)"`) and update referencing elements
  * @param {Element} svg
  * @param {NodeList} references
  * @param {string|RegExp} startsWith
  * @param {string} replaceWith
+ * @return {void}
+ *
+ * @example
+ * const sprite = document.querySelector('svg.sprite');
+ * const uses = document.querySelectorAll('use');
+ * updateUrls(sprite, uses, '#', 'prefix#');
  */
 export default function (svg, references, startsWith, replaceWith) {
   const nodes = svg.querySelectorAll(fixSelector);
