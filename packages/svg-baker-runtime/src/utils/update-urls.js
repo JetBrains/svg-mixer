@@ -54,8 +54,8 @@ const fixSelector = attList.map(attr => `[${attr}]`).join(',');
  *
  * @example
  * const sprite = document.querySelector('svg.sprite');
- * const uses = document.querySelectorAll('use');
- * updateUrls(sprite, uses, '#', 'prefix#');
+ * const usages = document.querySelectorAll('use');
+ * updateUrls(sprite, usages, '#', 'prefix#');
  */
 export default function (svg, references, startsWith, replaceWith) {
   const nodes = svg.querySelectorAll(fixSelector);

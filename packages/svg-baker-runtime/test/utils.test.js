@@ -3,7 +3,7 @@ import {
   parse,
   stringify,
   wrapInSvg,
-  updateSvgUrls,
+  updateUrls,
   selectAttributes,
   objectToAttrsString,
   dispatchCustomEvent,
@@ -116,8 +116,8 @@ describe('svg-baker-runtime/utils', () => {
     });
   });
 
-  describe('updateSvgUrls()', () => {
-    const test = createTestFactory(updateSvgUrls);
+  describe('updateUrls()', () => {
+    const test = createTestFactory(updateUrls);
 
     it('should replace URLs in attributes and references', () => {
       const input = '<linearGradient id="id"></linearGradient><path fill="url(#id)" style="fill:url(#id);"></path><use xlink:href="#id"></use>';
