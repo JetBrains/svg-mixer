@@ -76,15 +76,19 @@ export default class BrowserSprite extends Sprite {
 
   /**
    * @return {Element}
+   * @fires Events#RENDER
    */
   render() {
-    return parse(this.stringify());
+    const node = parse(this.stringify());
+    this._emitter.emit(Events.RENDER, node);
+    return node;
   }
 
   /**
    * @param {Element|string} target
    * @param {boolean} [prepend=false]
    * @return {Element} rendered sprite element
+   * @fires Events#MOUNT
    */
   mount(target, prepend = false) {
     if (this.isMounted) {
@@ -92,10 +96,7 @@ export default class BrowserSprite extends Sprite {
     }
 
     const parent = typeof target === 'string' ? document.querySelector(target) : target;
-    const emitter = this._emitter;
-
     const node = this.render();
-    emitter.emit(Events.RENDER, node);
 
     if (prepend && parent.childNodes[0]) {
       parent.insertBefore(node, parent.childNodes[0]);
@@ -105,7 +106,7 @@ export default class BrowserSprite extends Sprite {
 
     this.node = node;
     this.isMounted = true;
-    emitter.emit(Events.MOUNT, node);
+    this._emitter.emit(Events.MOUNT, node);
 
     return node;
   }
