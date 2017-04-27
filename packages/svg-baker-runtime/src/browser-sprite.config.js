@@ -1,5 +1,14 @@
 export default {
   /**
+   * Should following options be automatically configured:
+   * - `syncUrlsWithBaseTag`
+   * - `locationChangeAngularEmitter`
+   * - `moveGradientsOutsideSymbol`
+   * @type {boolean}
+   */
+  autoConfigure: true,
+
+  /**
    * Fix disappearing SVG elements when <base href> exists.
    * Executes when sprite mounted.
    * @see http://stackoverflow.com/a/18265336/796152
@@ -35,5 +44,5 @@ export default {
    * @see https://bugzilla.mozilla.org/show_bug.cgi?id=1235364
    * @type {boolean}
    */
-  fixGradientsInFirefox: true
+  moveGradientsOutsideSymbol: false
 };

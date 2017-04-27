@@ -5,6 +5,7 @@ import defaultConfig from './browser-sprite.config';
 import {
   parse,
   moveGradientsOutsideSymbol,
+  browserDetector as browser,
   getUrlWithoutFragment,
   updateUrls,
   locationChangeAngularEmitter
@@ -24,12 +25,16 @@ export default class BrowserSprite extends Sprite {
   constructor(cfg = {}) {
     super(merge(defaultConfig, cfg));
 
-    const { config } = this;
     const emitter = Emitter();
     this._emitter = emitter;
-
     this.node = false;
     this.isMounted = false;
+
+    const { config } = this;
+
+    if (config.autoConfigure) {
+      this.autoConfigure(cfg);
+    }
 
     if (config.syncUrlsWithBaseTag) {
       const baseUrl = document.getElementsByTagName('base')[0].getAttribute('href');
@@ -47,10 +52,32 @@ export default class BrowserSprite extends Sprite {
       locationChangeAngularEmitter(config.locationChangeEvent);
     }
 
-    if (config.fixGradientsInFirefox) {
+    if (config.moveGradientsOutsideSymbol) {
       emitter.on(Events.RENDER, (node) => {
         moveGradientsOutsideSymbol(node);
       });
+    }
+  }
+
+  /**
+   * Automatically configure following options
+   * - `syncUrlsWithBaseTag`
+   * - `locationChangeAngularEmitter`
+   * - `moveGradientsOutsideSymbol`
+   */
+  autoConfigure(cfg) {
+    const { config } = this;
+
+    if (typeof cfg.syncUrlsWithBaseTag === 'undefined') {
+      config.syncUrlsWithBaseTag = typeof document.getElementsByTagName('base')[0] !== 'undefined';
+    }
+
+    if (typeof cfg.locationChangeAngularEmitter === 'undefined') {
+      config.locationChangeAngularEmitter = 'angular' in window;
+    }
+
+    if (typeof cfg.moveGradientsOutsideSymbol === 'undefined') {
+      config.moveGradientsOutsideSymbol = browser.isFirefox;
     }
   }
 
