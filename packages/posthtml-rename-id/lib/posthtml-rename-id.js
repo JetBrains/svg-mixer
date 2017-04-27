@@ -2,10 +2,7 @@
 const escapeForRegexp = require('escape-string-regexp');
 
 const URL_PATTERN = /url\(#([^ ]+?)\s*\)/g;
-
-const defaultOptions = {
-  pattern: '[id]'
-};
+const defaultPattern = '[id]';
 
 /**
  * @param {string} id
@@ -18,12 +15,11 @@ function renameId(id, pattern) {
 }
 
 /**
- * @param {Object} [options]
+ * @param {string|Function} [pattern]
  * @returns {Function}
  */
-function plugin(options) {
-  const opts = options || defaultOptions;
-  const { pattern } = opts;
+function plugin(pattern) {
+  const p = pattern || defaultPattern;
 
   return (tree) => {
     const mappedIds = {};
@@ -31,7 +27,7 @@ function plugin(options) {
     tree.match({ attrs: { id: /.*/ } }, (node) => {
       const { attrs } = node;
       const currentId = attrs.id;
-      const newId = renameId(currentId, pattern);
+      const newId = renameId(currentId, p);
       attrs.id = newId;
 
       mappedIds[currentId] = {
@@ -97,8 +93,9 @@ function plugin(options) {
 
       return node;
     });
+
+    return tree;
   };
 }
 
 module.exports = plugin;
-module.exports.defaultOptions = defaultOptions;

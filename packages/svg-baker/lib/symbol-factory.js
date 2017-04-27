@@ -28,7 +28,7 @@ function symbolFactory(options) {
     plugins.push(fill({ fill: request.getParam('fill') }));
   }
 
-  plugins.push(renameId({ pattern: `${id}_[id]` }));
+  plugins.push(renameId(`${id}_[id]`));
   plugins.push(svgToSymbol({ id }));
 
   return processor(plugins).process(content);
