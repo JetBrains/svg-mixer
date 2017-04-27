@@ -112,7 +112,7 @@ export default class BrowserSprite extends Sprite {
   }
 
   /**
-   * @param {Element|string} target
+   * @param {Element|string} [target]
    * @param {boolean} [prepend=false]
    * @return {Element} rendered sprite element
    * @fires Events#MOUNT
@@ -122,7 +122,8 @@ export default class BrowserSprite extends Sprite {
       return this.node;
     }
 
-    const parent = typeof target === 'string' ? document.querySelector(target) : target;
+    const mountTarget = target || this.config.mountTo;
+    const parent = typeof mountTarget === 'string' ? document.querySelector(mountTarget) : mountTarget;
     const node = this.render();
 
     if (prepend && parent.childNodes[0]) {

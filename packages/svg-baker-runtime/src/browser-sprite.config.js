@@ -9,6 +9,12 @@ export default {
   autoConfigure: true,
 
   /**
+   * Default mounting selector
+   * @type {string}
+   */
+  mountTo: 'body',
+
+  /**
    * Fix disappearing SVG elements when <base href> exists.
    * Executes when sprite mounted.
    * @see http://stackoverflow.com/a/18265336/796152
