@@ -8,8 +8,9 @@
   "module": "src/browser-sprite.js",
   "files": [
     "src/",
-    "sprite.js",
     "browser-sprite.js",
+    "browser-symbol.js",
+    "sprite.js",
     "symbol.js",
     "README.md"
   ],
