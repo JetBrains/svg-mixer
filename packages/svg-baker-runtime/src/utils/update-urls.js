@@ -5,6 +5,14 @@ import arrayFrom from './array-from';
 const xLinkNS = namespaces.xlink.uri;
 const xLinkAttrName = 'xlink:href';
 
+const specialUrlCharsPattern = /[(){}|\\\^~\[\]`"<>]/g;
+
+function encoder(url) {
+  return url.replace(specialUrlCharsPattern, (match) => {
+    return `%${match[0].charCodeAt(0).toString(16).toUpperCase()}`;
+  });
+}
+
 /**
  * @param {NodeList} nodes
  * @param {string} startsWith
@@ -58,11 +66,14 @@ const fixSelector = attList.map(attr => `[${attr}]`).join(',');
  * updateUrls(sprite, usages, '#', 'prefix#');
  */
 export default function (svg, references, startsWith, replaceWith) {
+  const startsWithEncoded = encoder(startsWith);
+  const replaceWithEncoded = encoder(replaceWith);
+
   const nodes = svg.querySelectorAll(fixSelector);
   const attrs = selectAttributes(nodes, ({ localName, value }) => {
-    return attList.indexOf(localName) !== -1 && value.indexOf(`url(${startsWith}`) !== -1;
+    return attList.indexOf(localName) !== -1 && value.indexOf(`url(${startsWithEncoded}`) !== -1;
   });
 
-  attrs.forEach(attr => attr.value = attr.value.replace(startsWith, replaceWith));
-  updateReferences(references, startsWith, replaceWith);
+  attrs.forEach(attr => attr.value = attr.value.replace(startsWithEncoded, replaceWithEncoded));
+  updateReferences(references, startsWithEncoded, replaceWithEncoded);
 }

@@ -2,7 +2,7 @@
 import {
   parse,
   stringify,
-  wrapInSvg,
+  wrapInSvgString,
   updateUrls,
   selectAttributes,
   objectToAttrsString,
@@ -12,13 +12,13 @@ import {
 } from '../src/utils';
 
 function wrapInSvgAndParse(content) {
-  return parse(wrapInSvg(content));
+  return parse(wrapInSvgString(content));
 }
 
 function createTestFactory(func) {
   return ({ input, expected, args, selector, wrap = true }) => {
     const doc = typeof input === 'string' ?
-      parse(wrap ? wrapInSvg(input) : input) :
+      parse(wrap ? wrapInSvgString(input) : input) :
       input;
 
     const nodes = selector ? doc.querySelectorAll(selector) : doc;
@@ -26,9 +26,18 @@ function createTestFactory(func) {
 
     func(...opts);
 
-    const ex = wrap ? wrapInSvg(expected) : expected;
+    const ex = wrap ? wrapInSvgString(expected) : expected;
+    const actual = stringify(doc);
 
-    stringify(doc).should.be.equal(ex);
+    if (ex !== actual) {
+      const err = new Error('Expected !== actual');
+      err.expected = ex;
+      err.actual = actual;
+      err.showDiff = true;
+      throw err;
+    }
+
+    // stringify(doc).should.be.equal(ex);
   };
 }
 
@@ -91,19 +100,7 @@ describe('svg-baker-runtime/utils', () => {
 
   describe('parse()', () => {
     it('should return Element instance', () => {
-      parse(wrapInSvg('<path/>')).should.be.instanceOf(Element);
-    });
-  });
-
-  describe('stringify()', () => {
-    it('should properly serialize DOM nodes', () => {
-      let input;
-
-      input = wrapInSvg('<defs><symbol id="foo"></symbol></defs><use xlink:href="#foo"></use>');
-      stringify(parse(input)).should.be.equal(input);
-
-      input = wrapInSvg('<path id="p1"></path><path id="p2"></path><path id="p3"></path>');
-      stringify(parse(input)).should.be.equal(input);
+      parse(wrapInSvgString('<path/>')).should.be.instanceOf(Element);
     });
   });
 
@@ -116,12 +113,24 @@ describe('svg-baker-runtime/utils', () => {
     });
   });
 
-  describe('updateUrls()', () => {
+  describe('stringify()', () => {
+    it('should properly serialize DOM nodes', () => {
+      let input;
+
+      input = wrapInSvgString('<defs><symbol id="foo"></symbol></defs><use xlink:href="#foo"></use>');
+      stringify(parse(input)).should.be.equal(input);
+
+      input = wrapInSvgString('<path id="p1"></path><path id="p2"></path><path id="p3"></path>');
+      stringify(parse(input)).should.be.equal(input);
+    });
+  });
+
+  describe.only('updateUrls()', () => {
     const test = createTestFactory(updateUrls);
 
     it('should replace URLs in attributes and references', () => {
       const input = '<linearGradient id="id"></linearGradient><path fill="url(#id)" style="fill:url(#id);"></path><use xlink:href="#id"></use>';
-      const expected = '<linearGradient id="id"></linearGradient><path fill="url(prefix#id)" style="fill:url(prefix#id);"></path><use xlink:href="prefix#id"></use>';
+      const expected = '<linearGradient id="id"></linearGradient><path fill="url(/prefix#id)" style="fill:url(/prefix#id);"></path><use xlink:href="/prefix#id"></use>';
       const doc = wrapInSvgAndParse(input);
 
       test({
@@ -130,7 +139,7 @@ describe('svg-baker-runtime/utils', () => {
         args: [
           doc.querySelectorAll('use'),
           '#',
-          'prefix#'
+          '/prefix#'
         ]
       });
     });
@@ -145,7 +154,23 @@ describe('svg-baker-runtime/utils', () => {
         args: [
           doc.querySelectorAll('use'),
           '#qwe',
-          'prefix#qwe'
+          '/prefix#qwe'
+        ]
+      });
+    });
+
+    it('should handle special chars properly', () => {
+      const input = '<linearGradient id="id"></linearGradient><path fill="url(#id)" style="fill:url(#id);"></path><use xlink:href="#id"></use>';
+      const expected = '<linearGradient id="id"></linearGradient><path fill="url(inbox/33%28popup:compose%29#id)" style="fill:url(inbox/33%28popup:compose%29#id);"></path><use xlink:href="inbox/33%28popup:compose%29#id"></use>';
+      const doc = wrapInSvgAndParse(input);
+
+      test({
+        input: doc,
+        expected,
+        args: [
+          doc.querySelectorAll('use'),
+          '#',
+          'inbox/33(popup:compose)#'
         ]
       });
     });
