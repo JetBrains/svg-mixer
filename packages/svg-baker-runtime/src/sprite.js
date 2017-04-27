@@ -1,6 +1,6 @@
 import merge from 'deepmerge';
 import namespaces from 'svg-baker/namespaces';
-import wrapInSvg from './utils/wrap-in-svg';
+import wrapInSvg from './utils/wrap-in-svg-string';
 
 const { svg, xlink } = namespaces;
 
