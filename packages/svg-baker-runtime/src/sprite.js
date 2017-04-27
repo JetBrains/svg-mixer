@@ -1,5 +1,5 @@
 import merge from 'deepmerge';
-import wrapInSvg from './utils/wrap-in-svg-string';
+import wrapInSvgString from './utils/wrap-in-svg-string';
 import defaultConfig from './sprite.config';
 
 export default class Sprite {
@@ -64,14 +64,8 @@ export default class Sprite {
    */
   stringify() {
     const { attrs } = this.config;
-    return wrapInSvg(this.stringifySymbols(), attrs);
-  }
-
-  /**
-   * @return {string}
-   */
-  stringifySymbols() {
-    return this.symbols.map(s => s.stringify()).join('');
+    const stringifiedSymbols = this.symbols.map(s => s.stringify()).join('');
+    return wrapInSvgString(stringifiedSymbols, attrs);
   }
 
   /**
