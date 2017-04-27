@@ -125,7 +125,7 @@ describe('svg-baker-runtime/utils', () => {
     });
   });
 
-  describe.only('updateUrls()', () => {
+  describe('updateUrls()', () => {
     const test = createTestFactory(updateUrls);
 
     it('should replace URLs in attributes and references', () => {
