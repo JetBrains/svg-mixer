@@ -14,3 +14,4 @@ build() {
 build sprite.js Sprite
 build symbol.js SpriteSymbol
 build browser-sprite.js BrowserSprite
+build browser-symbol.js BrowserSpriteSymbol
