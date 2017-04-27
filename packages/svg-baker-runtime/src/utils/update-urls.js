@@ -50,7 +50,7 @@ const attList = [
   'style'
 ];
 
-const fixSelector = attList.map(attr => `[${attr}]`).join(',');
+const attSelector = attList.map(attr => `[${attr}]`).join(',');
 
 /**
  * Update URLs in svg image (like `fill="url(...)"`) and update referencing elements
@@ -69,7 +69,7 @@ export default function (svg, references, startsWith, replaceWith) {
   const startsWithEncoded = encoder(startsWith);
   const replaceWithEncoded = encoder(replaceWith);
 
-  const nodes = svg.querySelectorAll(fixSelector);
+  const nodes = svg.querySelectorAll(attSelector);
   const attrs = selectAttributes(nodes, ({ localName, value }) => {
     return attList.indexOf(localName) !== -1 && value.indexOf(`url(${startsWithEncoded}`) !== -1;
   });
