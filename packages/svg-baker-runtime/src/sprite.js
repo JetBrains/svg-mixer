@@ -1,16 +1,6 @@
 import merge from 'deepmerge';
-import namespaces from 'svg-baker/namespaces';
 import wrapInSvg from './utils/wrap-in-svg-string';
-
-const { svg, xlink } = namespaces;
-
-const defaultConfig = {
-  attrs: {
-    [svg.name]: svg.uri,
-    [xlink.name]: xlink.uri,
-    style: ['position: absolute', 'width: 0', 'height: 0'].join('; ')
-  }
-};
+import defaultConfig from './sprite.config';
 
 export default class Sprite {
   /**
