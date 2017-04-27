@@ -46,7 +46,7 @@ class Processor {
   }
 
   /**
-   * @param {PostHTMLTree} ast
+   * @param {string|PostHTMLTree} ast
    * @param {Object} options {@see https://github.com/posthtml/posthtml-render#options}
    * @return {Promise<PostHTMLProcessingResult>}
    */
