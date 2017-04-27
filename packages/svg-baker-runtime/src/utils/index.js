@@ -9,4 +9,4 @@ export { default as parse } from './parse';
 export { default as selectAttributes } from './select-attributes';
 export { default as stringify } from './stringify';
 export { default as updateUrls } from './update-urls';
-export { default as wrapInSvg } from './wrap-in-svg';
+export { default as wrapInSvgString } from './wrap-in-svg-string';
