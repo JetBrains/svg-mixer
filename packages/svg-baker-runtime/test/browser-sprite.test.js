@@ -1,46 +1,22 @@
+import ns from 'svg-baker/namespaces';
 import Sprite from '../src/browser-sprite';
 import SpriteSymbol from '../src/browser-symbol';
-import {
-  parse,
-  wrapInSvgString,
-  arrayFrom,
-  dispatchCustomEvent
-} from '../src/utils';
+import { createBaseTag, removeBaseTag, mockAngular, createUse, collectUrls } from './_utils';
+import { dispatchCustomEvent } from '../src/utils';
 
 /**
  * @type {Array}
  */
 const symbolsFixtures = require('./fixtures/data.json');
 
-function createBaseTag(href) {
-  const baseTagHref = href || window.location.href.split('#')[0];
-
-  const baseTag = document.createElement('base');
-  baseTag.setAttribute('href', baseTagHref);
-  document.querySelector('head').appendChild(baseTag);
-
-  return baseTag;
-}
-
-function removeBaseTag() {
-  const baseTag = document.querySelector('base');
-  baseTag.parentNode.removeChild(baseTag);
-}
-
-function mockAngular() {
-  return {
-    module() {
-      return {
-        run() {}
-      };
-    }
-  };
-}
+const symbolData = symbolsFixtures[0];
 
 describe('svg-baker-runtime/browser-sprite', () => {
   describe('constructor()', () => {
+    const opts = { listenLocationChangeEvent: false };
+
     it('should assign default config properly', () => {
-      const sprite = new Sprite({ qwe: 123 });
+      const sprite = new Sprite({ qwe: 123, ...opts });
 
       sprite.config.should.have.property('attrs');
       sprite.config.should.have.property('qwe');
@@ -52,17 +28,14 @@ describe('svg-baker-runtime/browser-sprite', () => {
       const baseUrl = window.location.href;
       createBaseTag(baseUrl);
 
-      const sprite = new Sprite();
+      const sprite = new Sprite(opts);
       sprite.add(new SpriteSymbol(symbolsFixtures[0]));
 
       const node = sprite.mount();
-      const elemsWithUrl = arrayFrom(node.querySelectorAll('[fill^="url("]'));
+      const attrs = collectUrls(node);
 
-      elemsWithUrl.forEach((elem) => {
-        const fill = elem.getAttribute('fill');
-        const expectedIndex = 0;
-        const actualIndex = fill.indexOf(`url(${baseUrl}`);
-        actualIndex.should.be.equal(expectedIndex);
+      attrs.forEach((attr) => {
+        attr.indexOf(`url(${baseUrl}`).should.be.equal(0);
       });
 
       removeBaseTag();
@@ -73,39 +46,43 @@ describe('svg-baker-runtime/browser-sprite', () => {
       const updateUrls = sinon.spy(sprite, 'updateUrls');
 
       sprite.mount();
+
       dispatchCustomEvent(sprite.config.locationChangeEvent, {});
       updateUrls.should.have.been.calledOnce;
 
       updateUrls.restore();
+      sprite.destroy();
     });
 
-    it.only('should properly move gradients outside symbols', () => {
-      const sprite = new Sprite({ moveGradientsOutsideSymbol: true });
+    it('should properly move gradients outside symbols', () => {
+      const sprite = new Sprite({ moveGradientsOutsideSymbol: true, ...opts });
       sprite.add(new SpriteSymbol(symbolsFixtures[0]));
       const node = sprite.mount();
 
-      console.log(
-        node
-      );
+      expect(node.querySelectorAll('symbol linearGradient').length).to.equal(0);
+      sprite.destroy();
     });
   });
 
   describe('autoConfigure()', () => {
+    const opts = { listenLocationChangeEvent: false };
+
     it('should detect when base tag fix needed', () => {
       const prop = 'syncUrlsWithBaseTag';
       let config;
 
-      config = new Sprite().config;
-      expect(config[prop]).to.be.false;
+      config = new Sprite(opts).config;
+      config[prop].should.be.false;
 
       createBaseTag();
-      config = new Sprite().config;
-      expect(config[prop]).to.be.true;
+      const sprite = new Sprite(opts);
+      sprite.config[prop].should.be.true;
+      sprite.destroy();
       removeBaseTag();
 
       createBaseTag();
-      config = new Sprite({ [prop]: false }).config;
-      expect(config[prop]).to.be.false;
+      config = new Sprite({ [prop]: false, ...opts }).config;
+      config[prop].should.be.false;
       removeBaseTag();
     });
 
@@ -113,12 +90,12 @@ describe('svg-baker-runtime/browser-sprite', () => {
       const prop = 'locationChangeAngularEmitter';
       let config;
 
-      config = new Sprite().config;
-      expect(config[prop]).to.be.false;
+      config = new Sprite(opts).config;
+      config[prop].should.be.false;
 
       window.angular = mockAngular();
-      config = new Sprite().config;
-      expect(config[prop]).to.be.true;
+      config = new Sprite(opts).config;
+      config[prop].should.be.true;
       delete window.angular;
     });
 
@@ -128,23 +105,39 @@ describe('svg-baker-runtime/browser-sprite', () => {
   });
 
   describe('updateUrls()', () => {
+    const opts = { listenLocationChangeEvent: false };
+
     it('should throw if sprite isn\'t mounted', () => {
-      expect(
-        () => new Sprite().updateUrls('', '')
-      ).to.throw();
+      const sprite = new Sprite(opts);
+      expect(() => sprite.updateUrls()).to.throw();
     });
 
     it('should update urls in sprite symbols and in references', () => {
+      const searchUrl = '#';
+      const expectedUrl = '/prefix/#';
+
       const sprite = new Sprite();
-      sprite.add(new SpriteSymbol(symbolsFixtures[0]));
+      sprite.add(new SpriteSymbol(symbolData));
       sprite.mount();
 
-      const ref = parse(wrapInSvgString('<use xlink:href="#twitter"></use>'));
+      const ref = createUse(`#${symbolData.id}`);
       document.body.appendChild(ref);
 
-      console.log(
-        document.querySelector('html').outerHTML
-      );
+      sprite.updateUrls(searchUrl, expectedUrl);
+      const attrs = collectUrls(sprite.node);
+
+      attrs.forEach((attr) => {
+        attr.indexOf(`url(${expectedUrl}`).should.be.equal(0);
+      });
+
+      const refUrl = ref.querySelector('use').getAttributeNS(ns.xlink.uri, 'href');
+      refUrl.indexOf(expectedUrl).should.be.equal(0);
+
+      sprite.destroy();
     });
+  });
+
+  describe('mount()', () => {
+
   });
 });

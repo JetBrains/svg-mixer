@@ -33,7 +33,7 @@ export default class BrowserSprite extends Sprite {
     const { config } = this;
 
     if (config.autoConfigure) {
-      this.autoConfigure(cfg);
+      this._autoConfigure(cfg);
     }
 
     if (config.syncUrlsWithBaseTag) {
@@ -41,11 +41,13 @@ export default class BrowserSprite extends Sprite {
       emitter.on(Events.MOUNT, () => this.updateUrls('#', baseUrl));
     }
 
+    const handleLocationChange = this._handleLocationChange.bind(this);
+    this._handleLocationChange = handleLocationChange;
+
     // Provide way to update sprite urls externally via dispatching custom window event
-    window.addEventListener(config.locationChangeEvent, (event) => {
-      const { oldUrl, newUrl } = event.detail;
-      this.updateUrls(oldUrl, newUrl);
-    });
+    if (config.listenLocationChangeEvent) {
+      window.addEventListener(config.locationChangeEvent, handleLocationChange);
+    }
 
     // Emit location change event in Angular automatically
     if (config.locationChangeAngularEmitter) {
@@ -64,8 +66,10 @@ export default class BrowserSprite extends Sprite {
    * - `syncUrlsWithBaseTag`
    * - `locationChangeAngularEmitter`
    * - `moveGradientsOutsideSymbol`
+   * @param {Object} cfg
+   * @private
    */
-  autoConfigure(cfg) {
+  _autoConfigure(cfg) {
     const { config } = this;
 
     if (typeof cfg.syncUrlsWithBaseTag === 'undefined') {
@@ -79,6 +83,18 @@ export default class BrowserSprite extends Sprite {
     if (typeof cfg.moveGradientsOutsideSymbol === 'undefined') {
       config.moveGradientsOutsideSymbol = browser.isFirefox;
     }
+  }
+
+  /**
+   * @param {Event} event
+   * @param {Object} event.detail
+   * @param {string} event.oldUrl
+   * @param {string} event.newUrl
+   * @private
+   */
+  _handleLocationChange(event) {
+    const { oldUrl, newUrl } = event.detail;
+    this.updateUrls(oldUrl, newUrl);
   }
 
   /**
@@ -134,8 +150,29 @@ export default class BrowserSprite extends Sprite {
 
     this.node = node;
     this.isMounted = true;
+
     this._emitter.emit(Events.MOUNT, node);
 
     return node;
+  }
+
+  /**
+   * Detach sprite from the DOM
+   */
+  unmount() {
+    this.node.parentNode.removeChild(this.node);
+  }
+
+  destroy() {
+    const { config, symbols, _emitter } = this;
+
+    symbols.forEach(s => s.destroy());
+
+    _emitter.off('*');
+    window.removeEventListener(config.locationChangeEvent, this._handleLocationChange);
+
+    if (this.isMounted) {
+      this.unmount();
+    }
   }
 }

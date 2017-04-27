@@ -25,6 +25,12 @@ export default {
   syncUrlsWithBaseTag: false,
 
   /**
+   * Should sprite listen custom location change event
+   * @type {boolean}
+   */
+  listenLocationChangeEvent: true,
+
+  /**
    * Custom window event name which should be emitted to update sprite urls
    * @type {string}
    */
