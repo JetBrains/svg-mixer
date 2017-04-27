@@ -18,6 +18,8 @@ function createBaseTag(href) {
   const baseTag = document.createElement('base');
   baseTag.setAttribute('href', baseTagHref);
   document.querySelector('head').appendChild(baseTag);
+
+  return baseTag;
 }
 
 function removeBaseTag() {
@@ -46,7 +48,7 @@ describe('svg-baker-runtime/browser-sprite', () => {
       sprite.isMounted.should.be.false;
     });
 
-    it.only('should sync sprite urls with base tag url when sprite is mounted', () => {
+    it('should sync sprite urls with base tag url when sprite is mounted', () => {
       const baseUrl = window.location.href;
       createBaseTag(baseUrl);
 
@@ -62,6 +64,8 @@ describe('svg-baker-runtime/browser-sprite', () => {
         const actualIndex = fill.indexOf(`url(${baseUrl}`);
         actualIndex.should.be.equal(expectedIndex);
       });
+
+      removeBaseTag();
     });
 
     it('should subscribe to locationChange event and call updateUrls when it occurs', () => {
@@ -73,6 +77,16 @@ describe('svg-baker-runtime/browser-sprite', () => {
       updateUrls.should.have.been.calledOnce;
 
       updateUrls.restore();
+    });
+
+    it.only('should properly move gradients outside symbols', () => {
+      const sprite = new Sprite({ moveGradientsOutsideSymbol: true });
+      sprite.add(new SpriteSymbol(symbolsFixtures[0]));
+      const node = sprite.mount();
+
+      console.log(
+        node
+      );
     });
   });
 
