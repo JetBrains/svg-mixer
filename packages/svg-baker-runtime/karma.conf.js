@@ -20,6 +20,18 @@ module.exports = (config) => {
       'test/*.test.js': ['webpack', 'sourcemap']
     },
 
+    browsers: ['Chrome'],
+
+    // Webpack config
+    webpack: webpackConfig,
+    webpackServer: {
+      stats: {
+        colors: true
+      },
+      noInfo: true,
+      quiet: true
+    },
+
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
@@ -42,32 +54,19 @@ module.exports = (config) => {
     // enable / disable watching file and executing tests whenever any file changes
     autoWatch: true,
 
-    // start these browsers
-    // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-    browsers: ['PhantomJS'],
-
     // Continuous Integration mode
     // if true, Karma captures browsers, runs the tests and exits
     singleRun: true,
 
-    // If browser does not capture in given timeout [ms], kill it
-    captureTimeout: 60000,
+    captureTimeout: 5000,
+
+    browserDisconnectTimeout: 5000,
 
     // Increase timeout because of webpack
     // See https://github.com/karma-runner/karma/issues/598
-    browserNoActivityTimeout: 60000,
+    browserNoActivityTimeout: 90000,
 
     // cli runner port
-    runnerPort: 9100,
-
-    // Webpack config
-    webpack: webpackConfig,
-    webpackServer: {
-      stats: {
-        colors: true
-      },
-      noInfo: true,
-      quiet: true
-    }
+    runnerPort: 9100
   });
 };
