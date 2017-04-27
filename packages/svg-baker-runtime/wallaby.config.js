@@ -4,7 +4,7 @@ const webpackConfig = require('./webpack.config.js');
 
 module.exports = (wallaby) => {
   webpackConfig.devtool = false;
-  webpackConfig.entryPatterns = ['test/mocha-setup.js', 'test/*.test.js'];
+  webpackConfig.entryPatterns = ['mocha-setup.js', 'test/*.test.js'];
 
   const config = {
     files: [
@@ -13,7 +13,7 @@ module.exports = (wallaby) => {
         load: false
       },
       {
-        pattern: 'test/mocha-setup.js',
+        pattern: 'mocha-setup.js',
         instrument: false,
         load: false
       },
