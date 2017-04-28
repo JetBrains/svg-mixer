@@ -138,6 +138,23 @@ describe('svg-baker-runtime/browser-sprite', () => {
   });
 
   describe('mount()', () => {
+    it('should mounts only once', () => {
+      const body = document.querySelector('body');
+      const container = document.createElement('div');
+      container.setAttribute('class', 'container');
 
+      body.appendChild(container);
+
+      const sprite = new Sprite({ mountTo: '.container' });
+      sprite.add(new SpriteSymbol(symbolData));
+      sprite.mount();
+
+      container.querySelectorAll('svg').length.should.be.equal(1);
+
+      sprite.mount();
+      sprite.mount();
+
+      container.querySelectorAll('svg').length.should.be.equal(1);
+    });
   });
 });
