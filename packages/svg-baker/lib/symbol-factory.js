@@ -2,6 +2,7 @@ const processor = require('posthtml-svg-mode');
 const renameId = require('posthtml-rename-id');
 const normalizeViewBox = require('./transformations/normalize-viewbox');
 const rasterToSVG = require('./transformations/raster-to-svg');
+const prefixStyleSelectors = require('./transformations/prefix-style-selectors');
 const svgToSymbol = require('./transformations/svg-to-symbol');
 
 /**
@@ -21,6 +22,7 @@ function symbolFactory(options) {
     : options.content;
 
   plugins.push(normalizeViewBox());
+  plugins.push(prefixStyleSelectors(`.${id}`));
   plugins.push(renameId(`${id}_[id]`));
   plugins.push(svgToSymbol({ id }));
 
