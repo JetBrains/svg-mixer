@@ -1,4 +1,4 @@
-# SVG Baker
+# SVG Baker [![Build Status](https://travis-ci.org/kisenka/svg-baker.svg?branch=master)](https://travis-ci.org/kisenka/svg-baker) [![Coverage Status](https://coveralls.io/repos/github/kisenka/svg-baker/badge.svg?branch=master)](https://coveralls.io/github/kisenka/svg-baker?branch=master)
 
 <img src="https://cdn.rawgit.com/kisenka/svg-baker/0ba4d/logo.svg" width="130" align="right">
 
