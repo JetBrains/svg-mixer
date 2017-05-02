@@ -22,7 +22,7 @@ function symbolFactory(options) {
     : options.content;
 
   plugins.push(normalizeViewBox());
-  plugins.push(prefixStyleSelectors(`.${id}`));
+  plugins.push(prefixStyleSelectors(`#${id}`));
   plugins.push(renameId(`${id}_[id]`));
   plugins.push(svgToSymbol({ id }));
 
