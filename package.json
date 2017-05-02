@@ -3,11 +3,13 @@
   "license": "MIT",
   "scripts": {
     "bootstrap": "yarn && lerna bootstrap",
-    "coverage": "istanbul cover --report html --report lcov _mocha \"packages/!(svg-baker-runtime)/test/**/*.test.js\"",
-    "test": "mocha \"packages/!(svg-baker-runtime)/test/**/*.test.js\""
+    "test:coverage": "istanbul cover --report html --report lcov _mocha \"packages/!(svg-baker-runtime)/test/**/*.test.js\"",
+    "test": "mocha \"packages/!(svg-baker-runtime)/test/**/*.test.js\"",
+    "upload-coverage": "cat ./coverage/lcov.info | coveralls"
   },
   "devDependencies": {
     "chai": "3.5.0",
+    "coveralls": "^2.13.1",
     "cz-lerna-changelog": "^1.2.1",
     "eslint": "^3.8.1",
     "eslint-config-airbnb-base": "^9.0.0",
