@@ -1,14 +1,9 @@
 {
   "private": true,
   "license": "MIT",
-  "scripts": {
-    "bootstrap": "yarn && lerna bootstrap",
-    "test:coverage": "istanbul cover --report html --report lcov _mocha \"packages/!(svg-baker-runtime)/test/**/*.test.js\"",
-    "test": "mocha \"packages/!(svg-baker-runtime)/test/**/*.test.js\"",
-    "upload-coverage": "cat ./coverage/lcov.info | coveralls"
-  },
   "devDependencies": {
     "chai": "3.5.0",
+    "commitizen": "2.9.6",
     "coveralls": "^2.13.1",
     "cz-lerna-changelog": "^1.2.1",
     "eslint": "^3.8.1",
@@ -24,5 +19,12 @@
     "commitizen": {
       "path": "./node_modules/cz-lerna-changelog"
     }
+  },
+  "scripts": {
+    "bootstrap": "yarn && lerna bootstrap",
+    "commit": "git-cz",
+    "test:coverage": "istanbul cover --report html --report lcov _mocha \"packages/!(svg-baker-runtime)/test/**/*.test.js\"",
+    "test": "mocha \"packages/!(svg-baker-runtime)/test/**/*.test.js\"",
+    "upload-coverage": "cat ./coverage/lcov.info | coveralls"
   }
 }
