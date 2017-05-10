@@ -8,7 +8,7 @@ export default function (eventName) {
   angular.module('ng').run(['$rootScope', ($rootScope) => {
     $rootScope.$on('$locationChangeSuccess', (e, newUrl) => {
       dispatchEvent(eventName, {
-        oldURL: window.localtion.href,
+        oldURL: window.location.href,
         newUrl
       });
     });
