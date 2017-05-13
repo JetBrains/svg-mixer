@@ -1,22 +1,32 @@
 import ns from 'svg-baker/namespaces';
+import { collectUrls, createBaseTag, createUse, mockAngular, removeBaseTag, remove } from './_utils';
+import { dispatchCustomEvent } from '../src/utils';
 import Sprite from '../src/browser-sprite';
 import SpriteSymbol from '../src/browser-symbol';
-import { createBaseTag, removeBaseTag, mockAngular, createUse, collectUrls } from './_utils';
-import { dispatchCustomEvent } from '../src/utils';
 
 /**
  * @type {Array}
  */
 const symbolsFixtures = require('./fixtures/data.json');
 
-const symbolData = symbolsFixtures[0];
+const symbolFixture = symbolsFixtures[0];
 
 describe('svg-baker-runtime/browser-sprite', () => {
+  let sprite;
+
+  afterEach(() => {
+    try {
+      sprite.destroy();
+    } catch (e) {
+      // nothing
+    }
+  });
+
   describe('constructor()', () => {
     const opts = { listenLocationChangeEvent: false };
 
     it('should assign default config properly', () => {
-      const sprite = new Sprite({ qwe: 123, ...opts });
+      sprite = new Sprite({ qwe: 123, ...opts });
 
       sprite.config.should.have.property('attrs');
       sprite.config.should.have.property('qwe');
@@ -24,11 +34,11 @@ describe('svg-baker-runtime/browser-sprite', () => {
       sprite.isMounted.should.be.false;
     });
 
-    it('should sync sprite urls with base tag url when sprite is mounted', () => {
+    it('should sync sprite URLs with base tag URL when sprite is mounted', () => {
       const baseUrl = window.location.href;
       createBaseTag(baseUrl);
 
-      const sprite = new Sprite(opts);
+      sprite = new Sprite(opts);
       sprite.add(new SpriteSymbol(symbolsFixtures[0]));
 
       const node = sprite.mount();
@@ -42,29 +52,34 @@ describe('svg-baker-runtime/browser-sprite', () => {
     });
 
     it('should subscribe to locationChange event and call updateUrls when it occurs', () => {
-      const sprite = new Sprite();
+      sprite = new Sprite();
       const updateUrls = sinon.spy(sprite, 'updateUrls');
 
       sprite.mount();
 
       dispatchCustomEvent(sprite.config.locationChangeEvent, {});
       updateUrls.should.have.been.calledOnce;
-
-      updateUrls.restore();
-      sprite.destroy();
     });
 
     it('should properly move gradients outside symbols', () => {
-      const sprite = new Sprite({ moveGradientsOutsideSymbol: true, ...opts });
+      sprite = new Sprite({ moveGradientsOutsideSymbol: true, ...opts });
       sprite.add(new SpriteSymbol(symbolsFixtures[0]));
       const node = sprite.mount();
 
       expect(node.querySelectorAll('symbol linearGradient').length).to.equal(0);
-      sprite.destroy();
     });
   });
 
-  describe('autoConfigure()', () => {
+  describe('get isMounted()', () => {
+    it('should return true if sprite node exists', () => {
+      sprite = new Sprite();
+      sprite.isMounted.should.be.false;
+      sprite.mount();
+      sprite.isMounted.should.be.true;
+    });
+  });
+
+  describe('_autoConfigure()', () => {
     const opts = { listenLocationChangeEvent: false };
 
     it('should detect when base tag fix needed', () => {
@@ -75,7 +90,7 @@ describe('svg-baker-runtime/browser-sprite', () => {
       config[prop].should.be.false;
 
       createBaseTag();
-      const sprite = new Sprite(opts);
+      sprite = new Sprite(opts);
       sprite.config[prop].should.be.true;
       sprite.destroy();
       removeBaseTag();
@@ -104,36 +119,32 @@ describe('svg-baker-runtime/browser-sprite', () => {
     });
   });
 
-  describe('updateUrls()', () => {
-    const opts = { listenLocationChangeEvent: false };
+  describe('add()', () => {
+    it('should call symbol.mount() method only for new symbols', () => {
+      sprite = new Sprite();
+      const symbol = new SpriteSymbol(symbolFixture);
+      const symbolMountMethod = sinon.spy(symbol, 'mount');
 
-    it('should throw if sprite isn\'t mounted', () => {
-      const sprite = new Sprite(opts);
-      expect(() => sprite.updateUrls()).to.throw();
-    });
-
-    it('should update urls in sprite symbols and in references', () => {
-      const searchUrl = '#';
-      const expectedUrl = '/prefix/#';
-
-      const sprite = new Sprite();
-      sprite.add(new SpriteSymbol(symbolData));
       sprite.mount();
+      sprite.add(symbol).should.be.true;
+      symbolMountMethod.should.have.been.calledOnce;
 
-      const ref = createUse(`#${symbolData.id}`);
-      document.body.appendChild(ref);
+      sprite.add(symbol).should.be.false;
+      symbolMountMethod.should.have.been.calledOnce;
+    });
+  });
 
-      sprite.updateUrls(searchUrl, expectedUrl);
-      const attrs = collectUrls(sprite.node);
+  describe('destroy()', () => {
+    it('should destroy all symbols', () => {
+      sprite = new Sprite({ moveGradientsOutsideSymbol: true });
+      const symbol = new SpriteSymbol(symbolFixture);
+      const symbolDestroyMethod = sinon.spy(symbol, 'destroy');
 
-      attrs.forEach((attr) => {
-        attr.indexOf(`url(${expectedUrl}`).should.be.equal(0);
-      });
-
-      const refUrl = ref.querySelector('use').getAttributeNS(ns.xlink.uri, 'href');
-      refUrl.indexOf(expectedUrl).should.be.equal(0);
-
+      sprite.add(symbol);
+      sprite.mount();
       sprite.destroy();
+
+      symbolDestroyMethod.should.have.been.calledOnce;
     });
   });
 
@@ -145,8 +156,8 @@ describe('svg-baker-runtime/browser-sprite', () => {
 
       body.appendChild(container);
 
-      const sprite = new Sprite({ mountTo: '.container' });
-      sprite.add(new SpriteSymbol(symbolData));
+      sprite = new Sprite({ mountTo: '.container' });
+      sprite.add(new SpriteSymbol(symbolFixture));
       sprite.mount();
 
       container.querySelectorAll('svg').length.should.be.equal(1);
@@ -155,6 +166,58 @@ describe('svg-baker-runtime/browser-sprite', () => {
       sprite.mount();
 
       container.querySelectorAll('svg').length.should.be.equal(1);
+      remove(container);
+    });
+  });
+
+  describe('render()', () => {
+    it('should return HTML element', () => {
+      sprite = new Sprite();
+      sprite.render().should.be.instanceOf(Element);
+    });
+  });
+
+  describe('unmount()', () => {
+    it('should detach sprite element from DOM', () => {
+      sprite = new Sprite();
+      sprite.mount();
+
+      document.querySelectorAll('svg').length.should.be.equal(1);
+      sprite.unmount();
+      document.querySelectorAll('svg').length.should.be.equal(0);
+    });
+  });
+
+  describe('updateUrls()', () => {
+    const opts = { listenLocationChangeEvent: false };
+
+    it('should return `false` if sprite not mounted, `true` otherwise', () => {
+      sprite = new Sprite(opts);
+      sprite.updateUrls().should.be.false;
+      sprite.mount();
+      sprite.updateUrls().should.be.true;
+    });
+
+    it('should update urls in sprite symbols and it\'s references', () => {
+      const searchUrl = '#';
+      const expectedUrl = '/prefix/#';
+
+      sprite = new Sprite();
+      sprite.add(new SpriteSymbol(symbolFixture));
+      sprite.mount();
+
+      const ref = createUse(`#${symbolFixture.id}`);
+      document.body.appendChild(ref);
+
+      sprite.updateUrls(searchUrl, expectedUrl);
+      const attrs = collectUrls(sprite.node);
+
+      attrs.forEach((attr) => {
+        attr.indexOf(`url(${expectedUrl}`).should.be.equal(0);
+      });
+
+      const refUrl = ref.querySelector('use').getAttributeNS(ns.xlink.uri, 'href');
+      refUrl.indexOf(expectedUrl).should.be.equal(0);
     });
   });
 });

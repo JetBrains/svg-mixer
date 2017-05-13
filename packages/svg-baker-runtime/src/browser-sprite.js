@@ -17,7 +17,6 @@ import {
  * @private
  */
 const Events = {
-  RENDER: 'render',
   MOUNT: 'mount'
 };
 
@@ -27,8 +26,7 @@ export default class BrowserSprite extends Sprite {
 
     const emitter = Emitter();
     this._emitter = emitter;
-    this.node = false;
-    this.isMounted = false;
+    this.node = null;
 
     const { config } = this;
 
@@ -55,10 +53,17 @@ export default class BrowserSprite extends Sprite {
     }
 
     if (config.moveGradientsOutsideSymbol) {
-      emitter.on(Events.RENDER, (node) => {
+      emitter.on(Events.MOUNT, (node) => {
         moveGradientsOutsideSymbol(node);
       });
     }
+  }
+
+  /**
+   * @return {boolean}
+   */
+  get isMounted() {
+    return !!this.node;
   }
 
   /**
@@ -88,8 +93,8 @@ export default class BrowserSprite extends Sprite {
   /**
    * @param {Event} event
    * @param {Object} event.detail
-   * @param {string} event.oldUrl
-   * @param {string} event.newUrl
+   * @param {string} event.detail.oldUrl
+   * @param {string} event.detail.newUrl
    * @private
    */
   _handleLocationChange(event) {
@@ -98,39 +103,38 @@ export default class BrowserSprite extends Sprite {
   }
 
   /**
-   * Update URLs in sprite and usage elements
-   * @param {string} oldUrl
-   * @param {string} newUrl
+   * Add new symbol. If symbol with the same id exists it will be replaced.
+   * If sprite already mounted - `symbol.mount(sprite.node)` will be called.
+   * @param {BrowserSpriteSymbol} symbol
+   * @return {boolean} `true` - symbol was added, `false` - replaced
    */
-  updateUrls(oldUrl, newUrl) {
-    if (!this.isMounted) {
-      throw new Error('Sprite should be mounted to apply updateUrls');
+  add(symbol) {
+    const isNewSymbol = super.add(symbol);
+
+    if (this.isMounted && isNewSymbol) {
+      symbol.mount(this.node);
     }
 
-    const usages = document.querySelectorAll(this.config.usagesToUpdate);
-
-    updateUrls(
-      this.node,
-      usages,
-      `${getUrlWithoutFragment(oldUrl)}#`,
-      `${getUrlWithoutFragment(newUrl)}#`
-    );
+    return isNewSymbol;
   }
 
-  /**
-   * @return {Element}
-   * @fires Events#RENDER
-   */
-  render() {
-    const node = parse(this.stringify());
-    this._emitter.emit(Events.RENDER, node);
-    return node;
+  destroy() {
+    const { config, symbols, _emitter } = this;
+
+    symbols.forEach(s => s.destroy());
+
+    _emitter.off('*');
+    window.removeEventListener(config.locationChangeEvent, this._handleLocationChange);
+
+    if (this.isMounted) {
+      this.unmount();
+    }
   }
 
   /**
    * @param {Element|string} [target]
    * @param {boolean} [prepend=false]
-   * @return {Element} rendered sprite element
+   * @return {Element} rendered sprite node
    * @fires Events#MOUNT
    */
   mount(target, prepend = false) {
@@ -149,11 +153,16 @@ export default class BrowserSprite extends Sprite {
     }
 
     this.node = node;
-    this.isMounted = true;
-
     this._emitter.emit(Events.MOUNT, node);
 
     return node;
+  }
+
+  /**
+   * @return {Element}
+   */
+  render() {
+    return parse(this.stringify());
   }
 
   /**
@@ -163,16 +172,27 @@ export default class BrowserSprite extends Sprite {
     this.node.parentNode.removeChild(this.node);
   }
 
-  destroy() {
-    const { config, symbols, _emitter } = this;
-
-    symbols.forEach(s => s.destroy());
-
-    _emitter.off('*');
-    window.removeEventListener(config.locationChangeEvent, this._handleLocationChange);
-
-    if (this.isMounted) {
-      this.unmount();
+  /**
+   * Update URLs in sprite and usage elements
+   * @param {string} oldUrl
+   * @param {string} newUrl
+   * @return {boolean} `true` - URLs was updated, `false` - sprite is not mounted
+   */
+  updateUrls(oldUrl, newUrl) {
+    if (!this.isMounted) {
+      return false;
     }
+
+    const usages = document.querySelectorAll(this.config.usagesToUpdate);
+
+    updateUrls(
+      this.node,
+      usages,
+      `${getUrlWithoutFragment(oldUrl)}#`,
+      `${getUrlWithoutFragment(newUrl)}#`
+    );
+
+    return true;
   }
+
 }
