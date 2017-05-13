@@ -12,9 +12,9 @@ export default class Sprite {
   }
 
   /**
-   * TODO return add | replace instead of symbol instance
+   * Add new symbol. If symbol with the same id exists it will be replaced.
    * @param {SpriteSymbol} symbol
-   * @return {SpriteSymbol}
+   * @return {boolean} `true` - symbol was added, `false` - replaced
    */
   add(symbol) {
     const { symbols } = this;
@@ -22,16 +22,17 @@ export default class Sprite {
 
     if (existing) {
       symbols[symbols.indexOf(existing)] = symbol;
-      return symbol;
+      return false;
     }
 
     symbols.push(symbol);
-    return symbol;
+    return true;
   }
 
   /**
-   * Remove from list & destroy symbol
+   * Remove symbol & destroy it
    * @param {string} id
+   * @return {boolean} `true` - symbol was found & successfully destroyed, `false` - otherwise
    */
   remove(id) {
     const { symbols } = this;
@@ -40,7 +41,10 @@ export default class Sprite {
     if (symbol) {
       symbols.splice(symbols.indexOf(symbol), 1);
       symbol.destroy();
+      return true;
     }
+
+    return false;
   }
 
   /**
@@ -73,5 +77,9 @@ export default class Sprite {
    */
   toString() {
     return this.stringify();
+  }
+
+  destroy() {
+    this.symbols.forEach(s => s.destroy());
   }
 }

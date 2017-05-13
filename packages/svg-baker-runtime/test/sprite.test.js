@@ -1,51 +1,53 @@
 import Sprite from '../src/sprite';
 import SpriteSymbol from '../src/symbol';
 
+const symbolsFixtures = require('./fixtures/data.json');
+
+const fixture = symbolsFixtures[0];
+
 describe('svg-baker-runtime/sprite', () => {
   let sprite;
   let symbol;
-  let fixture;
 
   beforeEach(() => {
-    fixture = {
-      id: 'foo',
-      viewBox: '0 0 10 10',
-      content: '<symbol id="foo"></symbol>'
-    };
     sprite = new Sprite();
     symbol = new SpriteSymbol(fixture);
   });
 
   describe('add()', () => {
-    it('should return symbol', () => {
-      sprite.add(symbol).should.equal(symbol);
-    });
+    it('should add symbols, should return `true` if new symbol was added, `false` otherwise', () => {
+      const symbol2 = new SpriteSymbol(fixture);
+      const symbol3 = new SpriteSymbol(fixture);
+      symbol3.id = `${sprite.id}_foo`;
 
-    it('should replace symbol with same id', () => {
-      sprite.add(symbol).should.be.equal(symbol);
-      sprite.add(symbol).should.be.equal(symbol);
-
+      sprite.add(symbol).should.be.true;
       sprite.symbols.should.be.lengthOf(1);
-      sprite.symbols[0].should.be.equal(symbol);
-
-      const newSymbol = new SpriteSymbol({ id: fixture.id, content: 'olalal' });
-      sprite.add(newSymbol);
-
+      sprite.add(symbol2).should.be.false;
       sprite.symbols.should.be.lengthOf(1);
-      sprite.symbols[0].should.be.equal(newSymbol);
+      sprite.add(symbol3).should.be.true;
+      sprite.symbols.should.be.lengthOf(2);
     });
   });
 
   describe('remove()', () => {
-    it('should remove symbol from list and call it `destroy` method', () => {
+    it('should remove symbol from storage and call it `destroy` method, `true` is returned', () => {
       const destroy = sinon.spy(symbol, 'destroy');
 
       sprite.add(symbol);
-      sprite.remove(fixture.id);
+      const result = sprite.remove(symbol.id);
 
+      result.should.be.true;
       sprite.symbols.should.be.lengthOf(0);
       destroy.should.have.been.calledOnce;
       destroy.restore();
+    });
+
+    it('should return `false` if symbol not found', () => {
+      sprite.add(symbol);
+      const result = sprite.remove(`${symbol.id}__qwe`);
+
+      result.should.be.false;
+      sprite.symbols.should.be.lengthOf(1);
     });
   });
 
