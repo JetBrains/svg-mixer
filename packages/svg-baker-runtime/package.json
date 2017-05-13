@@ -47,7 +47,7 @@
     "webpack": "2.4.1"
   },
   "scripts": {
-    "build": "./build.sh",
+    "build": "node scripts/build-runtime",
     "generate-test-data": "node scripts/generate-test-data",
     "test": "karma start"
   }
