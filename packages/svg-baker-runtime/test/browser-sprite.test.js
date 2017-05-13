@@ -30,7 +30,7 @@ describe('svg-baker-runtime/browser-sprite', () => {
 
       sprite.config.should.have.property('attrs');
       sprite.config.should.have.property('qwe');
-      sprite.node.should.be.false;
+      expect(sprite.node).to.be.null;
       sprite.isMounted.should.be.false;
     });
 
