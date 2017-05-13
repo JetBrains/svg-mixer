@@ -9,7 +9,10 @@ const defaultConfig = {
     [svg.name]: svg.uri,
     [xlink.name]: xlink.uri
   },
-  css: 'use {display: none;} use:target {display: inline;}',
+  css: `
+    .sprite-symbol-usage {display: none;}
+    .sprite-symbol-usage:target {display: inline;}
+  `,
   symbols: []
 };
 
@@ -18,7 +21,7 @@ const defaultConfig = {
  * @param {Object} [config] {@see defaultConfig}
  * @return {Function} PostHTML plugin
  */
-function spritePlugin(config = {}) {
+function createSprite(config = {}) {
   const cfg = merge(defaultConfig, config);
   const symbols = cfg.symbols;
   const trees = symbols.map(s => s.tree);
@@ -27,7 +30,11 @@ function spritePlugin(config = {}) {
     const { id, useId } = symbol;
     return {
       tag: 'use',
-      attrs: { id: useId, 'xlink:href': `#${id}` }
+      attrs: {
+        id: useId,
+        'xlink:href': `#${id}`,
+        class: 'sprite-symbol-usage'
+      }
     };
   });
 
@@ -54,7 +61,7 @@ function spritePlugin(config = {}) {
  */
 function spriteFactory(options) {
   const plugins = [
-    spritePlugin(options),
+    createSprite(options),
     extractNamespacesToRoot(),
     moveFromSymbolToRoot()
   ];
@@ -62,4 +69,4 @@ function spriteFactory(options) {
 }
 
 module.exports = spriteFactory;
-module.exports.spritePlugin = spritePlugin;
+module.exports.createSprite = createSprite;
