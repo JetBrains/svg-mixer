@@ -1,6 +1,13 @@
 import { parse, wrapInSvgString, arrayFrom } from '../src/utils';
 
 /**
+ * @param {Element} node
+ */
+export function remove(node) {
+  node.parentNode.removeChild(node);
+}
+
+/**
  * @param {string} href
  * @return {Element}
  */
@@ -16,7 +23,7 @@ export function createBaseTag(href) {
 
 export function removeBaseTag() {
   const baseTag = document.querySelector('base');
-  baseTag.parentNode.removeChild(baseTag);
+  remove(baseTag);
 }
 
 /**
