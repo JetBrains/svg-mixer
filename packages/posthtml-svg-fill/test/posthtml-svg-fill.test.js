@@ -1,4 +1,3 @@
-/* global utils */
 const { deepStrictEqual } = require('assert');
 const plugin = require('../');
 

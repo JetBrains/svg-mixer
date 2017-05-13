@@ -1,4 +1,3 @@
-/* global utils */
 const plugin = require('../../lib/transformations/normalize-viewbox');
 
 const t = utils.setupPluginTest(plugin);

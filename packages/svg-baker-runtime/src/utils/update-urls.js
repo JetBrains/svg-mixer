@@ -5,6 +5,7 @@ import arrayFrom from './array-from';
 const xLinkNS = namespaces.xlink.uri;
 const xLinkAttrName = 'xlink:href';
 
+// eslint-disable-next-line no-useless-escape
 const specialUrlCharsPattern = /[(){}|\\\^~\[\]`"<>]/g;
 
 function encoder(url) {

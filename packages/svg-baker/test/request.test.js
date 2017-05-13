@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-expressions */
 const Request = require('../lib/request');
 
 const f = 'qwe';

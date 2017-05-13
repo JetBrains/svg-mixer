@@ -11,5 +11,9 @@
   ],
   "dependencies": {
     "merge-options": "0.0.64"
+  },
+  "scripts": {
+    "lint": "eslint lib test",
+    "test": "nyc --reporter=lcov mocha -r ../../test/mocha-setup.js"
   }
 }

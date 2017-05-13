@@ -1,4 +1,3 @@
-/* global utils */
 const plugin = require('../');
 
 const t = utils.setupPluginTest(plugin);
@@ -44,6 +43,7 @@ describe('posthtml-rename-id', () => {
   it('should modify any attribute uri which contains `url(#id)`', () => t(
     pattern,
     '<svg><linearGradient id="gradient"><stop stop-color="red" /></linearGradient><path fill="url(#gradient)" /></svg>',
+    // eslint-disable-next-line max-len
     '<svg><linearGradient id="test_gradient"><stop stop-color="red" /></linearGradient><path fill="url(#test_gradient)" /></svg>'
   ));
 
@@ -80,6 +80,7 @@ describe('posthtml-rename-id', () => {
   it('should modify style declarations in `style` tag', () => t(
     pattern,
     '<svg><defs><style>.a {fill: url(#ref);}</style></defs><path id="ref" /><path fill="url(#ref)" /></svg>',
+    // eslint-disable-next-line max-len
     '<svg><defs><style>.a {fill: url(#test_ref);}</style></defs><path id="test_ref" /><path fill="url(#test_ref)" /></svg>'
   ));
 

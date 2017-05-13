@@ -3,7 +3,7 @@ language: node_js
 node_js:
  - "7.6"
 
-script: yarn install && yarn test:coverage
+script: yarn install && yarn verify
 
 env:
   global:

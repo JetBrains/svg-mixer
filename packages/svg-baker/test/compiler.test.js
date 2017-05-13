@@ -29,5 +29,4 @@ describe('svg-baker/compiler', () => {
     it('should affect each symbol added early with the same request', async () => {
     });
   });
-
 });

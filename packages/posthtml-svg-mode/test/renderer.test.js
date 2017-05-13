@@ -1,4 +1,3 @@
-/* global utils */
 const t = utils.setupPluginTest();
 
 describe('posthtml-svg-mode/renderer', () => {

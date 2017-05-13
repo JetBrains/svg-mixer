@@ -14,5 +14,9 @@
     "posthtml": "^0.9.2",
     "posthtml-parser": "^0.2.1",
     "posthtml-render": "^1.0.6"
+  },
+  "scripts": {
+    "lint": "eslint lib test",
+    "test": "nyc --reporter=lcov mocha -r ../../test/mocha-setup.js"
   }
 }

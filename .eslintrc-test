@@ -6,7 +6,8 @@
   "globals": {
     "expect": false,
     "sinon": false,
-    "should": false
+    "should": false,
+    "utils": true
   },
   "plugins": [
     "bdd"
