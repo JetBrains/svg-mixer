@@ -39,7 +39,6 @@ describe('svg-baker-runtime/sprite', () => {
       result.should.be.true;
       sprite.symbols.should.be.lengthOf(0);
       destroy.should.have.been.calledOnce;
-      destroy.restore();
     });
 
     it('should return `false` if symbol not found', () => {
@@ -74,8 +73,6 @@ describe('svg-baker-runtime/sprite', () => {
       sprite.add(symbol);
       sprite.stringify().should.be.a('string');
       stringify.should.have.been.calledOnce;
-
-      stringify.restore();
     });
   });
 });
