@@ -22,9 +22,12 @@ This project contain multiple packages which managed by [Lerna](https://github.c
 - [posthtml-rename-id](packages/posthtml-rename-id) - posthtml plugin to rename id & references.
 - [posthtml-svg-fill](packages/posthtml-svg-fill) - posthtml plugin to repaint SVG shapes.
 
+## Installation
+
+Just `npm install` or `yarn install`.
+
 ## Scripts
 
-- `yarn bootstrap` - init project (install all dependencies and link packages).
 - `yarn test` - run mocha in every package.
 - `yarn coverage` - collect coverage info.
 
