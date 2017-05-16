@@ -40,17 +40,21 @@ function plugin(pattern) {
     });
 
     tree.match({ tag: /.*/ }, (node) => {
-      const { attrs, content } = node;
-      const isStyleTag = node.tag === 'style' && Array.isArray(content) && content.length === 1;
+      const { attrs } = node;
 
-      if (isStyleTag) {
-        let match;
-        while ((match = URL_PATTERN.exec(content[0])) !== null) {
+      if (node.tag === 'style') {
+        while (true) {
+          const content = Array.isArray(node.content) ? node.content.join('') : node.content.toString();
+          const match = URL_PATTERN.exec(content);
+          if (match === null) {
+            break;
+          }
+
           const id = match[1];
           if (mappedIds[id]) {
             mappedIds[id].referenced = true;
             const re = new RegExp(escapeForRegexp(match[0]), 'g');
-            content[0] = content[0].replace(re, `url(#${mappedIds[id].id})`);
+            node.content = content.replace(re, `url(#${mappedIds[id].id})`);
           }
         }
       }
