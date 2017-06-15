@@ -27,6 +27,9 @@ function svgToSymbol(config = null) {
       root.attrs.id = cfg.id;
     }
 
+    // Remove all elements and add symbol node
+    tree.splice(0, tree.length, root);
+
     return tree;
   };
 }
