@@ -2,7 +2,7 @@ const { getRoot } = require('../utils');
 
 const defaultConfig = {
   id: '',
-  preserve: ['viewBox', 'preserveAspectRatio', 'class', 'overflow']
+  preserve: ['viewBox', 'preserveAspectRatio', 'class']
 };
 
 /**
