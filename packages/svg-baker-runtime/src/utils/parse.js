@@ -1,10 +1,9 @@
-const hasImportNode = !!document.importNode;
-
 /**
  * @param {string} content
  * @return {Element}
  */
 export default function (content) {
+  const hasImportNode = !!document.importNode;
   const doc = new DOMParser().parseFromString(content, 'image/svg+xml').documentElement;
 
   /**
