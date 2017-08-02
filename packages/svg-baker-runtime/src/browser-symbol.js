@@ -1,6 +1,10 @@
 import SpriteSymbol from './symbol';
-import parse from './utils/parse';
-import wrapInSvgString from './utils/wrap-in-svg-string';
+import {
+  parse,
+  wrapInSvgString,
+  moveGradientsOutsideSymbol,
+  browserDetector as browser
+} from './utils';
 
 export default class BrowserSpriteSymbol extends SpriteSymbol {
   get isMounted() {
@@ -28,6 +32,11 @@ export default class BrowserSpriteSymbol extends SpriteSymbol {
     this.node = node;
 
     mountTarget.appendChild(node);
+
+    // TODO cache moved nodes somewhere and cleanup on destroy()
+    if (browser.isFirefox) {
+      moveGradientsOutsideSymbol(mountTarget);
+    }
 
     return node;
   }
