@@ -6,11 +6,8 @@ import dispatchEvent from './dispatch-custom-event';
  */
 export default function (eventName) {
   angular.module('ng').run(['$rootScope', ($rootScope) => {
-    $rootScope.$on('$locationChangeSuccess', (e, newUrl) => {
-      dispatchEvent(eventName, {
-        oldURL: window.location.href,
-        newUrl
-      });
+    $rootScope.$on('$locationChangeSuccess', (e, newUrl, oldUrl) => {
+      dispatchEvent(eventName, { oldUrl, newUrl });
     });
   }]);
 }
