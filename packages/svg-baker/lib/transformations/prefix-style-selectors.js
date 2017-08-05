@@ -1,3 +1,5 @@
+const Promise = require('bluebird');
+const decodeEntities = require('he').decode;
 const postcss = require('postcss');
 const prefixSelectors = require('postcss-prefix-selector');
 
@@ -6,14 +8,21 @@ const prefixSelectors = require('postcss-prefix-selector');
  */
 function prefixStyleSelectors(prefix) {
   return (tree) => {
-    tree.match({ tag: 'style' }, (node) => {
-      const styles = node.content;
-      node.content = postcss().use(prefixSelectors({ prefix })).process(styles).css;
+    const styleNodes = [];
 
+    tree.match({ tag: 'style' }, (node) => {
+      styleNodes.push(node);
       return node;
     });
 
-    return tree;
+    return Promise.map(styleNodes, (node) => {
+      const content = decodeEntities(node.content.join(''));
+
+      return postcss()
+        .use(prefixSelectors({ prefix }))
+        .process(content)
+        .then(prefixedStyles => node.content = prefixedStyles);
+    }).then(() => tree);
   };
 }
 
