@@ -16,7 +16,7 @@ function prefixStyleSelectors(prefix) {
     });
 
     return Promise.map(styleNodes, (node) => {
-      const content = decodeEntities(node.content.join(''));
+      const content = node.content ? decodeEntities(node.content.join('')) : '';
 
       return postcss()
         .use(prefixSelectors({ prefix }))
