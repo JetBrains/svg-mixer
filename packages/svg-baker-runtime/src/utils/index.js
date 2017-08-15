@@ -1,6 +1,7 @@
 export { default as arrayFrom } from './array-from';
 export { default as browserDetector } from './browser-detector';
 export { default as dispatchCustomEvent } from './dispatch-custom-event';
+export { default as evalStylesIEWorkaround } from './eval-styles-ie-workaround';
 export { default as getUrlWithoutFragment } from './get-url-without-fragment';
 export { default as locationChangeAngularEmitter } from './location-change-angular-emitter';
 export { default as moveGradientsOutsideSymbol } from './move-gradients-outside-symbol';
