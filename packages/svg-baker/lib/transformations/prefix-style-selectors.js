@@ -21,7 +21,7 @@ function prefixStyleSelectors(prefix) {
       return postcss()
         .use(prefixSelectors({ prefix }))
         .process(content)
-        .then(prefixedStyles => node.content = prefixedStyles);
+        .then(prefixedStyles => node.content = prefixedStyles.css);
     }).then(() => tree);
   };
 }
