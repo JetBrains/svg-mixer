@@ -1,14 +1,17 @@
 import merge from 'deepmerge';
 import Emitter from 'mitt';
 import Sprite from './sprite';
+import BrowserSymbol from './browser-symbol';
 import defaultConfig from './browser-sprite.config';
 import {
+  arrayFrom,
   parse,
   moveGradientsOutsideSymbol,
   browserDetector as browser,
   getUrlWithoutFragment,
   updateUrls,
-  locationChangeAngularEmitter
+  locationChangeAngularEmitter,
+  evalStylesIEWorkaround
 } from './utils';
 
 /**
@@ -17,7 +20,8 @@ import {
  * @private
  */
 const Events = {
-  MOUNT: 'mount'
+  MOUNT: 'mount',
+  SYMBOL_MOUNT: 'symbol_mount'
 };
 
 export default class BrowserSprite extends Sprite {
@@ -52,11 +56,23 @@ export default class BrowserSprite extends Sprite {
       locationChangeAngularEmitter(config.locationChangeEvent);
     }
 
-    if (config.moveGradientsOutsideSymbol) {
-      emitter.on(Events.MOUNT, (node) => {
-        moveGradientsOutsideSymbol(node);
-      });
-    }
+    // After sprite mounted
+    emitter.on(Events.MOUNT, (spriteNode) => {
+      if (config.moveGradientsOutsideSymbol) {
+        moveGradientsOutsideSymbol(spriteNode);
+      }
+    });
+
+    // After symbol mounted into sprite
+    emitter.on(Events.SYMBOL_MOUNT, (symbolNode) => {
+      if (config.moveGradientsOutsideSymbol) {
+        moveGradientsOutsideSymbol(symbolNode.parentNode);
+      }
+
+      if (browser.isIE) {
+        evalStylesIEWorkaround(symbolNode);
+      }
+    });
   }
 
   /**
@@ -105,17 +121,47 @@ export default class BrowserSprite extends Sprite {
   /**
    * Add new symbol. If symbol with the same id exists it will be replaced.
    * If sprite already mounted - `symbol.mount(sprite.node)` will be called.
+   * @fires Events#SYMBOL_MOUNT
    * @param {BrowserSpriteSymbol} symbol
    * @return {boolean} `true` - symbol was added, `false` - replaced
    */
   add(symbol) {
+    const sprite = this;
     const isNewSymbol = super.add(symbol);
 
     if (this.isMounted && isNewSymbol) {
-      symbol.mount(this.node);
+      symbol.mount(sprite.node);
+      this._emitter.emit(Events.SYMBOL_MOUNT, symbol.node);
     }
 
     return isNewSymbol;
+  }
+
+  /**
+   * Attach to existing DOM node
+   * @param {string|Element} target
+   * @return {Element|null} attached DOM Element. null if node to attach not found.
+   */
+  attach(target) {
+    const sprite = this;
+
+    if (sprite.isMounted) {
+      return sprite.node;
+    }
+
+    /** @type Element */
+    const node = typeof target === 'string' ? document.querySelector(target) : target;
+
+    arrayFrom(node.querySelectorAll('symbol'))
+      .forEach((symbolNode) => {
+        const symbol = BrowserSymbol.createFromExistingNode(symbolNode);
+        symbol.node = symbolNode;
+        sprite.add(symbol);
+      });
+
+    sprite.node = node;
+
+    return node;
   }
 
   destroy() {
@@ -132,27 +178,28 @@ export default class BrowserSprite extends Sprite {
   }
 
   /**
-   * @param {Element|string} [target]
-   * @param {boolean} [prepend=false]
-   * @return {Element} rendered sprite node
    * @fires Events#MOUNT
+   * @param {string|Element} [target]
+   * @param {boolean} [prepend=false]
+   * @return {Element|null} rendered sprite node. null if mount node not found.
    */
-  mount(target, prepend = false) {
-    if (this.isMounted) {
-      return this.node;
+  mount(target = this.config.mountTo, prepend = false) {
+    const sprite = this;
+
+    if (sprite.isMounted) {
+      return sprite.node;
     }
 
-    const mountTarget = target || this.config.mountTo;
-    const parent = typeof mountTarget === 'string' ? document.querySelector(mountTarget) : mountTarget;
-    const node = this.render();
-
-    if (prepend && parent.childNodes[0]) {
-      parent.insertBefore(node, parent.childNodes[0]);
-    } else {
-      parent.appendChild(node);
-    }
-
+    const mountNode = typeof target === 'string' ? document.querySelector(target) : target;
+    const node = sprite.render();
     this.node = node;
+
+    if (prepend && mountNode.childNodes[0]) {
+      mountNode.insertBefore(node, mountNode.childNodes[0]);
+    } else {
+      mountNode.appendChild(node);
+    }
+
     this._emitter.emit(Events.MOUNT, node);
 
     return node;
