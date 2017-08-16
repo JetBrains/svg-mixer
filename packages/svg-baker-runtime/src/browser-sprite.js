@@ -151,15 +151,23 @@ export default class BrowserSprite extends Sprite {
 
     /** @type Element */
     const node = typeof target === 'string' ? document.querySelector(target) : target;
+    sprite.node = node;
 
+    // Already added symbols needs to be mounted
+    this.symbols.forEach((symbol) => {
+      symbol.mount(sprite.node);
+      this._emitter.emit(Events.SYMBOL_MOUNT, symbol.node);
+    });
+
+    // Create symbols from existing DOM nodes, add and mount them
     arrayFrom(node.querySelectorAll('symbol'))
       .forEach((symbolNode) => {
         const symbol = BrowserSymbol.createFromExistingNode(symbolNode);
-        symbol.node = symbolNode;
+        symbol.node = symbolNode; // hack to prevent symbol mounting to sprite when adding
         sprite.add(symbol);
       });
 
-    sprite.node = node;
+    this._emitter.emit(Events.MOUNT, node);
 
     return node;
   }
