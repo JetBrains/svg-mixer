@@ -69,7 +69,7 @@ export default class BrowserSprite extends Sprite {
         moveGradientsOutsideSymbol(symbolNode.parentNode);
       }
 
-      if (browser.isIE) {
+      if (browser.isIE || browser.isEdge) {
         evalStylesIEWorkaround(symbolNode);
       }
     });
