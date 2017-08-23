@@ -13,7 +13,7 @@ class Rule {
    * @return {boolean}
    */
   match(value) {
-    return this.test(value);
+    return this.test.test(value);
   }
 }
 
