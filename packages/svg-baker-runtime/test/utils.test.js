@@ -161,7 +161,7 @@ describe('svg-baker-runtime/utils', () => {
 
     it('should handle special chars properly', () => {
       const input = '<linearGradient id="id"></linearGradient><path fill="url(#id)" style="fill:url(#id);"></path><use xlink:href="#id"></use>';
-      const expected = '<linearGradient id="id"></linearGradient><path fill="url(inbox/33%28popup:compose%29#id)" style="fill:url(inbox/33%28popup:compose%29#id);"></path><use xlink:href="inbox/33%28popup:compose%29#id"></use>';
+      const expected = '<linearGradient id="id"></linearGradient><path fill="url(inbox/33(popup:compose)?q=123%7B%7D#id)" style="fill:url(inbox/33(popup:compose)?q=123%7B%7D#id);"></path><use xlink:href="inbox/33(popup:compose)?q=123%7B%7D#id"></use>';
       const doc = wrapInSvgAndParse(input);
 
       test({
@@ -170,7 +170,7 @@ describe('svg-baker-runtime/utils', () => {
         args: [
           doc.querySelectorAll('use'),
           '#',
-          'inbox/33(popup:compose)#'
+          'inbox/33(popup:compose)?q=123{}#'
         ]
       });
     });
