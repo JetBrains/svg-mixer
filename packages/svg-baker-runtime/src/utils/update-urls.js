@@ -6,7 +6,7 @@ const xLinkNS = namespaces.xlink.uri;
 const xLinkAttrName = 'xlink:href';
 
 // eslint-disable-next-line no-useless-escape
-const specialUrlCharsPattern = /[(){}|\\\^~\[\]`"<>]/g;
+const specialUrlCharsPattern = /[{}|\\\^\[\]`"<>]/g;
 
 function encoder(url) {
   return url.replace(specialUrlCharsPattern, (match) => {
