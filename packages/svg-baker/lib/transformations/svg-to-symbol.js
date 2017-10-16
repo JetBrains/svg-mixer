@@ -1,3 +1,5 @@
+const micromatch = require('micromatch');
+
 const { getRoot } = require('../utils');
 
 const defaultConfig = {
@@ -7,8 +9,8 @@ const defaultConfig = {
     'preserveAspectRatio',
     'class',
     'overflow',
-    'stroke',
-    'fill'
+    'stroke?(-*)',
+    'fill?(-*)'
   ]
 };
 
@@ -24,9 +26,12 @@ function svgToSymbol(config = null) {
     root.tag = 'symbol';
     root.attrs = root.attrs || {};
 
-    Object.keys(root.attrs).forEach((attr) => {
-      if (!cfg.preserve.includes(attr)) {
-        delete root.attrs[attr];
+    const attrNames = Object.keys(root.attrs);
+    const attrNamesToPreserve = micromatch(attrNames, cfg.preserve);
+
+    attrNames.forEach((name) => {
+      if (!attrNamesToPreserve.includes(name)) {
+        delete root.attrs[name];
       }
     });
 
