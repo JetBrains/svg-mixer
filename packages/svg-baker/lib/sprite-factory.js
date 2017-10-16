@@ -9,10 +9,11 @@ const defaultConfig = {
     [svg.name]: svg.uri,
     [xlink.name]: xlink.uri
   },
-  css: `
+  styles: `
     .sprite-symbol-usage {display: none;}
     .sprite-symbol-usage:target {display: inline;}
   `,
+  usages: true,
   symbols: []
 };
 
@@ -25,18 +26,32 @@ function createSprite(config = {}) {
   const cfg = merge(defaultConfig, config);
   const symbols = cfg.symbols;
   const trees = symbols.map(s => s.tree);
+  let usages = [];
 
-  const usages = symbols.map((symbol) => {
-    const { id, useId } = symbol;
-    return {
-      tag: 'use',
-      attrs: {
-        id: useId,
-        'xlink:href': `#${id}`,
-        class: 'sprite-symbol-usage'
-      }
-    };
-  });
+  if (cfg.usages) {
+    usages = symbols.map((symbol) => {
+      const { id, useId } = symbol;
+      return {
+        tag: 'use',
+        attrs: {
+          id: useId,
+          'xlink:href': `#${id}`,
+          class: 'sprite-symbol-usage'
+        }
+      };
+    });
+  }
+
+  let defsContent = [];
+
+  if (cfg.styles !== false) {
+    defsContent.push({
+      tag: 'style',
+      content: cfg.styles
+    });
+  }
+
+  defsContent = defsContent.concat(trees);
 
   return (tree) => {
     tree[0] = {
@@ -44,10 +59,7 @@ function createSprite(config = {}) {
       attrs: cfg.attrs,
       content: [{
         tag: 'defs',
-        content: [{
-          tag: 'style',
-          content: cfg.css
-        }].concat(trees)
+        content: defsContent
       }].concat(usages)
     };
 
