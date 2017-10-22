@@ -1,6 +1,6 @@
 {
   "name": "posthtml-svg-mode",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "",
   "license": "MIT",
   "repository": "https://github.com/kisenka/svg-baker/packages/posthtml-svg-mode",
