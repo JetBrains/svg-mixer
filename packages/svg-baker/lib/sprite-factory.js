@@ -24,7 +24,18 @@ const defaultConfig = {
  */
 function createSprite(config = {}) {
   const cfg = merge(defaultConfig, config);
-  const symbols = cfg.symbols;
+  const symbols = [].concat(cfg.symbols);
+
+  symbols.sort((leftSymbol, rightSymbol) => {
+    const leftId = leftSymbol.id;
+    const rightId = rightSymbol.id;
+
+    if (leftId === rightId) {
+      return 0;
+    }
+    return leftId < rightId ? -1 : 1;
+  });
+
   const trees = symbols.map(s => s.tree);
   let usages = [];
 
