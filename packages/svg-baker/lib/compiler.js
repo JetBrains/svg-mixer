@@ -16,6 +16,20 @@ const defaultConfig = {
 };
 
 class Compiler {
+  static sortSymbols(symbols) {
+    symbols.sort((leftSymbol, rightSymbol) => {
+      const leftId = leftSymbol.id;
+      const rightId = rightSymbol.id;
+
+      if (leftId === rightId) {
+        return 0;
+      }
+      return leftId < rightId ? -1 : 1;
+    });
+
+    return symbols;
+  }
+
   constructor(cfg = {}) {
     const config = this.config = merge(defaultConfig, cfg);
     this.rules = new RuleSet(config.rules);
@@ -43,10 +57,12 @@ class Compiler {
     return SpriteSymbol.create(options).then((newSymbol) => {
       if (!existing) {
         symbols.push(newSymbol);
+        Compiler.sortSymbols(symbols);
         return newSymbol;
       }
 
       symbols[existingIndex] = newSymbol;
+      Compiler.sortSymbols(symbols);
 
       return Promise.map(allExceptCurrent, ({ symbol, index }) => {
         const opts = { id: symbol.id, request: symbol.request, content, factory };
