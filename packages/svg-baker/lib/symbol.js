@@ -2,11 +2,12 @@ const { renderer } = require('posthtml-svg-mode');
 const { getRoot, getHash } = require('./utils');
 const defaultFactory = require('./symbol-factory');
 const FileRequest = require('./request');
+const clone = require('clone');
 
 class SpriteSymbol {
   constructor({ id, tree, request }) {
     this.id = id;
-    this.tree = tree;
+    this._tree = tree;
     this.request = request;
   }
 
@@ -33,6 +34,10 @@ class SpriteSymbol {
   get viewBox() {
     const root = getRoot(this.tree);
     return root.attrs ? root.attrs.viewBox : null;
+  }
+
+  get tree() {
+    return clone(this._tree);
   }
 
   /**
