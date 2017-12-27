@@ -13,7 +13,7 @@ Node.js library for creating and manipulating SVG sprites. Build on top of [post
 
 ## Introduction
 
-This project contain multiple packages which managed by [Lerna](https://github.com/lerna/lerna).
+This project contains multiple packages which are managed by [Lerna](https://github.com/lerna/lerna).
 
 - [svg-baker](packages/svg-baker) - SVG Baker core.
 - [svg-baker-runtime](packages/svg-baker-runtime) - SVG Baker JS runtime for working with generated symbols in 
