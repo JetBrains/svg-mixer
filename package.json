@@ -1,4 +1,6 @@
 {
+  "name": "svg-baker-packages",
+  "version": "1.2.18-patch.1",
   "private": true,
   "license": "MIT",
   "repository": "kisenka/svg-baker",
@@ -7,6 +9,10 @@
       "path": "./node_modules/cz-lerna-changelog"
     }
   },
+  "npmClient": "yarn",
+  "workpaces": [
+    "packages/*"
+  ],
   "devDependencies": {
     "chai": "3.5.0",
     "commitizen": "2.9.6",
@@ -30,7 +36,6 @@
     "commitmsg": "validate-commit-msg",
     "lerna": "lerna",
     "lint": "lerna exec --concurrency 1 -- yarn lint",
-    "postinstall": "lerna bootstrap",
     "release": "lerna-semantic-release pre && lerna-semantic-release post && lerna-semantic-release perform",
     "release:dry-run": "lerna-semantic-release pre && lerna-semantic-release post",
     "test": "lerna exec --concurrency 1 -- yarn test",
