@@ -1,5 +1,5 @@
 const { deepStrictEqual } = require('assert');
-const plugin = require('../');
+const plugin = require('.');
 
 const t = utils.setupPluginTest(plugin);
 

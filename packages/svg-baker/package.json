@@ -28,6 +28,6 @@
     "traverse": "^0.6.6"
   },
   "scripts": {
-    "test": "nyc --reporter=lcov mocha -r ../../test/mocha-setup.js"
+    "test": "mocha -r ../../test/mocha-setup.js"
   }
 }

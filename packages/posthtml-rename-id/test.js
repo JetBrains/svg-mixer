@@ -1,4 +1,4 @@
-const plugin = require('../');
+const plugin = require('.');
 
 const t = utils.setupPluginTest(plugin);
 const pattern = 'test_[id]';

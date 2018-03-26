@@ -6,8 +6,7 @@
   "repository": "https://github.com/kisenka/svg-baker/packages/posthtml-svg-mode",
   "main": "lib/processor.js",
   "files": [
-    "lib/",
-    "README.md"
+    "lib/"
   ],
   "dependencies": {
     "merge-options": "0.0.64",
@@ -16,6 +15,6 @@
     "posthtml-render": "^1.0.6"
   },
   "scripts": {
-    "test": "nyc --reporter=lcov mocha -r ../../test/mocha-setup.js"
+    "test": "mocha -r ../../test/mocha-setup.js"
   }
 }
