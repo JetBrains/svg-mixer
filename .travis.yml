@@ -1,13 +1,10 @@
 sudo: false
 language: node_js
 node_js:
- - "7.6"
+ - "9"
 
-script: yarn install && yarn verify
+script: yarn install && yarn bootstrap && yarn release
 
 env:
   global:
     - ISTANBUL_COVERAGE: yes
-
-after_success:
- - yarn upload-coverage

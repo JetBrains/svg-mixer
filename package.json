@@ -15,7 +15,6 @@
     "@commitlint/core": "6.1.3",
     "@kisenka/eslint-config": "1.0.1",
     "chai": "4.1.2",
-    "coveralls": "3.0.0",
     "eslint": "4.19.1",
     "husky": "0.14.3",
     "istanbul": "0.4.5",
@@ -28,7 +27,6 @@
     "commitmsg": "node scripts/lint-commit-msg",
     "lint": "lerna exec --concurrency 1 -- yarn lint",
     "release": "lerna publish --conventional-commits --npm-client=npm",
-    "test": "lerna exec --concurrency 1 -- yarn test",
-    "upload-coverage": "cat ./coverage/lcov.info | coveralls"
+    "test": "lerna exec --concurrency 1 -- yarn test"
   }
 }
