@@ -1,26 +1,20 @@
 {
-  "root": true,
   "extends": [
-    "airbnb-base"
+    "@kisenka/eslint-config"
   ],
   "env": {
-    "es6": true,
-    "browser": true
+    "node": true
   },
-  "globals": {
-    "require": true
-  },
-  "plugins": [
-    "import"
-  ],
-  "rules": {
-    "max-len": ["error", 120],
-    "no-unneeded-ternary": "error",
-    "arrow-body-style":  "off",
-    "no-return-assign": "off",
-    "no-param-reassign": "off",
-    "no-underscore-dangle": "off",
-    "comma-dangle": ["error", "never"],
-    "import/no-extraneous-dependencies": ["error", {"devDependencies": ["test/*.js", "**/*.test.js"]}]
-  }
+  "overrides": [
+    {
+      "files": [
+        "packages/svg-baker-runtime"
+      ],
+      "env": {
+        "node": false,
+        "es6": true,
+        "browser": true
+      }
+    }
+  ]
 }
