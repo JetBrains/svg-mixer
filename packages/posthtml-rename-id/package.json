@@ -11,6 +11,6 @@
     "escape-string-regexp": "1.0.5"
   },
   "scripts": {
-    "test": "mocha -r ../../test/mocha-setup.js"
+    "test": "mocha -r $MOCHA_SETUP_PATH"
   }
 }

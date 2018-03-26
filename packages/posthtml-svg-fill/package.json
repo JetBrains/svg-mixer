@@ -11,6 +11,6 @@
     "merge-options": "0.0.64"
   },
   "scripts": {
-    "test": "mocha -r ../../test/mocha-setup.js"
+    "test": "mocha -r $MOCHA_SETUP_PATH"
   }
 }
