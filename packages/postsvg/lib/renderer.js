@@ -1,5 +1,5 @@
-const merge = require('merge-options');
-const renderer = require('posthtml-render');
+const merge = require('deepmerge');
+const posthtmlRenderer = require('posthtml-render');
 const api = require('posthtml/lib/api');
 
 const defaultOptions = {
@@ -23,8 +23,8 @@ const defaultOptions = {
  * @param {PostHTMLTree} tree
  * @param {Object|null} [options] {@see https://github.com/posthtml/posthtml-render#options}
  */
-module.exports = function xmlRenderer(tree, options) {
-  const opts = merge(defaultOptions, options || {});
+function renderer(tree, options = {}) {
+  const opts = merge(defaultOptions, options);
 
   /**
    * Workaround for https://github.com/fb55/htmlparser2/issues/187
@@ -43,7 +43,8 @@ module.exports = function xmlRenderer(tree, options) {
     return !hasContent;
   });
 
-  return renderer(tree, opts);
-};
+  return posthtmlRenderer(tree, opts);
+}
 
+module.exports = renderer;
 module.exports.defaultOptions = defaultOptions;
