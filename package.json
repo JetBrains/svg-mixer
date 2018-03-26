@@ -25,7 +25,7 @@
   "scripts": {
     "bootstrap": "lerna bootstrap",
     "commitmsg": "node scripts/lint-commit-msg",
-    "lint": "lerna exec --concurrency 1 -- yarn lint",
+    "lint": "eslint packages scripts test",
     "release": "lerna publish --conventional-commits --npm-client=npm",
     "test": "lerna exec --concurrency 1 -- yarn test"
   }

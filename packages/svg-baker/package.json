@@ -28,7 +28,6 @@
     "traverse": "^0.6.6"
   },
   "scripts": {
-    "lint": "eslint lib test",
     "test": "nyc --reporter=lcov mocha -r ../../test/mocha-setup.js"
   }
 }

@@ -6,14 +6,12 @@
   "repository": "https://github.com/kisenka/svg-baker/packages/posthtml-rename-id",
   "main": "lib/posthtml-rename-id.js",
   "files": [
-    "lib/",
-    "README.md"
+    "lib/"
   ],
   "dependencies": {
     "escape-string-regexp": "1.0.5"
   },
   "scripts": {
-    "lint": "eslint lib test",
-    "test": "nyc --reporter=lcov mocha -r ../../test/mocha-setup.js"
+    "test": "mocha -r ../../test/mocha-setup.js"
   }
 }

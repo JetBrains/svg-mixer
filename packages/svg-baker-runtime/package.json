@@ -48,7 +48,6 @@
   },
   "scripts": {
     "build": "node scripts/build-runtime",
-    "lint": "eslint src test",
     "generate-test-data": "node scripts/generate-test-data",
     "test": "yarn build && karma start"
   }
