@@ -8,6 +8,18 @@
   "overrides": [
     {
       "files": [
+        "packages/*/test.js",
+        "packages/*/test/*.test.js"
+      ],
+      "env": {
+        "mocha": true
+      },
+      "globals": {
+        "utils": true
+      }
+    },
+    {
+      "files": [
         "packages/svg-baker-runtime"
       ],
       "env": {
