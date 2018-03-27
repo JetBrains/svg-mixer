@@ -2,3 +2,7 @@ sprite.js
 symbol.js
 browser-sprite.js
 browser-symbol.js
+!src/sprite.js
+!src/symbol.js
+!src/browser-sprite.js
+!src/browser-symbol.js
