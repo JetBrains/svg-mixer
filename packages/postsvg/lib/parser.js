@@ -14,7 +14,5 @@ const xmlParser = createParser({
 
 module.exports = function parser(input, opts) {
   const tree = xmlParser(input, opts);
-  let wrapper = new Tree();
-  wrapper = wrapper.concat(tree);
-  return wrapper;
+  return Tree.createFromArray(tree);
 };
