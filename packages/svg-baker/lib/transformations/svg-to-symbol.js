@@ -1,10 +1,9 @@
 const micromatch = require('micromatch');
-
-const { getRoot } = require('../utils');
+const merge = require('merge-options');
 
 const defaultConfig = {
-  id: undefined,
   preserve: [
+    'id',
     'viewBox',
     'preserveAspectRatio',
     'class',
@@ -18,18 +17,18 @@ const defaultConfig = {
  * @param {Object} [config] {@see defaultConfig}
  * @return {Function} PostHTML plugin
  */
-function svgToSymbol(config = null) {
-  const cfg = Object.assign({}, defaultConfig, config);
+module.exports = function svgToSymbol(config) {
+  const cfg = merge(defaultConfig, config);
 
-  return (tree) => {
-    const root = getRoot(tree);
+  return tree => {
+    const root = tree.root;
     root.tag = 'symbol';
     root.attrs = root.attrs || {};
 
     const attrNames = Object.keys(root.attrs);
     const attrNamesToPreserve = micromatch(attrNames, cfg.preserve);
 
-    attrNames.forEach((name) => {
+    attrNames.forEach(name => {
       if (!attrNamesToPreserve.includes(name)) {
         delete root.attrs[name];
       }
@@ -44,6 +43,4 @@ function svgToSymbol(config = null) {
 
     return tree;
   };
-}
-
-module.exports = svgToSymbol;
+};

@@ -1,15 +1,17 @@
+/* eslint-disable func-names */
+const merge = require('merge-options');
 const traverse = require('traverse');
 const clone = require('clone');
 
 // Fixes Firefox bug https://bugzilla.mozilla.org/show_bug.cgi?id=353575
 const defaultConfig = {
-  tags: ['linearGradient', 'radialGradient', 'pattern']
+  tags: ['linearGradient', 'radialGradient', 'pattern', 'filter']
 };
 
-function moveFromSymbolToRoot(config = null) {
-  const cfg = Object.assign({}, defaultConfig, config);
+module.exports = function moveNodesOutsideSymbol(config) {
+  const cfg = merge(defaultConfig, config);
 
-  return (tree) => {
+  return tree => {
     traverse(tree).forEach(function (node) {
       if (!this.isLeaf && node.tag && node.tag === 'symbol') {
         const symbol = this.parent.node;
@@ -24,7 +26,7 @@ function moveFromSymbolToRoot(config = null) {
           }
         });
 
-        nodesToRemove.forEach((item) => {
+        nodesToRemove.forEach(item => {
           const nodeIndex = item.parent.indexOf(item.node);
           item.parent.splice(nodeIndex, 1);
         });
@@ -33,6 +35,4 @@ function moveFromSymbolToRoot(config = null) {
 
     return tree;
   };
-}
-
-module.exports = moveFromSymbolToRoot;
+};
