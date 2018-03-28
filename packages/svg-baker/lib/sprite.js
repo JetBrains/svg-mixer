@@ -1,4 +1,5 @@
 const Promise = require('bluebird');
+const merge = require('merge-options');
 
 const AbstractSprite = require('./abstract-sprite');
 const {
@@ -8,31 +9,38 @@ const {
   createSprite
 } = require('./utils');
 
-const IMAGE_GAP = 10;
+const defaultConfig = {
+  gap: 10
+};
 
 class Sprite extends AbstractSprite {
+  constructor(config) {
+    super();
+    this.config = merge(defaultConfig, config);
+  }
+
   get width() {
     const { images } = this;
     return images.length ? Math.max(...images.map(img => img.width)) : 0;
   }
 
   get height() {
-    const { images } = this;
+    const { images, config } = this;
     const heights = arraySum(images.map(img => img.height));
     const gaps = images.length
-      ? (images.length - 1) * IMAGE_GAP
+      ? (images.length - 1) * config.gap
       : 0;
     return heights + gaps;
   }
 
   /**
-   * @param contentOrOpts {@see AbstractSprite.add}
+   * @param contentOrOpts {@see AbstractSprite.addFromFile}
    * @return {Promise<Image>}
    */
   addFromFile(contentOrOpts) {
-    const { images } = this;
+    const { images, config } = this;
     return super.addFromFile(contentOrOpts).then(img => {
-      const y = calculateImgTopPosition(img, images, IMAGE_GAP);
+      const y = calculateImgTopPosition(img, images, config.gap);
       img.coords = { x: 0, y };
       return img;
     });

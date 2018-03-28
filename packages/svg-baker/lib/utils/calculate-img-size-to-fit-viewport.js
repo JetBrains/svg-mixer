@@ -1,13 +1,15 @@
+/* eslint-disable func-names */
 /**
  * Calculate image size to fully fit in viewport. Returned value is percentage amount relative to sprite size.
- * @param {{width: number, height: number}} viewportSize
- * @param {{width: number, height: number}} imgSize
+ * @param {number} viewportWidth
+ * @param {number} viewportHeight
+ * @param {number} imgWidth
+ * @param {number} imgHeight
  * @return {{width: number, height: number}}
  */
-module.exports = function calculateImgSizeToFitViewport(viewportSize, imgSize) {
-  const widthRatio = viewportSize.width / imgSize.width;
-  const heightRatio = viewportSize.height / imgSize.height;
-  const width = widthRatio * 100;
-  const height = heightRatio * 100;
-  return { width, height };
+module.exports = function (viewportWidth, viewportHeight, imgWidth, imgHeight) {
+  return {
+    width: (viewportWidth / imgWidth) * 100,
+    height: (viewportHeight / imgHeight) * 100
+  };
 };

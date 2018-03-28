@@ -24,11 +24,11 @@ class AbstractSprite {
   }
 
   /**
-   * @param {string|{content: string, id: string}} contentOrOpts
+   * @param {Image|string|{content: string, id: string}} contentOrOpts
    * @return {Image}
    */
   add(contentOrOpts) {
-    const img = new Image(contentOrOpts);
+    const img = contentOrOpts instanceof Image ? contentOrOpts : new Image(contentOrOpts);
     this.images.push(img);
     return img;
   }
@@ -38,10 +38,7 @@ class AbstractSprite {
    * @return {Promise<Image>}
    */
   addFromFile(pathOrOpts) {
-    return createImageFromFile(pathOrOpts).then(img => {
-      this.images.push(img);
-      return img;
-    });
+    return createImageFromFile(pathOrOpts).then(img => this.add(img));
   }
 
   /**
