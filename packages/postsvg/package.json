@@ -8,6 +8,7 @@
     "lib"
   ],
   "dependencies": {
+    "clone": "^1.0.4",
     "deepmerge": "^2.1.0",
     "posthtml": "^0.11.3",
     "posthtml-parser": "^0.4.1",
