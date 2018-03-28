@@ -26,15 +26,14 @@ class PostSvgProcessor {
   }
 
   /**
-   * @param {string|Tree} ast
+   * @param {string|PostSvgTree} ast
    * @param {Object} options {@see https://github.com/posthtml/posthtml-render#options}
-   * @return {Promise<Result>}
+   * @return {Promise<PostSvgResult>}
    */
   process(ast, options = {}) {
     const opts = merge({ parser }, options);
-    return this.posthtml.process(ast, opts).then((res) => {
-      const tree = new Tree(res.tree);
-      return new Result(tree);
+    return this.posthtml.process(ast, opts).then(({ tree }) => {
+      return new Result(Tree.createFromArray(tree));
     });
   }
 }
