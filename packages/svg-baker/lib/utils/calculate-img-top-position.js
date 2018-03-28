@@ -10,8 +10,6 @@ const arraySum = require('./array-sum');
 module.exports = function calculateImgTopPos(image, images, gap = 0) {
   const portion = images.slice(0, images.indexOf(image));
   const heights = arraySum(portion.map(img => img.height));
-  const gaps = images.length
-    ? (images.length - 1) * gap
-    : 0;
+  const gaps = portion.length * gap;
   return heights + gaps;
 };
