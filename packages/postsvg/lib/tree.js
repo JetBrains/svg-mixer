@@ -1,16 +1,12 @@
 const renderer = require('./renderer');
 
-class Tree {
-  /**
-   * @param {Object} tree PostHTML tree
-   * @see https://github.com/posthtml/posthtml/blob/master/docs/tree.md#json
-   */
-  constructor(tree) {
-    this.tree = tree;
+class Tree extends Array {
+  get root() {
+    return this.find(node => typeof node === 'object' && 'tag' in node);
   }
 
   toString() {
-    return renderer(this.tree, this.tree.options);
+    return renderer(this, this.options);
   }
 }
 

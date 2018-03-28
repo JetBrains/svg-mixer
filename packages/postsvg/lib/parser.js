@@ -1,5 +1,7 @@
 const createParser = require('posthtml-parser');
 
+const Tree = require('./tree');
+
 /**
  * @see https://github.com/fb55/htmlparser2/wiki/Parser-options
  */
@@ -10,4 +12,9 @@ const xmlParser = createParser({
   lowerCaseAttributeNames: false
 });
 
-module.exports = xmlParser;
+module.exports = function parser(input, opts) {
+  const tree = xmlParser(input, opts);
+  let wrapper = new Tree();
+  wrapper = wrapper.concat(tree);
+  return wrapper;
+};
