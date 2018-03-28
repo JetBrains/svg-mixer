@@ -2,13 +2,13 @@ const clone = require('clone');
 
 const renderer = require('./renderer');
 
-class Tree extends Array {
+class PostSvgTree extends Array {
   /**
    * @param {Array} array
-   * @return {Tree}
+   * @return {PostSvgTree}
    */
   static createFromArray(array) {
-    let wrapper = new Tree();
+    let wrapper = new PostSvgTree();
     wrapper = wrapper.concat(array);
     return wrapper;
   }
@@ -23,8 +23,8 @@ class Tree extends Array {
 
   clone() {
     const cloned = clone(this);
-    return Tree.createFromArray(cloned);
+    return PostSvgTree.createFromArray(cloned);
   }
 }
 
-module.exports = Tree;
+module.exports = PostSvgTree;

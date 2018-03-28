@@ -2,10 +2,10 @@ const merge = require('deepmerge');
 const PostHTML = require('posthtml');
 
 const parser = require('./parser');
-const ProcessingResult = require('./processing-result');
+const Result = require('./result');
 const Tree = require('./tree');
 
-class Processor {
+class PostSvgProcessor {
   /**
    * @param {Array<Function>} [plugins]
    */
@@ -18,7 +18,7 @@ class Processor {
 
   /**
    * @param {...Function} plugins
-   * @return {Processor}
+   * @return {PostSvgProcessor}
    */
   use(...plugins) {
     this.posthtml.use.apply(this, ...plugins);
@@ -28,15 +28,15 @@ class Processor {
   /**
    * @param {string|Tree} ast
    * @param {Object} options {@see https://github.com/posthtml/posthtml-render#options}
-   * @return {Promise<ProcessingResult>}
+   * @return {Promise<Result>}
    */
   process(ast, options = {}) {
     const opts = merge({ parser }, options);
     return this.posthtml.process(ast, opts).then((res) => {
       const tree = new Tree(res.tree);
-      return new ProcessingResult(tree);
+      return new Result(tree);
     });
   }
 }
 
-module.exports = Processor;
+module.exports = PostSvgProcessor;

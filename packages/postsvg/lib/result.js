@@ -1,6 +1,6 @@
-class ProcessingResult {
+class PostSvgResult {
   /**
-   * @param {Tree} tree
+   * @param {PostSvgTree} tree
    */
   constructor(tree) {
     this.tree = tree;
@@ -15,4 +15,4 @@ class ProcessingResult {
   }
 }
 
-module.exports = ProcessingResult;
+module.exports = PostSvgResult;
