@@ -4,6 +4,7 @@ const merge = require('merge-options');
 const AbstractSprite = require('./abstract-sprite');
 const {
   arraySum,
+  calculateImgSizeToFitViewport,
   calculateImgTopPosition,
   createSymbolFromImage,
   createSprite
@@ -44,6 +45,34 @@ class Sprite extends AbstractSprite {
       img.coords = { x: 0, y };
       return img;
     });
+  }
+
+  /**
+   * Generate data for proper symbol positioning and scaling on sprite canvas.
+   * All returned values are percentages.
+   * @param {Image} img
+   * @return {{aspectRatio: number, width, height, topPos: number}}
+   */
+  generatePositioningData(img) {
+    const spriteWidth = this.width;
+    const spriteHeight = this.height;
+
+    const { width, height } = calculateImgSizeToFitViewport(
+      spriteWidth,
+      spriteHeight,
+      img.width,
+      img.height
+    );
+
+    const topPos = (img.coords.y / spriteHeight) * 100;
+    const aspectRatio = (img.height / img.width) * 100;
+
+    return {
+      width,
+      height,
+      aspectRatio,
+      topPos
+    };
   }
 
   /**
