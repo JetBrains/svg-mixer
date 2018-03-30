@@ -38,13 +38,11 @@ class AbstractSprite {
   }
 
   /**
-   * @param {Image|string|{content: string, id: string}} imgContentOrOpts
+   * @param {Image|string|{content: string, id: string}} input
    * @return {Image}
    */
-  add(imgContentOrOpts) {
-    const img = imgContentOrOpts instanceof Image
-      ? imgContentOrOpts
-      : new Image(imgContentOrOpts);
+  add(input) {
+    const img = input instanceof Image ? input : new Image(input);
     this.images.push(img);
     return img;
   }
