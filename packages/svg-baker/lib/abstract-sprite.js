@@ -1,3 +1,5 @@
+const merge = require('merge-options');
+
 const Image = require('./image');
 const { createImageFromFile } = require('./utils');
 
@@ -5,22 +7,34 @@ const { createImageFromFile } = require('./utils');
  * @abstract
  */
 class AbstractSprite {
-  constructor() {
-    this.images = [];
+  /**
+   * @param {Array<Image>} [images]
+   * @param {Object} [config]
+   */
+  constructor(images = [], config = {}) {
+    this.images = images;
+    this.config = merge(this.constructor.defaultConfig, config);
+  }
+
+  static get defaultConfig() {
+    return {};
   }
 
   /**
    * @return {number}
    */
   get width() {
-    return 0;
+    const { images } = this;
+    return images.length ? Math.max(...images.map(img => img.width)) : 0;
   }
 
   /**
    * @return {number}
    */
   get height() {
-    return 0;
+    return this.images
+      .map(img => img.height)
+      .reduce((sum, height) => sum + height, 0);
   }
 
   /**

@@ -1,5 +1,3 @@
-const arraySum = require('./array-sum');
-
 /**
  * Calculate top coordinate for given image in images set.
  * @param {Image} image
@@ -9,7 +7,7 @@ const arraySum = require('./array-sum');
  */
 module.exports = function calculateImgTopPos(image, images, gap = 0) {
   const portion = images.slice(0, images.indexOf(image));
-  const heights = arraySum(portion.map(img => img.height));
+  const heights = portion.map(img => img.height).reduce((sum, height) => sum + height, 0);
   const gaps = portion.length * gap;
   return heights + gaps;
 };

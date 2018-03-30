@@ -6,55 +6,43 @@ const {
   arraySum,
   calculateImgSizeToFitViewport,
   calculateImgTopPosition,
-  convertPxToBgPositionPercent,
   createSymbolFromImage,
   createSprite
 } = require('./utils');
 
-const defaultConfig = {
-  gap: 10
-};
-
 class Sprite extends AbstractSprite {
-  constructor(config) {
-    super();
-    this.config = merge(defaultConfig, config);
-  }
-
-  get width() {
-    const { images } = this;
-    return images.length ? Math.max(...images.map(img => img.width)) : 0;
+  static get defaultConfig() {
+    return {
+      gap: 10
+    };
   }
 
   get height() {
     const { images, config } = this;
-    const heights = arraySum(images.map(img => img.height));
     const gaps = images.length
       ? (images.length - 1) * config.gap
       : 0;
-    return heights + gaps;
+    return super.height + gaps;
   }
 
   /**
-   * @param contentOrOpts {@see AbstractSprite.addFromFile}
-   * @return {Promise<Image>}
+   * @param contentOrOpts {@see AbstractSprite.add}
+   * @return {Image}
    */
-  addFromFile(contentOrOpts) {
-    const { images, config } = this;
-    return super.addFromFile(contentOrOpts).then(img => {
-      const y = calculateImgTopPosition(img, images, config.gap);
-      img.coords = { x: 0, y };
-      return img;
-    });
+  add(contentOrOpts) {
+    const img = super.add(contentOrOpts);
+    const y = calculateImgTopPosition(img, this.images, this.config.gap);
+    img.coords = { x: 0, y };
+    return img;
   }
 
   /**
-   * Generate data for proper symbol positioning and scaling on sprite canvas.
+   * Generate data for symbol positioning and scaling on sprite canvas.
    * All returned values are percentages.
    * @param {Image} img
-   * @return {{aspectRatio: number, width, height, topPos: number, bgPosition: number}}
+   * @return {{aspectRatio: number, width: number, height: number, topPos: number, bgPosition: number}}
    */
-  generatePositioningData(img) {
+  generatePositionData(img) {
     const { width: spriteWidth, height: spriteHeight } = this;
     const { width: imgWidth, height: imgHeight } = img;
 
