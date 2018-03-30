@@ -3,7 +3,6 @@ const merge = require('merge-options');
 
 const AbstractSprite = require('./abstract-sprite');
 const {
-  arraySum,
   calculateImgSizeToFitViewport,
   calculateImgTopPosition,
   createSymbolFromImage,
