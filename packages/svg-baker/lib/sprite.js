@@ -25,17 +25,6 @@ class Sprite extends AbstractSprite {
   }
 
   /**
-   * @param contentOrOpts {@see AbstractSprite.add}
-   * @return {Image}
-   */
-  add(contentOrOpts) {
-    const img = super.add(contentOrOpts);
-    const y = calculateImgTopPosition(img, this.images, this.config.gap);
-    img.coords = { x: 0, y };
-    return img;
-  }
-
-  /**
    * Generate data for symbol positioning and scaling on sprite canvas.
    * All returned values are percentages.
    * @param {Image} img
