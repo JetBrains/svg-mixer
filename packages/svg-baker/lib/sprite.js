@@ -6,6 +6,7 @@ const {
   arraySum,
   calculateImgSizeToFitViewport,
   calculateImgTopPosition,
+  convertPxToBgPositionPercent,
   createSymbolFromImage,
   createSprite
 } = require('./utils');
@@ -54,24 +55,26 @@ class Sprite extends AbstractSprite {
    * @return {{aspectRatio: number, width, height, topPos: number}}
    */
   generatePositioningData(img) {
-    const spriteWidth = this.width;
-    const spriteHeight = this.height;
+    const { width: spriteWidth, height: spriteHeight } = this;
+    const { width: imgWidth, height: imgHeight } = img;
 
     const { width, height } = calculateImgSizeToFitViewport(
       spriteWidth,
       spriteHeight,
-      img.width,
-      img.height
+      imgWidth,
+      imgHeight
     );
 
     const topPos = (img.coords.y / spriteHeight) * 100;
-    const aspectRatio = (img.height / img.width) * 100;
+    const aspectRatio = (imgHeight / imgWidth) * 100;
+    const bgPosition = img.coords.y / (spriteHeight - imgHeight) * 100;
 
     return {
       width,
       height,
-      aspectRatio,
-      topPos
+      topPos,
+      bgPosition,
+      aspectRatio
     };
   }
 
