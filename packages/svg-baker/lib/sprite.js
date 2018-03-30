@@ -52,7 +52,7 @@ class Sprite extends AbstractSprite {
    * Generate data for proper symbol positioning and scaling on sprite canvas.
    * All returned values are percentages.
    * @param {Image} img
-   * @return {{aspectRatio: number, width, height, topPos: number}}
+   * @return {{aspectRatio: number, width, height, topPos: number, bgPosition: number}}
    */
   generatePositioningData(img) {
     const { width: spriteWidth, height: spriteHeight } = this;
