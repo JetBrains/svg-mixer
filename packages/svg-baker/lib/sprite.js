@@ -67,6 +67,9 @@ class Sprite extends AbstractSprite {
 
     const topPos = (img.coords.y / spriteHeight) * 100;
     const aspectRatio = (imgHeight / imgWidth) * 100;
+
+    // https://teamtreehouse.com/community/what-happened-when-set-backgroundposition-20-50
+    // https://www.w3.org/TR/css-backgrounds-3/#the-background-position
     const bgPosition = img.coords.y / (spriteHeight - imgHeight) * 100;
 
     return {
