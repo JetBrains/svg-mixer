@@ -1,0 +1,31 @@
+const Promise = require('bluebird');
+
+const BaseSprite = require('./lib/base-sprite');
+const Compiler = require('./lib/compiler');
+const Image = require('./lib/image');
+const Sprite = require('./lib/sprite');
+const StackSprite = require('./lib/stack-sprite');
+const SpriteSymbol = require('./lib/symbol');
+
+/**
+ * @param {string} globPattern
+ * @param {CompilerConfig} [config] {@see Compiler.defaultConfig}
+ * @return {Promise<{sprite: Sprite, svg: string, css: string}>}
+ */
+module.exports = (globPattern, config) => {
+  const compiler = new Compiler(config);
+  return compiler.addSymbolsFromFiles(globPattern)
+    .then(() => compiler.compile())
+    .then(sprite => Promise.props({
+      sprite,
+      svg: sprite.render(),
+      css: sprite.renderCss()
+    }));
+};
+
+module.exports.BaseSprite = BaseSprite;
+module.exports.Compiler = Compiler;
+module.exports.Image = Image;
+module.exports.Sprite = Sprite;
+module.exports.StackSprite = StackSprite;
+module.exports.Symbol = SpriteSymbol;

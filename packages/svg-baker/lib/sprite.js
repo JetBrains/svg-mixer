@@ -1,60 +1,59 @@
-const Promise = require('bluebird');
+const merge = require('merge-options');
 
-const AbstractSprite = require('./abstract-sprite');
+const BaseSprite = require('./base-sprite');
 const {
-  calculateImgSizeToFitViewport,
-  calculateImgTopPosition,
-  createSymbolFromImage,
-  createSymbolUsage,
-  createSprite
+  createSprite,
+  formatNumber,
+  CssValue
 } = require('./utils');
 
-class Sprite extends AbstractSprite {
+class Sprite extends BaseSprite {
+  /**
+   * @return {{filename: string, gap: number, usages: boolean}}
+   */
   static get defaultConfig() {
-    return {
-      gap: 10
-    };
+    return merge(super.defaultConfig, {
+      gap: 10,
+      usages: true
+    });
   }
 
   get height() {
-    const { images, config } = this;
-    const gaps = images.length
-      ? (images.length - 1) * config.gap
+    const { symbols, config } = this;
+    const gaps = symbols.length
+      ? (symbols.length - 1) * config.gap
       : 0;
     return super.height + gaps;
   }
 
   /**
-   * Generate data for symbol positioning and scaling on sprite canvas.
-   * All returned values are percentages.
-   * @param {Image} img
+   * Generate data for image positioning and scaling on sprite canvas. All returned values are percentages.
+   * @param {SpriteSymbol} symbol
    * @return {{aspectRatio: number, width: number, height: number, topPos: number, bgPosition: number}}
    */
-  calculatePositionData(img) {
-    const { width: spriteWidth, height: spriteHeight } = this;
-    const { width: imgWidth, height: imgHeight } = img;
+  calculateSymbolPosition(symbol) {
+    const { height: spriteHeight, config } = this;
+    const { image } = symbol;
+    const { height: imgHeight } = image;
+    const images = this.symbols.map(s => s.image);
 
-    const y = calculateImgTopPosition(img, this.images, this.config.gap);
-    const { width, height } = calculateImgSizeToFitViewport(
-      spriteWidth,
-      spriteHeight,
-      imgWidth,
-      imgHeight
-    );
+    const { width, height, aspectRatio } = super.calculateSymbolPosition(symbol);
 
-    const topPos = (y / spriteHeight) * 100;
-    const aspectRatio = (imgHeight / imgWidth) * 100;
+    const portion = images.slice(0, images.indexOf(image));
+    const heights = portion.map(img => img.height).reduce((sum, h) => sum + h, 0);
+    const y = heights + (portion.length * config.gap);
+    const topPos = y / spriteHeight;
+    const bgYPosition = y / (spriteHeight - imgHeight);
 
     // https://teamtreehouse.com/community/what-happened-when-set-backgroundposition-20-50
     // https://www.w3.org/TR/css-backgrounds-3/#the-background-position
-    const bgPosition = y / (spriteHeight - imgHeight) * 100;
 
     return {
       width,
       height,
-      topPos,
-      bgPosition,
-      aspectRatio
+      aspectRatio,
+      topPos: new CssValue(topPos, 'px'),
+      bgYPosition: new CssValue(bgYPosition, '%')
     };
   }
 
@@ -62,25 +61,24 @@ class Sprite extends AbstractSprite {
    * @return {Promise<PostSvgTree>}
    */
   generate() {
-    const { images } = this;
+    const { width, height, config } = this;
 
-    return Promise
-      .map(images, img => createSymbolFromImage(img))
-      .then(symbols => createSprite({ symbols }))
-      .then(spriteTree => {
-        const { root } = spriteTree;
+    const symbols = Promise.all(this.symbols.map(s => s.generate()));
 
-        const usages = images.map(img => {
-          const y = calculateImgTopPosition(img, this.images, this.config.gap);
-          return createSymbolUsage(img, { transform: `translate(0, ${y})` });
-        });
+    let usages;
+    if (config.usages) {
+      usages = Promise.all(this.symbols.map(s => {
+        const { topPos } = this.calculateSymbolPosition(s);
+        return s.createUsage({ transform: `translate(0, ${topPos})` });
+      }));
+    }
 
-        root.content = root.content.concat(usages);
-        root.attrs.width = this.width;
-        root.attrs.height = this.height;
-
-        return spriteTree;
-      });
+    // eslint-disable-next-line no-shadow
+    return Promise.all([symbols, usages]).then(([symbols, usages]) => createSprite({
+      attrs: { width, height },
+      symbols,
+      usages
+    }));
   }
 
   /**
@@ -88,6 +86,39 @@ class Sprite extends AbstractSprite {
    */
   render() {
     return this.generate().then(tree => tree.toString());
+  }
+
+  renderCss() {
+    const css = this.symbols.map(s => {
+      const { aspectRatio, width, height, bgPosition } = this.calculateSymbolPosition(s);
+      return `
+.${s.id} {
+  position: relative;
+}
+
+.${s.id}:before {
+  display: block;
+  padding-bottom: ${formatNumber(aspectRatio)}%;
+  box-sizing: content-box;
+  content: '';
+}
+
+.${s.id}:after {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url('_sprite.svg') no-repeat 0 ${formatNumber(bgPosition)}%;
+  background-size: ${formatNumber(width)}% ${formatNumber(height)}%;
+  content: '';
+}
+`;
+    });
+
+    return Promise.resolve(css.join('\n\n'));
   }
 }
 

@@ -1,37 +1,38 @@
-const { parse, render } = require('postsvg');
-
-const md5 = require('./utils/md5');
+const { parse } = require('postsvg');
 
 class Image {
   /**
-   * @param {string|{content: string, path: string, id: string}} contentOrOpts
+   * @param {string} content
+   * @param {string} path
    */
-  constructor(contentOrOpts) {
-    const optsIsContent = typeof contentOrOpts === 'string';
-    const content = optsIsContent ? contentOrOpts : contentOrOpts.content;
-
+  constructor(path, content) {
     this._tree = parse(content);
-    this.id = !optsIsContent && contentOrOpts.id ? contentOrOpts.id : md5(content);
-    this.path = !optsIsContent && contentOrOpts.path ? contentOrOpts.path : undefined;
-
-    if (!this.path) {
-      throw new Error('opts.path should be provided');
-    }
+    this.path = path;
   }
 
   /**
    * @return {Array<number>|undefined}
    */
   get viewBox() {
-    const { attrs = {} } = this._tree;
-    return attrs.viewBox ? attrs.viewBox.split(' ').map(parseFloat) : undefined;
+    const { width, height } = this;
+    const { viewBox } = this._tree.root.attrs || {};
+    let result;
+
+    if (viewBox) {
+      result = viewBox.split(' ').map(parseFloat);
+    } else if (width && height) {
+      result = [0, 0, width, height];
+    }
+
+    return result;
   }
 
   /**
    * @return {number|undefined}
    */
   get width() {
-    const { width, viewBox } = this._tree.root.attrs || {};
+    const root = this._tree.root;
+    const { width, viewBox } = root.attrs || {};
     return width || viewBox ? parseFloat(width || viewBox.split(' ')[2]) : undefined;
   }
 
@@ -43,23 +44,16 @@ class Image {
     return height || viewBox ? parseFloat(height || viewBox.split(' ')[3]) : undefined; // eslint-disable-line no-magic-numbers
   }
 
-  /**
-   * @return {PostSvgTree}
-   */
+  get content() {
+    return this.toString();
+  }
+
   get tree() {
     return this._tree.clone();
   }
 
-  get content() {
-    return this.render();
-  }
-
-  render() {
-    return render(this.tree);
-  }
-
   toString() {
-    return this.render();
+    return this._tree.toString();
   }
 }
 

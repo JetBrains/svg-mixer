@@ -5,15 +5,14 @@
   "author": "kisenka <qtuzov@gmail.com> (https://github.com/kisenka)",
   "homepage": "https://github.com/kisenka/svg-baker",
   "license": "MIT",
-  "repository": "https://github.com/kisenka/svg-baker",
-  "main": "lib/compiler.js",
+  "repository": "https://github.com/kisenka/svg-baker/packages/svg-baker",
   "files": [
     "lib/",
-    "namespaces.js",
-    "README.md"
+    "namespaces.js"
   ],
   "dependencies": {
     "bluebird": "^3.5.0",
+    "glob": "^7.1.2",
     "he": "^1.1.1",
     "image-size": "^0.5.1",
     "loader-utils": "^1.1.0",

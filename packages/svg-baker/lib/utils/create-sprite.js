@@ -8,7 +8,8 @@ const defaultConfig = {
     [svgNs.name]: svgNs.uri,
     [xlinkNs.name]: xlinkNs.uri
   },
-  symbols: null
+  symbols: null,
+  usages: null
 };
 
 /**
@@ -17,14 +18,15 @@ const defaultConfig = {
  */
 module.exports = function createSpriteTree(config) {
   const cfg = merge(defaultConfig, config);
-  const tree = Tree.createFromArray([{
+  return Tree.createFromArray([{
     tag: 'svg',
     attrs: cfg.attrs,
-    content: [{
-      tag: 'defs',
-      content: cfg.symbols || []
-    }]
+    content: [
+      {
+        tag: 'defs',
+        content: cfg.symbols || []
+      },
+      cfg.usages || null
+    ].filter(Boolean)
   }]);
-
-  return Promise.resolve(tree);
 };
