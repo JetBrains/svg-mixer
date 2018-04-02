@@ -86,7 +86,8 @@ class Sprite {
   }
 
   renderCss() {
-    const filename = this.config;
+    const { filename } = this.config;
+
     const css = this.symbols.map(s => {
       const { aspectRatio, bgSize, bgPosition } = calculateSymbolPosition(s, this);
       const { width, height } = bgSize;

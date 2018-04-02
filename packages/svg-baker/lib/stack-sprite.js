@@ -63,6 +63,7 @@ class StackSprite extends Sprite {
 
   renderCss() {
     const { filename } = this.config;
+
     const css = this.symbols.map(s => {
       const { aspectRatio } = calculateSymbolPosition(s, this);
       return `

@@ -1,4 +1,4 @@
-const { create: spriteValue } = require('./sprite-value');
+const { create: spriteValue } = require('../sprite-value');
 
 /**
  * Generate data for image positioning and scaling on sprite canvas.
