@@ -25,6 +25,10 @@ class PostSvgTree extends Array {
     const cloned = clone(this);
     return PostSvgTree.createFromArray(cloned);
   }
+
+  render() {
+    return this.toString();
+  }
 }
 
 module.exports = PostSvgTree;
