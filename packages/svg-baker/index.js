@@ -1,6 +1,5 @@
 const Promise = require('bluebird');
 
-const BaseSprite = require('./lib/base-sprite');
 const Compiler = require('./lib/compiler');
 const Image = require('./lib/image');
 const Sprite = require('./lib/sprite');
@@ -23,7 +22,6 @@ module.exports = (globPattern, config) => {
     }));
 };
 
-module.exports.BaseSprite = BaseSprite;
 module.exports.Compiler = Compiler;
 module.exports.Image = Image;
 module.exports.Sprite = Sprite;

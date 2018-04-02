@@ -1,59 +1,127 @@
 const merge = require('merge-options');
 
-const BaseSprite = require('./base-sprite');
 const {
   createSprite,
-  formatNumber,
-  CssValue
+  SpriteValue
 } = require('./utils');
 
-class Sprite extends BaseSprite {
+
+const { create: spriteValue } = SpriteValue;
+
+class Sprite {
+  /**
+   * @param {Object} [config]
+   * @param {Array<SpriteSymbol>} [symbols]
+   */
+  constructor(config = {}, symbols) {
+    this.config = merge(this.constructor.defaultConfig, config);
+    this.symbols = symbols || [];
+  }
+
   /**
    * @return {{filename: string, gap: number, usages: boolean}}
    */
   static get defaultConfig() {
-    return merge(super.defaultConfig, {
-      gap: 10,
-      usages: true
-    });
-  }
-
-  get height() {
-    const { symbols, config } = this;
-    const gaps = symbols.length
-      ? (symbols.length - 1) * config.gap
-      : 0;
-    return super.height + gaps;
+    return {
+      filename: 'sprite.svg',
+      usages: true,
+      gap: 10
+    };
   }
 
   /**
-   * Generate data for image positioning and scaling on sprite canvas. All returned values are percentages.
-   * @param {SpriteSymbol} symbol
-   * @return {{aspectRatio: number, width: number, height: number, topPos: number, bgPosition: number}}
+   * @return {number}
    */
-  calculateSymbolPosition(symbol) {
-    const { height: spriteHeight, config } = this;
-    const { image } = symbol;
-    const { height: imgHeight } = image;
-    const images = this.symbols.map(s => s.image);
+  get width() {
+    const { symbols } = this;
+    return symbols.length ? Math.max(...symbols.map(s => s.width)) : 0;
+  }
 
-    const { width, height, aspectRatio } = super.calculateSymbolPosition(symbol);
+  /**
+   * @return {number}
+   */
+  get height() {
+    const { symbols, config } = this;
+    const symbolsHeight = this.symbols
+      .map(({ image }) => image.height)
+      .reduce((sum, height) => sum + height, 0);
 
-    const portion = images.slice(0, images.indexOf(image));
-    const heights = portion.map(img => img.height).reduce((sum, h) => sum + h, 0);
-    const y = heights + (portion.length * config.gap);
-    const topPos = y / spriteHeight;
-    const bgYPosition = y / (spriteHeight - imgHeight);
+    return symbolsHeight + (symbols.length * config.gap);
+  }
 
-    // https://teamtreehouse.com/community/what-happened-when-set-backgroundposition-20-50
-    // https://www.w3.org/TR/css-backgrounds-3/#the-background-position
+  /**
+   * @param {SpriteSymbol} symbol
+   * @return {SpriteSymbol}
+   */
+  addSymbol(symbol) {
+    this.symbols.push(symbol);
+  }
+
+  /**
+   * Generate data for image positioning and scaling on sprite canvas.
+   * @param {SpriteSymbol} symbol
+   * @return {{
+   *   width: SpriteValue,
+   *   height: SpriteValue,
+   *   aspectRatio: SpriteValue,
+   *   left: SpriteValue,
+   *   top: SpriteValue,
+   *   bgSize: {
+   *     width: SpriteValue,
+   *     height: SpriteValue
+   *   },
+   *   bgPosition: {
+   *     left: SpriteValue,
+   *     top: SpriteValue
+   *   }
+   * }}
+   */
+  calculatePosition(symbol) {
+    const { width: spriteWidth, height: spriteHeight, symbols, config } = this;
+    const { width: symbolWidth, height: symbolHeight } = symbol;
+
+    const width = spriteValue(symbolWidth, spriteWidth);
+    const height = spriteValue(symbolHeight, spriteHeight);
+    const aspectRatio = spriteValue(symbolHeight, symbolWidth);
+
+    /**
+     * How much symbol should be stretched to fit 100% sprite canvas, i.e background-size in CSS
+     */
+    const desiredWidth = spriteValue(symbolWidth * (spriteWidth / symbolWidth), symbolWidth);
+    const desiredHeight = spriteValue(symbolHeight * (spriteHeight / symbolHeight), symbolHeight);
+
+    const beforeSymbols = symbols.slice(0, symbols.indexOf(symbol));
+    const beforeSymbolsHeight =
+      beforeSymbols.map(s => s.height).reduce((sum, h) => sum + h, 0) +
+      beforeSymbols.length * config.gap;
+
+    const left = spriteValue(0, spriteWidth);
+    const top = spriteValue((beforeSymbolsHeight / spriteHeight) * spriteHeight, spriteHeight);
+
+    /**
+     * @see https://teamtreehouse.com/community/what-happened-when-set-backgroundposition-20-50
+     * @see https://www.w3.org/TR/css-backgrounds-3/#the-background-position
+     */
+    const bgLeftPosition = spriteValue(0, spriteWidth);
+    const bgTopPosition = spriteValue(
+      beforeSymbolsHeight / (spriteHeight - symbolHeight) * spriteHeight,
+      spriteHeight
+    );
 
     return {
       width,
       height,
       aspectRatio,
-      topPos: new CssValue(topPos, 'px'),
-      bgYPosition: new CssValue(bgYPosition, '%')
+      left,
+      top,
+      bgSize: {
+        width: desiredWidth,
+        height: desiredHeight
+      },
+      bgPosition: {
+        left: bgLeftPosition,
+        top: bgTopPosition
+      }
     };
   }
 
@@ -61,20 +129,19 @@ class Sprite extends BaseSprite {
    * @return {Promise<PostSvgTree>}
    */
   generate() {
-    const { width, height, config } = this;
+    const { width, height, config, symbols } = this;
 
-    const symbols = Promise.all(this.symbols.map(s => s.generate()));
+    const symbolsTree = Promise.all(symbols.map(s => s.generate()));
 
-    let usages;
+    let usagesTree;
     if (config.usages) {
-      usages = Promise.all(this.symbols.map(s => {
-        const { topPos } = this.calculateSymbolPosition(s);
-        return s.createUsage({ transform: `translate(0, ${topPos})` });
+      usagesTree = symbols.map(s => s.createUsage({
+        transform: `translate(0, ${this.calculatePosition(s).top})`
       }));
     }
 
     // eslint-disable-next-line no-shadow
-    return Promise.all([symbols, usages]).then(([symbols, usages]) => createSprite({
+    return Promise.all([symbolsTree, usagesTree]).then(([symbols, usages]) => createSprite({
       attrs: { width, height },
       symbols,
       usages
@@ -90,7 +157,13 @@ class Sprite extends BaseSprite {
 
   renderCss() {
     const css = this.symbols.map(s => {
-      const { aspectRatio, width, height, bgPosition } = this.calculateSymbolPosition(s);
+      const pos = this.calculatePosition(s);
+      const aspectRatio = pos.aspectRatio.toPercent();
+      const bgPosLeft = pos.bgPosition.left.toPercent();
+      const bgPosTop = pos.bgPosition.top.toPercent();
+      const bgSizeWidth = pos.bgSize.width.toPercent();
+      const bgSizeHeight = pos.bgSize.height.toPercent();
+
       return `
 .${s.id} {
   position: relative;
@@ -98,7 +171,7 @@ class Sprite extends BaseSprite {
 
 .${s.id}:before {
   display: block;
-  padding-bottom: ${formatNumber(aspectRatio)}%;
+  padding-bottom: ${aspectRatio};
   box-sizing: content-box;
   content: '';
 }
@@ -111,8 +184,8 @@ class Sprite extends BaseSprite {
   left: 0;
   width: 100%;
   height: 100%;
-  background: url('_sprite.svg') no-repeat 0 ${formatNumber(bgPosition)}%;
-  background-size: ${formatNumber(width)}% ${formatNumber(height)}%;
+  background: url('_sprite.svg') no-repeat ${bgPosLeft} ${bgPosTop};
+  background-size: ${bgSizeWidth} ${bgSizeHeight};
   content: '';
 }
 `;

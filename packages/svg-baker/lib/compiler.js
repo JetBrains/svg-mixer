@@ -14,7 +14,7 @@ const {
  * @typedef {Object} CompilerConfig
  * @property {string} mode 'default' | 'stack'
  * @property {Object} sprite {@see Sprite.defaultConfig}
- * @property {BaseSprite|Sprite|StackSprite} spriteClass
+ * @property {Sprite|StackSprite} spriteClass
  * @property {SpriteSymbol} symbolClass
  * @property {function(path: string)} generateSymbolId
  */
