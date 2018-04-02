@@ -26,7 +26,7 @@ module.exports = function createSpriteTree(config) {
         tag: 'defs',
         content: cfg.symbols || []
       },
-      cfg.usages || null
+      cfg.usages || false
     ].filter(Boolean)
   }]);
 };

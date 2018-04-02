@@ -1,7 +1,7 @@
 const merge = require('merge-options');
 
 const {
-  createSprite,
+  createSpriteTree,
   calculateSymbolPosition
 } = require('./utils');
 
@@ -24,10 +24,6 @@ class Sprite {
       usages: true,
       gap: 10
     };
-  }
-
-  static createSpriteTree() {
-
   }
 
   /**
@@ -64,8 +60,6 @@ class Sprite {
   generate() {
     const { width, height, config, symbols } = this;
 
-    const symbolsTree = Promise.all(symbols.map(s => s.generate()));
-
     let usagesTree;
     if (config.usages) {
       usagesTree = symbols.map(s => s.createUsage({
@@ -73,12 +67,12 @@ class Sprite {
       }));
     }
 
-    // eslint-disable-next-line no-shadow
-    return Promise.all([symbolsTree, usagesTree]).then(([symbols, usages]) => createSprite({
-      attrs: { width, height },
-      symbols,
-      usages
-    }));
+    return Promise.all(symbols.map(s => s.generate()))
+      .then(symbolsTree => createSpriteTree({
+        attrs: { width, height },
+        symbols: symbolsTree,
+        usages: usagesTree
+      }));
   }
 
   /**
