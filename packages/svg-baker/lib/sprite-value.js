@@ -18,12 +18,16 @@ class SpriteValue extends Number {
   }
 
   toPx(decimalPlaces = 2) {
-    return `${formatNumber(this, decimalPlaces)}px`;
+    return this === 0
+      ? this.toString()
+      : `${formatNumber(this, decimalPlaces)}px`;
   }
 
   toPercent(decimalPlaces = 2) {
     const percent = this.factor * 100;
-    return `${formatNumber(percent, decimalPlaces)}%`;
+    return percent === 0
+      ? this.toString()
+      : `${formatNumber(percent, decimalPlaces)}%`;
   }
 }
 
