@@ -57,16 +57,6 @@ class Compiler {
   }
 
   /**
-   * @param {string} globPattern
-   * @param {CompilerConfig} config
-   * @return {Promise<Sprite>}
-   */
-  static createSpriteFromFiles(globPattern, config = {}) {
-    const compiler = new Compiler(config);
-    return compiler.addSymbolsFromFiles(globPattern).then(() => compiler.compile());
-  }
-
-  /**
    * @param config
    * @return {Compiler}
    */
