@@ -15,27 +15,22 @@ class SpriteSymbol {
   }
 
   /**
-   * @param {SpriteSymbol} symbol
-   * @param {Object} [attrs]
-   * @return {{tag: string, attrs: Object}}
+   * @return {number}
    */
-  static createUsage(symbol, attrs = {}) {
-    return {
-      tag: 'use',
-      attrs: merge({
-        'xlink:href': `#${symbol.id}`
-      }, attrs)
-    };
-  }
-
   get width() {
     return this.image.width;
   }
 
+  /**
+   * @return {number}
+   */
   get height() {
     return this.image.height;
   }
 
+  /**
+   * @return {number}
+   */
   get viewBox() {
     return this.image.viewBox;
   }
@@ -45,7 +40,10 @@ class SpriteSymbol {
    * @return {{tag: string, attrs: Object}}
    */
   createUsage(attrs = {}) {
-    return this.constructor.createUsage(this, attrs);
+    return {
+      tag: 'use',
+      attrs: merge({ 'xlink:href': `#${this.id}` }, attrs)
+    };
   }
 
   /**
