@@ -4,6 +4,11 @@ const Sprite = require('./sprite');
 const { createSpriteTree, calculateSymbolPosition } = require('./utils');
 
 class StackSprite extends Sprite {
+  /**
+   * @typedef {SpriteConfig} StackSpriteConfig
+   * @property {string} usageClassName
+   * @return {StackSpriteConfig}
+   */
   static get defaultConfig() {
     return merge(super.defaultConfig, {
       usageClassName: 'sprite-symbol-usage'

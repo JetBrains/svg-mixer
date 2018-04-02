@@ -3,57 +3,34 @@ const Promise = require('bluebird');
 const merge = require('merge-options');
 
 const Sprite = require('./sprite');
-const StackSprite = require('./stack-sprite');
 const SpriteSymbol = require('./symbol');
-const {
-  getBasename,
-  glob,
-  createImageFromFile
-} = require('./utils');
-
-/**
- * @typedef {Object} CompilerConfig
- * @property {string} mode 'default' | 'stack'
- * @property {Object} sprite {@see Sprite.defaultConfig}
- * @property {Sprite|StackSprite} spriteClass
- * @property {SpriteSymbol} symbolClass
- * @property {function(path: string)} generateSymbolId
- */
+const { getBasename, glob, createImageFromFile } = require('./utils');
 
 class Compiler {
   /**
-   * @param {CompilerConfig} config
-   */
-  constructor(config = {}) {
-    const cfg = merge(this.constructor.defaultConfig, config);
-
-    switch (cfg.mode) {
-      case 'default':
-      default:
-        cfg.spriteClass = Sprite;
-        break;
-
-      case 'stack':
-        cfg.spriteClass = StackSprite;
-        break;
-    }
-
-    /** @type CompilerConfig */
-    this.config = cfg;
-    this.symbols = [];
-  }
-
-  /**
+   * @typedef {Object} CompilerConfig
+   * @property {SpriteConfig|StackSpriteConfig} spriteConfig
+   * @property {Sprite|StackSprite} spriteClass
+   * @property {SpriteSymbol} symbolClass
+   * @property {function(path: string)} generateSymbolId
    * @return {CompilerConfig}
    */
   static get defaultConfig() {
     return {
-      mode: 'default',
-      sprite: {},
+      spriteConfig: {},
       spriteClass: Sprite,
       symbolClass: SpriteSymbol,
       generateSymbolId: path => getBasename(path)
     };
+  }
+
+  /**
+   * @param {CompilerConfig} config
+   */
+  constructor(config = {}) {
+    /** @type CompilerConfig */
+    this.config = merge(this.constructor.defaultConfig, config);
+    this.symbols = [];
   }
 
   /**
@@ -108,7 +85,7 @@ class Compiler {
    * @return {Promise<Sprite>}
    */
   compile() {
-    const { spriteClass, sprite: spriteConfig } = this.config;
+    const { spriteClass, spriteConfig } = this.config;
     const sprite = new spriteClass(spriteConfig, this.symbols);
     return Promise.resolve(sprite);
   }

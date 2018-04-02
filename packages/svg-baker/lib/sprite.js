@@ -1,22 +1,15 @@
 const merge = require('merge-options');
 
-const {
-  createSpriteTree,
-  calculateSymbolPosition
-} = require('./utils');
+const { createSpriteTree, calculateSymbolPosition } = require('./utils');
 
 class Sprite {
   /**
-   * @param {Object} [config]
-   * @param {Array<SpriteSymbol>} [symbols]
-   */
-  constructor(config = {}, symbols) {
-    this.config = merge(this.constructor.defaultConfig, config);
-    this.symbols = symbols || [];
-  }
-
-  /**
-   * @return {{filename: string, attrs: Object, usages: boolean, gap: number}}
+   * @typedef {Object} SpriteConfig
+   * @property {string} filename
+   * @property {Object} attrs
+   * @property {boolean} usages
+   * @property {number} gap
+   * @return {SpriteConfig}
    */
   static get defaultConfig() {
     return {
@@ -25,6 +18,15 @@ class Sprite {
       usages: true,
       gap: 10
     };
+  }
+
+  /**
+   * @param {SpriteConfig} [config]
+   * @param {Array<SpriteSymbol>} [symbols]
+   */
+  constructor(config, symbols) {
+    this.config = merge(this.constructor.defaultConfig, config);
+    this.symbols = symbols || [];
   }
 
   /**
