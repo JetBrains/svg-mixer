@@ -23,9 +23,7 @@ class SpriteSymbol {
     return {
       tag: 'use',
       attrs: merge({
-        'xlink:href': `#${symbol.id}`,
-        width: symbol.width,
-        height: symbol.height
+        'xlink:href': `#${symbol.id}`
       }, attrs)
     };
   }
@@ -47,7 +45,7 @@ class SpriteSymbol {
    * @return {{tag: string, attrs: Object}}
    */
   createUsage(attrs = {}) {
-    return SpriteSymbol.createUsage(this, attrs);
+    return this.constructor.createUsage(this, attrs);
   }
 
   /**

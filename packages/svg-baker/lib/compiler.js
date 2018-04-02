@@ -3,6 +3,7 @@ const Promise = require('bluebird');
 const merge = require('merge-options');
 
 const Sprite = require('./sprite');
+const StackSprite = require('./stack-sprite');
 const SpriteSymbol = require('./symbol');
 const {
   getBasename,
@@ -30,6 +31,10 @@ class Compiler {
       case 'default':
       default:
         cfg.spriteClass = Sprite;
+        break;
+
+      case 'stack':
+        cfg.spriteClass = StackSprite;
         break;
     }
 

@@ -16,11 +16,12 @@ class Sprite {
   }
 
   /**
-   * @return {{filename: string, gap: number, usages: boolean}}
+   * @return {{filename: string, attrs: Object, usages: boolean, gap: number}}
    */
   static get defaultConfig() {
     return {
       filename: 'sprite.svg',
+      attrs: {},
       usages: true,
       gap: 10
     };
@@ -63,14 +64,16 @@ class Sprite {
     let usagesTree;
     if (config.usages) {
       usagesTree = symbols.map(s => s.createUsage({
+        width: s.width,
+        height: s.height,
         transform: `translate(0, ${calculateSymbolPosition(s, this).top})`
       }));
     }
 
     return Promise.all(symbols.map(s => s.generate()))
-      .then(symbolsTree => createSpriteTree({
-        attrs: { width, height },
-        symbols: symbolsTree,
+      .then(symbolsTrees => createSpriteTree({
+        attrs: merge(config.attrs, { viewBox: `0 0 ${width} ${height}` }),
+        symbols: symbolsTrees,
         usages: usagesTree
       }));
   }
@@ -83,13 +86,11 @@ class Sprite {
   }
 
   renderCss() {
+    const filename = this.config;
     const css = this.symbols.map(s => {
-      const pos = calculateSymbolPosition(s, this);
-      const aspectRatio = pos.aspectRatio.toPercent();
-      const bgPosLeft = pos.bgPosition.left.toPercent();
-      const bgPosTop = pos.bgPosition.top.toPercent();
-      const bgSizeWidth = pos.bgSize.width.toPercent();
-      const bgSizeHeight = pos.bgSize.height.toPercent();
+      const { aspectRatio, bgSize, bgPosition } = calculateSymbolPosition(s, this);
+      const { width, height } = bgSize;
+      const { top, left } = bgPosition;
 
       return `
 .${s.id} {
@@ -98,7 +99,7 @@ class Sprite {
 
 .${s.id}:before {
   display: block;
-  padding-bottom: ${aspectRatio};
+  padding-bottom: ${aspectRatio.toPercent()};
   box-sizing: content-box;
   content: '';
 }
@@ -111,14 +112,14 @@ class Sprite {
   left: 0;
   width: 100%;
   height: 100%;
-  background: url('_sprite.svg') no-repeat ${bgPosLeft} ${bgPosTop};
-  background-size: ${bgSizeWidth} ${bgSizeHeight};
+  background: url('${filename}') no-repeat ${left.toPercent()} ${top.toPercent()};
+  background-size: ${width.toPercent()} ${height.toPercent()};
   content: '';
 }
 `;
-    });
+    }).join('\n\n');
 
-    return Promise.resolve(css.join('\n\n'));
+    return Promise.resolve(css);
   }
 }
 
