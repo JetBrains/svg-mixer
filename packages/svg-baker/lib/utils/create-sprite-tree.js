@@ -8,8 +8,8 @@ const defaultConfig = {
     [svgNs.name]: svgNs.uri,
     [xlinkNs.name]: xlinkNs.uri
   },
-  symbols: null,
-  usages: null
+  defs: null,
+  content: null
 };
 
 /**
@@ -24,9 +24,9 @@ module.exports = function createSpriteTree(config) {
     content: [
       {
         tag: 'defs',
-        content: cfg.symbols || []
+        content: cfg.defs || []
       },
-      cfg.usages || false
+      cfg.content || false
     ].filter(Boolean)
   }]);
 };

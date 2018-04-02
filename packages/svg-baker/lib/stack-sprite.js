@@ -7,62 +7,45 @@ class StackSprite extends Sprite {
   /**
    * @typedef {SpriteConfig} StackSpriteConfig
    * @property {string} usageClassName
+   * @property {string} styles
    * @return {StackSpriteConfig}
    */
   static get defaultConfig() {
     return merge(super.defaultConfig, {
-      usageClassName: 'sprite-symbol-usage'
+      usageClassName: 'sprite-symbol-usage',
+      get styles() {
+        return [
+          `.${this.usageClassName} {display: none;}`,
+          `.${this.usageClassName}:target {display: inline;}`
+        ].join('\n');
+      }
     });
-  }
-
-  /**
-   * @param {string} id
-   * @return {string}
-   */
-  generateSymbolId(id) {
-    return this.config.usages ? `${id}_symbol` : id;
   }
 
   /**
    * @return {Promise<PostSvgTree>}
    */
   generate() {
-    const { symbols, config } = this;
-
-    let usages;
-    if (config.usages) {
-      usages = symbols.map(s => s.createUsage({
-        id: s.id,
-        'xlink:href': `#${this.generateSymbolId(s.id)}`,
-        class: config.usageClassName
-      }));
-    }
+    const { symbols } = this;
+    /** @type StackSpriteConfig */
+    const config = this.config;
 
     return Promise.all(symbols.map(s => s.generate()))
       .then(symbolsTrees => {
-        if (config.usages) {
-          symbolsTrees.forEach(({ root }) => root.attrs.id = this.generateSymbolId(root.attrs.id));
-        }
+        // TODO symbol generation options
+        symbolsTrees.forEach(({ root }) => {
+          root.tag = 'svg';
+          root.attrs.class = config.usageClassName;
+        });
 
         return createSpriteTree({
           attrs: config.attrs,
-          symbols: symbolsTrees,
-          usages
+          defs: [{
+            tag: 'style',
+            content: config.styles
+          }],
+          content: symbolsTrees
         });
-      })
-      .then(tree => {
-        const { root } = tree;
-        const defs = root.content.find(node => typeof node === 'object' && node.tag === 'defs');
-
-        defs.content.push({
-          tag: 'style',
-          content: `
-.${config.usageClassName} {display: none;}
-.${config.usageClassName}:target {display: inline;}
-`
-        });
-
-        return tree;
       });
   }
 

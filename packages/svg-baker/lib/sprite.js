@@ -75,8 +75,8 @@ class Sprite {
     return Promise.all(symbols.map(s => s.generate()))
       .then(symbolsTrees => createSpriteTree({
         attrs: merge(config.attrs, { viewBox: `0 0 ${width} ${height}` }),
-        symbols: symbolsTrees,
-        usages: usagesTree
+        defs: symbolsTrees,
+        content: usagesTree
       }));
   }
 
