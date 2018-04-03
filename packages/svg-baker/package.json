@@ -15,14 +15,12 @@
     "glob": "^7.1.2",
     "he": "^1.1.1",
     "image-size": "^0.5.1",
-    "loader-utils": "^1.1.0",
     "merge-options": "0.0.64",
     "micromatch": "3.1.0",
-    "postcss": "^5.2.17",
+    "postcss": "^6.0.21",
     "postcss-prefix-selector": "^1.6.0",
     "posthtml-rename-id": "^1.0",
     "postsvg": "^2.0.0",
-    "query-string": "^4.3.2",
     "traverse": "^0.6.6"
   },
   "scripts": {
