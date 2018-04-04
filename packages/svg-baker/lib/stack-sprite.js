@@ -1,7 +1,7 @@
 const merge = require('merge-options');
 
 const Sprite = require('./sprite');
-const { createSpriteTree, calculateSymbolPosition } = require('./utils');
+const { generateSpriteTree, calculateSymbolPosition } = require('./utils');
 
 class StackSprite extends Sprite {
   /**
@@ -32,13 +32,12 @@ class StackSprite extends Sprite {
 
     return Promise.all(symbols.map(s => s.generate()))
       .then(symbolsTrees => {
-        // TODO symbol generation options
         symbolsTrees.forEach(({ root }) => {
           root.tag = 'svg';
           root.attrs.class = config.usageClassName;
         });
 
-        return createSpriteTree({
+        return generateSpriteTree({
           attrs: config.attrs,
           defs: [{
             tag: 'style',

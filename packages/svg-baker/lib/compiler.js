@@ -1,94 +1,60 @@
-/* eslint-disable new-cap,arrow-body-style */
+/* eslint-disable new-cap */
 const Promise = require('bluebird');
 const merge = require('merge-options');
 
 const Sprite = require('./sprite');
+const StackSprite = require('./stack-sprite');
 const SpriteSymbol = require('./symbol');
-const { getBasename, glob, createImageFromFile } = require('./utils');
+const { glob, createImageFromFile, getBasename } = require('./utils');
 
-class Compiler {
-  /**
-   * @typedef {Object} CompilerConfig
-   * @property {SpriteConfig|StackSpriteConfig} spriteConfig
-   * @property {Sprite|StackSprite} spriteClass
-   * @property {SpriteSymbol} symbolClass
-   * @property {function(path: string)} generateSymbolId
-   * @return {CompilerConfig}
-   */
-  static get defaultConfig() {
-    return {
-      spriteConfig: {},
-      spriteClass: Sprite,
-      symbolClass: SpriteSymbol,
-      generateSymbolId: path => getBasename(path)
-    };
+/**
+ * @typedef {Object} CompilerConfig
+ * @property {string} mode 'default' | 'stack'
+ * @property {SpriteConfig|StackSpriteConfig} spriteConfig
+ * @property {Sprite|StackSprite} spriteClass
+ * @property {SpriteSymbol} symbolClass
+ * @property {function(path: string)} generateSymbolId
+ */
+const defaultConfig = {
+  mode: 'default',
+  spriteConfig: {},
+  spriteClass: Sprite,
+  symbolClass: SpriteSymbol,
+  generateSymbolId: path => getBasename(path)
+};
+
+/**
+ * @param {string|Array<string>} files Glob pattern or array of absolute paths
+ * @param {CompilerConfig} [config]
+ * @return {Promise<{sprite: Sprite, svg: string, css: string}>}
+ */
+module.exports = (files, config = {}) => {
+  const cfg = merge(defaultConfig, config);
+  const {
+    generateSymbolId: generateId,
+    spriteClass,
+    spriteConfig,
+    symbolClass
+  } = cfg;
+
+  switch (cfg.mode) {
+    default:
+    case 'default':
+      cfg.spriteClass = Sprite;
+      break;
+
+    case 'stack':
+      cfg.spriteClass = StackSprite;
+      break;
   }
 
-  /**
-   * @param {CompilerConfig} config
-   */
-  constructor(config = {}) {
-    /** @type CompilerConfig */
-    this.config = merge(this.constructor.defaultConfig, config);
-    this.symbols = [];
-  }
-
-  /**
-   * @param config
-   * @return {Compiler}
-   */
-  static create(config) {
-    return new Compiler(config);
-  }
-
-  /**
-   * @param {SpriteSymbol} symbol
-   * @return {SpriteSymbol}
-   */
-  addSymbol(symbol) {
-    function comparator(left, right) {
-      const leftId = left.id;
-      const rightId = right.id;
-
-      if (leftId === rightId) {
-        return 0;
-      }
-      return leftId < rightId ? -1 : 1;
-    }
-
-    this.symbols.push(symbol);
-    this.symbols.sort(comparator);
-
-    return symbol;
-  }
-
-  /**
-   * @param {string} path
-   * @return {Promise<SpriteSymbol>}
-   */
-  addSymbolFromFile(path) {
-    return createImageFromFile(path)
-      .then(image => new SpriteSymbol(this.config.generateSymbolId(path), image))
-      .then(symbol => this.addSymbol(symbol));
-  }
-
-  /**
-   * @param {string} globPattern
-   * @return {Promise<SpriteSymbol[]>}
-   */
-  addSymbolsFromFiles(globPattern) {
-    return glob(globPattern)
-      .then(paths => Promise.map(paths, path => this.addSymbolFromFile(path)));
-  }
-
-  /**
-   * @return {Promise<Sprite>}
-   */
-  compile() {
-    const { spriteClass, spriteConfig } = this.config;
-    const sprite = new spriteClass(spriteConfig, this.symbols);
-    return Promise.resolve(sprite);
-  }
-}
-
-module.exports = Compiler;
+  return glob(files)
+    .then(paths => Promise.map(paths, path => createImageFromFile(path)))
+    .then(images => images.map(img => new symbolClass(generateId(img.path), img)))
+    .then(symbols => new spriteClass(spriteConfig, symbols))
+    .then(sprite => Promise.props({
+      sprite,
+      svg: sprite.render(),
+      css: sprite.renderCss()
+    }));
+};

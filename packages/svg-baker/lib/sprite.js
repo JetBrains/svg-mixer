@@ -1,6 +1,12 @@
 const merge = require('merge-options');
 
-const { createSpriteTree, calculateSymbolPosition } = require('./utils');
+const SymbolsMap = require('./symbols-map');
+
+const {
+  generateSpriteTree,
+  calculateSymbolPosition,
+  createSymbolFromFile
+} = require('./utils');
 
 class Sprite {
   /**
@@ -26,7 +32,7 @@ class Sprite {
    */
   constructor(config, symbols) {
     this.config = merge(this.constructor.defaultConfig, config);
-    this.symbols = symbols || [];
+    this._symbols = new SymbolsMap(symbols);
   }
 
   /**
@@ -42,7 +48,7 @@ class Sprite {
    */
   get height() {
     const { symbols, config } = this;
-    const symbolsHeight = this.symbols
+    const symbolsHeight = symbols
       .map(({ image }) => image.height)
       .reduce((sum, height) => sum + height, 0);
 
@@ -50,11 +56,31 @@ class Sprite {
   }
 
   /**
+   * @return {Array<SpriteSymbol>}
+   */
+  get symbols() {
+    return this._symbols.toArray();
+  }
+
+  /**
    * @param {SpriteSymbol} symbol
    * @return {SpriteSymbol}
    */
   addSymbol(symbol) {
-    this.symbols.push(symbol);
+    this._symbols.add(symbol);
+  }
+
+  /**
+   * @param {string} id
+   * @param {string} path
+   * @return {Promise<SpriteSymbol>}
+   */
+  addSymbolFromFile(id, path) {
+    return createSymbolFromFile(id, path).then(s => this.addSymbol(s));
+  }
+
+  calculateSymbolPosition(symbol) {
+    return calculateSymbolPosition(symbol);
   }
 
   /**
@@ -63,20 +89,24 @@ class Sprite {
   generate() {
     const { width, height, config, symbols } = this;
 
-    let usagesTree;
+    let usagesTrees;
     if (config.usages) {
-      usagesTree = symbols.map(s => s.createUsage({
-        width: s.width,
-        height: s.height,
-        transform: `translate(0, ${calculateSymbolPosition(s, this).top})`
+      usagesTrees = symbols.map(s => ({
+        tag: 'use',
+        attrs: {
+          width: s.width,
+          height: s.height,
+          'xlink:href': `#${s.id}`,
+          transform: `translate(0, ${calculateSymbolPosition(s, this).top})`
+        }
       }));
     }
 
     return Promise.all(symbols.map(s => s.generate()))
-      .then(symbolsTrees => createSpriteTree({
+      .then(symbolsTrees => generateSpriteTree({
         attrs: merge(config.attrs, { width, height }),
         defs: symbolsTrees,
-        content: usagesTree
+        content: usagesTrees
       }));
   }
 

@@ -1,7 +1,8 @@
 const merge = require('merge-options');
-const { Tree } = require('postsvg');
+const postsvg = require('postsvg');
 
 const { svg: svgNs, xlink: xlinkNs } = require('../../namespaces');
+const { moveNamespacesToRoot, moveNodesOutsideSymbol } = require('../transformations');
 
 const defaultConfig = {
   attrs: {
@@ -16,9 +17,10 @@ const defaultConfig = {
  * @param {Object} [config] {@see defaultConfig}
  * @return {Promise<PostSvgTree>}
  */
-module.exports = function createSpriteTree(config) {
+module.exports = function generateSpriteTree(config = {}) {
   const cfg = merge(defaultConfig, config);
-  return Tree.createFromArray([{
+
+  const tree = postsvg.Tree.createFromArray([{
     tag: 'svg',
     attrs: cfg.attrs,
     content: [
@@ -29,4 +31,11 @@ module.exports = function createSpriteTree(config) {
       cfg.content || false
     ].filter(Boolean)
   }]);
+
+  return postsvg([
+    moveNamespacesToRoot(),
+    moveNodesOutsideSymbol()
+  ])
+    .process(tree, { skipParse: true })
+    .then(res => res.tree);
 };

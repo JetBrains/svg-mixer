@@ -1,12 +1,4 @@
-const merge = require('merge-options');
-const postsvg = require('postsvg');
-const renameId = require('posthtml-rename-id');
-
-const {
-  svgToSymbol,
-  normalizeViewBox,
-  prefixStyleSelectors
-} = require('./transformations');
+const generateSymbolTree = require('./utils/generate-symbol-tree');
 
 class SpriteSymbol {
   constructor(id, image) {
@@ -36,30 +28,10 @@ class SpriteSymbol {
   }
 
   /**
-   * @param {Object} [attrs]
-   * @return {{tag: string, attrs: Object}}
-   */
-  createUsage(attrs = {}) {
-    return {
-      tag: 'use',
-      attrs: merge({ 'xlink:href': `#${this.id}` }, attrs)
-    };
-  }
-
-  /**
    * @return {Promise<PostSvgTree>}
    */
   generate() {
-    const { id } = this;
-
-    return postsvg([
-      normalizeViewBox(),
-      prefixStyleSelectors(`#${id}`),
-      renameId(`${id}_[id]`),
-      svgToSymbol({ id })
-    ])
-      .process(this.image.tree, { skipParse: true })
-      .then(res => res.tree);
+    return generateSymbolTree(this);
   }
 
   /**
