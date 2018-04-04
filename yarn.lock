@@ -128,10 +128,6 @@
     eslint-plugin-import "^2.7.0"
     eslint-plugin-react "^7.1.0"
 
-"@jetbrains/logos@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@jetbrains/logos/-/logos-1.0.0.tgz#6c207471e1c1b3fd11336de199bd94b774b0e26d"
-
 "@kisenka/eslint-config@1.0.1":
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/@kisenka/eslint-config/-/eslint-config-1.0.1.tgz#13af4474e4d0076d36082b7eef699cd5c64e3444"
