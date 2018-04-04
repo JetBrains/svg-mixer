@@ -1,11 +1,12 @@
 const merge = require('merge-options');
 
-const SymbolsMap = require('./symbols-map');
+const SpriteSymbol = require('./sprite-symbol');
+const SpriteSymbolsMap = require('./sprite-symbols-map');
 
 const {
   generateSpriteTree,
   calculateSymbolPosition,
-  createSymbolFromFile
+  createImageFromFile
 } = require('./utils');
 
 class Sprite {
@@ -14,7 +15,7 @@ class Sprite {
    * @property {string} filename
    * @property {Object} attrs
    * @property {boolean} usages
-   * @property {number} gap
+   * @property {number} spacing
    * @return {SpriteConfig}
    */
   static get defaultConfig() {
@@ -22,7 +23,7 @@ class Sprite {
       filename: 'sprite.svg',
       attrs: {},
       usages: true,
-      gap: 10
+      spacing: 10
     };
   }
 
@@ -32,7 +33,7 @@ class Sprite {
    */
   constructor(config, symbols) {
     this.config = merge(this.constructor.defaultConfig, config);
-    this._symbols = new SymbolsMap(symbols);
+    this._symbols = new SpriteSymbolsMap(symbols);
   }
 
   /**
@@ -52,7 +53,7 @@ class Sprite {
       .map(({ image }) => image.height)
       .reduce((sum, height) => sum + height, 0);
 
-    return symbolsHeight + (symbols.length * config.gap);
+    return symbolsHeight + (symbols.length * config.spacing);
   }
 
   /**
@@ -66,7 +67,7 @@ class Sprite {
    * @param {SpriteSymbol} symbol
    * @return {SpriteSymbol}
    */
-  addSymbol(symbol) {
+  add(symbol) {
     this._symbols.add(symbol);
   }
 
@@ -75,12 +76,21 @@ class Sprite {
    * @param {string} path
    * @return {Promise<SpriteSymbol>}
    */
-  addSymbolFromFile(id, path) {
-    return createSymbolFromFile(id, path).then(s => this.addSymbol(s));
+  addFromFile(id, path) {
+    return createImageFromFile(path)
+      .then(img => new SpriteSymbol(id, img))
+      .then(symbol => {
+        this.add(symbol);
+        return symbol;
+      });
   }
 
+  /**
+   * @param {SpriteSymbol} symbol
+   * @return {SpriteSymbolPosition}
+   */
   calculateSymbolPosition(symbol) {
-    return calculateSymbolPosition(symbol);
+    return calculateSymbolPosition(symbol, this);
   }
 
   /**
@@ -121,7 +131,7 @@ class Sprite {
     const { filename } = this.config;
 
     const css = this.symbols.map(s => {
-      const { aspectRatio, bgSize, bgPosition } = calculateSymbolPosition(s, this);
+      const { aspectRatio, bgSize, bgPosition } = this.calculateSymbolPosition(s);
       const { width, height } = bgSize;
       const { top, left } = bgPosition;
 

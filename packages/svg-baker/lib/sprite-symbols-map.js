@@ -8,7 +8,7 @@ function comparator(left, right) {
   return leftId < rightId ? -1 : 1;
 }
 
-class SymbolsMap extends Map {
+class SpriteSymbolsMap extends Map {
   /**
    * @param {Array<SpriteSymbol>} [symbols]
    */
@@ -18,7 +18,7 @@ class SymbolsMap extends Map {
 
   /**
    * @param {SpriteSymbol} symbol
-   * @return {SymbolsMap}
+   * @return {SpriteSymbolsMap}
    */
   add(symbol) {
     return this.set(symbol.id, symbol);
@@ -32,4 +32,4 @@ class SymbolsMap extends Map {
   }
 }
 
-module.exports = SymbolsMap;
+module.exports = SpriteSymbolsMap;

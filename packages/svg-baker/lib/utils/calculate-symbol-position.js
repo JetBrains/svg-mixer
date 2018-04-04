@@ -37,7 +37,7 @@ module.exports = function calculateSymbolPosition(symbol, sprite) {
   const beforeSymbols = symbols.slice(0, symbols.indexOf(symbol));
   const beforeSymbolsHeight =
     beforeSymbols.map(s => s.height).reduce((sum, h) => sum + h, 0) +
-    beforeSymbols.length * config.gap;
+    beforeSymbols.length * config.spacing;
 
   const left = spriteValue(0, spriteWidth);
   const top = spriteValue((beforeSymbolsHeight / spriteHeight) * spriteHeight, spriteHeight);
