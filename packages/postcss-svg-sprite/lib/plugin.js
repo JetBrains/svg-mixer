@@ -1,4 +1,3 @@
-const Promise = require('bluebird');
 const postcss = require('postcss');
 const merge = require('merge-options');
 const { Compiler, Sprite, StackSprite } = require('svg-baker');
@@ -23,42 +22,45 @@ module.exports = postcss.plugin(pluginName, opts => {
   const hasUserSprite = userSprite && userSprite instanceof Sprite;
   const compiler = !hasUserSprite ? new Compiler(compilerOpts) : null;
 
-  return function plugin(root, result) {
-    return collectDeclarationsToProcess(root)
-      .then(data => Promise.props({
-        data,
-        sprite: userSprite || compiler
-          .add(data.map(item => item.path))
-          .then(() => compiler.compile())
-      }))
-      .then(({ data, sprite }) => {
-        const spriteFilename = sprite.config.filename;
+  return async function plugin(root, result) {
+    const declsAndPaths = await collectDeclarationsToProcess(root);
+    let sprite;
 
-        data.forEach(({ decl, path }) => {
-          const rule = decl.parent;
-          const symbol = sprite.symbols.find(s => s.image.path === path);
-          const position = sprite.calculateSymbolPosition(symbol, 'percent');
+    if (userSprite) {
+      sprite = userSprite;
+    } else {
+      await compiler.add(declsAndPaths.map(item => item.path));
+      sprite = await compiler.compile();
+    }
 
-          if (keepAspectRatio) {
-            transforms.aspectRatio(rule, position.aspectRatio);
-          }
+    const spriteFilename = sprite.config.filename;
 
-          if (sprite instanceof StackSprite) {
-            transforms.stackSpriteSymbol(decl, `${spriteFilename}#${symbol.id}`);
-          } else if (sprite instanceof Sprite) {
-            transforms.spriteSymbol(decl, spriteFilename, position);
-          }
-        });
+    declsAndPaths.forEach(({ decl, path }) => {
+      const rule = decl.parent;
+      const symbol = sprite.symbols.find(s => s.image.path === path);
+      const position = sprite.calculateSymbolPosition(symbol, 'percent');
 
-        return sprite.render().then(content => result.messages.push({
-          type: 'asset',
-          kind: 'sprite',
-          plugin: pluginName,
-          file: spriteFilename,
-          content,
-          sprite
-        }));
-      });
+      if (keepAspectRatio) {
+        transforms.aspectRatio(rule, position.aspectRatio);
+      }
+
+      if (sprite instanceof StackSprite) {
+        transforms.stackSpriteSymbol(decl, `${spriteFilename}#${symbol.id}`);
+      } else if (sprite instanceof Sprite) {
+        transforms.spriteSymbol(decl, spriteFilename, position);
+      }
+    });
+
+    const content = await sprite.render();
+
+    result.messages.push({
+      type: 'asset',
+      kind: 'sprite',
+      plugin: pluginName,
+      file: spriteFilename,
+      content,
+      sprite
+    });
   };
 });
 
