@@ -18,7 +18,7 @@ module.exports = (files, config = {}) => {
 
   return compiler.add(files)
     .then(() => compiler.compile())
-    .then(sprite => Promise.props({ sprite, svg: sprite.render() }));
+    .then(sprite => Promise.props({ sprite, content: sprite.render() }));
 };
 
 module.exports.Compiler = Compiler;
