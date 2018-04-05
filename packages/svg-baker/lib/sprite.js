@@ -67,30 +67,17 @@ class Sprite {
    * @param {SpriteSymbol} symbol
    * @return {SpriteSymbol}
    */
-  add(symbol) {
+  addSymbol(symbol) {
     this._symbols.add(symbol);
   }
 
   /**
-   * @param {string} id
-   * @param {string} path
-   * @return {Promise<SpriteSymbol>}
-   */
-  addFromFile(id, path) {
-    return createImageFromFile(path)
-      .then(img => new SpriteSymbol(id, img))
-      .then(symbol => {
-        this.add(symbol);
-        return symbol;
-      });
-  }
-
-  /**
    * @param {SpriteSymbol} symbol
+   * @param {boolean|string} [format] false | 'px' | 'percent'
    * @return {SpriteSymbolPosition}
    */
-  calculateSymbolPosition(symbol) {
-    return calculateSymbolPosition(symbol, this);
+  calculateSymbolPosition(symbol, format) {
+    return calculateSymbolPosition(symbol, this, format);
   }
 
   /**
@@ -125,42 +112,6 @@ class Sprite {
    */
   render() {
     return this.generate().then(tree => tree.toString());
-  }
-
-  renderCss() {
-    const { filename } = this.config;
-
-    const css = this.symbols.map(s => {
-      const { aspectRatio, bgSize, bgPosition } = this.calculateSymbolPosition(s);
-      const { width, height } = bgSize;
-      const { top, left } = bgPosition;
-
-      return `
-.${s.id} {
-  position: relative;
-}
-
-.${s.id}:before {
-  display: block;
-  padding-bottom: ${aspectRatio.toPercent()};
-  box-sizing: content-box;
-  content: '';
-}
-
-.${s.id}:after {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: url('${filename}') no-repeat ${left.toPercent()} ${top.toPercent()};
-  background-size: ${width.toPercent()} ${height.toPercent()};
-  content: '';
-}
-`;
-    }).join('\n\n');
-
-    return Promise.resolve(css);
   }
 }
 

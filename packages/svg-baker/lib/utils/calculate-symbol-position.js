@@ -1,26 +1,46 @@
 const { create: spriteValue } = require('../sprite-value');
 
 /**
+ * @typedef {Object} SpriteSymbolPosition
+ * @property {SpriteValue} width
+ * @property {SpriteValue} height
+ * @property {SpriteValue} aspectRatio
+ * @property {SpriteValue} left
+ * @property {SpriteValue} top
+ * @property {Object} bgSize
+ * @property {SpriteValue} bgSize.width
+ * @property {SpriteValue} bgSize.height
+ * @property {Object} bgPosition
+ * @property {SpriteValue} bgPosition.left
+ * @property {SpriteValue} bgPosition.top
+ */
+
+/**
+ * @enum
+ */
+const FORMAT_TYPE = {
+  px: 'toPx',
+  percent: 'toPercent'
+};
+
+/**
+ * @param {SpriteValue} val
+ * @param {FORMAT_TYPE} type
+ * @return {string|SpriteValue}
+ */
+function formatVal(val, type) {
+  const formatMethod = FORMAT_TYPE[type];
+  return formatMethod ? val[formatMethod]() : val;
+}
+
+/**
  * Generate data for image positioning and scaling on sprite canvas.
  * @param {SpriteSymbol} symbol
  * @param {Sprite} sprite
- * @return {{
-   *   width: SpriteValue,
-   *   height: SpriteValue,
-   *   aspectRatio: SpriteValue,
-   *   left: SpriteValue,
-   *   top: SpriteValue,
-   *   bgSize: {
-   *     width: SpriteValue,
-   *     height: SpriteValue
-   *   },
-   *   bgPosition: {
-   *     left: SpriteValue,
-   *     top: SpriteValue
-   *   }
-   * }}
+ * @param {FORMAT_TYPE|false} [format=false] false | 'px' | 'percent'
+ * @return {SpriteSymbolPosition}
  */
-module.exports = function calculateSymbolPosition(symbol, sprite) {
+module.exports = function calculateSymbolPosition(symbol, sprite, format = false) {
   const { width: spriteWidth, height: spriteHeight, symbols, config } = sprite;
   const { width: symbolWidth, height: symbolHeight } = symbol;
 
@@ -53,18 +73,18 @@ module.exports = function calculateSymbolPosition(symbol, sprite) {
   );
 
   return {
-    width,
-    height,
-    aspectRatio,
-    left,
-    top,
+    width: formatVal(width, format),
+    height: formatVal(height, format),
+    aspectRatio: formatVal(aspectRatio, format),
+    left: formatVal(left, format),
+    top: formatVal(top, format),
     bgSize: {
-      width: desiredWidth,
-      height: desiredHeight
+      width: formatVal(desiredWidth, format),
+      height: formatVal(desiredHeight, format)
     },
     bgPosition: {
-      left: bgLeftPosition,
-      top: bgTopPosition
+      left: formatVal(bgLeftPosition, format),
+      top: formatVal(bgTopPosition, format)
     }
   };
 };

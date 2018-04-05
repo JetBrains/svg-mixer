@@ -8,16 +8,17 @@ const StackSprite = require('./lib/stack-sprite');
 const SpriteSymbol = require('./lib/sprite-symbol');
 const SpriteSymbolsMap = require('./lib/sprite-symbols-map');
 
-module.exports = (files, config) => {
+/**
+ * @param {string|Array<string>} files Glob pattern, absolute path or array of them combination.
+ * @param {CompilerConfig} [config]
+ * @return {Promise<{sprite: Sprite, svg: string}>}
+ */
+module.exports = (files, config = {}) => {
   const compiler = new Compiler(config);
 
   return compiler.add(files)
     .then(() => compiler.compile())
-    .then(sprite => Promise.props({
-      sprite,
-      svg: sprite.render(),
-      css: sprite.renderCss()
-    }));
+    .then(sprite => Promise.props({ sprite, svg: sprite.render() }));
 };
 
 module.exports.Compiler = Compiler;
