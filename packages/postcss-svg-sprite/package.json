@@ -4,6 +4,9 @@
   "description": "",
   "license": "MIT",
   "repository": "https://github.com/kisenka/svg-baker/packages/postcss-svg-sprite",
+  "files": [
+    "lib"
+  ],
   "dependencies": {
     "bluebird": "^3.5.1",
     "postcss": "^6.0.21",
