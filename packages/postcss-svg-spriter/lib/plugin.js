@@ -1,6 +1,7 @@
 const postcss = require('postcss');
 const merge = require('merge-options');
 const { Compiler, Sprite, StackSprite } = require('svg-baker');
+const { stringify: stringifyQuery } = require('query-string');
 
 const { name: packageName } = require('../package.json');
 
@@ -25,9 +26,8 @@ module.exports = postcss.plugin(packageName, opts => {
     sprite: userSprite,
     ...compilerOpts
   } = merge(defaultConfig, opts);
-  const hasUserSprite = userSprite && userSprite instanceof Sprite;
-  const compiler = !hasUserSprite ? new Compiler(compilerOpts) : null;
-  const isWebpack = ctx && ctx.webpack;
+  const compiler = !userSprite ? new Compiler(compilerOpts) : null;
+  const isWebpack = !!(ctx && ctx.webpack);
 
   return async function plugin(root, result) {
     const declsAndPaths = await collectDeclarationsToProcess(root);
@@ -36,15 +36,17 @@ module.exports = postcss.plugin(packageName, opts => {
     if (userSprite) {
       sprite = userSprite;
     } else {
-      await compiler.add(declsAndPaths.map(item => item.path));
+      const files = declsAndPaths.map(item => item.path);
+      await compiler.add(files);
       sprite = await compiler.compile();
     }
 
     const spriteFilename = sprite.config.filename;
 
-    declsAndPaths.forEach(({ decl, path, url: originalUrl }) => {
+    declsAndPaths.forEach(item => {
+      const { decl, path, absolutePath, query = {} } = item;
       const rule = decl.parent;
-      const symbol = sprite.symbols.find(s => s.image.path === path);
+      const symbol = sprite.symbols.find(s => s.image.path === absolutePath);
       const position = sprite.calculateSymbolPosition(symbol, 'percent');
       let url;
 
@@ -58,7 +60,8 @@ module.exports = postcss.plugin(packageName, opts => {
       } else if (sprite instanceof Sprite) {
         // In webpack env plugin produce `original_url?sprite_filename.svg`, and special loader
         // in pitching phase replace original url with sprite file name
-        url = isWebpack ? `${originalUrl}?${spriteFilename}` : spriteFilename;
+        const q = stringifyQuery({ ...query, spriteFilename });
+        url = isWebpack ? `${path}?${q}` : spriteFilename;
         transforms.spriteSymbol(decl, url, position);
       }
     });

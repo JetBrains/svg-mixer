@@ -3,6 +3,7 @@ const path = require('path');
 const Promise = require('bluebird');
 const merge = require('merge-options');
 const { createUrlsHelper } = require('postcss-helpers');
+const { parse: parseQuery } = require('query-string');
 
 const resolveFile = require('./resolve-file');
 
@@ -27,23 +28,27 @@ const defaultOptions = {
 /**
  * @param {postcss.Root} root
  * @param {Object} [opts] {@see defaultOptions}
- * @return {Promise<Array<{path: string, decl: postcss.Declaration}>>}
+ * @return {Promise<Array<{path: string, original: string, query: string, decl: postcss.Declaration}>>}
  */
-module.exports = function collectDeclarationsToProcess(root, opts) {
-  const { resolveUrls } = merge(defaultOptions, opts);
+module.exports = function collectDeclarationsToProcess(root) {
   const from = root.source.input.file;
-  const stylesheetContextPath = from ? path.dirname(from) : undefined;
+  const sourceContextPath = from ? path.dirname(from) : undefined;
   const entries = [];
 
   root.walkDecls(decl => {
     if (isDeclarationShouldBeProcessed(decl)) {
-      const url = createUrlsHelper(decl.value).URIS[0].toString();
-      entries.push({ url, decl });
+      const url = createUrlsHelper(decl.value).URIS[0]; // pick first value from url(...)
+      entries.push({
+        original: url.toString(),
+        path: url.path(),
+        query: url.query() ? parseQuery(url.query()) : undefined,
+        decl
+      });
     }
   });
 
-  return Promise.map(entries, ({ url, decl }) => Promise.props({
-    decl, url,
-    path: resolveUrls ? resolveFile(url, stylesheetContextPath) : url
+  return Promise.map(entries, item => Promise.props({
+    ...item,
+    absolutePath: resolveFile(item.path, sourceContextPath)
   }));
 };
