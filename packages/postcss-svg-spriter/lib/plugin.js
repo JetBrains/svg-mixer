@@ -15,6 +15,7 @@ const defaultConfig = {
  * TODO process only SVGs
  * TODO include, exclude
  * TODO format units percent or pixels
+ * TODO 2 modes of :before and :after generation
  */
 
 module.exports = postcss.plugin(packageName, opts => {
@@ -26,6 +27,7 @@ module.exports = postcss.plugin(packageName, opts => {
   } = merge(defaultConfig, opts);
   const hasUserSprite = userSprite && userSprite instanceof Sprite;
   const compiler = !hasUserSprite ? new Compiler(compilerOpts) : null;
+  const isWebpack = ctx && ctx.webpack;
 
   return async function plugin(root, result) {
     const declsAndPaths = await collectDeclarationsToProcess(root);
@@ -40,19 +42,24 @@ module.exports = postcss.plugin(packageName, opts => {
 
     const spriteFilename = sprite.config.filename;
 
-    declsAndPaths.forEach(({ decl, path }) => {
+    declsAndPaths.forEach(({ decl, path, url: originalUrl }) => {
       const rule = decl.parent;
       const symbol = sprite.symbols.find(s => s.image.path === path);
       const position = sprite.calculateSymbolPosition(symbol, 'percent');
+      let url;
 
       if (keepAspectRatio) {
         transforms.aspectRatio(rule, position.aspectRatio);
       }
 
       if (sprite instanceof StackSprite) {
-        transforms.stackSpriteSymbol(decl, `${spriteFilename}#${symbol.id}`);
+        url = `${spriteFilename}#${symbol.id}`;
+        transforms.stackSpriteSymbol(decl, url);
       } else if (sprite instanceof Sprite) {
-        transforms.spriteSymbol(decl, spriteFilename, position);
+        // In webpack env plugin produce `original_url?sprite_filename.svg`, and special loader
+        // in pitching phase replace original url with sprite file name
+        url = isWebpack ? `${originalUrl}?${spriteFilename}` : spriteFilename;
+        transforms.spriteSymbol(decl, url, position);
       }
     });
 
@@ -66,7 +73,7 @@ module.exports = postcss.plugin(packageName, opts => {
       sprite
     });
 
-    if (ctx && ctx.webpack) {
+    if (isWebpack) {
       ctx.webpack._compilation.assets[spriteFilename] = {
         source() {
           return spriteContent;

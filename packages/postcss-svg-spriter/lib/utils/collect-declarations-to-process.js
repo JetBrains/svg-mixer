@@ -43,7 +43,7 @@ module.exports = function collectDeclarationsToProcess(root, opts) {
   });
 
   return Promise.map(entries, ({ url, decl }) => Promise.props({
-    path: resolveUrls ? resolveFile(url, stylesheetContextPath) : url,
-    decl
+    decl, url,
+    path: resolveUrls ? resolveFile(url, stylesheetContextPath) : url
   }));
 };
