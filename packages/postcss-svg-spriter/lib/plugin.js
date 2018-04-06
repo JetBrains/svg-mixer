@@ -1,7 +1,7 @@
 const postcss = require('postcss');
 const merge = require('merge-options');
 const { Compiler, Sprite, StackSprite } = require('svg-baker');
-const { stringify: stringifyQuery } = require('query-string');
+const { parse: parseQuery, stringify: stringifyQuery } = require('query-string');
 
 const { name: packageName } = require('../package.json');
 
@@ -36,18 +36,21 @@ module.exports = postcss.plugin(packageName, opts => {
     if (userSprite) {
       sprite = userSprite;
     } else {
-      const files = declsAndPaths.map(item => item.path);
-      await compiler.add(files);
+      const files = declsAndPaths.map(item => `${item.absolute}${item.query || ''}`);
+      await compiler.addFiles(files);
       sprite = await compiler.compile();
     }
 
     const spriteFilename = sprite.config.filename;
 
     declsAndPaths.forEach(item => {
-      const { decl, path, absolutePath, query = {} } = item;
+      const { decl, path, absolute, query } = item;
       const rule = decl.parent;
-      const symbol = sprite.symbols.find(s => s.image.path === absolutePath);
+      const symbol = sprite.symbols.find(({ image }) => {
+        return image.path === absolute && image.query === query;
+      });
       const position = sprite.calculateSymbolPosition(symbol, 'percent');
+      const parsedQuery = parseQuery(query || '');
       let url;
 
       if (keepAspectRatio) {
@@ -60,7 +63,7 @@ module.exports = postcss.plugin(packageName, opts => {
       } else if (sprite instanceof Sprite) {
         // In webpack env plugin produce `original_url?sprite_filename.svg`, and special loader
         // in pitching phase replace original url with sprite file name
-        const q = stringifyQuery({ ...query, spriteFilename });
+        const q = stringifyQuery({ ...parsedQuery, spriteFilename });
         url = isWebpack ? `${path}?${q}` : spriteFilename;
         transforms.spriteSymbol(decl, url, position);
       }

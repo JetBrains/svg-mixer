@@ -12,6 +12,7 @@
   ],
   "dependencies": {
     "bluebird": "^3.5.0",
+    "fs-extra": "^5.0.0",
     "glob-all": "^3.1.0",
     "he": "^1.1.1",
     "image-size": "^0.5.1",
@@ -21,7 +22,9 @@
     "postcss-prefix-selector": "^1.6.0",
     "posthtml-rename-id": "^1.0",
     "postsvg": "^2.0.0",
-    "traverse": "^0.6.6"
+    "query-string": "^6.0.0",
+    "traverse": "^0.6.6",
+    "url-slug": "^2.0.0"
   },
   "scripts": {
     "test": "mocha -r $MOCHA_SETUP_PATH"

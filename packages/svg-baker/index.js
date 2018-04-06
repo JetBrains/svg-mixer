@@ -16,7 +16,7 @@ const SpriteSymbolsMap = require('./lib/sprite-symbols-map');
 module.exports = (files, config = {}) => {
   const compiler = new Compiler(config);
 
-  return compiler.add(files)
+  return compiler.glob(files)
     .then(() => compiler.compile())
     .then(sprite => Promise.props({ sprite, content: sprite.render() }));
 };

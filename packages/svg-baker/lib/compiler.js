@@ -1,11 +1,15 @@
 /* eslint-disable new-cap */
 const Promise = require('bluebird');
 const merge = require('merge-options');
+const glob = require('glob-all');
+const slugify = require('url-slug');
+const { readFile } = require('fs-extra');
 
+const Image = require('./image');
 const Sprite = require('./sprite');
 const StackSprite = require('./stack-sprite');
 const SpriteSymbol = require('./sprite-symbol');
-const { glob, createImageFromFile, getBasename } = require('./utils');
+const { getBasename } = require('./utils');
 
 class Compiler {
   /**
@@ -22,7 +26,7 @@ class Compiler {
       spriteConfig: {},
       spriteClass: Sprite,
       symbolClass: SpriteSymbol,
-      generateSymbolId: path => getBasename(path)
+      generateSymbolId: (path, query = '') => slugify(`${getBasename(path)}${query}`)
     };
   }
 
@@ -52,12 +56,31 @@ class Compiler {
    * @param {string|Array<string>} files Glob pattern or absolute path or array of them
    * @return {Promise<SpriteSymbol>}
    */
-  add(files) {
-    const { symbolClass, generateSymbolId: generateId } = this.config;
+  glob(files) {
+    const p = typeof pattern === 'string' ? [files] : files;
+    return new Promise((resolve, reject) => {
+      glob(p, { nodir: true, absolute: true }, (err, f) => {
+        return err ? reject(err) : resolve(f);
+      });
+    }).then(paths => this.addFiles(paths));
+  }
 
-    return glob(files)
-      .then(paths => Promise.map(paths, path => createImageFromFile(path)))
-      .then(images => images.map(img => new symbolClass(generateId(img.path), img)))
+  /**
+   * @param {Array<string>} paths
+   * @return {Promise<SpriteSymbol>}
+   */
+  addFiles(paths) {
+    const { symbolClass, generateSymbolId: generateId } = this.config;
+    const p = paths.map(path => ({
+      path,
+      absolute: path.split('?')[0]
+    }));
+
+    // eslint-disable-next-line arrow-body-style
+    return Promise.map(p, ({ path, absolute }) => {
+      return readFile(absolute).then(content => new Image(path, content));
+    })
+      .then(images => images.map(img => new symbolClass(generateId(img.path, img.query), img)))
       .then(symbols => {
         this.symbols = this.symbols.concat(symbols);
         return symbols;
