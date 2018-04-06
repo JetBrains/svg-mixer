@@ -52,7 +52,7 @@ module.exports = postcss.plugin(packageName, opts => {
       if (sprite instanceof StackSprite) {
         transforms.stackSpriteSymbol(decl, `${spriteFilename}#${symbol.id}`);
       } else if (sprite instanceof Sprite) {
-        transforms.spriteSymbol(decl, `[postcss-svg-spriter:${spriteFilename}]`, position);
+        transforms.spriteSymbol(decl, spriteFilename, position);
       }
     });
 
