@@ -1,6 +1,5 @@
 module.exports.collectDeclarationsToProcess = require('./collect-declarations-to-process');
 module.exports.resolveFile = require('./resolve-file');
-module.exports.transformDeclaration = require('./transform-declaration');
 
 /**
  * @param {string} selector

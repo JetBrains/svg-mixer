@@ -2,6 +2,8 @@ const postcss = require('postcss');
 const merge = require('merge-options');
 const { Compiler, Sprite, StackSprite } = require('svg-baker');
 
+const { name: packageName } = require('../package.json');
+
 const { collectDeclarationsToProcess } = require('./utils');
 const transforms = require('./transformations');
 
@@ -15,10 +17,13 @@ const defaultConfig = {
  * TODO format units percent or pixels
  */
 
-const pluginName = 'postcss-svg-sprite';
-
-module.exports = postcss.plugin(pluginName, opts => {
-  const { keepAspectRatio, sprite: userSprite, ...compilerOpts } = merge(defaultConfig, opts);
+module.exports = postcss.plugin(packageName, opts => {
+  const {
+    ctx,
+    keepAspectRatio,
+    sprite: userSprite,
+    ...compilerOpts
+  } = merge(defaultConfig, opts);
   const hasUserSprite = userSprite && userSprite instanceof Sprite;
   const compiler = !hasUserSprite ? new Compiler(compilerOpts) : null;
 
@@ -47,21 +52,29 @@ module.exports = postcss.plugin(pluginName, opts => {
       if (sprite instanceof StackSprite) {
         transforms.stackSpriteSymbol(decl, `${spriteFilename}#${symbol.id}`);
       } else if (sprite instanceof Sprite) {
-        transforms.spriteSymbol(decl, spriteFilename, position);
+        transforms.spriteSymbol(decl, `[postcss-svg-spriter:${spriteFilename}]`, position);
       }
     });
 
-    const content = await sprite.render();
+    const spriteContent = await sprite.render();
 
     result.messages.push({
       type: 'asset',
-      kind: 'sprite',
-      plugin: pluginName,
+      plugin: packageName,
       file: spriteFilename,
-      content,
+      content: spriteContent,
       sprite
     });
+
+    if (ctx && ctx.webpack) {
+      ctx.webpack._compilation.assets[spriteFilename] = {
+        source() {
+          return spriteContent;
+        },
+        size() {
+          return spriteContent.length;
+        }
+      };
+    }
   };
 });
-
-module.exports.name = pluginName;
