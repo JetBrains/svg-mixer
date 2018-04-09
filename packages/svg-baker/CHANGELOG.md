@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="2.0.1-0"></a>
+## [2.0.1-0](https://github.com/kisenka/svg-baker/packages/svg-baker/compare/svg-baker@2.0.0...svg-baker@2.0.1-0) (2018-04-09)
+
+
+### Bug Fixes
+
+* restore package entrypoint ([d5faff6](https://github.com/kisenka/svg-baker/packages/svg-baker/commit/d5faff6))
+
+
+
+
 <a name="2.0.0"></a>
 # [2.0.0](https://github.com/kisenka/svg-baker/packages/svg-baker/compare/svg-baker@1.2.12...svg-baker@2.0.0) (2018-04-09)
 

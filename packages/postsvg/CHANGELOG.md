@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="2.1.1-0"></a>
+## [2.1.1-0](https://github.com/kisenka/svg-baker/packages/postsvg/compare/postsvg@2.1.0...postsvg@2.1.1-0) (2018-04-09)
+
+
+### Bug Fixes
+
+* restore package entrypoint ([58ec666](https://github.com/kisenka/svg-baker/packages/postsvg/commit/58ec666))
+
+
+
+
 <a name="2.1.0"></a>
 # 2.1.0 (2018-04-09)
 
