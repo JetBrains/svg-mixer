@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "description": "",
   "license": "MIT",
-  "repository": "https://github.com/kisenka/svg-baker/packages/postcss-svg-sprite",
+  "repository": "https://github.com/kisenka/svg-baker/packages/postcss-svg-spriter",
   "files": [
     "lib"
   ],
