@@ -1,6 +1,6 @@
 {
   "name": "postcss-svg-spriter",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "",
   "license": "MIT",
   "repository": "https://github.com/kisenka/svg-baker/packages/postcss-svg-spriter",
@@ -12,6 +12,6 @@
     "postcss": "^6.0.21",
     "postcss-helpers": "^0.3.2",
     "query-string": "^6.0.0",
-    "svg-baker": "^1.2.17"
+    "svg-baker": "^2.0.0"
   }
 }
