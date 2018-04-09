@@ -1,12 +1,12 @@
-const processor = require('posthtml-svg-mode');
-const { strictEqual } = require('assert');
+const { promisify } = require('util');
+const readFile = promisify(require('fs').readFile);
 
-exports.setupPluginTest = (plugin = null) => {
-  return (options, input, expected) => {
-    const args = plugin ? [plugin(options !== null ? options : undefined)] : tree => tree;
+const processor = require('postsvg');
 
-    return processor(args)
-      .process(input)
-      .then(result => strictEqual(result.toString(), expected));
-  };
+module.exports.testPlugin = (plugin = null) => async (options, input) => {
+  const args = plugin ? [plugin(options !== null ? options : undefined)] : tree => tree;
+  const res = await processor(args).process(input);
+  return res.toString();
 };
+
+module.exports.readFixture = async filepath => readFile(__dirname, `fixtures/${filepath}`);

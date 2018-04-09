@@ -1,0 +1,3 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Move all gradients, patterns and filters outside symbol 1`] = `"<svg><symbol><defs></defs></symbol><linearGradient></linearGradient></svg>"`;

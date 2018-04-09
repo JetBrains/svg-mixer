@@ -1,0 +1,5 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should create viewBox if not presented 1`] = `"<svg width=\\"0\\" height=\\"0\\" viewBox=\\"0 0 0 0\\"></svg>"`;
+
+exports[`should do nothing if viewBox presented 1`] = `"<svg viewBox=\\"0 0 0 0\\"></svg>"`;

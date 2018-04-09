@@ -12,7 +12,7 @@
     {
       "files": [
         "packages/*/test.js",
-        "packages/*/test/*.test.js"
+        "packages/*/test/{*,**/*}.test.js"
       ],
       "env": {
         "mocha": true,

@@ -1,11 +1,10 @@
-const plugin = require('../../lib/transformations/prefix-style-selectors');
+const { prefixStyleSelectors } = require('svg-baker/lib/transformations');
 
-const t = utils.setupPluginTest(plugin);
+const t = utils.testPlugin(prefixStyleSelectors);
 
-describe('svg-baker/transformations/prefix-style-selectors', () => {
-  it('should work', () => t(
+it('should prefix all <style> tag selectors', async () => {
+  expect(await t(
     '.qwe',
     '<svg><defs><style>.a {} .b .c {}</style></defs></svg>',
-    '<svg><defs><style>.qwe .a {} .qwe .b .c {}</style></defs></svg>'
-  ));
+  )).toMatchSnapshot();
 });

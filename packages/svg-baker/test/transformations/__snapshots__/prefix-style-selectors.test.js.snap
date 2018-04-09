@@ -1,0 +1,3 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`/Users/kisenka/projects/svg-baker/packages/svg-baker/test/transformations/prefix-style-selectors.test.js 1`] = `"<svg><defs><style>.qwe .a {} .qwe .b .c {}</style></defs></svg>"`;

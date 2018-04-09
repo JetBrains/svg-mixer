@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should work!: change-root-node-name 1`] = `"<symbol></symbol>"`;
+
+exports[`should work!: preserve-attributes 1`] = `"<symbol class=\\"qwe\\"></symbol>"`;
+
+exports[`should work!: remove-doctype 1`] = `"<symbol><path /></symbol>"`;
+
+exports[`should work!: set-id-if-not 1`] = `"<symbol id=\\"qwe\\"></symbol>"`;
