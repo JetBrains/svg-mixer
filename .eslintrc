@@ -15,7 +15,8 @@
         "packages/*/test/*.test.js"
       ],
       "env": {
-        "mocha": true
+        "mocha": true,
+        "jest": true
       },
       "globals": {
         "utils": true

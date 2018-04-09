@@ -31,6 +31,14 @@ class Compiler {
   }
 
   /**
+   * @param {CompilerConfig} config
+   * @return {Compiler}
+   */
+  static create(config) {
+    return new Compiler(config);
+  }
+
+  /**
    * @param {CompilerConfig} [config]
    */
   constructor(config = {}) {

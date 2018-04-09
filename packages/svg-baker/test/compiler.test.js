@@ -1,32 +1,35 @@
-const Compiler = require('../lib/compiler');
-const SpriteSymbol = require('../lib/symbol');
+const { resolve, dirname } = require('path');
+
+const { Compiler, Sprite } = require('svg-baker');
+
+const c = Compiler.create;
+const logosPackage = dirname(require.resolve('@jetbrains/logos'));
 
 describe('svg-baker/compiler', () => {
-  describe('addSymbol()', () => {
-    let data;
+  it('constructor()', () => {
+    c().config.spriteClass.name.should.eql('Sprite');
+    c({ mode: 'stack' }).config.spriteClass.name.should.eql('StackSprite');
+  });
 
-    beforeEach(() => {
-      data = { path: 'image.svg', content: '<svg></svg>' };
-    });
+  it('glob()', async () => {
+    (await c().glob(resolve(`${logosPackage}/appcode/*.svg`)))
+      .length.should.eql(2);
 
-    it('should return promise resolved with Symbol', async () => {
-      const result = await new Compiler().addSymbol(data);
-      expect(result).to.be.instanceOf(SpriteSymbol);
-    });
+    (await c().glob([resolve(`${logosPackage}/appcode/appcode.svg`)]))
+      .length.should.eql(1);
+  });
 
-    it('should replace existing symbol with the same request', async () => {
-      const compiler = new Compiler();
+  it('addFiles()', async () => {
+    (await c().addFiles([
+      resolve(`${logosPackage}/appcode/appcode.svg`),
+      resolve(`${logosPackage}/teamcity/teamcity.svg`)
+    ])).length.should.eql(2);
+  });
 
-      await compiler.addSymbol(data);
-      compiler.symbols[0].request.toString().should.equals(data.path);
-
-      await compiler.addSymbol(data);
-      compiler.symbols.should.be.lengthOf(1);
-      compiler.symbols[0].request.toString().should.equals(data.path);
-    });
-
-    // TODO
-    it('should affect each symbol added early with the same request', async () => {
-    });
+  it('compile()', async () => {
+    const compiler = c();
+    await compiler.glob(`${logosPackage}/appcode/*.svg`);
+    (await compiler.compile())
+      .should.be.instanceOf(Sprite);
   });
 });
