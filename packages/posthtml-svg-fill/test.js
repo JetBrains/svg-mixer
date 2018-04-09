@@ -1,7 +1,8 @@
 const { deepStrictEqual } = require('assert');
+
 const plugin = require('.');
 
-const t = utils.setupPluginTest(plugin);
+const t = utils.testPlugin(plugin);
 
 const matcher = plugin.selectorToMatcher;
 

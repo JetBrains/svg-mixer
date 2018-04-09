@@ -1,0 +1,5 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should work! 1`] = `"<g><path /></g>"`;
+
+exports[`should work! 2`] = `"<path><animateTransform /></path>"`;

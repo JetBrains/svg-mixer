@@ -1,15 +1,12 @@
-const t = utils.setupPluginTest();
+const t = utils.testPlugin();
 
-describe('posthtml-svg-mode/renderer', () => {
-  it('should properly render self-closing tags', () => t(
-    null,
-    '<g><path /></g>',
-    '<g><path /></g>'
-  ));
+const t2 = [
+  '<g><path /></g>',
+  '<path><animateTransform /></path>'
+];
 
-  it('should detect if self-closing element used as block element', () => t(
-    null,
-    '<path><animateTransform /></path>',
-    '<path><animateTransform /></path>'
-  ));
+it('should work!', async () => {
+  for (const val of t2) {
+    expect(await t(undefined, val)).toMatchSnapshot();
+  }
 });

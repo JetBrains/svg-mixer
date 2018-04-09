@@ -1,6 +1,6 @@
 const plugin = require('.');
 
-const t = utils.setupPluginTest(plugin);
+const t = utils.testPlugin(plugin);
 const pattern = 'test_[id]';
 
 describe('posthtml-rename-id', () => {
