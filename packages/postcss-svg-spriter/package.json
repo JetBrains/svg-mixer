@@ -5,7 +5,9 @@
   "license": "MIT",
   "repository": "https://github.com/kisenka/svg-baker/packages/postcss-svg-spriter",
   "files": [
-    "lib"
+    "lib/",
+    "index.js",
+    "loader.js"
   ],
   "dependencies": {
     "bluebird": "^3.5.1",
