@@ -5,7 +5,8 @@
   "license": "MIT",
   "repository": "https://github.com/kisenka/svg-baker/packages/postsvg",
   "files": [
-    "lib"
+    "lib",
+    "index.js"
   ],
   "dependencies": {
     "clone": "^1.0.4",
