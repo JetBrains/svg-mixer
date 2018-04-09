@@ -27,6 +27,6 @@
     "url-slug": "^2.0.0"
   },
   "scripts": {
-    "test": "mocha -r $MOCHA_SETUP_PATH"
+    "test": "mocha -r $MOCHA_SETUP_PATH "
   }
 }
