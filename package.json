@@ -26,7 +26,8 @@
     "bootstrap": "lerna bootstrap",
     "commitmsg": "node scripts/lint-commit-msg",
     "lint": "eslint packages scripts test",
-    "release": "lerna publish --conventional-commits --npm-client=npm",
+    "publish": "lerna publish --conventional-commits --npm-client=npm",
+    "publish:dry-run": "yarn run publish --skip-git --skip-npm",
     "test": "MOCHA_SETUP_PATH=$(pwd)/test/mocha-setup lerna run test"
   }
 }
