@@ -14,7 +14,7 @@ const { getBasename } = require('./utils');
 class Compiler {
   /**
    * @typedef {Object} CompilerConfig
-   * @property {string} mode 'default' | 'stack'
+   * @property {string} spriteType 'default' | 'stack'
    * @property {SpriteConfig|StackSpriteConfig} spriteConfig
    * @property {Sprite|StackSprite} spriteClass
    * @property {SpriteSymbol} symbolClass
@@ -22,7 +22,7 @@ class Compiler {
    */
   static get defaultConfig() {
     return {
-      mode: 'default',
+      spriteType: 'default',
       spriteConfig: {},
       spriteClass: Sprite,
       symbolClass: SpriteSymbol,
@@ -45,7 +45,7 @@ class Compiler {
     this.symbols = [];
 
     const cfg = merge(this.constructor.defaultConfig, config);
-    switch (cfg.mode) {
+    switch (cfg.spriteType) {
       default:
       case 'default':
         cfg.spriteClass = Sprite;

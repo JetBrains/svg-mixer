@@ -7,7 +7,7 @@ const logosPackage = dirname(require.resolve('@jetbrains/logos'));
 
 it('constructor()', () => {
   c().config.spriteClass.name.should.eql('Sprite');
-  c({ mode: 'stack' }).config.spriteClass.name.should.eql('StackSprite');
+  c({ spriteType: 'stack' }).config.spriteClass.name.should.eql('StackSprite');
 });
 
 it('glob()', async () => {
