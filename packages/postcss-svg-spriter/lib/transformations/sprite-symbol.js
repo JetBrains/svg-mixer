@@ -1,11 +1,7 @@
 const postcss = require('postcss');
 
 const { transformSelector, objectToDeclProps } = require('../utils');
-
-const FORMAT = {
-  PLAIN: 'plain',
-  FLEXIBLE: 'flexible'
-};
+const FORMAT = require('../utils/format');
 
 const PROPER_POSITION = /relative|absolute|fixed/;
 
@@ -32,7 +28,7 @@ module.exports = opts => {
       }));
       break;
 
-    case FORMAT.FLEXIBLE:
+    case FORMAT.FULL:
       const hasProperPosition = rule
         .some(({ prop, value }) => prop === 'position' && value.match(PROPER_POSITION));
 
@@ -60,3 +56,4 @@ module.exports = opts => {
 
   decl.remove();
 };
+

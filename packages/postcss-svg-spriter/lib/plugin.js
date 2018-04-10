@@ -7,21 +7,21 @@ const anymatch = require('anymatch');
 const { name: packageName } = require('../package.json');
 
 const { collectDeclarationsToProcess } = require('./utils');
+const FORMAT = require('./utils/format');
 const transforms = require('./transformations');
 
 /**
  * @typedef {Object} PluginConfig
  * @extends {CompilerConfig}
  * @property {RegExp|string|Array<RegExp|string>} match
- * @property {string} format 'plain' | 'flexible'
- * @property {Sprite} sprite
+ * @property {string} format 'plain' | 'full'
  * @property {boolean} aspectRatio=true
+ * @property {Sprite} sprite
  */
 const defaultConfig = {
   match: /\.svg($|\?.*$)/,
-  format: 'plain',
+  format: FORMAT.PLAIN,
   aspectRatio: true,
-  spriteType: 'classic',
   sprite: undefined
 };
 
@@ -104,8 +104,9 @@ module.exports = postcss.plugin(packageName, (opts = {}) => {
             return content.length;
           }
         };
-        debugger;
       }
     });
   };
 });
+
+module.exports.FORMAT = FORMAT;

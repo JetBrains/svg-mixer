@@ -7,6 +7,8 @@ const { name: packageName } = require('../package.json');
 
 const plugin = require('..');
 
+const FORMAT = require('../lib/utils/format');
+
 const spriteDefaultConfig = baker.Sprite.defaultConfig;
 const stylesheetPath = resolve(__dirname, 'fixtures/test.css'); // Using fixtures dir path for shortly urls
 const defaultInput = '.a {background:url(twitter.svg)}';
@@ -42,10 +44,10 @@ describe('Options', () => {
   });
 
   it('format', async () => {
-    let res = await exec(defaultInput);
+    let res = await exec(defaultInput, { format: FORMAT.PLAIN });
     res.css.should.not.contain('::after');
 
-    res = await exec(defaultInput, { format: 'flexible' });
+    res = await exec(defaultInput, { format: FORMAT.FULL });
     res.css.should.contain('::after');
   });
 
