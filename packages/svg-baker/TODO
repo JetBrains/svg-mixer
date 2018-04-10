@@ -1,2 +1,4 @@
 - Optimize:
   - Merge symbols with same image path but different query in 1 symbol?
+
+- Raster image support
