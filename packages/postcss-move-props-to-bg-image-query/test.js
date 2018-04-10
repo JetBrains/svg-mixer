@@ -5,7 +5,7 @@ const plugin = require('.');
 function exec(input, opts) {
   return postcss()
     .use(plugin(opts))
-    .process(input)
+    .process(input, { from: __filename })
     .then(({ css }) => css);
 }
 
@@ -60,22 +60,22 @@ it('should always encode prop value even with custom transformer', async () => {
 it('should allow to use include/exclude options', async () => {
   expect(await exec(
     '.a {background: url(1.svg); svg-fill: red;}',
-    { include: '*.png' }
+    { match: '*.png' }
   )).toMatchSnapshot();
 
   expect(await exec(
     '.a {background: url(300.svg); svg-fill: red;}',
-    { include: '*.svg', exclude: '300.*' }
+    { match: ['*.svg', '!300.*'] }
   )).toMatchSnapshot();
 
   expect(await exec(
     '.a {background: url(1.bmp); svg-fill: red;}',
-    { include: ['*.png', '*.svg'] }
+    { match: ['*.png', '*.svg'] }
   )).toMatchSnapshot();
 
   expect(await exec(
     '.a {background: url(1.svg); svg-fill: red;}',
-    { include: ['*.png', '*.svg'] }
+    { match: ['*.png', '*.svg'] }
   )).toMatchSnapshot();
 });
 

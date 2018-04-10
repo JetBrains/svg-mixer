@@ -1,5 +1,4 @@
 const merge = require('merge-options');
-const multimatch = require('multimatch');
 
 const BACKGROUND_DECL_NAME_REGEXP = new RegExp('^background(-image)?$', 'i');
 const URL_FUNCTION_REGEXP = new RegExp('url\\\(.*?\\\)', 'ig');
@@ -24,17 +23,10 @@ function findBgImageDecl(rule) {
 
 module.exports.findBgImageDecl = findBgImageDecl;
 
-function findDeclsToMove(rule, props) {
-  let decls = [];
-
-  rule.walkDecls(decl => {
-    const r = multimatch([decl.prop], props);
-    if (r.length > 0) {
-      decls = decls.concat(decl);
-    }
-  });
-
-  return decls;
+function findDeclsToMove(rule, matcher) {
+  const decls = [];
+  rule.walkDecls(decl => decls.push(decl));
+  return decls.filter(d => matcher(d.prop));
 }
 
 module.exports.findDeclsToMove = findDeclsToMove;
