@@ -1,0 +1,19 @@
+{
+  "name": "postcss-move-props-to-bg-image-query",
+  "version": "0.0.0",
+  "description": "",
+  "license": "MIT",
+  "repository": "https://github.com/kisenka/svg-baker/packages/postcss-move-props-to-bg-image-query",
+  "files": [
+    "lib/",
+    "index.js",
+    "utils.js"
+  ],
+  "dependencies": {
+    "include-exclude": "^0.0.1",
+    "merge-options": "^1.0.0",
+    "multimatch": "^2.1.0",
+    "postcss": "^6.0.1",
+    "postcss-helpers": "^0.3.2"
+  }
+}

@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should allow to not remove props after moving them to query 1`] = `".a {background: url(1.png); svg-fill: red;}"`;
+
+exports[`should allow to override default props 1`] = `".a {background: url(1.png); svg-fill: red; color: blue}"`;
+
+exports[`should allow to use custom transformer 1`] = `".a {background: url(1.png); svg-fill: red;}"`;
+
+exports[`should allow to use include/exclude options 1`] = `".a {background: url(1.svg); svg-fill: red;}"`;
+
+exports[`should allow to use include/exclude options 2`] = `".a {background: url(300.svg); svg-fill: red;}"`;
+
+exports[`should allow to use include/exclude options 3`] = `".a {background: url(1.bmp); svg-fill: red;}"`;
+
+exports[`should allow to use include/exclude options 4`] = `".a {background: url(1.svg?fill=red);}"`;
+
+exports[`should always encode prop value even with custom transformer 1`] = `".a {background: url(1.png); svg-fill: #fff;}"`;
+
+exports[`should always encode prop value even with custom transformer 2`] = `".a {background: url(1.png); svg-fill: #fff;}"`;
+
+exports[`should move svg-* props by default 1`] = `".a {background: url(1.png); fill: red}"`;
+
+exports[`should move svg-* props by default 2`] = `".a {background: url(1.png); svg-fill: red}"`;
+
+exports[`should preserve if any query params already there 1`] = `".a {background: url(1.png?qwe); svg-fill: red}"`;
