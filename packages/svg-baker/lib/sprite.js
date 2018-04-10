@@ -1,12 +1,10 @@
 const merge = require('merge-options');
 
-const SpriteSymbol = require('./sprite-symbol');
 const SpriteSymbolsMap = require('./sprite-symbols-map');
 
 const {
   generateSpriteTree,
-  calculateSymbolPosition,
-  createImageFromFile
+  calculateSymbolPosition
 } = require('./utils');
 
 class Sprite {
