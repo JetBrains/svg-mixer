@@ -11,7 +11,7 @@ const SpriteSymbolsMap = require('./lib/sprite-symbols-map');
 /**
  * @param {string|Array<string>} files Glob pattern, absolute path or array of them combination.
  * @param {CompilerConfig} [config]
- * @return {Promise<{sprite: Sprite, svg: string}>}
+ * @return {Promise<{sprite: Sprite, content: string}>}
  */
 module.exports = (files, config = {}) => {
   const compiler = new Compiler(config);
