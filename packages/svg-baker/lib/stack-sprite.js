@@ -1,7 +1,7 @@
 const merge = require('merge-options');
 
 const Sprite = require('./sprite');
-const { generateSpriteTree, calculateSymbolPosition } = require('./utils');
+const { generateSpriteTree } = require('./utils');
 
 class StackSprite extends Sprite {
   /**
@@ -46,24 +46,6 @@ class StackSprite extends Sprite {
           content: symbolsTrees
         });
       });
-  }
-
-  renderCss() {
-    const { filename } = this.config;
-
-    const css = this.symbols.map(s => {
-      const { aspectRatio } = calculateSymbolPosition(s, this);
-      return `
-.${s.id}:before {
-  display: block;
-  padding-bottom: ${aspectRatio.toPercent()};
-  background: url('${filename}#${s.id}') no-repeat;
-  box-sizing: content-box;
-  content: '';
-}`;
-    }).join('\n\n');
-
-    return Promise.resolve(css);
   }
 }
 
