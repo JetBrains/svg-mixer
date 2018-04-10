@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Options aspectRatio 1`] = `
+".a {background: url('sprite.svg') no-repeat 0 0;background-size: 100% 104.50%}
+.a::before {display: block;box-sizing: content-box;padding-bottom: 81.27%;content: ''}"
+`;
+
+exports[`Options default 1`] = `
+".a {background: url('sprite.svg') no-repeat 0 0;background-size: 100% 104.50%}
+.a::before {display: block;box-sizing: content-box;padding-bottom: 81.27%;content: ''}"
+`;
+
+exports[`Options sprite 1`] = `
+".a {background: url('sprite.svg') no-repeat 0 0;background-size: 100% 104.50%}
+.a::before {display: block;box-sizing: content-box;padding-bottom: 81.27%;content: ''}"
+`;

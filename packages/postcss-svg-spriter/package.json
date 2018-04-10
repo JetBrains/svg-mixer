@@ -10,6 +10,7 @@
     "loader.js"
   ],
   "dependencies": {
+    "anymatch": "^2.0.0",
     "bluebird": "^3.5.1",
     "postcss": "^6.0.21",
     "postcss-helpers": "^0.3.2",

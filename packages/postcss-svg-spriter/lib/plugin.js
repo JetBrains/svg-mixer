@@ -2,35 +2,45 @@ const postcss = require('postcss');
 const merge = require('merge-options');
 const { Compiler, Sprite, StackSprite } = require('svg-baker');
 const { parse: parseQuery, stringify: stringifyQuery } = require('query-string');
+const anymatch = require('anymatch');
 
 const { name: packageName } = require('../package.json');
 
 const { collectDeclarationsToProcess } = require('./utils');
 const transforms = require('./transformations');
 
-const defaultConfig = {
-  keepAspectRatio: true
-};
-
 /**
- * TODO process only SVGs
- * TODO include, exclude
- * TODO format units percent or pixels
- * TODO 2 modes of :before and :after generation
+ * @typedef {Object} PluginConfig
+ * @extends {CompilerConfig}
+ * @property {RegExp|string|Array<RegExp|string>} match
+ * @property {string} format 'plain' | 'flexible'
+ * @property {Sprite} sprite
+ * @property {boolean} aspectRatio=true
  */
+const defaultConfig = {
+  match: /\.svg($|\?.*$)/,
+  format: 'plain',
+  aspectRatio: true,
+  spriteType: 'classic',
+  sprite: undefined
+};
 
 module.exports = postcss.plugin(packageName, opts => {
   const {
     ctx,
-    keepAspectRatio,
+    match,
+    format,
+    aspectRatio,
     sprite: userSprite,
     ...compilerOpts
   } = merge(defaultConfig, opts);
+
   const compiler = !userSprite ? new Compiler(compilerOpts) : null;
+  const fileMatcher = path => anymatch(match, path);
   const isWebpack = !!(ctx && ctx.webpack);
 
   return async function plugin(root, result) {
-    const declsAndPaths = await collectDeclarationsToProcess(root);
+    const declsAndPaths = await collectDeclarationsToProcess(root, fileMatcher);
     let sprite;
 
     if (userSprite) {
@@ -51,21 +61,27 @@ module.exports = postcss.plugin(packageName, opts => {
       });
       const position = sprite.calculateSymbolPosition(symbol, 'percent');
       const parsedQuery = parseQuery(query || '');
-      let url;
-
-      if (keepAspectRatio) {
-        transforms.aspectRatio(rule, position.aspectRatio);
-      }
+      let spriteUrl;
 
       if (sprite instanceof StackSprite) {
-        url = `${spriteFilename}#${symbol.id}`;
-        transforms.stackSpriteSymbol(decl, url);
+        spriteUrl = `${spriteFilename}#${symbol.id}`;
+        transforms.stackSpriteSymbol(decl, spriteUrl);
       } else if (sprite instanceof Sprite) {
-        // In webpack env plugin produce `original_url?sprite_filename.svg`, and special loader
+        // In webpack environment plugin produce `original_url?sprite_filename.svg`, and special loader
         // in pitching phase replace original url with sprite file name
         const q = stringifyQuery({ ...parsedQuery, spriteFilename });
-        url = isWebpack ? `${path}?${q}` : spriteFilename;
-        transforms.spriteSymbol(decl, url, position);
+        spriteUrl = isWebpack ? `${path}?${q}` : spriteFilename;
+
+        transforms.spriteSymbol({
+          decl,
+          position,
+          spriteUrl,
+          format
+        });
+      }
+
+      if (aspectRatio) {
+        transforms.aspectRatio(rule, position.aspectRatio);
       }
     });
 

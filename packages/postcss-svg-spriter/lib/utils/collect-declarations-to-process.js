@@ -21,9 +21,10 @@ function isDeclarationShouldBeProcessed(decl) {
 
 /**
  * @param {postcss.Root} root
+ * @param {Function<string>} [fileMatcher]
  * @return {Promise<Array<{path: string, original: string, query: string, decl: postcss.Declaration}>>}
  */
-module.exports = function collectDeclarationsToProcess(root) {
+module.exports = function collectDeclarationsToProcess(root, fileMatcher = null) {
   const from = root.source.input.file;
   const sourceContextPath = from ? path.dirname(from) : undefined;
   const entries = [];
@@ -31,6 +32,12 @@ module.exports = function collectDeclarationsToProcess(root) {
   root.walkDecls(decl => {
     if (isDeclarationShouldBeProcessed(decl)) {
       const url = createUrlsHelper(decl.value).URIS[0]; // pick first value from url(...)
+      const isMatch = fileMatcher ? fileMatcher(url.toString()) : true;
+
+      if (!isMatch) {
+        return;
+      }
+
       entries.push({
         decl,
         origin: url.toString(),

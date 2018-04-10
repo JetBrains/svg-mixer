@@ -2,36 +2,61 @@ const postcss = require('postcss');
 
 const { transformSelector, objectToDeclProps } = require('../utils');
 
+const FORMAT = {
+  PLAIN: 'plain',
+  FLEXIBLE: 'flexible'
+};
+
+const PROPER_POSITION = /relative|absolute|fixed/;
+
 /**
- * @param {postcss.Declaration} decl
- * @param {string} url
- * @param {SpriteSymbolPosition} position
+ * @param {Object} opts
+ * @param {postcss.Declaration} opts.decl
+ * @param {string} opts.spriteUrl
+ * @param {SpriteSymbolPosition} opts.position
+ * @param {string} opts.format 'plain' | 'flexible'
  */
-module.exports = (decl, url, position) => {
+module.exports = opts => {
+  const { decl, spriteUrl, position, format } = opts;
   const { bgSize, bgPosition } = position;
+
   const rule = decl.parent;
+  const selector = rule.selector;
 
-  const newRule = postcss
-    .rule({ selector: transformSelector(rule.selector, s => `${s}::after`) })
-    .append(...objectToDeclProps({
-      position: 'absolute',
-      top: 0,
-      left: 0,
-      width: '100%',
-      height: '100%',
-      background: `url('${url}') no-repeat ${bgPosition.left} ${bgPosition.top}`,
-      'background-size': `${bgSize.width} ${bgSize.height}`,
-      content: '""'
-    }));
+  switch (format) {
+    default:
+    case FORMAT.PLAIN:
+      rule.append(...objectToDeclProps({
+        background: `url('${spriteUrl}') no-repeat ${bgPosition.left} ${bgPosition.top}`,
+        'background-size': `${bgSize.width} ${bgSize.height}`
+      }));
+      break;
 
-  const shouldAddPosition = !rule
-    .some(({ prop, value }) => prop === 'position' && value.match(/relative|absolute/));
+    case FORMAT.FLEXIBLE:
+      const hasProperPosition = rule
+        .some(({ prop, value }) => prop === 'position' && value.match(PROPER_POSITION));
 
-  if (shouldAddPosition) {
-    rule.append({ prop: 'position', value: 'relative' });
+      if (!hasProperPosition) {
+        rule.append({ prop: 'position', value: 'relative' });
+      }
+
+      const newRule = postcss
+        .rule({ selector: transformSelector(selector, s => `${s}::after`) })
+        .append(...objectToDeclProps({
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          background: `url('${spriteUrl}') no-repeat ${bgPosition.left} ${bgPosition.top}`,
+          'background-size': `${bgSize.width} ${bgSize.height}`,
+          content: '\'\''
+        }));
+
+      rule.after(newRule);
+
+      break;
   }
-
-  rule.parent.insertAfter(rule, newRule);
 
   decl.remove();
 };

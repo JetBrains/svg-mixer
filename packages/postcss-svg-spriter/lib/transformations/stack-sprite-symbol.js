@@ -4,8 +4,7 @@ module.exports = (decl, url) => {
   const rule = decl.parent;
 
   rule.append(...objectToDeclProps({
-    background: `url('${url}') no-repeat`,
-    content: '""'
+    background: `url('${url}') no-repeat`
   }));
 
   decl.remove();
