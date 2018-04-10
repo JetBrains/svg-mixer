@@ -51,6 +51,10 @@ module.exports = postcss.plugin(packageName, (opts = {}) => {
       sprite = await compiler.compile();
     }
 
+    if (sprite.symbols.length === 0) {
+      return;
+    }
+
     const spriteFilename = sprite.config.filename;
 
     declsAndPaths.forEach(item => {
@@ -59,6 +63,11 @@ module.exports = postcss.plugin(packageName, (opts = {}) => {
       const symbol = sprite.symbols.find(({ image }) => {
         return image.path === absolute && image.query === query;
       });
+
+      if (!symbol) {
+        return;
+      }
+
       const position = sprite.calculateSymbolPosition(symbol, 'percent');
       const parsedQuery = parseQuery(query || '');
       let spriteUrl;

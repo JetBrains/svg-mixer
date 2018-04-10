@@ -10,7 +10,7 @@ const plugin = require('..');
 const FORMAT = require('../lib/utils/format');
 
 const spriteDefaultConfig = baker.Sprite.defaultConfig;
-const stylesheetPath = resolve(__dirname, 'fixtures/test.css'); // Using fixtures dir path for shortly urls
+const fixturesStylesheetPath = resolve(__dirname, 'fixtures/test.css'); // Using fixtures dir path for shortly urls
 const defaultInput = '.a {background:url(twitter.svg)}';
 
 function findSpriteMsg(messages) {
@@ -20,11 +20,16 @@ function findSpriteMsg(messages) {
 function exec(input, opts) {
   return postcss()
     .use(plugin(opts))
-    .process(input, { from: stylesheetPath })
+    .process(input, { from: fixturesStylesheetPath })
     .then(res => {
-      res.msg = findSpriteMsg(res.messages);
-      res.sprite = res.msg.sprite;
-      res.spriteContent = res.msg.content;
+      const msg = findSpriteMsg(res.messages);
+
+      if (msg) {
+        res.msg = msg;
+        res.sprite = msg.sprite;
+        res.spriteContent = msg.content;
+      }
+
       return res;
     });
 }
@@ -97,6 +102,12 @@ describe('Options', () => {
 });
 
 describe('Behaviour', () => {
+  it('should do nothing if no symbols was processed', async () => {
+    const { css, messages } = await exec(defaultInput, { match: /qwe/ });
+    css.should.be.eql(defaultInput);
+    messages.length.should.be.eql(0);
+  });
+
   it('should add message with sprite info', async () => {
     const filename = 'qwe.svg';
     const { messages, sprite } = await exec(defaultInput, { spriteConfig: { filename } });
