@@ -25,15 +25,15 @@ const defaultConfig = {
   sprite: undefined
 };
 
-module.exports = postcss.plugin(packageName, opts => {
+module.exports = postcss.plugin(packageName, (opts = {}) => {
+  const { ctx, ...restOpts } = opts;
   const {
-    ctx,
     match,
     format,
     aspectRatio,
     sprite: userSprite,
     ...compilerOpts
-  } = merge(defaultConfig, opts);
+  } = merge(defaultConfig, restOpts);
 
   const compiler = !userSprite ? new Compiler(compilerOpts) : null;
   const fileMatcher = path => anymatch(match, path);
@@ -85,25 +85,27 @@ module.exports = postcss.plugin(packageName, opts => {
       }
     });
 
-    const spriteContent = await sprite.render();
+    return sprite.render().then(content => {
+      result.messages.push({
+        type: 'asset',
+        kind: 'sprite',
+        plugin: packageName,
+        file: spriteFilename,
+        content,
+        sprite
+      });
 
-    result.messages.push({
-      type: 'asset',
-      plugin: packageName,
-      file: spriteFilename,
-      content: spriteContent,
-      sprite
+      if (isWebpack) {
+        ctx.webpack._compilation.assets[spriteFilename] = {
+          source() {
+            return content;
+          },
+          size() {
+            return content.length;
+          }
+        };
+        debugger;
+      }
     });
-
-    if (isWebpack) {
-      ctx.webpack._compilation.assets[spriteFilename] = {
-        source() {
-          return spriteContent;
-        },
-        size() {
-          return spriteContent.length;
-        }
-      };
-    }
   };
 });
