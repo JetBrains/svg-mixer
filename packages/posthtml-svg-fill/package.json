@@ -8,7 +8,7 @@
     "index.js"
   ],
   "dependencies": {
-    "merge-options": "0.0.64"
+    "merge-options": "^1.0.0"
   },
   "scripts": {
     "test": "mocha -r $MOCHA_SETUP_PATH"
