@@ -7,7 +7,7 @@ const { name: packageName } = require('../package.json');
 
 const plugin = require('..');
 
-const FORMAT = require('../lib/utils/format');
+const FORMAT = require('../format');
 
 const spriteDefaultConfig = baker.Sprite.defaultConfig;
 const fixturesStylesheetPath = resolve(__dirname, 'fixtures/test.css'); // Using fixtures dir path for shortly urls

@@ -1,7 +1,7 @@
 const postcss = require('postcss');
+const { transformCssSelector, objectToCssDeclProps } = require('svg-baker-utils');
 
-const { transformSelector, objectToDeclProps } = require('../utils');
-const FORMAT = require('../utils/format');
+const FORMAT = require('../../format');
 
 const PROPER_POSITION = /relative|absolute|fixed/;
 
@@ -22,7 +22,7 @@ module.exports = opts => {
   switch (format) {
     default:
     case FORMAT.PLAIN:
-      rule.append(...objectToDeclProps({
+      rule.append(...objectToCssDeclProps({
         background: `url('${spriteUrl}') no-repeat ${bgPosition.left} ${bgPosition.top}`,
         'background-size': `${bgSize.width} ${bgSize.height}`
       }));
@@ -37,8 +37,8 @@ module.exports = opts => {
       }
 
       const newRule = postcss
-        .rule({ selector: transformSelector(selector, s => `${s}::after`) })
-        .append(...objectToDeclProps({
+        .rule({ selector: transformCssSelector(selector, s => `${s}::after`) })
+        .append(...objectToCssDeclProps({
           position: 'absolute',
           top: 0,
           left: 0,

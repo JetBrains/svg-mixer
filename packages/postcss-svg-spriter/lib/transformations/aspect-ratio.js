@@ -1,9 +1,9 @@
 const postcss = require('postcss');
 
-const { transformSelector, objectToDeclProps } = require('../utils');
+const { transformCssSelector, objectToCssDeclProps } = require('svg-baker-utils');
 
 function generateProps(percentage) {
-  return objectToDeclProps({
+  return objectToCssDeclProps({
     display: 'block',
     'box-sizing': 'content-box',
     'padding-bottom': percentage,
@@ -19,7 +19,7 @@ function generateProps(percentage) {
 module.exports = (rule, percentage, createNewRule = true) => {
   if (createNewRule) {
     const newRule = postcss
-      .rule({ selector: transformSelector(rule.selector, s => `${s}::before`) })
+      .rule({ selector: transformCssSelector(rule.selector, s => `${s}::before`) })
       .append(...generateProps(percentage));
 
     rule.after(newRule);

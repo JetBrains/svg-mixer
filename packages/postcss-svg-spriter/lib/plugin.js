@@ -5,9 +5,9 @@ const { parse: parseQuery, stringify: stringifyQuery } = require('query-string')
 const anymatch = require('anymatch');
 
 const { name: packageName } = require('../package.json');
+const FORMAT = require('../format');
 
-const { collectDeclarationsToProcess } = require('./utils');
-const FORMAT = require('./utils/format');
+const collectDeclarations = require('./collect-declarations-to-process');
 const transforms = require('./transformations');
 
 /**
@@ -40,7 +40,7 @@ module.exports = postcss.plugin(packageName, (opts = {}) => {
   const isWebpack = !!(ctx && ctx.webpack);
 
   return async function plugin(root, result) {
-    const declsAndPaths = await collectDeclarationsToProcess(root, fileMatcher);
+    const declsAndPaths = await collectDeclarations(root, fileMatcher);
     let sprite;
 
     if (userSprite) {
