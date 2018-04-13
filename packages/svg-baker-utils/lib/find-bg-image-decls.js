@@ -23,7 +23,7 @@ module.exports = (node, createHelper = false) => {
     URL_FUNCTION_REGEXP.lastIndex = 0;
   });
 
-  return createUrlsHelper
-    ? decls.map(decl => ({ decl, helper: createHelper(decl.value) }))
+  return createHelper
+    ? decls.map(decl => ({ decl, helper: createUrlsHelper(decl.value) }))
     : decls;
 };
