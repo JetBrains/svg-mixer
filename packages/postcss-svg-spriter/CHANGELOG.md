@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.1.5"></a>
+## [0.1.5](https://github.com/kisenka/svg-baker/packages/postcss-svg-spriter/compare/postcss-svg-spriter@0.1.4...postcss-svg-spriter@0.1.5) (2018-04-13)
+
+
+
+
+**Note:** Version bump only for package postcss-svg-spriter
+
 <a name="0.1.4"></a>
 ## [0.1.4](https://github.com/kisenka/svg-baker/packages/postcss-svg-spriter/compare/postcss-svg-spriter@0.1.3...postcss-svg-spriter@0.1.4) (2018-04-13)
 
