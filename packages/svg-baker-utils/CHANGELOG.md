@@ -9,4 +9,4 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ### Features
 
-* initial implementation ([988eda3](https://github.com/kisenka/svg-baker/packages/postcss-move-props-to-bg-image-query/commit/988eda3))
+* initial implementation ([1b63896](https://github.com/kisenka/svg-baker/packages/svg-baker-utils/commit/1b63896))

@@ -1,6 +1,6 @@
 {
   "name": "svg-baker",
-  "version": "2.0.2-alpha.0",
+  "version": "2.0.2",
   "description": "",
   "author": "kisenka <qtuzov@gmail.com> (https://github.com/kisenka)",
   "homepage": "https://github.com/kisenka/svg-baker",
@@ -20,8 +20,8 @@
     "micromatch": "3.1.0",
     "postcss": "^6.0.21",
     "postcss-prefix-selector": "^1.6.0",
-    "posthtml-rename-id": "^1.0.4-alpha.0",
-    "postsvg": "^2.1.2-alpha.0",
+    "posthtml-rename-id": "^1.0.4",
+    "postsvg": "^2.1.2",
     "query-string": "^6.0.0",
     "traverse": "^0.6.6",
     "url-slug": "^2.0.0"

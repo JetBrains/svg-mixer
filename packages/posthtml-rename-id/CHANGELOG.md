@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="1.0.4"></a>
+## [1.0.4](https://github.com/kisenka/svg-baker/packages/posthtml-rename-id/compare/posthtml-rename-id@1.0.4-alpha.0...posthtml-rename-id@1.0.4) (2018-04-13)
+
+
+
+
+**Note:** Version bump only for package posthtml-rename-id
+
 <a name="1.0.4-alpha.0"></a>
 ## [1.0.4-alpha.0](https://github.com/kisenka/svg-baker/packages/posthtml-rename-id/compare/posthtml-rename-id@1.0.3...posthtml-rename-id@1.0.4-alpha.0) (2018-04-09)
 
