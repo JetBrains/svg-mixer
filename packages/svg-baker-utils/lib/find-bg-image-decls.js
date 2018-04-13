@@ -1,11 +1,14 @@
+const { createUrlsHelper } = require('postcss-helpers');
+
 const BACKGROUND_DECL_NAME_REGEXP = /^background(-image)?$/i;
 const URL_FUNCTION_REGEXP = /url\([^)]*\)/ig;
 
 /**
  * @param {postcss.Rule|postcss.Root} node
- * @return {Array<postcss.Declaration>}
+ * @param {boolean} [createHelper=false]
+ * @return {Array<postcss.Declaration>|Array<{decl: postcss.Declaration, helper: UrlsHelper}>}
  */
-module.exports = node => {
+module.exports = (node, createHelper = false) => {
   const decls = [];
 
   node.walkDecls(decl => {
@@ -20,5 +23,7 @@ module.exports = node => {
     URL_FUNCTION_REGEXP.lastIndex = 0;
   });
 
-  return decls;
+  return createUrlsHelper
+    ? decls.map(decl => ({ decl, helper: createHelper(decl.value) }))
+    : decls;
 };

@@ -8,7 +8,8 @@
     "index.js"
   ],
   "dependencies": {
-    "anymatch": "^2.0.0"
+    "anymatch": "^2.0.0",
+    "postcss-helpers": "^0.3.2"
   },
   "devDependencies": {
     "postcss": "^6.0.21"
