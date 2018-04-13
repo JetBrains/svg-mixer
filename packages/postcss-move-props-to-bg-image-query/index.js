@@ -1,14 +1,38 @@
 const postcss = require('postcss');
 const { createUrlsHelper } = require('postcss-helpers');
 const merge = require('merge-options');
-const anymatch = require('anymatch');
+const {
+  createMatcher,
+  findCssBgImageDecls
+} = require('svg-baker-utils');
 
 const { name: packageName } = require('./package.json');
-const {
-  findBgImageDecl,
-  findDeclsToMove,
-  transformDeclsToQuery
-} = require('./utils');
+
+/**
+ * @param {postcss.Rule} rule
+ * @param {Function<string>} matcher
+ * @return {Array<postcss.Declaration>}
+ */
+function findDeclsToMove(rule, matcher) {
+  const decls = [];
+  rule.walkDecls(decl => decls.push(decl));
+  return decls.filter(d => matcher(d.prop));
+}
+
+/**
+ * @param {Array<postcss.Declaration>} decls
+ * @param {Function<postcss.Declaration>} transformer
+ * @return {Object}
+ */
+function transformDeclsToQuery(decls, transformer) {
+  return decls.reduce((acc, decl) => {
+    const { name, value } = transformer(decl);
+    // eslint-disable-next-line no-param-reassign
+    acc = merge(acc, { [name]: encodeURIComponent(value) });
+    return acc;
+  }, {});
+}
+
 
 /**
  * @typedef {Object} PluginConfig
@@ -30,12 +54,12 @@ const defaultConfig = {
 module.exports = postcss.plugin(packageName, config => {
   const cfg = merge(defaultConfig, config);
   const { props, match } = cfg;
-  const fileMatcher = path => anymatch(match, path);
-  const declsMatcher = name => anymatch(props, name);
+  const fileMatcher = createMatcher(match);
+  const declsMatcher = createMatcher(props);
 
   return root => {
     root.walkRules(rule => {
-      const bgDecl = findBgImageDecl(rule);
+      const bgDecl = findCssBgImageDecls(rule)[0];
       const decls = bgDecl ? findDeclsToMove(rule, declsMatcher) : [];
       const helper = bgDecl && createUrlsHelper(bgDecl.value);
       const matchedUrls = helper ? helper.URIS.filter(url => fileMatcher(url.toString())) : [];
