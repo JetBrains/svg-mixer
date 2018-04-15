@@ -18,7 +18,7 @@ class Compiler {
    * @property {SpriteConfig|StackSpriteConfig} spriteConfig
    * @property {Sprite|StackSprite} spriteClass
    * @property {SpriteSymbol} symbolClass
-   * @property {function(path: string)} generateSymbolId
+   * @property {function(path, query): string} generateSymbolId
    */
   static get defaultConfig() {
     return {
