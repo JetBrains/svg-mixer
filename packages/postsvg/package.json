@@ -12,6 +12,7 @@
     "clone": "^1.0.4",
     "deepmerge": "^2.1.0",
     "posthtml": "^0.11.3",
+    "posthtml-match-helper": "^1.0.1",
     "posthtml-parser": "^0.4.1",
     "posthtml-render": "^1.1.2"
   },
