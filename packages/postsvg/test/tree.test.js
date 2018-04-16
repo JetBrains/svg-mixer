@@ -1,4 +1,3 @@
-// const {  } = require('@jetbrains/logos/appcode/appcode.svg');
 const { readFileSync } = require('fs');
 
 const { parse, Tree } = require('..');
