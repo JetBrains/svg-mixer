@@ -10,7 +10,7 @@ const plugin = require('..');
 const FORMAT = require('../format');
 
 const spriteDefaultConfig = baker.Sprite.defaultConfig;
-const fixturesStylesheetPath = resolve(__dirname, 'fixtures/test.css'); // Using fixtures dir path for shortly urls
+const fixturesStylesheetPath = resolve(utils.fixturesDir, 'test.css'); // Using fixtures dir path for shortly urls
 const defaultInput = '.a {background:url(twitter.svg)}';
 
 function findSpriteMsg(messages) {
@@ -62,10 +62,12 @@ describe('Options', () => {
   });
 
   it('sprite', async () => {
+    console.log(resolve(utils.fixturesDir, 'twitter.svg'));
+
     const {
       sprite,
       content: spriteContent
-    } = await baker(resolve(__dirname, 'fixtures/twitter.svg'));
+    } = await baker(resolve(utils.fixturesDir, 'twitter.svg'));
 
     const res = await exec(defaultInput, { sprite });
 
