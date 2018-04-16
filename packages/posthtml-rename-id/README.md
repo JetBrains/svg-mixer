@@ -13,7 +13,7 @@ Handle following cases:
 ## Install
 
 ```sh
-npm install posthtml-rename-id --save
+npm install posthtml-rename-id
 ```
 
 ## Usage
@@ -25,11 +25,9 @@ const rename = require('posthtml-rename-id');
 posthtml()
   .use(rename('prefix_[id]'))
   .process('<div id="qwe"></div> <a href="#qwe"></a>')
-  .then((result) => {
-    console.log(result);
+  .then(({ html }) => {
+    console.log(html); // <div id="prefix_qwe"></div> <a href="#prefix_qwe"></a>
   });
-
-// <div id="prefix_qwe"></div> <a href="#prefix_qwe"></a>
 ```
 
 ## Configuration
@@ -39,6 +37,8 @@ posthtml()
 Renaming pattern. `[id]` placeholder can be used as current id of an element.
 If `pattern` provided as a function it will be called with current id as first argument.
 Function should return the new id as string (`[id]` can be used as well).
+
+## Examples
 
 Uppercase all ids:
 ```js
