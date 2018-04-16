@@ -27,7 +27,7 @@ module.exports = function svgToSymbol(config) {
     root.attrs = root.attrs || {};
 
     const attrNames = Object.keys(root.attrs);
-    const attrNamesToPreserve = micromatch(attrNames, cfg.preserve);
+    const attrNamesToPreserve = micromatch(attrNames, cfg.preserve, { nocase: true });
 
     attrNames.forEach(name => {
       if (!attrNamesToPreserve.includes(name)) {
