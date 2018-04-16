@@ -1,5 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Move all namespaces to root node 1`] = `"<svg xmlns:shalala=\\"tralala\\" xmlns=\\"qwe\\" xmlns:qwe=\\"qwe2\\"><g><path d=\\"\\" /></g></svg>"`;
-
-exports[`should move all namespaces to root node 1`] = `"<svg xmlns:shalala=\\"tralala\\" xmlns=\\"qwe\\" xmlns:qwe=\\"qwe2\\"><g><path d=\\"\\" /></g></svg>"`;
+exports[`should move all namespaces to root node 1`] = `
+"<svg xmlns:shalala=\\"tralala\\" xmlns=\\"qwe\\" xmlns:qwe=\\"qwe2\\">
+  <g>
+    <path d=\\"\\" />
+  </g>
+</svg>"
+`;

@@ -1,14 +1,14 @@
 const { parse } = require('postcss');
 
 const {
-  findBgImageDecls,
+  findCssBgImageDecls,
   resolveFile,
   ResolveError
-} = require('..');
+} = require('svg-baker-utils');
 
 describe('findBgImageDecls', () => {
   const t = (input, expectedCount) => {
-    const res = findBgImageDecls(parse(input));
+    const res = findCssBgImageDecls(parse(input));
     if (expectedCount) {
       res.length.should.eql(expectedCount);
     }
