@@ -33,15 +33,43 @@ it('clone', () => {
   img.clone().should.be.instanceOf(Tree).and.not.equal(img);
 });
 
-it.only('select', () => {
-  const selected = createImage().select('path');
-  selected.should.be.a('array');
-  expect(isNode(selected[0])).toBeTruthy();
+describe('select', () => {
+  it('should select nodes', () => {
+    const nodes = createImage().select('path');
+    nodes.should.be.a('array');
+    expect(isNode(nodes[0])).toBeTruthy();
+  });
+
+  it('should select all nodes if called without arguments', () => {
+    const nodes = createImage().select();
+    expect(nodes.length).toEqual(20);
+    expect(nodes.every(isNode)).toBeTruthy();
+  });
 });
 
-it('each', () => {
-  const callback = jest.fn();
-  const img = createImage();
-  img.each('svg', callback);
-  expect(callback).toBeCalledWith(img.root, 0, img);
+describe('each', () => {
+  it('should call callback on each selected node', () => {
+    const callback = jest.fn();
+    const img = createImage();
+
+    img.each('svg', callback);
+
+    // 1 <svg> tag in fixture image
+    expect(callback).toHaveBeenCalledTimes(1);
+    expect(callback).toBeCalledWith(img.root, 0, img);
+
+    callback.mockClear();
+
+    img.each('path', callback);
+    // 8 <path> tags in fixture image
+    expect(callback).toHaveBeenCalledTimes(8);
+  });
+
+  it('should invoke callback on each node if selector passed as function', () => {
+    const callback = jest.fn();
+    const img = createImage();
+
+    img.each(callback);
+    expect(callback).toHaveBeenCalledTimes(20);
+  });
 });

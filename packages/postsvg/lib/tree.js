@@ -1,5 +1,5 @@
 const clone = require('clone');
-const { match } = require('posthtml/lib/api');
+const { match, walk } = require('posthtml/lib/api');
 const matchHelper = require('posthtml-match-helper');
 
 const renderer = require('./renderer');
@@ -40,14 +40,24 @@ class PostSvgTree extends Array {
     return PostSvgTree.createFromArray(clone(this));
   }
 
+  match(expression, callback) {
+    return match.call(this, expression, callback);
+  }
+
+  walk(callback) {
+    return walk.call(this, callback);
+  }
+
   /**
    * @param {string} selector
    * @return {Node[]}
    */
   select(selector) {
     const nodes = [];
+    const selectAllNodes = typeof selector === 'undefined' || selector === '*';
+    const matcher = selectAllNodes ? { tag: /\.*/ } : matchHelper(selector);
 
-    match.call(this, matchHelper(selector), node => {
+    match.call(this, matcher, node => {
       nodes.push(node);
       return node;
     });
@@ -56,12 +66,16 @@ class PostSvgTree extends Array {
   }
 
   /**
-   * @param {string} selector
-   * @param {function(node): void} callback
-   * @return {void}
+   * @param {string|function(node): void} selector
+   * @param {function(node): void} [callback]
+   * @return {Node[]}
    */
   each(selector, callback) {
-    return this.select(selector).forEach(callback);
+    const hasSelector = typeof selector === 'string';
+    const nodes = this.select(hasSelector ? selector : '*');
+    return selector
+      ? nodes.forEach(typeof selector === 'function' ? selector : callback)
+      : nodes;
   }
 }
 
