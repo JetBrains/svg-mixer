@@ -5,11 +5,14 @@
   "license": "MIT",
   "repository": "https://github.com/kisenka/svg-baker/packages/posthtml-transform",
   "files": [
-    "index.js"
+    "index.js",
+    "parse-query-to-transformer-params.js"
   ],
   "dependencies": {
     "is-plain-object": "^2.0.4",
     "posthtml": "^0.11.3",
-    "posthtml-match-helper": "^1.0.1"
+    "posthtml-match-helper": "^1.0.1",
+    "query-string": "^6.0.0",
+    "slashes": "^1.0.5"
   }
 }

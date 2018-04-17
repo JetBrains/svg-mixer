@@ -24,6 +24,8 @@ posthtml()
 
 ## Configuration
 
+### Transformer as object
+
 Plugin accepts one or array of transformers. Transformer is an object with following fields:
 
 - `attr` - name of tag attribute to modify. If doesn't exists it will be created. Should be used in combination with `value`.
@@ -47,7 +49,10 @@ transform({ attr: 'stroke', value: 'black', selector: '#logo' }); // add `stroke
 transform({ selector: 'g', tag: 'symbol' }); // rename all <g> to <symbol>
 ```
 
-Transformer also can be a function which will be invoked on each node. In this case you should handle modification by yourself:
+### Transformer as function
+
+Transformer also can be a function or array of functions which will be invoked on each node. 
+In this case you should handle modification by yourself:
 
 ```js
 // clear all <g> tags
@@ -65,4 +70,25 @@ Node<{
   attrs?: Object,
   content?: Array<Node>
 }>
+```
+
+### Transformer as URL query string
+
+It is also possible to pass URL query params string to plugin. It will be parsed and converted to transformer params, e.g:
+
+```js
+transform('?fill=red'); // => { attr: 'fill', value: 'red' }
+transform('?fill=red&20path'); // => { attr: 'fill', value: 'red, selector: 'path' }
+```
+
+Parameter value has following syntax: `attr_name=attr_value optional_selector`.
+Parameters can be combined, eg `fill=red&stroke=black`.
+
+Examples:
+```
+?fill=red
+?fill=red path
+?fill=red .class
+?fill=red #id, black .class
+?fill=red #id&stroke=black .class
 ```

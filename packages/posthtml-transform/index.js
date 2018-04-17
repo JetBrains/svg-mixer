@@ -3,11 +3,14 @@ const { match } = require('posthtml/lib/api');
 const matchHelper = require('posthtml-match-helper');
 
 const { name: packageName } = require('./package.json');
+const parseQueryToTransformerParams = require('./parse-query-to-transformer-params');
 
 module.exports = opts => {
   let transformers;
 
-  if (isPlainObject(opts) || typeof opts === 'function') {
+  if (typeof opts === 'string') {
+    transformers = parseQueryToTransformerParams(opts);
+  } else if (isPlainObject(opts) || typeof opts === 'function') {
     transformers = [opts];
   } else if (Array.isArray(opts)) {
     transformers = opts;
@@ -18,6 +21,7 @@ module.exports = opts => {
   return tree => {
     transformers.forEach(transformer => {
       const isFunc = typeof transformer === 'function';
+      // posthtml matcher, see https://github.com/posthtml/posthtml/blob/master/docs/api.md#treematchexpression-cb--function
       const matcher = isFunc || !transformer.selector
         ? { tag: /.*/ }
         : matchHelper(transformer.selector);

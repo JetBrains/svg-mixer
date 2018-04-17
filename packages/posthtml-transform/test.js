@@ -5,6 +5,10 @@ const t = utils.testPlugin(plugin);
 const image = utils.getFixture('twitter.svg');
 
 describe('plugin', () => {
+  it('config: String', async () => {
+    expect(await t('?fill=red path&stroke=black%20path', image)).toMatchSnapshot();
+  });
+
   it('config: Object', async () => {
     const params = { attr: 'fill', value: 'red' };
     expect(await t(params, image)).toMatchSnapshot();
@@ -26,11 +30,13 @@ describe('plugin', () => {
 
   it('config: Array<Function>', async () => {
     const params = node => node.tag === 'svg' && (node.attrs.foo = 'bar');
-    expect(await t(params(), image)).toMatchSnapshot();
+    expect(await t(params, image)).toMatchSnapshot();
   });
 
-  it('config: throws if not Object|Array<Object|Function>|function', async () => {
-    await expect(t('invalid config', image)).rejects.toThrowError();
+  it('config: throws if not String|Object|Array<Object|Function>|Function', async () => {
+    await expect(t(undefined, image)).rejects.toThrowError();
+    await expect(t(null, image)).rejects.toThrowError();
+    await expect(t(1, image)).rejects.toThrowError();
   });
 
   it('should process only selector nodes', async () => {
@@ -41,11 +47,5 @@ describe('plugin', () => {
   it('should rename tag', async () => {
     const params = { selector: 'svg', tag: 'symbol' };
     expect(await t(params, image)).toMatchSnapshot();
-  });
-});
-
-describe('getTransformerParams', () => {
-  it.only('should work!', () => {
-    getTransformerParams(`qwe=${encodeURIComponent('#fff path')}`);
   });
 });
