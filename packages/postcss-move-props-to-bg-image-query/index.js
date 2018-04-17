@@ -1,5 +1,5 @@
+/* eslint-disable no-param-reassign */
 const postcss = require('postcss');
-const { createUrlsHelper } = require('postcss-helpers');
 const merge = require('merge-options');
 const {
   createMatcher,
@@ -16,7 +16,8 @@ const { name: packageName } = require('./package.json');
 function findDeclsToMove(rule, matcher) {
   const decls = [];
   rule.walkDecls(decl => decls.push(decl));
-  return decls.filter(d => matcher(d.prop));
+  const matched = decls.filter(d => matcher(d.prop));
+  return matched;
 }
 
 /**
@@ -62,21 +63,27 @@ module.exports = postcss.plugin(packageName, config => {
 
   return root => {
     root.walkRules(rule => {
-      const bgDecl = findCssBgImageDecls(rule)[0];
-      const decls = bgDecl ? findDeclsToMove(rule, declsMatcher) : [];
-      const helper = bgDecl && createUrlsHelper(bgDecl.value);
-      const matchedUrls = helper ? helper.URIS.filter(url => fileMatcher(url.toString())) : [];
+      const bgDecls = findCssBgImageDecls(rule);
 
-      if (!bgDecl || decls.length === 0 || matchedUrls.length === 0) {
+      const matchedUrls = bgDecls.reduce((acc, decl) => {
+        const urls = decl.helper.URIS.filter(url => fileMatcher(url.toString()));
+        acc = acc.concat(urls);
+        return acc;
+      }, []);
+
+      const declsToMove = matchedUrls.length ? findDeclsToMove(rule, declsMatcher) : [];
+      const shouldSkipRule = !bgDecls.length || !matchedUrls.length || !declsToMove.length;
+
+      if (shouldSkipRule) {
         return;
       }
 
-      const query = transformDeclsToQuery(decls, cfg.transform);
+      const query = transformDeclsToQuery(declsToMove, cfg.transform);
       matchedUrls.forEach(url => url.setSearch(query));
-      bgDecl.value = helper.getModifiedRule();
+      bgDecls.forEach(({ decl, helper }) => decl.value = helper.getModifiedRule());
 
       if (cfg.remove) {
-        decls.forEach(d => d.remove());
+        declsToMove.forEach(d => d.remove());
       }
     });
   };

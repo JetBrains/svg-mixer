@@ -57,25 +57,29 @@ it('should always encode prop value even with custom transformer', async () => {
   )).toMatchSnapshot();
 });
 
-it('should allow to use include/exclude options', async () => {
-  expect(await exec(
-    '.a {background: url(1.svg); svg-fill: red;}',
-    { match: '*.png' }
-  )).toMatchSnapshot();
+describe('match option', () => {
+  it('should include properly', async () => {
+    expect(await exec(
+      '.a {background: url(1.svg); svg-fill: red;}',
+      { match: ['*.png', '*.svg'] }
+    )).toMatchSnapshot();
+  });
 
-  expect(await exec(
-    '.a {background: url(300.svg); svg-fill: red;}',
-    { match: ['*.svg', '!300.*'] }
-  )).toMatchSnapshot();
+  it('should skip properly', async () => {
+    expect(await exec(
+      '.a {background: url(300.svg); svg-fill: red;}',
+      { match: ['*.svg', '!300.*'] }
+    )).toMatchSnapshot();
+  });
 
-  expect(await exec(
-    '.a {background: url(1.bmp); svg-fill: red;}',
-    { match: ['*.png', '*.svg'] }
-  )).toMatchSnapshot();
-
-  expect(await exec(
-    '.a {background: url(1.svg); svg-fill: red;}',
-    { match: ['*.png', '*.svg'] }
-  )).toMatchSnapshot();
+  it('should handle super complex cases', async () => {
+    expect(await exec(`
+.a {
+  background: url(1.svg) url(2.svg) url(3.svg) url(foo.svg);
+  background-image: url(1.svg) url(2.svg) url(3.svg) url(foo.svg);
+  svg-fill: red;
+}`,
+    { match: /\d\.svg$/ }
+    )).toMatchSnapshot();
+  });
 });
-

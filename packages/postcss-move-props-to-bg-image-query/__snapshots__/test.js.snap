@@ -1,18 +1,22 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`match option should handle super complex cases 1`] = `
+"
+.a {
+  background: url(1.svg?fill=red) url(2.svg?fill=red) url(3.svg?fill=red) url(foo.svg);
+  background-image: url(1.svg?fill=red) url(2.svg?fill=red) url(3.svg?fill=red) url(foo.svg);
+}"
+`;
+
+exports[`match option should include properly 1`] = `".a {background: url(1.svg?fill=red);}"`;
+
+exports[`match option should skip properly 1`] = `".a {background: url(300.svg); svg-fill: red;}"`;
+
 exports[`should allow to not remove props after moving them to query 1`] = `".a {background: url(1.png); svg-fill: red;}"`;
 
 exports[`should allow to override default props 1`] = `".a {background: url(1.png); svg-fill: red; color: blue}"`;
 
 exports[`should allow to use custom transformer 1`] = `".a {background: url(1.png); svg-fill: red;}"`;
-
-exports[`should allow to use include/exclude options 1`] = `".a {background: url(1.svg); svg-fill: red;}"`;
-
-exports[`should allow to use include/exclude options 2`] = `".a {background: url(300.svg); svg-fill: red;}"`;
-
-exports[`should allow to use include/exclude options 3`] = `".a {background: url(1.bmp); svg-fill: red;}"`;
-
-exports[`should allow to use include/exclude options 4`] = `".a {background: url(1.svg?fill=red);}"`;
 
 exports[`should always encode prop value even with custom transformer 1`] = `".a {background: url(1.png); svg-fill: #fff;}"`;
 
