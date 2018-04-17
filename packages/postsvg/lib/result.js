@@ -10,6 +10,10 @@ class PostSvgResult {
     return this.toString();
   }
 
+  get svg() {
+    return this.toString();
+  }
+
   toString() {
     return this.tree.toString();
   }
