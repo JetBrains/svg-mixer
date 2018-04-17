@@ -94,27 +94,21 @@ module.exports = postcss.plugin(packageName, (opts = {}) => {
       }
     });
 
-    return sprite.render().then(content => {
-      result.messages.push({
-        type: 'asset',
-        kind: 'sprite',
-        plugin: packageName,
-        file: spriteFilename,
-        content,
-        sprite
-      });
+    const spriteContent = await sprite.render();
 
-      if (isWebpack) {
-        ctx.webpack._compilation.assets[spriteFilename] = {
-          source() {
-            return content;
-          },
-          size() {
-            return content.length;
-          }
-        };
-      }
+    result.messages.push({
+      type: 'asset',
+      kind: 'sprite',
+      plugin: packageName,
+      file: spriteFilename,
+      content: spriteContent,
+      sprite
     });
+
+    // Emit sprite file in webpack compilation assets
+    if (isWebpack) {
+      ctx.webpack.emitFile(spriteFilename, spriteContent);
+    }
   };
 });
 

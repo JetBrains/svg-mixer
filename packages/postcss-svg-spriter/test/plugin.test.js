@@ -144,9 +144,7 @@ describe('Webpack postcss-loader interop', () => {
   function mockWebpackCtx() {
     return {
       webpack: {
-        _compilation: {
-          assets: {}
-        }
+        emitFile: jest.fn()
       }
     };
   }
@@ -167,6 +165,6 @@ describe('Webpack postcss-loader interop', () => {
     const filename = 'qwe.svg';
     const ctx = mockWebpackCtx();
     const { spriteContent } = await exec(defaultInput, { ctx, spriteConfig: { filename } });
-    ctx.webpack._compilation.assets[filename].source().should.eql(spriteContent);
+    expect(ctx.webpack.emitFile).toHaveBeenCalledWith(filename, spriteContent);
   });
 });
