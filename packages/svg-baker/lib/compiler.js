@@ -26,7 +26,10 @@ class Compiler {
       spriteConfig: {},
       spriteClass: Sprite,
       symbolClass: SpriteSymbol,
-      generateSymbolId: (path, query = '') => slugify(`${getBasename(path)}${query}`)
+      generateSymbolId: (path, query = '') => {
+        const decodedQuery = decodeURIComponent(decodeURIComponent(query));
+        return slugify(`${getBasename(path)}${decodedQuery}`);
+      }
     };
   }
 
