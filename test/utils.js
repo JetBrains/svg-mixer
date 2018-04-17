@@ -15,6 +15,7 @@ module.exports.testPlugin = (plugin = null) =>
 
 module.exports.fixturesDir = fixturesDir;
 
-module.exports.getFixture = filepath => readFileSync(path.resolve(fixturesDir, filepath));
+module.exports.getFixture =
+  filepath => readFileSync(path.resolve(fixturesDir, filepath)).toString();
 
 module.exports.parse = input => postsvg.parse(input);
