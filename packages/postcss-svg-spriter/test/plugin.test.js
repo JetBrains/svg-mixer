@@ -62,8 +62,6 @@ describe('Options', () => {
   });
 
   it('sprite', async () => {
-    console.log(resolve(utils.fixturesDir, 'twitter.svg'));
-
     const {
       sprite,
       content: spriteContent

@@ -17,7 +17,7 @@ module.exports = function prefixStyleSelectors(prefix) {
 
       return postcss()
         .use(prefixSelectors({ prefix }))
-        .process(content)
+        .process(content, { from: undefined }) // prevent postcss warning
         .then(prefixedStyles => node.content = prefixedStyles.css);
     }).then(() => tree);
   };
