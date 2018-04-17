@@ -10,7 +10,9 @@
   "dependencies": {
     "loader-utils": "^1.1.0",
     "merge-options": "^1.0.0",
+    "postcss": "^6.0.21",
     "posthtml-transform": "^0.0.0",
-    "postsvg": "^2.1.2"
+    "postsvg": "^2.1.2",
+    "svg-baker-utils": "^0.2.1"
   }
 }
