@@ -1,6 +1,5 @@
 const path = require('path');
 
-const { createUrlsHelper } = require('postcss-helpers');
 const { resolveFile, findCssBgImageDecls } = require('svg-baker-utils');
 
 /**
@@ -13,7 +12,7 @@ module.exports = async (root, fileMatcher = null) => {
   const sourceContextPath = from ? path.dirname(from) : undefined;
 
   const entries = findCssBgImageDecls(root)
-    .map(decl => ({ decl, url: createUrlsHelper(decl.value).URIS[0] }))
+    .map(({ decl, helper }) => ({ decl, url: helper.URIS[0] }))
     .filter(({ url }) => (fileMatcher ? fileMatcher(url.toString()) : true))
     .map(({ decl, url }) => ({
       decl,

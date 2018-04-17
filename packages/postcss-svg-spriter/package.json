@@ -13,7 +13,6 @@
   "dependencies": {
     "anymatch": "^2.0.0",
     "postcss": "^6.0.21",
-    "postcss-helpers": "^0.3.2",
     "query-string": "^6.0.0",
     "svg-baker": "^2.0.2",
     "svg-baker-utils": "^0.2.1"

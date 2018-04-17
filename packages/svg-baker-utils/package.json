@@ -9,9 +9,7 @@
   ],
   "dependencies": {
     "anymatch": "^2.0.0",
+    "merge-options": "^1.0.0",
     "postcss-helpers": "^0.3.2"
-  },
-  "devDependencies": {
-    "postcss": "^6.0.21"
   }
 }
