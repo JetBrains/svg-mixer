@@ -26,7 +26,10 @@ function findDeclsToMove(rule, matcher) {
  */
 function transformDeclsToQuery(decls, transformer) {
   return decls.reduce((acc, decl) => {
-    const { name, value } = transformer(decl);
+    const { name, value } = transformer({
+      name: decl.prop,
+      value: decl.value
+    });
     // eslint-disable-next-line no-param-reassign
     acc = merge(acc, { [name]: encodeURIComponent(value) });
     return acc;
@@ -38,13 +41,13 @@ function transformDeclsToQuery(decls, transformer) {
  * @typedef {Object} PluginConfig
  * @property {RegExp|string|Array<RegExp|string>} match Glob pattern for which URLs should be processed.
  * @property {string|Array<string>} props='svg-*' Which props (declarations) should be processed. Glob wildcard can be used, e.g. 'stroke-*'.
- * @property {Function} transform How prop name & value should be transformed to become a query string parameter.
+ * @property {Function<(postcss.Declaration): { name: string, value: string }>} transform How prop name & value should be transformed to become a query string parameter.
  * @property {boolean} remove=true Remove moved props from original rule.
  */
 const defaultConfig = {
   match: /\.svg($|\?.*$)/,
   props: /^svg-/,
-  transform: ({ prop: name, value }) => ({
+  transform: ({ name, value }) => ({
     name: name.replace(/^svg-/, ''),
     value
   }),
