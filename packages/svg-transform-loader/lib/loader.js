@@ -29,5 +29,6 @@ module.exports = function (content) {
   postsvg()
     .use(transformPlugin(transformCfg))
     .process(content)
-    .then(({ svg }) => callback(null, generateResult(svg, loaderOpts.raw)));
+    .then(({ svg }) => callback(null, generateResult(svg, loaderOpts.raw)))
+    .catch(callback);
 };
