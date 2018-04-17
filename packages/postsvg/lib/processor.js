@@ -10,7 +10,7 @@ class PostSvgProcessor {
    * @param {Array<Function>} [plugins]
    */
   constructor(plugins) {
-    const posthtml = this.posthtml = PostHTML(plugins);
+    const posthtml = this.posthtml = new PostHTML(plugins);
     this.version = posthtml.version;
     this.name = posthtml.name;
     this.plugins = posthtml.plugins;
@@ -21,7 +21,7 @@ class PostSvgProcessor {
    * @return {PostSvgProcessor}
    */
   use(...plugins) {
-    this.posthtml.use.apply(this, ...plugins);
+    this.posthtml.use(...plugins);
     return this;
   }
 
