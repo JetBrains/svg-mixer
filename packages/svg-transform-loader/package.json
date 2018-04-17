@@ -1,0 +1,16 @@
+{
+  "name": "svg-transform-loader",
+  "version": "0.0.0",
+  "description": "",
+  "license": "MIT",
+  "repository": "https://github.com/kisenka/svg-baker/packages/svg-transform-loader",
+  "files": [
+    "index.js"
+  ],
+  "dependencies": {
+    "loader-utils": "^1.1.0",
+    "merge-options": "^1.0.0",
+    "posthtml-transform": "^0.0.0",
+    "postsvg": "^2.1.2"
+  }
+}
