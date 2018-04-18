@@ -5,7 +5,9 @@
   "license": "MIT",
   "repository": "https://github.com/kisenka/svg-baker/packages/svg-transform-loader",
   "files": [
-    "index.js"
+    "lib",
+    "index.js",
+    "encode-query-loader.js"
   ],
   "dependencies": {
     "loader-utils": "^1.1.0",
