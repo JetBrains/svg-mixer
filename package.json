@@ -18,6 +18,8 @@
     "chai": "4.1.2",
     "eslint": "4.19.1",
     "file-loader": "^1.1.11",
+    "gulp": "^3.9.1",
+    "gulp-svg-sprite": "^1.4.0",
     "husky": "0.14.3",
     "jest": "^22.4.3",
     "jest-extended": "^0.6.0",
