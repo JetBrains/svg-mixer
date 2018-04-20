@@ -18,3 +18,4 @@ module.exports.SpriteValue = require('./lib/sprite-value');
 module.exports.StackSprite = require('./lib/stack-sprite');
 module.exports.SpriteSymbol = require('./lib/sprite-symbol');
 module.exports.SpriteSymbolsMap = require('./lib/sprite-symbols-map');
+module.exports.utils = require('./lib/utils');
