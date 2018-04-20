@@ -82,7 +82,7 @@ class Compiler {
 
   /**
    * @param {string} path
-   * @return {Promise<SpriteSymbol>}
+   * @return {Promise}
    */
   addSymbolFromFile(path) {
     return readFile(path)
@@ -113,7 +113,7 @@ class Compiler {
 
   /**
    * @param {string|Array<string>} pattern Glob pattern, absolute path or array of those combination.
-   * @return {Promise<void>}
+   * @return {Promise}
    */
   glob(pattern) {
     return glob(pattern, { nodir: true, absolute: true })
