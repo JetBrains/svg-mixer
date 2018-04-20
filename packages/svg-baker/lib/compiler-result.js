@@ -1,6 +1,6 @@
-const { resolve } = require('path');
+const { resolve, dirname } = require('path');
 
-const { write } = require('fs-extra');
+const { outputFile } = require('fs-extra');
 const { interpolateName } = require('loader-utils');
 
 class CompilerResult {
@@ -25,12 +25,11 @@ class CompilerResult {
   }
 
   /**
-   * @param {string} dir Target folder
-   * @param {string} [filename]
+   * @param {string} path
    * @return {Promise}
    */
-  write(dir, filename = this.filename) {
-    return write(resolve(dir, filename), this.content);
+  write(path) {
+    return outputFile(resolve(path), this.content);
   }
 }
 
