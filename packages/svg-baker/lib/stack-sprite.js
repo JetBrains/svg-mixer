@@ -22,6 +22,10 @@ class StackSprite extends Sprite {
     });
   }
 
+  static get TYPE() {
+    return 'stack';
+  }
+
   /**
    * @return {Promise<PostSvgTree>}
    */

@@ -25,6 +25,10 @@ class Sprite {
     };
   }
 
+  static get TYPE() {
+    return 'classic';
+  }
+
   /**
    * @param {SpriteConfig} [config]
    * @param {Array<SpriteSymbol>} [symbols]

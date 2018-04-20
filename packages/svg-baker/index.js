@@ -1,30 +1,20 @@
-const Promise = require('bluebird');
-
 const Compiler = require('./lib/compiler');
-const Image = require('./lib/image');
-const Sprite = require('./lib/sprite');
-const SpriteValue = require('./lib/sprite-value');
-const StackSprite = require('./lib/stack-sprite');
-const SpriteSymbol = require('./lib/sprite-symbol');
-const SpriteSymbolsMap = require('./lib/sprite-symbols-map');
 
 /**
- * @param {string|Array<string>} files Glob pattern, absolute path or array of them combination.
+ * @param {string|string[]} pattern Glob pattern, absolute path or array of those combination.
  * @param {CompilerConfig} [config]
- * @return {Promise<{sprite: Sprite, content: string}>}
+ * @return {Promise<CompilerResult>}
  */
-module.exports = (files, config = {}) => {
+module.exports = (pattern, config = {}) => {
   const compiler = new Compiler(config);
-
-  return compiler.glob(files)
-    .then(() => compiler.compile())
-    .then(sprite => Promise.props({ sprite, content: sprite.render() }));
+  return compiler.glob(pattern).then(() => compiler.compile());
 };
 
-module.exports.Compiler = Compiler;
-module.exports.Image = Image;
-module.exports.Sprite = Sprite;
-module.exports.SpriteValue = SpriteValue;
-module.exports.StackSprite = StackSprite;
-module.exports.SpriteSymbol = SpriteSymbol;
-module.exports.SpriteSymbolsMap = SpriteSymbolsMap;
+module.exports.Compiler = require('./lib/compiler');
+module.exports.CompilerResult = require('./lib/compiler-result');
+module.exports.Image = require('./lib/image');
+module.exports.Sprite = require('./lib/sprite');
+module.exports.SpriteValue = require('./lib/sprite-value');
+module.exports.StackSprite = require('./lib/stack-sprite');
+module.exports.SpriteSymbol = require('./lib/sprite-symbol');
+module.exports.SpriteSymbolsMap = require('./lib/sprite-symbols-map');

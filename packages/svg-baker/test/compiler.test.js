@@ -1,33 +1,48 @@
 const { resolve, dirname } = require('path');
 
-const { Compiler, Sprite } = require('svg-baker');
+const {
+  Compiler,
+  CompilerResult,
+  Sprite,
+  StackSprite,
+  SpriteSymbol
+} = require('svg-baker');
 
 const c = Compiler.create;
 const logosPackage = dirname(require.resolve('@jetbrains/logos'));
 
-it('constructor()', () => {
-  c().config.spriteClass.name.should.eql('Sprite');
-  c({ spriteType: 'stack' }).config.spriteClass.name.should.eql('StackSprite');
+it('constructor', () => {
+  expect(c().config.spriteClass).toEqual(Sprite);
+  expect(
+    c({ spriteType: StackSprite.TYPE }).config.spriteClass
+  ).toEqual(StackSprite);
 });
 
-it('glob()', async () => {
-  (await c().glob(resolve(`${logosPackage}/appcode/*.svg`)))
-    .length.should.eql(2);
+it('addSymbolFromFile', async () => {
+  const compiler = c();
+  await compiler.addSymbolFromFile(resolve(`${logosPackage}/appcode/appcode.svg`));
 
-  (await c().glob([resolve(`${logosPackage}/appcode/appcode.svg`)]))
-    .length.should.eql(1);
+  expect(compiler.symbols).toHaveLength(1);
+  expect(compiler.symbols[0]).toBeInstanceOf(SpriteSymbol);
 });
 
-it('addFiles()', async () => {
-  (await c().addFiles([
-    resolve(`${logosPackage}/appcode/appcode.svg`),
-    resolve(`${logosPackage}/teamcity/teamcity.svg`)
-  ])).length.should.eql(2);
+it('createSymbol', async () => {
+  const res = c().createSymbol({ path: '/foo', content: '<svg></svg>' });
+  expect(res).toBeInstanceOf(SpriteSymbol);
 });
 
 it('compile()', async () => {
   const compiler = c();
   await compiler.glob(`${logosPackage}/appcode/*.svg`);
-  (await compiler.compile())
-    .should.be.instanceOf(Sprite);
+  expect(await compiler.compile()).toBeInstanceOf(CompilerResult);
+});
+
+it('glob()', async () => {
+  const compiler = c();
+  await compiler.glob(resolve(`${logosPackage}/appcode/*.svg`));
+  expect(compiler.symbols).toHaveLength(2);
+
+  await compiler.glob([resolve(`${logosPackage}/appcode/appcode.svg`)]);
+  expect(compiler.symbols).toHaveLength(2);
+
 });
