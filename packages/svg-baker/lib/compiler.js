@@ -21,7 +21,7 @@ class Compiler {
    * @property {SpriteConfig|StackSpriteConfig} spriteConfig
    * @property {Sprite|StackSprite} spriteClass
    * @property {SpriteSymbol} symbolClass
-   * @property {function(path: string)} generateSymbolId
+   * @property {function(path: string, query: string)} generateSymbolId
    */
   static get defaultConfig() {
     return {
@@ -85,9 +85,10 @@ class Compiler {
    * @return {Promise}
    */
   addSymbolFromFile(path) {
-    return readFile(path)
-      .then(content => this.createSymbol({ path, content }))
-      .then(symbol => this.addSymbol(symbol));
+    return readFile(path.split('?')[0]).then(content => {
+      const symbol = this.createSymbol({ path, content });
+      this.addSymbol(symbol);
+    });
   }
 
   /**
@@ -97,9 +98,16 @@ class Compiler {
    * @param {string} [opts.id]
    * @return {SpriteSymbol}
    */
-  createSymbol({ path, content, id = this.config.generateSymbolId(path) }) {
+  createSymbol({ path, content, id }) {
+    let symbolId = id;
+    if (!id) {
+      symbolId = this.config.generateSymbolId(
+        path.split('?')[0], // Path
+        path.split('?')[1] // Query
+      );
+    }
     const img = new Image(path, content);
-    return new this.config.symbolClass(id, img);
+    return new this.config.symbolClass(symbolId, img);
   }
 
   /**

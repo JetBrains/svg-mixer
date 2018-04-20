@@ -1,6 +1,6 @@
 const postcss = require('postcss');
 const merge = require('merge-options');
-const { Compiler, Sprite, StackSprite } = require('svg-baker');
+const { Compiler, Sprite, StackSprite, utils } = require('svg-baker');
 const { parse: parseQuery, stringify: stringifyQuery } = require('query-string');
 const anymatch = require('anymatch');
 
@@ -41,21 +41,29 @@ module.exports = postcss.plugin(packageName, (opts = {}) => {
 
   return async function plugin(root, result) {
     const declsAndPaths = await collectDeclarations(root, fileMatcher);
-    let sprite;
 
-    if (userSprite) {
-      sprite = userSprite;
-    } else {
-      const files = declsAndPaths.map(item => `${item.absolute}${item.query || ''}`);
-      await compiler.addFiles(files);
-      sprite = await compiler.compile();
-    }
-
-    if (sprite.symbols.length === 0) {
+    if (!declsAndPaths.length) {
       return;
     }
 
-    const spriteFilename = sprite.config.filename;
+    let sprite;
+    let spriteContent;
+    let spriteFilename;
+
+    if (userSprite) {
+      sprite = userSprite;
+      spriteContent = await sprite.render();
+      spriteFilename = utils.interpolateName(sprite.config.filename, spriteContent);
+    } else {
+      for (const item of declsAndPaths) {
+        const file = `${item.absolute}${item.query || ''}`;
+        await compiler.addSymbolFromFile(file);
+      }
+      const res = await compiler.compile();
+      sprite = res.sprite;
+      spriteContent = res.content;
+      spriteFilename = res.filename;
+    }
 
     declsAndPaths.forEach(item => {
       const { decl, path, absolute, query } = item;
@@ -93,8 +101,6 @@ module.exports = postcss.plugin(packageName, (opts = {}) => {
         transforms.aspectRatio(rule, position.aspectRatio);
       }
     });
-
-    const spriteContent = await sprite.render();
 
     result.messages.push({
       type: 'asset',

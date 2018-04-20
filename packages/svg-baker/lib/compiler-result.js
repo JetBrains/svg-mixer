@@ -1,7 +1,8 @@
-const { resolve, dirname } = require('path');
+const { resolve } = require('path');
 
 const { outputFile } = require('fs-extra');
-const { interpolateName } = require('loader-utils');
+
+const interpolateName = require('./utils/interpolate-name');
 
 class CompilerResult {
   /**
@@ -17,11 +18,7 @@ class CompilerResult {
    * @return {string}
    */
   get filename() {
-    const configFilename = this.sprite.config.filename;
-
-    return configFilename.includes('[hash')
-      ? interpolateName({}, configFilename, { content: this.content })
-      : configFilename;
+    return interpolateName(this.sprite.config.filename, this.content);
   }
 
   /**
