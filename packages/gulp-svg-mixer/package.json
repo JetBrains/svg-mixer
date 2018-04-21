@@ -1,0 +1,21 @@
+{
+  "name": "gulp-svg-mixer",
+  "version": "0.0.0",
+  "description": "",
+  "license": "MIT",
+  "homepage": "https://github.com/kisenka/svg-mixer/packages/gulp-svg-mixer",
+  "repository": "https://github.com/kisenka/svg-mixer/packages/gulp-svg-mixer",
+  "files": [
+    "index.js"
+  ],
+  "dependencies": {
+    "merge-options": "^1.0.0",
+    "postcss": "^6.0.21",
+    "postcss-prettify": "^0.3.4",
+    "postcss-svg-mixer": "^0.1.5",
+    "pretty": "^2.0.0",
+    "svg-mixer": "^2.0.2",
+    "through2": "2.0.3",
+    "vinyl": "^2.1.0"
+  }
+}
