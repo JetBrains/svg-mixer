@@ -7,8 +7,10 @@
   "repository": "https://github.com/kisenka/svg-mixer/packages/postsvg",
   "files": [
     "lib",
-    "index.js"
+    "index.js",
+    "postsvg.d.ts"
   ],
+  "typings": "postsvg.d.ts",
   "dependencies": {
     "clone": "^1.0.4",
     "deepmerge": "^2.1.0",

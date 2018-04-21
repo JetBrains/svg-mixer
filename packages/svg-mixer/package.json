@@ -8,8 +8,10 @@
   "files": [
     "lib/",
     "index.js",
-    "namespaces.js"
+    "namespaces.js",
+    "svgmixer.d.ts"
   ],
+  "typings": "svgmixer.d.ts",
   "dependencies": {
     "fs-extra": "^5.0.0",
     "glob-all": "^3.1.0",
