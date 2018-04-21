@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "description": "",
   "license": "MIT",
-  "repository": "https://github.com/kisenka/svg-baker/packages/svg-transform-loader",
+  "homepage": "https://github.com/kisenka/svg-mixer/packages/svg-transform-loader",
+  "repository": "https://github.com/kisenka/svg-mixer/packages/svg-transform-loader",
   "files": [
     "lib",
     "index.js",
@@ -15,6 +16,6 @@
     "postcss": "^6.0.21",
     "posthtml-transform": "^0.0.0",
     "postsvg": "^2.1.2",
-    "svg-baker-utils": "^0.2.1"
+    "svg-mixer-utils": "^0.2.1"
   }
 }

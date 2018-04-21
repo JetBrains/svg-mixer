@@ -3,7 +3,8 @@
   "version": "1.0.4",
   "description": "PostHTML plugin to rename id attributes and it's references",
   "license": "MIT",
-  "repository": "https://github.com/kisenka/svg-baker/packages/posthtml-rename-id",
+  "homepage": "https://github.com/kisenka/svg-mixer/packages/posthtml-rename-id",
+  "repository": "https://github.com/kisenka/svg-mixer/packages/posthtml-rename-id",
   "files": [
     "index.js"
   ],

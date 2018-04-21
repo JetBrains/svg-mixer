@@ -3,7 +3,8 @@
   "version": "0.1.2",
   "description": "",
   "license": "MIT",
-  "repository": "https://github.com/kisenka/svg-baker/packages/postcss-move-props-to-bg-image-query",
+  "homepage": "https://github.com/kisenka/svg-mixer/packages/postcss-move-props-to-bg-image-query",
+  "repository": "https://github.com/kisenka/svg-mixer/packages/postcss-move-props-to-bg-image-query",
   "files": [
     "lib/",
     "index.js"
@@ -11,6 +12,6 @@
   "dependencies": {
     "merge-options": "^1.0.0",
     "postcss": "^6.0.1",
-    "svg-baker-utils": "^0.2.1"
+    "svg-mixer-utils": "^0.2.1"
   }
 }

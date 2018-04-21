@@ -1,5 +1,5 @@
 const postcss = require('postcss');
-const { findCssBgImageDecls } = require('svg-baker-utils');
+const { findCssBgImageDecls } = require('svg-mixer-utils');
 
 // Trying to encode sharp symbol which could be treated like fragment identifier
 module.exports = postcss.plugin('postcss-encode-query-string-params', () => {

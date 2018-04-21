@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "description": "",
   "license": "MIT",
-  "repository": "https://github.com/kisenka/svg-baker/packages/posthtml-transform",
+  "homepage": "https://github.com/kisenka/svg-mixer/packages/posthtml-transform",
+  "repository": "https://github.com/kisenka/svg-mixer/packages/posthtml-transform",
   "files": [
     "index.js",
     "parse-query-to-transformer-params.js"

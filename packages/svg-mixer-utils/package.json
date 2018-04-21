@@ -1,0 +1,16 @@
+{
+  "name": "svg-mixer-utils",
+  "version": "0.2.1",
+  "license": "MIT",
+  "homepage": "https://github.com/kisenka/svg-mixer/packages/svg-mixer-utils",
+  "repository": "https://github.com/kisenka/svg-mixer/packages/svg-mixer-utils",
+  "files": [
+    "lib/",
+    "index.js"
+  ],
+  "dependencies": {
+    "anymatch": "^2.0.0",
+    "merge-options": "^1.0.0",
+    "postcss-helpers": "^0.3.2"
+  }
+}

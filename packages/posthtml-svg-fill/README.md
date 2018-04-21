@@ -1,4 +1,1 @@
-# PostHTML fill plugin
-
-Plugin that changes chapes colors in SVG images.
-Docs in progress.
+# DEPRECATED. Use [posthtml-transform](https://github.com/kisenka/svg-mixer/packages/posthtml-transform) instead.

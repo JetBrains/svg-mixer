@@ -4,7 +4,7 @@ const merge = require('merge-options');
 const {
   createMatcher,
   findCssBgImageDecls
-} = require('svg-baker-utils');
+} = require('svg-mixer-utils');
 
 const { name: packageName } = require('./package.json');
 
