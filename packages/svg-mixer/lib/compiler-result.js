@@ -2,8 +2,6 @@ const { resolve } = require('path');
 
 const { outputFile } = require('fs-extra');
 
-const interpolateName = require('./utils/interpolate-name');
-
 class CompilerResult {
   /**
    * @param {string} content
@@ -18,7 +16,7 @@ class CompilerResult {
    * @return {string}
    */
   get filename() {
-    return interpolateName(this.sprite.config.filename, this.content);
+    return this.sprite.config.filename;
   }
 
   /**

@@ -1,6 +1,6 @@
 const postcss = require('postcss');
 const merge = require('merge-options');
-const { Compiler, Sprite, StackSprite, utils } = require('svg-mixer');
+const { Compiler, Sprite, StackSprite } = require('svg-mixer');
 const { parse: parseQuery, stringify: stringifyQuery } = require('query-string');
 const anymatch = require('anymatch');
 
@@ -53,7 +53,7 @@ module.exports = postcss.plugin(packageName, (opts = {}) => {
     if (userSprite) {
       sprite = userSprite;
       spriteContent = await sprite.render();
-      spriteFilename = utils.interpolateName(sprite.config.filename, spriteContent);
+      spriteFilename = sprite.config.filename;
     } else {
       for (const item of declsAndPaths) {
         const file = `${item.absolute}${item.query || ''}`;
