@@ -1,6 +1,6 @@
 {
   "name": "posthtml-rename-id",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "PostHTML plugin to rename id attributes and it's references",
   "license": "MIT",
   "homepage": "https://github.com/kisenka/svg-mixer/packages/posthtml-rename-id",

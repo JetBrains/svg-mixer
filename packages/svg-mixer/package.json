@@ -1,6 +1,6 @@
 {
   "name": "svg-mixer",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "description": "",
   "homepage": "https://github.com/kisenka/svg-mixer/packages/svg-mixer",
   "license": "MIT",
@@ -20,8 +20,8 @@
     "micromatch": "3.1.0",
     "postcss": "^6.0.21",
     "postcss-prefix-selector": "^1.6.0",
-    "posthtml-rename-id": "^1.0.4",
-    "postsvg": "^2.1.2",
+    "posthtml-rename-id": "^1.0.5",
+    "postsvg": "^2.2.0",
     "query-string": "^6.0.0",
     "traverse": "^0.6.6",
     "url-slug": "^2.0.0"

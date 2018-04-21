@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="2.2.0"></a>
+# [2.2.0](https://github.com/kisenka/svg-mixer/packages/postsvg/compare/postsvg@2.1.2...postsvg@2.2.0) (2018-04-21)
+
+
+### Bug Fixes
+
+* processor use posthtml interop ([cbb821a](https://github.com/kisenka/svg-mixer/packages/postsvg/commit/cbb821a))
+
+
+### Features
+
+* add select and each methods to postsvg tree ([fc18f4a](https://github.com/kisenka/svg-mixer/packages/postsvg/commit/fc18f4a))
+* add svg getter in result ([1bccdd4](https://github.com/kisenka/svg-mixer/packages/postsvg/commit/1bccdd4))
+* posthtml interop; selectors returns all nodes if no params passed ([cc3e6e3](https://github.com/kisenka/svg-mixer/packages/postsvg/commit/cc3e6e3))
+
+
+
+
 <a name="2.1.2"></a>
 ## [2.1.2](https://github.com/kisenka/svg-baker/packages/postsvg/compare/postsvg@2.1.2-alpha.0...postsvg@2.1.2) (2018-04-13)
 

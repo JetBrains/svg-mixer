@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.2.0"></a>
+# [0.2.0](https://github.com/kisenka/svg-mixer/packages/postcss-move-props-to-bg-image-query/compare/postcss-move-props-to-bg-image-query@0.1.2...postcss-move-props-to-bg-image-query@0.2.0) (2018-04-21)
+
+
+### Features
+
+* handle super complex cases ([a5fceb9](https://github.com/kisenka/svg-mixer/packages/postcss-move-props-to-bg-image-query/commit/a5fceb9))
+* pass object<{ name, value }> to transformer instead of declaration ([512fc03](https://github.com/kisenka/svg-mixer/packages/postcss-move-props-to-bg-image-query/commit/512fc03))
+
+
+
+
 <a name="0.1.2"></a>
 ## [0.1.2](https://github.com/kisenka/svg-baker/packages/postcss-move-props-to-bg-image-query/compare/postcss-move-props-to-bg-image-query@0.1.1...postcss-move-props-to-bg-image-query@0.1.2) (2018-04-13)
 

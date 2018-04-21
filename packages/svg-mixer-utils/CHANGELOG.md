@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.2.2"></a>
+## 0.2.2 (2018-04-21)
+
+
+
+
+**Note:** Version bump only for package svg-mixer-utils
+
 <a name="0.2.1"></a>
 ## [0.2.1](https://github.com/kisenka/svg-baker/packages/svg-baker-utils/compare/svg-baker-utils@0.2.0...svg-baker-utils@0.2.1) (2018-04-13)
 

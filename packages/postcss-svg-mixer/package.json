@@ -1,6 +1,6 @@
 {
   "name": "postcss-svg-mixer",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "",
   "license": "MIT",
   "homepage": "https://github.com/kisenka/svg-mixer/packages/postcss-svg-mixer",
@@ -15,7 +15,7 @@
     "anymatch": "^2.0.0",
     "postcss": "^6.0.21",
     "query-string": "^6.0.0",
-    "svg-mixer": "^2.0.2",
-    "svg-mixer-utils": "^0.2.1"
+    "svg-mixer": "^2.0.3",
+    "svg-mixer-utils": "^0.2.2"
   }
 }
