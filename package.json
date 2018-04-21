@@ -1,5 +1,5 @@
 {
-  "description": "This is root of svg-baker monorepo",
+  "description": "This is root of svg-mixer monorepo",
   "private": true,
   "license": "MIT",
   "workspaces": [

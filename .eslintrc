@@ -24,7 +24,7 @@
     },
     {
       "files": [
-        "packages/svg-baker-runtime"
+        "packages/svg-mixer-runtime"
       ],
       "env": {
         "node": false,

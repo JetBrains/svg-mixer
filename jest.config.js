@@ -11,6 +11,6 @@ module.exports = {
   ],
   testPathIgnorePatterns: [
     '<rootDir>/node_modules/',
-    '<rootDir>/packages/svg-baker-runtime/'
+    '<rootDir>/packages/svg-mixer/runtime/'
   ]
 };
