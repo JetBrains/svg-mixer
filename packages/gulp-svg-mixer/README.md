@@ -20,17 +20,17 @@ gulp.src('img/*.svg')
 ## Configuration
 
 **Sprite**
-- `sprite.type: 'classic' | 'stack'` (default `classic`).
-- `sprite.filename: string` (default `sprite.svg`).
+- `sprite.type`: `'classic' | 'stack'` (default `classic`).
+- `sprite.filename`: `string` (default `sprite.svg`).
 
 **CSS**
-- `css.mode: 'plain' | 'full'` (default `plain`).
-- `css.filename: string` (default `sprite-styles.css`).
-- `css.selector: string` (default `.img-[symbol-id]`). `[symbol-id]` will be replaced
+- `css.mode`: `'plain' | 'full'` (default `plain`).
+- `css.filename`: `string` (default `sprite-styles.css`).
+- `css.selector`: `string` (default `.img-[symbol-id]`). `[symbol-id]` will be replaced
   by actual sprite symbol name, e.g. image `img/twitter.svg` becomes `twitter`.
 
 **Misc**
-- `prettify: boolean` (default `true`). Prettify output. 
+- `prettify`: `boolean` (default `true`). Prettify output. 
 
 ## Examples
 
