@@ -11,27 +11,33 @@ const postcssSprite = require('postcss-svg-mixer');
 const postcssPrettify = require('postcss-prettify');
 
 const defaultConfig = {
+  prettify: true,
   sprite: {
-    filename: 'sprite.svg',
-    prettify: true
+    type: 'classic',
+    filename: 'sprite.svg'
   },
   css: {
     mode: 'plain',
     filename: 'sprite-styles.css',
-    selector: '.img-[symbol-id]',
-    prettify: true
+    selector: '.img-[symbol-id]'
   }
 };
 
 module.exports = config => {
   const cwd = process.cwd();
+  const cfg = merge(defaultConfig, config);
   const {
     sprite: spriteConfig,
     css: cssConfig,
     ...restConfig
-  } = merge(defaultConfig, config);
+  } = cfg;
 
   const compilerConfig = merge(restConfig, { spriteConfig });
+
+  if (spriteConfig.type) {
+    compilerConfig.spriteType = spriteConfig.type;
+  }
+
   const compiler = Compiler.create(compilerConfig);
 
   return through2.obj((file, enc, callback) => {
@@ -51,7 +57,7 @@ module.exports = config => {
       path: spritePath,
       base: dirname(spritePath),
       contents: new Buffer(
-        spriteConfig.prettify ? pretty(spriteContent) : spriteContent
+        cfg.prettify ? pretty(spriteContent) : spriteContent
       )
     }));
 
@@ -59,7 +65,7 @@ module.exports = config => {
       const cssPath = resolve(cwd, cssConfig.filename);
       const processor = postcss([
         postcssSprite(merge(cssConfig, { sprite })),
-        cssConfig.prettify && postcssPrettify()
+        cfg.prettify && postcssPrettify()
       ].filter(Boolean));
 
       const cssResult = await processor.process(
