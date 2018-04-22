@@ -76,8 +76,9 @@ Fine tunes sprite output.
 - `attrs` (default: `{}`). Additional sprite SVG attributes, eg. `{ class: 'my-sprite' }`.
 - `usages` (default: `true`). Render images on sprite canvas or just place their symbols in
   `<defs>` section. It's useful to set `false` when sprite inlined directly to HTML 
-  markup and symbols are referenced via `<use xlink:href="#symbol-id" />`.
-- `spacing` (default: `10`). Spacing between symbols in pixels.
+  markup and symbols are referenced via `<use xlink:href="#symbol-id" />`. 
+  Make sense only for classic sprite
+- `spacing` (default: `10`). Spacing between symbols in pixels. Make sense only for classic sprite 
 
 Stack sprite also has following options:
 - `usageClassName` (default: `sprite-symbol-usage`). CSS classname of symbol to set.
