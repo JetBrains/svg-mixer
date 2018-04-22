@@ -47,9 +47,9 @@ npm install svg-mixer
 
 ## Adapters
 
-- [postcss-svg-mixer](../postcss-svg-mixer)
-- [gulp-svg-mixer](../gulp-svg-mixer)
-- webpack adapter in progress.
+- [PostCSS](../postcss-svg-mixer)
+- [Gulp](../gulp-svg-mixer)
+- webpack loader/plugin in progress.
 
 ## Configuration
 
