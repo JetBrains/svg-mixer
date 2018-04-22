@@ -2,14 +2,14 @@
 const { dirname } = require('path');
 
 const { resolveFile, findCssBgImageDecls } = require('svg-mixer-utils');
-const { name: packageName } = require('../package.json');
 
 /**
+ * TODO refactor this ugly code!
  * @param {postcss.Root} root
  * @param {Function<string>} [fileMatcher]
  * @return {Promise<Array<{path: string, original: string, query: string, decl: postcss.Declaration}>>}
  */
-module.exports = async (root, result, fileMatcher = null) => {
+module.exports = async (root, fileMatcher) => {
   const from = root.source.input.file;
   const sourceContextPath = from ? dirname(from) : undefined;
 
@@ -30,13 +30,13 @@ module.exports = async (root, result, fileMatcher = null) => {
         return entry;
       })
       .catch(e => {
+        let error = e;
+        const { decl } = entry;
         if (e.code === 'NOT_FOUND') {
-          const msg = `${entry.origin} not found. Requested from ${from}`;
-          entry.decl.warn(result, msg, { plugin: packageName });
-          entry.absolute = null;
-          return entry;
+          const msg = `${entry.origin} not found`;
+          error = decl.error(msg, { word: decl.prop });
         }
-        return Promise.reject(e);
+        return Promise.reject(error);
       }));
 
   return Promise.all(resolvePromises)

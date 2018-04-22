@@ -1,7 +1,7 @@
 const { resolve, basename } = require('path');
 
 const postcss = require('postcss');
-const baker = require('svg-mixer');
+const mixer = require('svg-mixer');
 
 const { name: packageName } = require('../package.json');
 
@@ -9,7 +9,7 @@ const plugin = require('..');
 
 const FORMAT = require('../format');
 
-const spriteDefaultConfig = baker.Sprite.defaultConfig;
+const spriteDefaultConfig = mixer.Sprite.defaultConfig;
 const fixturesStylesheetPath = resolve(utils.fixturesDir, 'test.css'); // Using fixtures dir path for shortly urls
 const defaultInput = '.a {background:url(twitter.svg)}';
 
@@ -22,13 +22,7 @@ function exec(input, opts) {
     .use(plugin(opts))
     .process(input, { from: fixturesStylesheetPath })
     .then(res => {
-      const msg = findSpriteMsg(res.messages);
-
-      if (msg) {
-        res.msg = msg;
-        res.sprite = msg.sprite;
-      }
-
+      res.msg = findSpriteMsg(res.messages) || undefined;
       return res;
     });
 }
@@ -64,12 +58,12 @@ describe('Options', () => {
     const {
       sprite,
       content: spriteContent
-    } = await baker(resolve(utils.fixturesDir, 'twitter.svg'));
+    } = await mixer(resolve(utils.fixturesDir, 'twitter.svg'));
 
     const res = await exec(defaultInput, { sprite });
 
     expect(res.css).toMatchSnapshot();
-    res.msg.sprite.content.should.eql(spriteContent);
+    res.msg.content.should.eql(spriteContent);
   });
 
   describe('Override svg-mixer compiler options', () => {
@@ -95,7 +89,7 @@ describe('Options', () => {
         .should.contain(`url('${expectedFilename}')`)
         .and.not.contain(`url('${spriteDefaultConfig.filename}')`);
 
-      res.msg.sprite.filename.should.eql(expectedFilename);
+      res.msg.filename.should.eql(expectedFilename);
     });
   });
 });
@@ -109,21 +103,25 @@ describe('Behaviour', () => {
 
   it('should add message with sprite info', async () => {
     const filename = 'qwe.svg';
-    const { messages, sprite } = await exec(defaultInput, { spriteConfig: { filename } });
-    const spriteContent = await sprite.sprite.render();
-    const msg = findSpriteMsg(messages);
+    const { msg } = await exec(defaultInput, { spriteConfig: { filename } });
 
-    msg.plugin.should.eql(packageName);
-    msg.type.should.eql('asset');
-    msg.kind.should.eql('sprite');
-    msg.sprite.filename.should.eql(filename);
-    msg.sprite.content.should.eql(spriteContent);
+    expect(msg.plugin).toEqual(packageName);
+    expect(msg.type).toEqual('asset');
+    expect(msg.kind).toEqual('sprite');
+    expect(msg.sprite).toBeInstanceOf(mixer.Sprite);
+    expect(msg.filename).toEqual(filename);
+    expect(await msg.sprite.render()).toEqual(msg.content);
+  });
+
+  it('should emit error if image not found', async () => {
+    await expect(exec('.a {background :   url(fooo.svg)}'))
+      .rejects.toThrowError();
   });
 
   it('should reuse symbols with the same url', async () => {
     const input = '.a{background:url(twitter.svg)}.b{background:url(twitter.svg)}';
-    const { sprite } = await exec(input);
-    sprite.sprite.symbols.length.should.eql(1);
+    const { msg } = await exec(input);
+    msg.sprite.symbols.length.should.eql(1);
   });
 
   it('should treat same file with different query params as separate symbols', async () => {
@@ -131,8 +129,8 @@ describe('Behaviour', () => {
 .a{background:url(twitter.svg)}
 .b{background:url(twitter.svg?qwe)}
 .c{background:url(twitter.svg)}`;
-    const { sprite } = await exec(input);
-    sprite.sprite.symbols.length.should.eql(2);
+    const { msg } = await exec(input);
+    msg.sprite.symbols.length.should.eql(2);
   });
 });
 
@@ -160,7 +158,7 @@ describe('Webpack postcss-loader interop', () => {
   it('should emit sprite file', async () => {
     const filename = 'qwe.svg';
     const ctx = mockWebpackCtx();
-    const { sprite } = await exec(defaultInput, { ctx, spriteConfig: { filename } });
-    expect(ctx.webpack.emitFile).toHaveBeenCalledWith(filename, sprite.content);
+    const { msg } = await exec(defaultInput, { ctx, spriteConfig: { filename } });
+    expect(ctx.webpack.emitFile).toHaveBeenCalledWith(filename, msg.content);
   });
 });

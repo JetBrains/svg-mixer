@@ -40,7 +40,7 @@ module.exports = postcss.plugin(packageName, (opts = {}) => {
   const isWebpack = !!(ctx && ctx.webpack);
 
   return async function plugin(root, result) {
-    const declsAndPaths = await collectDeclarations(root, result, fileMatcher);
+    const declsAndPaths = await collectDeclarations(root, fileMatcher);
 
     if (!declsAndPaths.length) {
       return;
@@ -107,11 +107,9 @@ module.exports = postcss.plugin(packageName, (opts = {}) => {
       kind: 'sprite',
       plugin: packageName,
       file: result.opts.from,
-      sprite: {
-        sprite,
-        filename: spriteFilename,
-        content: spriteContent
-      }
+      sprite,
+      filename: spriteFilename,
+      content: spriteContent
     });
 
     // Emit sprite file in webpack compilation assets
