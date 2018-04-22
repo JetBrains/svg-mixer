@@ -101,10 +101,9 @@ class Compiler {
   createSymbol({ path, content, id }) {
     let symbolId = id;
     if (!id) {
-      symbolId = this.config.generateSymbolId(
-        path.split('?')[0], // Path
-        path.substr(path.lastIndexOf('?')) // Query
-      );
+      const pathname = path.split('?')[0];
+      const query = path.indexOf('?') > -1 ? path.substr(path.lastIndexOf('?')) : '';
+      symbolId = this.config.generateSymbolId(pathname, query);
     }
     const img = new Image(path, content);
     return new this.config.symbolClass(symbolId, img);
