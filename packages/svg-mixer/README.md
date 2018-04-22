@@ -87,7 +87,7 @@ Stack sprite also has following options:
 
 ### `generateSymbolId` (`function(path: string, query: string = '') => string`)
 
-Function to generate `<symbol id>` attribute. By default file basename without extension is used.
+Function to generate `<symbol id>` attribute. By default file name without extension is used.
 Accepts 2 arguments: absolute path to file and optional query string.
 
 ### `prettify`
@@ -195,5 +195,5 @@ const MySymbol = require('./my-custom-symbol');
 
 postcss()
   .use(postcssMixer({ symbolClass: MySymbol }))
-  .process('.a {background: url(qwe.svg?fill=red)}');
+  .process('.a {background: url(qwe.svg?fill=red)}'); // this image in sprite will be in red color
 ```
