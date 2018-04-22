@@ -1,6 +1,7 @@
 import postsvg from 'postsvg';
 
-declare function svgmixer(glob: string | string[], config?: svgmixer.CompilerConfig): Promise<svgmixer.CompilerResult>;
+declare function svgmixer(files: string | string[], config?: svgmixer.CompilerConfig)
+  : Promise<svgmixer.CompilerResult>;
 
 declare namespace svgmixer {
   interface CompilerConfig {
