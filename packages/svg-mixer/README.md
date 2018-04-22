@@ -13,6 +13,8 @@ Library for generating and transforming SVG sprites in modern way!
   - [`generateSymbolId`](#generatesymbolid)
   - [`spriteClass`](#spriteClass)
   - [`symbolClass`](#symbolClass)
+- [API](#api)
+- [Extending](#extending)
 
 ## Quick example
 
