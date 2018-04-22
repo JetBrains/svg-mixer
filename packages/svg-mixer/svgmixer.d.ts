@@ -1,20 +1,32 @@
 import postsvg from 'postsvg';
 
-declare function svgmixer(glob: string | string[], config?: svgmixer.ICompilerConfig): Promise<svgmixer.CompilerResult>;
+declare function svgmixer(glob: string | string[], config?: svgmixer.CompilerConfig): Promise<svgmixer.CompilerResult>;
 
 declare namespace svgmixer {
-  interface ICompilerConfig {
-    spriteConfig: SpriteConfig | StackSpriteConfig;
+  interface CompilerConfig {
     spriteType: 'classic' | 'stack';
+    spriteConfig: SpriteConfig | StackSpriteConfig;
+    generateSymbolId: (path: string, query: string = '') => string;
     spriteClass: Sprite | StackSprite;
     symbolClass: SpriteSymbol;
-    generateSymbolId: (path: string, query: string = '') => string;
+  }
+
+  interface SpriteConfig {
+    filename: string;
+    attrs: Object;
+    usages: boolean;
+    spacing: number;
+  }
+
+  interface StackSpriteConfig extends SpriteConfig {
+    usageClassName: string;
+    styles: string;
   }
 
   class Compiler {
-    static readonly defaultConfig: ICompilerConfig;
-    static create(config?: ICompilerConfig): Compiler;
-    constructor(public config?: ICompilerConfig);
+    static readonly defaultConfig: CompilerConfig;
+    static create(config?: CompilerConfig): Compiler;
+    constructor(public config?: CompilerConfig);
     get symbols(): SpriteSymbol[];
     addSymbol(symbol: SpriteSymbol): void;
     addSymbolFromFile(path: string): Promise;
@@ -39,13 +51,6 @@ declare namespace svgmixer {
     get content(): string;
     get tree(): postsvg.Tree;
     toString(): string;
-  }
-
-  interface SpriteConfig {
-    filename: string;
-    attrs: Object;
-    usages: boolean;
-    spacing: number;
   }
 
   class Sprite {
@@ -83,11 +88,6 @@ declare namespace svgmixer {
     get factor(): number;
     toPx(decimalPlaces: number = 2): string;
     toPercent(decimalPlaces: number = 2): string;
-  }
-
-  interface StackSpriteConfig extends SpriteConfig {
-    usageClassName: string;
-    styles: string;
   }
 
   class StackSprite extends Sprite {
