@@ -40,7 +40,7 @@ module.exports = postcss.plugin(packageName, (opts = {}) => {
   const isWebpack = !!(ctx && ctx.webpack);
 
   return async function plugin(root, result) {
-    const declsAndPaths = await collectDeclarations(root, fileMatcher);
+    const declsAndPaths = await collectDeclarations(root, result, fileMatcher);
 
     if (!declsAndPaths.length) {
       return;
