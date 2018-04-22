@@ -27,7 +27,6 @@ function exec(input, opts) {
       if (msg) {
         res.msg = msg;
         res.sprite = msg.sprite;
-        res.spriteContent = msg.content;
       }
 
       return res;
@@ -70,7 +69,7 @@ describe('Options', () => {
     const res = await exec(defaultInput, { sprite });
 
     expect(res.css).toMatchSnapshot();
-    res.msg.content.should.eql(spriteContent);
+    res.msg.sprite.content.should.eql(spriteContent);
   });
 
   describe('Override svg-mixer compiler options', () => {
@@ -96,7 +95,7 @@ describe('Options', () => {
         .should.contain(`url('${expectedFilename}')`)
         .and.not.contain(`url('${spriteDefaultConfig.filename}')`);
 
-      res.msg.file.should.eql(expectedFilename);
+      res.msg.sprite.filename.should.eql(expectedFilename);
     });
   });
 });
@@ -111,21 +110,20 @@ describe('Behaviour', () => {
   it('should add message with sprite info', async () => {
     const filename = 'qwe.svg';
     const { messages, sprite } = await exec(defaultInput, { spriteConfig: { filename } });
-    const spriteContent = await sprite.render();
+    const spriteContent = await sprite.sprite.render();
     const msg = findSpriteMsg(messages);
 
     msg.plugin.should.eql(packageName);
-    msg.file.should.eql(filename);
     msg.type.should.eql('asset');
     msg.kind.should.eql('sprite');
-    msg.content.should.eql(spriteContent);
-    msg.sprite.should.eql(sprite);
+    msg.sprite.filename.should.eql(filename);
+    msg.sprite.content.should.eql(spriteContent);
   });
 
   it('should reuse symbols with the same url', async () => {
     const input = '.a{background:url(twitter.svg)}.b{background:url(twitter.svg)}';
     const { sprite } = await exec(input);
-    sprite.symbols.length.should.eql(1);
+    sprite.sprite.symbols.length.should.eql(1);
   });
 
   it('should treat same file with different query params as separate symbols', async () => {
@@ -134,7 +132,7 @@ describe('Behaviour', () => {
 .b{background:url(twitter.svg?qwe)}
 .c{background:url(twitter.svg)}`;
     const { sprite } = await exec(input);
-    sprite.symbols.length.should.eql(2);
+    sprite.sprite.symbols.length.should.eql(2);
   });
 });
 
@@ -162,7 +160,7 @@ describe('Webpack postcss-loader interop', () => {
   it('should emit sprite file', async () => {
     const filename = 'qwe.svg';
     const ctx = mockWebpackCtx();
-    const { spriteContent } = await exec(defaultInput, { ctx, spriteConfig: { filename } });
-    expect(ctx.webpack.emitFile).toHaveBeenCalledWith(filename, spriteContent);
+    const { sprite } = await exec(defaultInput, { ctx, spriteConfig: { filename } });
+    expect(ctx.webpack.emitFile).toHaveBeenCalledWith(filename, sprite.content);
   });
 });

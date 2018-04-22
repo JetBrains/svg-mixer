@@ -106,9 +106,12 @@ module.exports = postcss.plugin(packageName, (opts = {}) => {
       type: 'asset',
       kind: 'sprite',
       plugin: packageName,
-      file: spriteFilename,
-      content: spriteContent,
-      sprite
+      file: result.opts.from,
+      sprite: {
+        sprite,
+        filename: spriteFilename,
+        content: spriteContent
+      }
     });
 
     // Emit sprite file in webpack compilation assets
