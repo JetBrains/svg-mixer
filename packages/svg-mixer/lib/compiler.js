@@ -81,7 +81,7 @@ class Compiler {
   }
 
   /**
-   * @param {string} path
+   * @param {string} path Path may contain query string, eg. image.svg?param=value.
    * @return {Promise}
    */
   addSymbolFromFile(path) {
@@ -103,7 +103,7 @@ class Compiler {
     if (!id) {
       symbolId = this.config.generateSymbolId(
         path.split('?')[0], // Path
-        path.split('?')[1] // Query
+        path.substr(path.lastIndexOf('?')) // Query
       );
     }
     const img = new Image(path, content);
@@ -120,7 +120,7 @@ class Compiler {
   }
 
   /**
-   * @param {string|Array<string>} pattern Glob pattern, absolute path or array of those combination.
+   * @param {string|Array<string>} pattern
    * @return {Promise}
    */
   glob(pattern) {

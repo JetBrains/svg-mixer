@@ -6,6 +6,9 @@ const renderer = require('./renderer');
 
 /**
  * @typedef {Object} Node
+ * @property {string} tag
+ * @property {Object} [attrs]
+ * @property {Array<Node|string>} [content]
  */
 
 class PostSvgTree extends Array {

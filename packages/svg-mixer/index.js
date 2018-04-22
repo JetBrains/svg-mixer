@@ -1,13 +1,13 @@
 const Compiler = require('./lib/compiler');
 
 /**
- * @param {string|string[]} pattern Glob pattern, absolute path or array of those combination.
+ * @param {string|string[]} glob
  * @param {CompilerConfig} [config]
  * @return {Promise<CompilerResult>}
  */
-module.exports = (pattern, config = {}) => {
+module.exports = (glob, config = {}) => {
   const compiler = new Compiler(config);
-  return compiler.glob(pattern).then(() => compiler.compile());
+  return compiler.glob(glob).then(() => compiler.compile());
 };
 
 module.exports.Compiler = require('./lib/compiler');
