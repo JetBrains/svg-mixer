@@ -5,6 +5,7 @@ declare function svgmixer(files: string | string[], config?: svgmixer.CompilerCo
 
 declare namespace svgmixer {
   interface CompilerConfig {
+    prettify: boolean,
     spriteType: 'classic' | 'stack';
     spriteConfig: SpriteConfig | StackSpriteConfig;
     generateSymbolId: (path: string, query: string = '') => string;

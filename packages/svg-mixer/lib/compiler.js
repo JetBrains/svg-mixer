@@ -17,6 +17,7 @@ const { getBasename } = require('./utils');
 class Compiler {
   /**
    * @typedef {Object} CompilerConfig
+   * @property {boolean} prettify=false
    * @property {string} spriteType 'classic' | 'stack'
    * @property {SpriteConfig|StackSpriteConfig} spriteConfig
    * @property {Sprite|StackSprite} spriteClass
@@ -25,6 +26,7 @@ class Compiler {
    */
   static get defaultConfig() {
     return {
+      prettify: false,
       spriteConfig: {},
       spriteType: Sprite.TYPE,
       spriteClass: Sprite,
@@ -113,9 +115,9 @@ class Compiler {
    * @return {Promise<CompilerResult>}
    */
   compile() {
-    const { spriteClass, spriteConfig } = this.config;
+    const { spriteClass, spriteConfig, prettify } = this.config;
     const sprite = new spriteClass(spriteConfig, this.symbols);
-    return sprite.render().then(content => new CompilerResult(content, sprite));
+    return sprite.render(prettify).then(content => new CompilerResult(content, sprite));
   }
 
   /**

@@ -11,6 +11,7 @@ Library for generating and transforming SVG sprites in modern way!
   - [`spriteType`](#spritetype)
   - [`spriteConfig`](#spriteconfig)
   - [`generateSymbolId`](#generatesymbolid)
+  - [`prettify`](#prettify)
   - [`spriteClass`](#spriteClass)
   - [`symbolClass`](#symbolClass)
 - [API](#api)
@@ -88,6 +89,10 @@ Stack sprite also has following options:
 
 Function to generate `<symbol id>` attribute. By default file basename without extension is used.
 Accepts 2 arguments: absolute path to file and optional query string.
+
+### `prettify`
+
+Prettify sprite output, `false` by default.
 
 ### `spriteClass`
 

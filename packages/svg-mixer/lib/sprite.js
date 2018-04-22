@@ -1,4 +1,5 @@
 const merge = require('merge-options');
+const pretty = require('pretty');
 
 const SpriteSymbolsMap = require('./sprite-symbols-map');
 
@@ -110,10 +111,14 @@ class Sprite {
   }
 
   /**
+   * @param {boolean} prettify
    * @return {Promise<string>}
    */
-  render() {
-    return this.generate().then(tree => tree.toString());
+  render(prettify = false) {
+    // eslint-disable-next-line no-confusing-arrow
+    return this.generate().then(tree =>
+      prettify ? pretty(tree.toString()) : tree.toString()
+    );
   }
 }
 
