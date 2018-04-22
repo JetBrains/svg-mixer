@@ -3,38 +3,6 @@ import postsvg from 'postsvg';
 declare function svgmixer(glob: string | string[], config?: svgmixer.ICompilerConfig): Promise<svgmixer.CompilerResult>;
 
 declare namespace svgmixer {
-  type SpriteSymbolPosition = {
-    width: SpriteValue;
-    height: SpriteValue;
-    aspectRatio: SpriteValue;
-    left: SpriteValue;
-    top: SpriteValue;
-    bgSize: {
-      width: SpriteValue;
-      height: SpriteValue;
-    };
-    bgPosition: {
-      left: SpriteValue;
-      top: SpriteValue;
-    };
-  };
-
-  type StringifiedSpriteSymbolPosition = {
-    width: string;
-    height: string;
-    aspectRatio: string;
-    left: string;
-    top: string;
-    bgSize: {
-      width: string;
-      height: string;
-    };
-    bgPosition: {
-      left: string;
-      top: string;
-    };
-  };
-
   interface ICompilerConfig {
     spriteConfig: SpriteConfig | StackSpriteConfig;
     spriteType: 'classic' | 'stack';
@@ -126,6 +94,38 @@ declare namespace svgmixer {
     static readonly defaultConfig: StackSpriteConfig;
     constructor(config?: StackSpriteConfig, symbols?: SpriteSymbol[]);
   }
+
+  type SpriteSymbolPosition = {
+    width: SpriteValue;
+    height: SpriteValue;
+    aspectRatio: SpriteValue;
+    left: SpriteValue;
+    top: SpriteValue;
+    bgSize: {
+      width: SpriteValue;
+      height: SpriteValue;
+    };
+    bgPosition: {
+      left: SpriteValue;
+      top: SpriteValue;
+    };
+  };
+
+  type StringifiedSpriteSymbolPosition = {
+    width: string;
+    height: string;
+    aspectRatio: string;
+    left: string;
+    top: string;
+    bgSize: {
+      width: string;
+      height: string;
+    };
+    bgPosition: {
+      left: string;
+      top: string;
+    };
+  };
 }
 
 export = svgmixer;
