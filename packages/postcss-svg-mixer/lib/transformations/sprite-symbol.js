@@ -1,7 +1,7 @@
 const postcss = require('postcss');
 const { transformCssSelector, objectToCssDeclProps } = require('svg-mixer-utils');
 
-const FORMAT = require('../../format');
+const FORMAT = require('../format');
 
 const PROPER_POSITION = /relative|absolute|fixed/;
 

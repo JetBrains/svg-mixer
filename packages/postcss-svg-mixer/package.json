@@ -5,10 +5,10 @@
   "license": "MIT",
   "homepage": "https://github.com/kisenka/svg-mixer/packages/postcss-svg-mixer",
   "repository": "https://github.com/kisenka/svg-mixer/packages/postcss-svg-mixer",
+  "main": "lib/plugin.js",
   "files": [
     "lib/",
     "format.js",
-    "index.js",
     "loader.js"
   ],
   "dependencies": {

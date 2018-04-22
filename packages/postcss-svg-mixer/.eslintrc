@@ -1,0 +1,10 @@
+{
+  "overrides": [
+    {
+      "files": ["examples/**"],
+      "rules": {
+        "import/order": "off"
+      }
+    }
+  ]
+}

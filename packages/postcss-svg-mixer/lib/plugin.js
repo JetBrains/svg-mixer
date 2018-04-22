@@ -5,7 +5,7 @@ const { parse: parseQuery, stringify: stringifyQuery } = require('query-string')
 const anymatch = require('anymatch');
 
 const { name: packageName } = require('../package.json');
-const FORMAT = require('../format');
+const FORMAT = require('./format');
 
 const collectDeclarations = require('./collect-declarations-to-process');
 const transforms = require('./transformations');

@@ -7,7 +7,7 @@ const { name: packageName } = require('../package.json');
 
 const plugin = require('..');
 
-const FORMAT = require('../format');
+const FORMAT = require('../lib/format');
 
 const spriteDefaultConfig = mixer.Sprite.defaultConfig;
 const fixturesStylesheetPath = resolve(utils.fixturesDir, 'test.css'); // Using fixtures dir path for shortly urls
