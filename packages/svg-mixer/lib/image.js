@@ -46,14 +46,23 @@ class Image {
     return height || viewBox ? parseFloat(height || viewBox.split(' ')[3]) : undefined; // eslint-disable-line no-magic-numbers
   }
 
+  /**
+   * @return {string}
+   */
   get content() {
     return this.toString();
   }
 
+  /**
+   * @return {PostSvgTree}
+   */
   get tree() {
     return this._tree.clone();
   }
 
+  /**
+   * @return {string}
+   */
   toString() {
     return this._tree.toString();
   }
