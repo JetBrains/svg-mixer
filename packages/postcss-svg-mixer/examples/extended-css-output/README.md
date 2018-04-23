@@ -1,4 +1,6 @@
 
+**[Demo](http://kisenka.github.com/svg-mixer/packages/postcss-svg-mixer/examples/extended-css-output/demo.html)**
+  
 **Input**
 ```css
 .nasa {

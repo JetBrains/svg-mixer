@@ -1,4 +1,6 @@
 
+**[Demo](http://kisenka.github.com/svg-mixer/packages/postcss-svg-mixer/examples/default/demo.html)**
+  
 **Input**
 ```css
 .twitter {

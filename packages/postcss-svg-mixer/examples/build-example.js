@@ -3,8 +3,10 @@ const { resolve } = require('path');
 const { readFile, outputFile } = require('fs-extra');
 const postcss = require('postcss');
 
-function generateReadme(input, output, sprite) {
+function generateReadme(name, input, output, sprite) {
   return `
+**[Demo](http://kisenka.github.com/svg-mixer/packages/postcss-svg-mixer/examples/${name}/demo.html)**
+  
 **Input**
 \`\`\`css
 ${input}
@@ -32,7 +34,7 @@ module.exports = async (name, plugins = []) => {
     .process(inputContent, { from: inputPath });
 
   const sprite = result.messages.find(m => m.kind === 'sprite');
-  const readme = generateReadme(inputContent, result.css, sprite.content);
+  const readme = generateReadme(name, inputContent, result.css, sprite.content);
 
   await outputFile(resolve(outputDir, 'output.css'), result.css);
   await outputFile(resolve(outputDir, sprite.filename), sprite.content);
