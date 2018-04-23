@@ -28,7 +28,7 @@ module.exports = opts => {
       }));
       break;
 
-    case FORMAT.FULL:
+    case FORMAT.EXTENDED:
       const hasProperPosition = rule
         .some(({ prop, value }) => prop === 'position' && value.match(PROPER_POSITION));
 

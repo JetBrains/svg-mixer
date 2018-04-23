@@ -45,7 +45,7 @@ describe('Options', () => {
     let res = await exec(defaultInput, { format: FORMAT.PLAIN });
     res.css.should.not.contain('::after');
 
-    res = await exec(defaultInput, { format: FORMAT.FULL });
+    res = await exec(defaultInput, { format: FORMAT.EXTENDED });
     res.css.should.contain('::after');
   });
 

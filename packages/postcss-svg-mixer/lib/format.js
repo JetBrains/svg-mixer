@@ -1,4 +1,4 @@
 module.exports = {
   PLAIN: 'plain',
-  FULL: 'full'
+  EXTENDED: 'full'
 };
