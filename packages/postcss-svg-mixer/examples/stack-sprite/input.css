@@ -1,0 +1,9 @@
+.twitter {
+  background: url(../_img/twitter.svg);
+  width: 30%;
+}
+
+.nasa {
+  background-image: url(../_img/nasa.svg);
+  width: 200px;
+}

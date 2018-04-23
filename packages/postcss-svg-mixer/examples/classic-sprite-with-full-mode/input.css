@@ -1,0 +1,25 @@
+.nasa {
+  background-image: url(../_img/nasa.svg);
+  width: 10%;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.nasa::after {
+  top: 20px;
+  left: 10px;
+}
+
+.appcode {
+  background: url(~@jetbrains/logos/appcode/appcode.svg);
+  width: 20%;
+  float: left;
+}
+
+.appcode::after {
+  width: 162%;
+  height: 162%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}

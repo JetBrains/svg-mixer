@@ -1,0 +1,25 @@
+.twitter {
+  width: 30%;
+  background: url('sprite.svg') no-repeat 0 96.15%;
+  background-size: 101.83% 217.01%;
+}
+
+.twitter::before {
+  display: block;
+  box-sizing: content-box;
+  padding-bottom: 81.27%;
+  content: '';
+}
+
+.nasa {
+  width: 200px;
+  background: url('sprite.svg') no-repeat 0 0;
+  background-size: 100% 200.92%;
+}
+
+.nasa::before {
+  display: block;
+  box-sizing: content-box;
+  padding-bottom: 86.21%;
+  content: '';
+}

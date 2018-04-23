@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="output/output.css">
+<style>
+body {
+  margin: 100px;
+  max-width: 1200px;
+}
+
+.nasa {
+  border: 1px solid black;
+  margin-bottom: 10px;
+}
+
+.nasa::after {
+  border: 1px solid red;
+}
+
+.block {
+  border: 2px dashed lightgrey;
+  margin-top: 100px;
+}
+
+.block::after {
+  display: block;
+  clear: both;
+  content: '';
+}
+
+.appcode {
+  border: 2px solid red;
+  margin-right: 20px;
+}
+</style>
+</head>
+<body>
+<h1>Full format of generated CSS output. Resize the window!</h1>
+
+<h3>Use case: image as inline-block with absolute positioned sprite symbol which
+  out of current line flow</h3>
+<p>
+  Lorem ipsum dolor sit amet, consectetur adipisicing elit <span
+  class="nasa"></span>
+  Accusantium animi atque autem beatae eligendi facere magnam modi molestias
+  officiis
+</p>
+
+<br><br>
+<h3>Use case: align image to block bounds</h3>
+
+<p>Symbol bounds are <span style="color: red;">red</span>.</p>
+
+<div class="block">
+  <div class="appcode"></div>
+  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad alias deserunt
+  earum eum iste iure iusto magnam maiores nesciunt odio possimus provident quos
+  repellat sint, suscipit velit voluptas. Facere, laborum.
+</div>
+
+</body>
+</html>
