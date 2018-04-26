@@ -9,9 +9,11 @@
     "lib/",
     "index.js"
   ],
+  "peerDependencies": {
+    "postcss": "^6.0.1"
+  },
   "dependencies": {
     "merge-options": "^1.0.0",
-    "postcss": "^6.0.1",
     "svg-mixer-utils": "^0.2.2"
   }
 }

@@ -11,9 +11,11 @@
     "format.js",
     "loader.js"
   ],
+  "peerDependencies": {
+    "postcss": "^6.0.21"
+  },
   "dependencies": {
     "anymatch": "^2.0.0",
-    "postcss": "^6.0.21",
     "query-string": "^6.0.0",
     "svg-mixer": "^2.0.3",
     "svg-mixer-utils": "^0.2.2"
