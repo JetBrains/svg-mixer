@@ -8,9 +8,9 @@ Library for generating and transforming SVG sprites in modern way!
 - [Installation](#installation)
 - [Adapters](#adapters)
 - [Configuration](#configuration)
-  - [`spriteType`](#spritetype)
-  - [`spriteConfig`](#spriteconfig)
-  - [`generateSymbolId`](#generatesymbolid)
+  - [`spriteType`](#spriteType)
+  - [`spriteConfig`](#spriteConfig)
+  - [`generateSymbolId`](#generateSymbolId)
   - [`prettify`](#prettify)
   - [`spriteClass`](#spriteClass)
   - [`symbolClass`](#symbolClass)
@@ -53,9 +53,11 @@ npm install svg-mixer
 
 ## Configuration
 
+<a id="spriteType"></a>
 ### `spriteType`
 
-In most cases this is only you want to configure.
+Type: `string`
+Default: `classic`
 
 Possible values:
 - `classic` (default). Images placed on canvas one after the other. Works perfect 
@@ -68,9 +70,12 @@ Possible values:
    **[Doesn't work in Safari](https://caniuse.com/#search=svg%20fragment)** (both desktop and mobile) 
    prior to 11.1 macOS and 11.3 iOS. Don't requires any styles when embedding.
 
+<a id="spriteConfig"></a>
 ### `spriteConfig`
 
-Fine tunes sprite output.
+Type: `Object`
+
+Fine tune sprite output.
 
 - `filename` (default: `'sprite.svg'`). Sprite file name.
 - `attrs` (default: `{}`). Additional sprite SVG attributes, eg. `{ class: 'my-sprite' }`.
@@ -86,19 +91,28 @@ Stack sprite also has following options:
 - `styles` (default: see [stack-sprite](lib/stack-sprite.js)). CSS to archive stack technique. 
   Will be placed in `<defs>` section.
 
-### `generateSymbolId` (`function(path: string, query: string = '') => string`)
+<a id="generateSymbolId"></a>
+### `generateSymbolId`
+
+Type: `function(path: string, query: string = '') => string`
 
 Function to generate `<symbol id>` attribute. By default file name without extension is used.
 Accepts 2 arguments: absolute path to file and optional query string.
 
+<a id="prettify"></a>
 ### `prettify`
 
-Prettify sprite output, `false` by default.
+Type: `boolean`
+Default: `false`
 
+Prettify sprite output.
+
+<a id="spriteClass"></a>
 ### `spriteClass`
 
 Custom sprite implementation. See [extending](#extending) section.
 
+<a id="symbolClass"></a>
 ### `symbolClass`
 
 Custom sprite symbol implementation. See [extending](#extending) section.
