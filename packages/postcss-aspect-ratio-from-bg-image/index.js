@@ -33,17 +33,8 @@ module.exports = postcss.plugin(packageName, options => {
   const { match, selector } = merge(defaultConfig, options);
   const matcher = createMatcher(match);
 
-  return (root, result) => {
-    const from = root.source.input.file;
-
-    if (!from) {
-      result.warn([
-        '`from` postcss.process() option should be defined for proper file resolving.',
-        'Plugin will exit.'
-      ].join('\n'));
-      return;
-    }
-
+  return root => {
+    const from = root.source.input.file || process.cwd();
     const decls = findCssBgImageDecls(root);
 
     const promises = decls.map(({ decl, helper }) => {

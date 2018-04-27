@@ -2,8 +2,6 @@ const { resolve } = require('path');
 
 const postcss = require('postcss');
 
-const { name: packageName } = require('./package.json');
-
 const plugin = require('.');
 
 function exec(input, opts) {
@@ -16,11 +14,6 @@ function exec(input, opts) {
 }
 
 const defaultInput = '.a {background: url(twitter.svg)}';
-
-it('should add warning if `from` option not specified and exists', async () => {
-  const res = await postcss().use(plugin()).process(defaultInput);
-  expect(res.warnings().filter(m => m.plugin === packageName).length).toEqual(1);
-});
 
 it('should throw if file not found', async () => {
   await expect(exec('.a {background: url(qwe.svg)}')).rejects.toThrowError();
