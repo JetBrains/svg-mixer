@@ -1,6 +1,6 @@
 # SVG Mixer for Gulp
 
-## Install
+## Installation
 
 ```sh
 npm install gulp-svg-mixer
@@ -19,18 +19,43 @@ gulp.src('img/*.svg')
 
 ## Configuration
 
-**Sprite**
-- `sprite.type`: `'classic' | 'stack'` (default `classic`).
-- `sprite.filename`: `string` (default `sprite.svg`).
+### `sprite.type`
 
-**CSS**
-- `css.mode`: `'plain' | 'full'` (default `plain`).
-- `css.filename`: `string` (default `sprite-styles.css`).
-- `css.selector`: `string` (default `.img-[symbol-id]`). `[symbol-id]` will be replaced
-  by actual sprite symbol name, e.g. image `img/twitter.svg` becomes `twitter`.
+Type: `string`
+Default: `classic`
 
-**Misc**
-- `prettify`: `boolean` (default `true`). Prettify output. 
+See [svg-mixer.spriteType](https://github.com/kisenka/svg-mixer/tree/master/packages/svg-mixer#spriteType)
+for details.
+
+### `sprite.filename`
+
+Name of generated sprite file.
+
+### `css.filename`
+
+Type: `string`
+Default: `'sprite-styles.css'`
+
+Name of generated CSS file.
+
+### `css.selector`
+
+Type: `string`
+Default: `'.[symbol-id]'`
+
+CSS selector for sprite image.
+
+### `css.aspectRatio`
+
+Type: `boolean`
+Default: `true`
+
+Generate aspect ratio styles.
+    
+### `prettify`
+
+Type: `boolean`
+Default: `true`
 
 ## Examples
 
@@ -41,7 +66,7 @@ const mixer = require('gulp-svg-mixer');
 gulp.src('img/*.svg')
   .pipe(mixer({
     sprite: { type: 'stack', filename: 'stack-sprite.svg' },
-    css: { mode: 'full', selector: '#[symbol-id]' }
+    css: { selector: '#[symbol-id]' }
   }))
   .pipe(gulp.dest('build'));
 ```
