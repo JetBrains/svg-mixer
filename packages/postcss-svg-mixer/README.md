@@ -8,8 +8,8 @@
 - [Demo](#demo)
 - [How it works](#how-it-works)
 - [Usage](#usage)
-  - [Via postcss.config.js](#via-postcss.config.js)
-  - [With webpack](#with-webpack)
+  - [With postcss.config.js](#with-postcss.config.js)
+  - [With webpack](#using-with-webpack)
 - [Configuration](#configuration)
   - [`spriteType`](#spriteType)
   - [`spriteFilename`](#spriteFilename)
@@ -87,7 +87,7 @@ postcss()
   });
 ```
 
-### Via postcss.config.js
+### With postcss.config.js
 
 ```js
 const mixer = require('postcss-svg-mixer');
@@ -99,15 +99,37 @@ module.exports = {
 }
 ```
 
-### With webpack
+<a id="using-with-webpack"></a>
+### With webpack (via postcss-loader)
+
+When using webpack with [postcss-loader](https://github.com/postcss/postcss-loader)
+this plugin can automatically create sprite asset in compilation. To do this 
+you'll need to setup special loader for SVG files:
+
+```js
+// webpack.config.js
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: /\.svg$/,
+        loader: 'postcss-svg-mixer/loader'
+      }
+    ]
+  }
+}
+```
+
+Then add plugin to postcss.config.js as usual.
+
+**postcss-loader 1.* or >= 2.1.4 is required for this feature.**
 
 ## Configuration
 
-<a id="spriteType"></a>
 ### `spriteType`
 
-Type: `string`
-Default: `'classic'`
+> Type: `string`<br>
+> Default: `'classic'`
 
 Possible values:
 - `classic` (default). Images placed on canvas one after the other. Works perfect 
@@ -118,35 +140,31 @@ Possible values:
    **[Doesn't work in Safari](https://caniuse.com/#search=svg%20fragment)** prior to 
    11.1 macOS and 11.3 iOS. Don't generate additional styles for background image positioning.
 
-<a id="spriteFilename"></a>
 ### `spriteFilename`
 
-Type: `string`
-Default: `'sprite.svg'`
+> Type: `string`<br>
+> Default: `'sprite.svg'`
 
-Generated sprite filename which used in generated styles and in result message. 
+Sprite filename which used in generated styles and in result message. 
 
-<a id="match"></a>
 ### `match`
 
-Type: `string | RegExp | Array<string | RegExp>`
-Default: `/\.svg($|\?.*$)/` (any SVG file with optional query param, eg `img.svg?qwe=123`)
+> Type: `string | RegExp | Array<string | RegExp>`<br>
+> Default: `/\.svg($|\?.*$)/` (any SVG file with optional query param, eg `img.svg?qwe=123`)
 
 Filter which images should be added to sprite. Could be a string (glob pattern), 
-RegExp or array of them. **Note** that rules are matched against absolute image path.
-If URL starts with tilde `~` plugin will search it in node_modules (Node.js 
+RegExp or array of them. Rules are matched against absolute image path. If URL 
+starts with tilde `~` plugin will search image in node_modules (Node.js 
 `require.resolve` mechanism is used).
 
-<a id="selector"></a>
 ### `selector`
 
-Type: `string`
-Default: `null`
+> Type: `string`<br>
+> Default: `null`
 
-CSS selector of generated sprite styles. By default plugin transforms background
-declaration of current rule, but is is possible to create separate rule with 
-sprite styles by specifying valid CSS selector. Note that original background 
-declaration will be moved to new rule. Example:
+By default plugin transforms current rule, but is is possible to create 
+separate rule with sprite styles by specifying a valid CSS selector. Note that 
+original background image declaration will be moved to new rule. Example:
 
 ```js
 mixer({ selector: '::after' })
@@ -166,15 +184,13 @@ mixer({ selector: '::after' })
 }
 ```
 
-<a id="userSprite"></a>
 ### `userSprite`
 
-Type: [`Sprite`](https://github.com/kisenka/svg-mixer/blob/master/packages/svg-mixer/lib/sprite.js) |
-[`StackSprite`](https://github.com/kisenka/svg-mixer/blob/master/packages/svg-mixer/lib/stack-sprite.js)
-Default: `null`
+> Type: [`Sprite`](https://github.com/kisenka/svg-mixer/blob/master/packages/svg-mixer/lib/sprite.js) |
+[`StackSprite`](https://github.com/kisenka/svg-mixer/blob/master/packages/svg-mixer/lib/stack-sprite.js)<br>
+> Default: `null`
 
-This plugin can be used as styles generator for existing svg-mixer sprite instance.
-This approach used  
+This plugin can be used as style generator for existing svg-mixer sprite instance.
 
 ```js
 const { writeFileSync } = require('fs');
@@ -198,10 +214,4 @@ createSprite('img/*.svg').then(({ sprite, filename: spriteFilename }) => {
     .then(() => sprite.render())
     .then(content => writeFileSync(spriteFilename, content));
 });
-
 ``` 
-
-## Using with webpack via postcss-loader
-
-TODO
-postcss-loader@2.1.4
