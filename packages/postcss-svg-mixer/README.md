@@ -123,7 +123,7 @@ module.exports = {
 
 Then add plugin to postcss.config.js as usual.
 
-**postcss-loader 1.* or >= 2.1.4 is required for this feature.**
+**postcss-loader 1.\* or >= 2.1.4 is required for this feature.**
 
 ## Configuration
 
