@@ -6,8 +6,8 @@ const { createMatcher } = require('svg-mixer-utils');
 
 const { name: packageName } = require('../package.json');
 
-const collectDeclarations = require('./collect-declarations-to-process');
-const transform = require('./transform-decl');
+const collectDeclarations = require('./find-declarations-to-process');
+const transform = require('./transform-declaration');
 
 function convertToCompilerOpts(opts) {
   const { spriteFilename, ...rest } = opts;
