@@ -33,12 +33,15 @@ module.exports = postcss.plugin(packageName, options => {
   const { match, selector } = merge(defaultConfig, options);
   const matcher = createMatcher(match);
 
-  return root => {
+  return (root, result) => {
     const from = root.source.input.file;
-    const contextDir = dirname(from);
 
     if (!from) {
-      throw new Error('`from` option should be defined for proper file resolving');
+      result.warn([
+        '`from` postcss.process() option should be defined for proper file resolving.',
+        'Plugin will exit.'
+      ].join('\n'));
+      return;
     }
 
     const decls = findCssBgImageDecls(root);
@@ -47,7 +50,7 @@ module.exports = postcss.plugin(packageName, options => {
       const url = helper.URIS[0].toString();
       const rule = decl.parent;
 
-      return resolveFile(url, contextDir)
+      return resolveFile(url, dirname(from))
         .then(absPath =>
           (!matcher(absPath)
             ? Promise.reject({ code: UNMATCHED_FILE_ERROR_CODE })
