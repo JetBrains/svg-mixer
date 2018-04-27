@@ -2,45 +2,50 @@ const postcss = require('postcss');
 const merge = require('merge-options');
 const { Compiler, Sprite, StackSprite } = require('svg-mixer');
 const { parse: parseQuery, stringify: stringifyQuery } = require('query-string');
-const anymatch = require('anymatch');
+const { createMatcher } = require('svg-mixer-utils');
 
 const { name: packageName } = require('../package.json');
-const FORMAT = require('./format');
 
 const collectDeclarations = require('./collect-declarations-to-process');
-const transforms = require('./transformations');
+const transform = require('./transform-decl');
+
+function convertToCompilerOpts(opts) {
+  const { spriteFilename, ...rest } = opts;
+  return {
+    spriteConfig: {
+      filename: spriteFilename
+    },
+    ...rest
+  };
+}
 
 /**
  * @typedef {Object} PluginConfig
  * @extends {CompilerConfig}
+ * @property {string} spriteType
+ * @property {string} spriteFilename
  * @property {RegExp|string|Array<RegExp|string>} match
- * @property {string} format 'plain' | 'full'
- * @property {boolean} aspectRatio=true
- * @property {Sprite} sprite
+ * @property {boolean} selector=null
+ * @property {Sprite|StackSprite} sprite
  */
 const defaultConfig = {
+  spriteType: Sprite.TYPE,
+  spriteFilename: Sprite.defaultConfig.filename,
   match: /\.svg($|\?.*$)/,
-  format: FORMAT.PLAIN,
-  aspectRatio: true,
-  sprite: undefined
+  selector: null,
+  sprite: null
 };
 
-module.exports = postcss.plugin(packageName, (opts = {}) => {
-  const { ctx, ...restOpts } = opts;
-  const {
-    match,
-    format,
-    aspectRatio,
-    sprite: userSprite,
-    ...compilerOpts
-  } = merge(defaultConfig, restOpts);
-
-  const compiler = !userSprite ? new Compiler(compilerOpts) : null;
-  const fileMatcher = path => anymatch(match, path);
-  const isWebpack = !!(ctx && ctx.webpack);
+module.exports = postcss.plugin(packageName, opts => {
+  const { ctx, ...restOpts } = opts || {};
+  const cfg = merge(defaultConfig, restOpts);
+  const { sprite: userSprite, spriteType } = cfg;
+  const compiler = !userSprite ? new Compiler(convertToCompilerOpts(cfg)) : null;
+  const matcher = createMatcher(cfg.match);
+  const isWebpack = !!(ctx && ctx.webpack && ctx.webpack.emitFile);
 
   return async function plugin(root, result) {
-    const declsAndPaths = await collectDeclarations(root, fileMatcher);
+    const declsAndPaths = await collectDeclarations(root, matcher);
 
     if (!declsAndPaths.length) {
       return;
@@ -67,7 +72,7 @@ module.exports = postcss.plugin(packageName, (opts = {}) => {
 
     declsAndPaths.forEach(item => {
       const { decl, path, absolute, query } = item;
-      const rule = decl.parent;
+
       const symbol = sprite.symbols.find(({ image }) => {
         return image.path === absolute && image.query === query;
       });
@@ -80,26 +85,22 @@ module.exports = postcss.plugin(packageName, (opts = {}) => {
       const parsedQuery = parseQuery(query || '');
       let spriteUrl;
 
-      if (sprite instanceof StackSprite) {
-        spriteUrl = `${spriteFilename}#${symbol.id}`;
-        transforms.stackSpriteSymbol(decl, spriteUrl);
-      } else if (sprite instanceof Sprite) {
+      if (spriteType === Sprite.TYPE) {
         // In webpack environment plugin produce `original_url?sprite_filename.svg`, and special loader
         // in pitching phase replace original url with sprite file name
         const q = stringifyQuery({ ...parsedQuery, spriteFilename });
         spriteUrl = isWebpack ? `${path}?${q}` : spriteFilename;
-
-        transforms.spriteSymbol({
-          decl,
-          position,
-          spriteUrl,
-          format
-        });
+      } else if (spriteType === StackSprite.TYPE) {
+        spriteUrl = `${spriteFilename}#${symbol.id}`;
       }
 
-      if (aspectRatio) {
-        transforms.aspectRatio(rule, position.aspectRatio);
-      }
+      transform({
+        decl,
+        selector: cfg.selector,
+        position,
+        spriteUrl,
+        spriteType
+      });
     });
 
     result.messages.push({
@@ -118,5 +119,3 @@ module.exports = postcss.plugin(packageName, (opts = {}) => {
     }
   };
 });
-
-module.exports.FORMAT = FORMAT;

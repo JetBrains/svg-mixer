@@ -1,3 +1,4 @@
+/* eslint-disable quotes */
 const { resolve, basename } = require('path');
 
 const postcss = require('postcss');
@@ -6,8 +7,6 @@ const mixer = require('svg-mixer');
 const { name: packageName } = require('../package.json');
 
 const plugin = require('..');
-
-const FORMAT = require('../lib/format');
 
 const spriteDefaultConfig = mixer.Sprite.defaultConfig;
 const fixturesStylesheetPath = resolve(utils.fixturesDir, 'test.css'); // Using fixtures dir path for shortly urls
@@ -35,23 +34,10 @@ describe('Options', () => {
 
   it('match', async () => {
     let res = await exec(defaultInput, { match: '*.png' });
-    res.css.should.eql(defaultInput);
+    expect(res.css).toEqual(defaultInput);
 
     res = await exec(defaultInput, { match: ['*.svg', '!twitter*'] });
-    res.css.should.eql(defaultInput);
-  });
-
-  it('format', async () => {
-    let res = await exec(defaultInput, { format: FORMAT.PLAIN });
-    res.css.should.not.contain('::after');
-
-    res = await exec(defaultInput, { format: FORMAT.EXTENDED });
-    res.css.should.contain('::after');
-  });
-
-  it('aspectRatio', async () => {
-    const { css } = await exec(defaultInput, { createAspectRatio: false });
-    expect(css).toMatchSnapshot();
+    expect(res.css).toEqual(defaultInput);
   });
 
   it('sprite', async () => {
@@ -63,33 +49,33 @@ describe('Options', () => {
     const res = await exec(defaultInput, { sprite });
 
     expect(res.css).toMatchSnapshot();
-    res.msg.content.should.eql(spriteContent);
+    expect(res.msg.content).toEqual(spriteContent);
   });
 
   describe('Override svg-mixer compiler options', () => {
     it('spriteType', async () => {
-      const res = await exec(defaultInput, { spriteType: 'stack' });
-      res.css.should.contain('url(\'sprite.svg#twitter\')');
+      const { css } = await exec(defaultInput, { spriteType: 'stack' });
+
+      expect(css.includes(`url('sprite.svg#twitter')`)).toBeTruthy();
     });
 
     it('generateSymbolId', async () => {
       const expectedSymbolId = 'TWITTER';
-      const res = await exec(defaultInput, {
+      const { css } = await exec(defaultInput, {
         generateSymbolId: p => basename(p).replace('.svg', '').toUpperCase(),
         spriteType: 'stack'
       });
-      res.css.should.contain(`url('sprite.svg#${expectedSymbolId}')`);
+
+      expect(css.includes(`url('sprite.svg#${expectedSymbolId}')`)).toBeTruthy();
     });
 
-    it('spriteConfig.filename', async () => {
+    it('spriteFilename', async () => {
       const expectedFilename = 'qwe.svg';
-      const res = await exec(defaultInput, { spriteConfig: { filename: expectedFilename } });
+      const { css, msg } = await exec(defaultInput, { spriteFilename: expectedFilename });
 
-      res.css
-        .should.contain(`url('${expectedFilename}')`)
-        .and.not.contain(`url('${spriteDefaultConfig.filename}')`);
-
-      res.msg.filename.should.eql(expectedFilename);
+      expect(css.includes(`url('${expectedFilename}')`)).toBeTruthy();
+      expect(css.includes(`url('${spriteDefaultConfig.filename}')`)).toBeFalsy();
+      expect(msg.filename).toEqual(expectedFilename);
     });
   });
 });
@@ -97,8 +83,9 @@ describe('Options', () => {
 describe('Behaviour', () => {
   it('should do nothing if no symbols was processed', async () => {
     const { css, messages } = await exec(defaultInput, { match: /qwe/ });
-    css.should.be.eql(defaultInput);
-    messages.length.should.be.eql(0);
+
+    expect(css).toEqual(defaultInput);
+    expect(messages.length).toEqual(0);
   });
 
   it('should add message with sprite info', async () => {
