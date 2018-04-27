@@ -1,0 +1,7 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should allow to specify selector 1`] = `".a {background: url(twitter.svg)}.a::after {display: block;box-sizing: content-box;padding-bottom: 81%;content: ''}"`;
+
+exports[`should skip unmatched files 1`] = `".a {background: url(~@jetbrains/logos/appcode/appcode.svg)}"`;
+
+exports[`should work 1`] = `".a {background: url(twitter.svg)}.a::before {display: block;box-sizing: content-box;padding-bottom: 81%;content: ''}"`;

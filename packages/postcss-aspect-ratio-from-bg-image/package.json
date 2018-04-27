@@ -1,0 +1,20 @@
+{
+  "name": "postcss-aspect-ratio-from-bg-image",
+  "version": "0.0.0",
+  "description": "",
+  "license": "MIT",
+  "homepage": "https://github.com/kisenka/svg-mixer/packages/postcss-aspect-ratio-from-bg-image",
+  "repository": "https://github.com/kisenka/svg-mixer/packages/postcss-aspect-ratio-from-bg-image",
+  "files": [
+    "index.js"
+  ],
+  "dependencies": {
+    "calipers": "^2.0.0",
+    "calipers-jpeg": "^2.0.0",
+    "calipers-png": "^2.0.0",
+    "calipers-svg": "^2.0.0",
+    "merge-options": "^1.0.0",
+    "postcss": "^6.0.1",
+    "svg-mixer-utils": "^0.2.2"
+  }
+}
