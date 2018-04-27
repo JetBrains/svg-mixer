@@ -56,8 +56,8 @@ Output
     background-size: 101.83% 217.01%;
   }
   ```
-- Adds a message to postcss result.messages with sprite content, filename and 
-  instance with following format:
+- Generate sprite and add a message to `result.messages` with sprite content, 
+  filename and instance with following format:
   ```
   {
     type: string = 'asset',
@@ -69,7 +69,8 @@ Output
     content: string
   }
   ```
-- When using with webpack via postcss-loader plugin emit sprite file automatically.
+- If used via postcss-loader with webpack - emit sprite file in compilation 
+  assets ([see details](#using-with-webpack)).
 
 ## Usage
 
