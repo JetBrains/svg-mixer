@@ -26,27 +26,26 @@ function convertToCompilerOpts(opts) {
  * @property {string} spriteFilename
  * @property {RegExp|string|Array<RegExp|string>} match
  * @property {boolean} selector=null
- * @property {Sprite|StackSprite} sprite
+ * @property {Sprite|StackSprite} userSprite
  */
 const defaultConfig = {
   spriteType: Sprite.TYPE,
   spriteFilename: Sprite.defaultConfig.filename,
   match: /\.svg($|\?.*$)/,
   selector: null,
-  sprite: null
+  userSprite: null
 };
 
 module.exports = postcss.plugin(packageName, opts => {
   const { ctx, ...restOpts } = opts || {};
   const cfg = merge(defaultConfig, restOpts);
-  const { sprite: userSprite, spriteType } = cfg;
+  const { userSprite, spriteType } = cfg;
   const compiler = !userSprite ? new Compiler(convertToCompilerOpts(cfg)) : null;
   const matcher = createMatcher(cfg.match);
   const isWebpack = !!(ctx && ctx.webpack && ctx.webpack.emitFile);
 
   return async function plugin(root, result) {
     const declsAndPaths = await collectDeclarations(root, matcher);
-
     if (!declsAndPaths.length) {
       return;
     }
