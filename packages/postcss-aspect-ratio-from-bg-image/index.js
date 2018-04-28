@@ -26,7 +26,7 @@ const UNMATCHED_FILE_ERROR_CODE = 'UNMATCHED_FILE';
 
 const defaultConfig = {
   selector: '::before',
-  match: /\.(jpe?g|png|svg)($|\?.*$)/
+  match: /\.(jpe?g|png|svg)(\?.*)?$/
 };
 
 module.exports = postcss.plugin(packageName, options => {

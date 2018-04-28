@@ -94,7 +94,7 @@ will looks like:
 #### `match`
 
 > Type: `string | RegExp | Array<string | RegExp>`<br>
-> Default: `/\.(jpe?g|png|svg)($|\?.*$)/`  (any jpg/png/svg file with optional query param, eg `img.png?qwe=123`)
+> Default: `/\.(jpe?g|png|svg)(\?.*)?$/`  (any jpg/png/svg file with optional query param, eg `img.png?qwe=123`)
 
 Which `url()` imports should be processed. Could be a string (glob pattern), RegExp 
 or array of them. Rules are tested against absolute image path.

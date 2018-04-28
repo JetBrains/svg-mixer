@@ -175,7 +175,7 @@ Sprite filename which used in generated styles and in result message.
 ### `match`
 
 > Type: `string | RegExp | Array<string | RegExp>`<br>
-> Default: `/\.svg($|\?.*$)/` (any SVG file with optional query param, eg `img.svg?qwe=123`)
+> Default: `/\.svg(\?.*)?$/` (any SVG file with optional query param, eg `img.svg?qwe=123`)
 
 Filter which images should be added to sprite. Could be a string (glob pattern), 
 RegExp or array of them. Rules are tested against absolute image path. If URL 

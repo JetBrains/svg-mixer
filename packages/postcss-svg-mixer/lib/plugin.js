@@ -31,7 +31,7 @@ function convertToCompilerOpts(opts) {
 const defaultConfig = {
   spriteType: Sprite.TYPE,
   spriteFilename: Sprite.defaultConfig.filename,
-  match: /\.svg($|\?.*$)/,
+  match: /\.svg(\?.*)?$/,
   selector: null,
   userSprite: null
 };

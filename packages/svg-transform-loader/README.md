@@ -58,7 +58,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.svg($|\?.*$)/, // match img.svg and img.svg?param=value
+        test: /\.svg(\?.*)?$/, // match img.svg and img.svg?param=value
         use: [
           'url-loader', // or file-loader or svg-url-loader
           'svg-transform-loader'
@@ -171,7 +171,7 @@ To work around this you have several options.
     module: {
       rules: [
         {
-          test: /\.svg($|\?.*$)/, 
+          test: /\.svg(\?.*)?$/, 
           use: [
             'url-loader',
             'svg-transform-loader' 
