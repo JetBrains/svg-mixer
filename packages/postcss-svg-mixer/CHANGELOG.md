@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.2.0"></a>
+# [0.2.0](https://github.com/kisenka/svg-mixer/packages/postcss-svg-mixer/compare/postcss-svg-mixer@0.1.6...postcss-svg-mixer@0.2.0) (2018-04-28)
+
+
+### Features
+
+* change message format ([46f11a4](https://github.com/kisenka/svg-mixer/packages/postcss-svg-mixer/commit/46f11a4))
+* emit error instead of warning ([34986ad](https://github.com/kisenka/svg-mixer/packages/postcss-svg-mixer/commit/34986ad))
+* emit warning if image not found ([5c6db7d](https://github.com/kisenka/svg-mixer/packages/postcss-svg-mixer/commit/5c6db7d))
+
+
+
+
 <a name="0.1.6"></a>
 ## 0.1.6 (2018-04-21)
 

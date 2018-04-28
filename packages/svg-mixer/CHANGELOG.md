@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="2.1.0"></a>
+# [2.1.0](https://github.com/kisenka/svg-mixer/packages/svg-mixer/compare/svg-mixer@2.0.3...svg-mixer@2.1.0) (2018-04-28)
+
+
+### Bug Fixes
+
+* symbol id generating ([8ec53ee](https://github.com/kisenka/svg-mixer/packages/svg-mixer/commit/8ec53ee))
+
+
+### Features
+
+* add sprite prettification ([6308a36](https://github.com/kisenka/svg-mixer/packages/svg-mixer/commit/6308a36))
+
+
+
+
 <a name="2.0.3"></a>
 ## 2.0.3 (2018-04-21)
 
