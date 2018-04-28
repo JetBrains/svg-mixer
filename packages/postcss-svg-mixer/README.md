@@ -4,24 +4,18 @@
 
 ## Table of contents
 
-- [Installation](#installation)
 - [Demo](#demo)
-- [How it works](#how-it-works)
+- [Installation](#installation)
 - [Usage](#usage)
-  - [With postcss.config.js](#with-postcss.config.js)
+  - [Via postcss.config.js](#via-postcss.config.js)
   - [With webpack](#using-with-webpack)
+- [How it works](#how-it-works)
 - [Configuration](#configuration)
   - [`spriteType`](#spriteType)
   - [`spriteFilename`](#spriteFilename)
   - [`match`](#match)
   - [`selector`](#selector)
   - [`userSprite`](#userSprite)
-
-## Installation
-
-```sh
-npm install postcss-svg-mixer
-```
 
 ## Demo
 
@@ -40,37 +34,11 @@ Output
 }
 ```
 
-## How it works
+## Installation
 
-- Find `background` and `background-image` declarations which contains `url()` part.
-- Trying to resolve file referenced in **first** `url()` occurrence. If URL starts 
-  with tilde `~` plugin will search it in node_modules (Node.js `require.resolve` mechanism is used).
-  If file exists - read it's content and add to sprite, throw error otherwise.
-- Modify original background image declaration for properly positioning symbol on sprite canvas, eg:
-  ```css
-  .img {background: url('img.svg')}
-
-  /* becomes */
-  .img {
-    background: url('sprite.svg') no-repeat 0 96.15%;
-    background-size: 101.83% 217.01%;
-  }
-  ```
-- Generate sprite and add a message to `result.messages` with sprite content, 
-  filename and instance with following format:
-  ```
-  {
-    type: string = 'asset',
-    kind: string = 'sprite',
-    plugin: string = 'postcss-svg-mixer',
-    file: string,
-    sprite: Sprite | StackSprite,
-    filename: string,
-    content: string
-  }
-  ```
-- If used via postcss-loader with webpack - emit sprite file in compilation 
-  assets ([see details](#using-with-webpack)).
+```sh
+npm install postcss-svg-mixer
+```
 
 ## Usage
 
@@ -88,7 +56,7 @@ postcss()
   });
 ```
 
-### With postcss.config.js
+### Via postcss.config.js
 
 ```js
 const mixer = require('postcss-svg-mixer');
@@ -123,7 +91,63 @@ module.exports = {
 
 Then add plugin to postcss.config.js as usual.
 
-**postcss-loader 1.\* or >= 2.1.4 is required for this feature.**
+**NOTE:** postcss-loader 1.\* or >= 2.1.4 is required for this feature.
+
+**NOTE 2:** if you use file-loader/url-loader or similar to process svg they 
+should be replaced with loader above. Other loaders can be used, but postcss-svg-mixer 
+loader should be placed at the end of chain (as webpack call loaders from right to left):
+
+```js
+// webpack.config.js
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: /\.svg$/,
+        use: [
+          'postcss-svg-mixer/loader', // Should be always in first place
+          'svg-transform-loader',
+          'svgo-loader'
+        ]
+      }
+    ]
+  }
+}
+```
+
+## How it works
+
+- Find `background` and `background-image` declarations which contains `url()` part.
+- Trying to resolve file referenced in **first** `url()` occurrence. If URL starts 
+  with tilde `~` plugin will search it in node_modules (Node.js `require.resolve` mechanism is used).
+  If file exists - read it's content and add to sprite, throw error otherwise.
+- Modify original background image declaration for properly positioning symbol on sprite canvas, eg:
+  ```css
+  .img {
+    background: url('img.svg')
+  }
+
+  /* becomes */
+  .img {
+    background: url('sprite.svg') no-repeat 0 96.15%;
+    background-size: 101.83% 217.01%;
+  }
+  ```
+- Generate sprite and add a message to `result.messages` with sprite content, 
+  filename and instance with following format:
+  ```
+  {
+    type: string = 'asset',
+    kind: string = 'sprite',
+    plugin: string = 'postcss-svg-mixer',
+    file: string,
+    sprite: Sprite | StackSprite,
+    filename: string,
+    content: string
+  }
+  ```
+- If used via postcss-loader with webpack - emit sprite file in compilation 
+  assets ([see details](#using-with-webpack)).
 
 ## Configuration
 
