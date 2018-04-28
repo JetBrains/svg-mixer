@@ -52,6 +52,7 @@ npm install svg-mixer
 
 ## Configuration
 
+<a id="spriteType"></a>
 ### `spriteType`
 
 > Type: `string`<br>
@@ -68,6 +69,7 @@ Possible values:
    **[Doesn't work in Safari](https://caniuse.com/#search=svg%20fragment)** (both desktop and mobile) 
    prior to 11.1 macOS and 11.3 iOS. Don't requires any styles when embedding.
 
+<a id="spriteConfig"></a>
 ### `spriteConfig`
 
 > Type: `Object`
@@ -88,6 +90,7 @@ Stack sprite also has following options:
 - `styles` (default: see [stack-sprite](lib/stack-sprite.js)). CSS to archive stack technique. 
   Will be placed in `<defs>` section.
 
+<a id="generateSymbolId"></a>
 ### `generateSymbolId`
 
 > Type: `function(path: string, query: string = '') => string`
@@ -95,6 +98,7 @@ Stack sprite also has following options:
 Function to generate `<symbol id>` attribute. By default file name without extension is used.
 Accepts 2 arguments: absolute path to file and optional query string.
 
+<a id="prettify"></a>
 ### `prettify`
 
 > Type: `boolean`<br>
@@ -102,10 +106,12 @@ Accepts 2 arguments: absolute path to file and optional query string.
 
 Prettify sprite output.
 
+<a id="spriteClass"></a>
 ### `spriteClass`
 
 Custom sprite implementation. See [extending](#extending) section.
 
+<a id="symbolClass"></a>
 ### `symbolClass`
 
 Custom sprite symbol implementation. See [extending](#extending) section.
