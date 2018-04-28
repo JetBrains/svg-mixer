@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.2.0"></a>
+# [0.2.0](https://github.com/kisenka/svg-mixer/packages/svg-transform-loader/compare/svg-transform-loader@0.1.1...svg-transform-loader@0.2.0) (2018-04-28)
+
+
+### Features
+
+* update match regexes ([95caba8](https://github.com/kisenka/svg-mixer/packages/svg-transform-loader/commit/95caba8))
+
+
+
+
 <a name="0.1.1"></a>
 ## [0.1.1](https://github.com/kisenka/svg-mixer/packages/svg-transform-loader/compare/svg-transform-loader@0.1.0...svg-transform-loader@0.1.1) (2018-04-28)
 
