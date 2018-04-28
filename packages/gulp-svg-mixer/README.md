@@ -1,4 +1,6 @@
-# SVG Mixer for Gulp
+# gulp-svg-mixer
+
+[Gulp](https://github.com/gulpjs/gulp) plugin for creating SVG sprites.
 
 ## Installation
 
@@ -21,41 +23,47 @@ gulp.src('img/*.svg')
 
 ### `sprite.type`
 
-Type: `string`
-Default: `classic`
+> Type: `string`<br>
+> Default: `classic`
 
 See [svg-mixer.spriteType](https://github.com/kisenka/svg-mixer/tree/master/packages/svg-mixer#spriteType)
 for details.
 
 ### `sprite.filename`
 
+> Type: `string`<br>
+> Default: `'sprite.svg'`
+
 Name of generated sprite file.
 
 ### `css.filename`
 
-Type: `string`
-Default: `'sprite-styles.css'`
+> Type: `string`<br>
+> Default: `'sprite-styles.css'`
 
 Name of generated CSS file.
 
 ### `css.selector`
 
-Type: `string`
-Default: `'.[symbol-id]'`
+> Type: `string`<br>
+> Default: `'.[symbol-id]'`
 
-CSS selector for sprite image.
+CSS selector for generate symbol styles. `[symbol-id]` will be replaced by 
+actual symbol id.
 
 ### `css.aspectRatio`
 
-Type: `boolean`
-Default: `true`
+> Type: `boolean`<br>
+> Default: `true`
 
-Generate aspect ratio styles.
+Generate aspect ratio CSS styles.
     
 ### `prettify`
 
-Type: `boolean`
-Default: `true`
+> Type: `boolean`<br>
+> Default: `true`
+
+Prettify SVG and CSS output.
 
 ## Examples
 

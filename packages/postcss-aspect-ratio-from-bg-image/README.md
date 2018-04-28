@@ -4,18 +4,12 @@
 maintaining block aspect ratio of referenced background image (aka [Uncle Dave's Ol' Padded Box](https://daverupert.com/2012/04/uncle-daves-ol-padded-box)).
 JPG, PNG and SVG files are supported.
 
-- [Installation](#installation)
 - [Demo](#demo)
+- [Installation](#installation)
 - [Usage](#usage)
 - [Configuration](#configuration)
   - [`selector`](#selector)
   - [`match`](#match)
-
-## Installation
-
-```sh
-npm install postcss-aspect-ratio-from-bg-image
-```
 
 ## Demo
 
@@ -38,6 +32,12 @@ Output
   padding-bottom: 81%;
   content: ''
 }
+```
+
+## Installation
+
+```sh
+npm install postcss-aspect-ratio-from-bg-image
 ```
 
 ## Usage
@@ -68,11 +68,10 @@ module.exports = {
 
 ## Configuration
 
-<a id="selector"></a>
 #### `selector`
 
-Type: `string`
-Default: `::before`
+> Type: `string`<br>
+> Default: `::before`
 
 CSS selector of generated rule. For instance with `selector: '.ratio'` output 
 will looks like:
@@ -92,23 +91,19 @@ will looks like:
 }
 ```
 
-<a id="match"></a>
 #### `match`
 
-Type: `string | RegExp | Array<string | RegExp>`
-Default: `/\.(jpe?g|png|svg)($|\?.*$)/`
+> Type: `string | RegExp | Array<string | RegExp>`<br>
+> Default: `/\.(jpe?g|png|svg)($|\?.*$)/`  (any jpg/png/svg file with optional query param, eg `img.png?qwe=123`)
 
 Which `url()` imports should be processed. Could be a string (glob pattern), RegExp 
-or array of them. 
-
-**Note** that rules are matched against absolute image path.
+or array of them. Rules are tested against absolute image path.
 
 ```js
 // Include all SVGs, except images from node_modules
-aspectRatio({ match: [
-  /\.svg$/,
-  '!**/node_modules/**'
-]});
+aspectRatio({
+  match: [/\.svg$/, '!**/node_modules/**']
+});
 ```
 
 By default all png, jpg and svg files are affected. If you want to process specific

@@ -2,7 +2,8 @@ const isPlainObject = require('is-plain-object');
 const { match } = require('posthtml/lib/api');
 const matchHelper = require('posthtml-match-helper');
 
-const { name: packageName } = require('./package.json');
+const { name: packageName } = require('../package.json');
+
 const parseQueryToTransformerParams = require('./parse-query-to-transformer-params');
 
 module.exports = opts => {

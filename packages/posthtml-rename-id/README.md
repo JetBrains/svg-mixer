@@ -1,7 +1,7 @@
-# PostHTML Rename ID Plugin
+# posthtml-rename-id
 
-Plugin to rename id attributes and it's references. 
-Inspired by [grunt-svgstore](https://github.com/FWeinb/grunt-svgstore).
+[PostHTML](https://github.com/posthtml/posthtml) plugin to rename id attributes 
+and it's references. Inspired by [grunt-svgstore](https://github.com/FWeinb/grunt-svgstore).
 
 Handle following cases:
 
@@ -9,6 +9,28 @@ Handle following cases:
 - `style` attribute values like `style="fill: url(#id)"`
 - `<style>` tag values like `.selector {fill: url(#id)"}`
 - any other attribute value like `attr="url(#id)"`
+
+## Demo
+
+Input
+```html
+<style>
+.selector {fill: url(#qwe)}
+</style>
+
+<div id="qwe"></div>
+<a href="#qwe"></a>
+```
+
+Output
+```html
+<style>
+.selector {fill: url(#prefix_qwe)}
+</style>
+
+<div id="prefix_qwe"></div>
+<a href="#prefix_qwe"></a>
+```
 
 ## Install
 
@@ -32,7 +54,10 @@ posthtml()
 
 ## Configuration
 
-### `plugin(pattern: string|Function)` (optional, `[id]` by default)
+### `pattern`
+
+> Type: `string | function`<br>
+> Default: `'[id]'`
 
 Renaming pattern. `[id]` placeholder can be used as current id of an element.
 If `pattern` provided as a function it will be called with current id as first argument.

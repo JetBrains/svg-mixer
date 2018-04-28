@@ -154,7 +154,7 @@ Sprite filename which used in generated styles and in result message.
 > Default: `/\.svg($|\?.*$)/` (any SVG file with optional query param, eg `img.svg?qwe=123`)
 
 Filter which images should be added to sprite. Could be a string (glob pattern), 
-RegExp or array of them. Rules are matched against absolute image path. If URL 
+RegExp or array of them. Rules are tested against absolute image path. If URL 
 starts with tilde `~` plugin will search image in node_modules (Node.js 
 `require.resolve` mechanism is used).
 

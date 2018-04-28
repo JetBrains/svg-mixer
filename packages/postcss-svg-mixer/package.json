@@ -1,7 +1,14 @@
 {
   "name": "postcss-svg-mixer",
   "version": "0.1.6",
-  "description": "",
+  "description": "PostCSS plugin for creating SVG sprites",
+  "keywords": [
+    "postcss",
+    "postcss-plugin",
+    "postcss plugin",
+    "svg",
+    "svg sprite"
+  ],
   "license": "MIT",
   "homepage": "https://github.com/kisenka/svg-mixer/packages/postcss-svg-mixer",
   "repository": "https://github.com/kisenka/svg-mixer/packages/postcss-svg-mixer",
@@ -12,9 +19,8 @@
     "loader.js"
   ],
   "dependencies": {
-    "anymatch": "^2.0.0",
-    "query-string": "^6.0.0",
     "postcss": "^6.0.21",
+    "query-string": "^6.0.0",
     "svg-mixer": "^2.0.3",
     "svg-mixer-utils": "^0.2.2"
   }

@@ -2,6 +2,12 @@
   "name": "postsvg",
   "version": "2.2.0",
   "description": "A tiny wrapper over posthml with the same API optimized for working with SVG",
+  "keywords": [
+    "posthtml",
+    "html",
+    "svg",
+    "transformations"
+  ],
   "license": "MIT",
   "homepage": "https://github.com/kisenka/svg-mixer/packages/postsvg",
   "repository": "https://github.com/kisenka/svg-mixer/packages/postsvg",
@@ -18,8 +24,5 @@
     "posthtml-match-helper": "^1.0.1",
     "posthtml-parser": "^0.4.1",
     "posthtml-render": "^1.1.2"
-  },
-  "scripts": {
-    "test": "mocha -r $MOCHA_SETUP_PATH"
   }
 }

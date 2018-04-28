@@ -1,6 +1,29 @@
-# PostHTML Transform plugin
+# posthtml-transform
 
-Plugin to modify HTML/SVG tags and attributes. For instance you can find all paths in SVG and fill them by red color.
+[PostHTML](https://github.com/posthtml/posthtml) plugin to add/modify tags and 
+attributes.
+
+## Demo
+
+```js
+posthtml([
+  transform({ attr: 'fill', value: 'red' })
+]);
+```
+
+Input
+```xml
+<svg>
+  <path />
+</svg>
+```
+
+Output
+```xml
+<svg fill="red">
+  <path fill="red" />
+</svg>
+```
 
 ## Install
 
@@ -11,14 +34,17 @@ npm install posthtml-transform
 ## Usage
 
 ```js
+const { readFileSync } = require('fs');
 const posthtml = require('posthtml');
 const transform = require('posthtml-transform');
 
+const input = readFileSync('input.html');
+
 posthtml()
-  .use(transform({ attr: 'fill', value: 'red' }))
-  .process('<svg><path /></svg>')
+  .use(transform(options))
+  .process(input)
   .then(({ html }) => {
-    console.log(html); // <svg fill="red"><path fill="red" /></svg>
+    console.log(html);
   });
 ```
 

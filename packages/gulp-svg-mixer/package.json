@@ -1,7 +1,13 @@
 {
   "name": "gulp-svg-mixer",
   "version": "0.1.0",
-  "description": "",
+  "description": "Gulp plugin for creating SVG sprites",
+  "keywords": [
+    "gulp",
+    "gulp plugin",
+    "svg",
+    "svg sprite"
+  ],
   "license": "MIT",
   "homepage": "https://github.com/kisenka/svg-mixer/packages/gulp-svg-mixer",
   "repository": "https://github.com/kisenka/svg-mixer/packages/gulp-svg-mixer",

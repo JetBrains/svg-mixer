@@ -1,6 +1,6 @@
 # SVG Mixer
 
-Library for generating and transforming SVG sprites in modern way!
+Library for generating and transforming SVG sprites in modern way.
 
 ## Table of contents
 
@@ -47,22 +47,20 @@ npm install svg-mixer
 
 ## Adapters
 
-- [PostCSS](../postcss-svg-mixer)
-- [Gulp](../gulp-svg-mixer)
-- webpack loader/plugin in progress.
+- PostCSS: [postcss-svg-mixer](https://github.com/kisenka/svg-mixer/tree/master/packages/postcss-svg-mixer).
+- Gulp: [gulp-svg-mixer](https://github.com/kisenka/svg-mixer/tree/master/packages/gulp-svg-mixer).
 
 ## Configuration
 
-<a id="spriteType"></a>
 ### `spriteType`
 
-Type: `string`
-Default: `classic`
+> Type: `string`<br>
+> Default: `classic`
 
 Possible values:
 - `classic` (default). Images placed on canvas one after the other. Works perfect 
    in all browsers including IE10+. If sprite embedded in CSS - requires some 
-   additional styles for background image positioning. [postcss-svg-mixer](../postcss-svg-mixer) 
+   additional styles for background image positioning. [postcss-svg-mixer](https://github.com/kisenka/svg-mixer/tree/master/packages/postcss-svg-mixer) 
    can be used to generate such styles.
 - `stack`. [SVG stacking technique](https://css-tricks.com/svg-fragment-identifiers-work/#article-header-id-4) - 
    images placed one below the other and hidden by default. Target image becomes 
@@ -70,10 +68,9 @@ Possible values:
    **[Doesn't work in Safari](https://caniuse.com/#search=svg%20fragment)** (both desktop and mobile) 
    prior to 11.1 macOS and 11.3 iOS. Don't requires any styles when embedding.
 
-<a id="spriteConfig"></a>
 ### `spriteConfig`
 
-Type: `Object`
+> Type: `Object`
 
 Fine tune sprite output.
 
@@ -91,28 +88,24 @@ Stack sprite also has following options:
 - `styles` (default: see [stack-sprite](lib/stack-sprite.js)). CSS to archive stack technique. 
   Will be placed in `<defs>` section.
 
-<a id="generateSymbolId"></a>
 ### `generateSymbolId`
 
-Type: `function(path: string, query: string = '') => string`
+> Type: `function(path: string, query: string = '') => string`
 
 Function to generate `<symbol id>` attribute. By default file name without extension is used.
 Accepts 2 arguments: absolute path to file and optional query string.
 
-<a id="prettify"></a>
 ### `prettify`
 
-Type: `boolean`
-Default: `false`
+> Type: `boolean`<br>
+> Default: `false`
 
 Prettify sprite output.
 
-<a id="spriteClass"></a>
 ### `spriteClass`
 
 Custom sprite implementation. See [extending](#extending) section.
 
-<a id="symbolClass"></a>
 ### `symbolClass`
 
 Custom sprite symbol implementation. See [extending](#extending) section.
@@ -143,18 +136,20 @@ Result<{
 
 The rest API docs will be ASAP. For now check [TypeScript definitions](svgmixer.d.ts) and source :)
 
-## Extending
+## Extending 
 
-svg-mixer offers OOP-like extending mechanism - to write own sprite or symbol implementation
-you'll need to extend a base class.
+svg-mixer offers OOP-like extending mechanism - to write custom sprite or symbol 
+transformation you'll need to extend a base class and override `generate` method,
+which returns promise resolved with [postsvg.tree](https://github.com/kisenka/svg-mixer/tree/master/packages/postsvg#tree).
 
-Add `class="my-super-class"` to each node in generated sprite:
+Example: add `class="my-super-class"` to each node in generated sprite.
 
 ```js
 const mixer = require('svg-mixer');
 
 class MySprite extends mixer.Sprite {
   generate() {
+    // Call parent `generate` method and then transform the tree
     return super.generate().then(svg => {
       svg.each(node => node.attrs.class = 'my-super-class');
       return svg;
@@ -166,8 +161,10 @@ mixer('img/*.svg', { spriteClass: MySprite });
 ```
 
 As it possible to pass query params when adding image to sprite by `addSymbolFromFile` 
-compiler method it makes possible to process single file with different params 
-in various ways (like webpack does). For instance fill one image with different colors.
+compiler method, it makes possible to process single file with different params 
+in various ways (like webpack does).
+
+Example: fill one image with different colors.
 
 ```js
 const mixer = require('svg-mixer');
@@ -192,23 +189,3 @@ The code above will generate sprite with 2 symbols - original image and filled w
 In this example adding images and generating sprite performed manually, but when 
 using svg-mixer [adapters](#adapters) you'll need only to pass custom implementation 
 to adapter config.
-
-Example with postcss-svg-mixer:
-
-```js
-// my-custom-symbol.js
-const mixer = require('svg-mixer');
-
-module.exports = class MySymbol extends mixer.SpriteSymbol {
-  // ...
-}
-
-// build.js
-const postcss = require('postcss');
-const postcssMixer = require('postcss-svg-mixer');
-const MySymbol = require('./my-custom-symbol');
-
-postcss()
-  .use(postcssMixer({ symbolClass: MySymbol }))
-  .process('.a {background: url(qwe.svg?fill=red)}'); // this image in sprite will be in red color
-```

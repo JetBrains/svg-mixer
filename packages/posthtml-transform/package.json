@@ -1,13 +1,17 @@
 {
   "name": "posthtml-transform",
   "version": "0.1.0",
-  "description": "",
+  "description": "PostHTML plugin to add/modify tags and attributes",
+  "keywords": [
+    "posthtml",
+    "posthtml plugin"
+  ],
   "license": "MIT",
   "homepage": "https://github.com/kisenka/svg-mixer/packages/posthtml-transform",
   "repository": "https://github.com/kisenka/svg-mixer/packages/posthtml-transform",
+  "main": "lib/plugin.js",
   "files": [
-    "index.js",
-    "parse-query-to-transformer-params.js"
+    "lib"
   ],
   "dependencies": {
     "is-plain-object": "^2.0.4",

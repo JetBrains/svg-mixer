@@ -1,7 +1,13 @@
 {
   "name": "postcss-aspect-ratio-from-bg-image",
   "version": "0.0.0",
-  "description": "",
+  "description": "PostCSS plugin to generate styles for maintaining block aspect ratio of referenced background image",
+  "keywords": [
+    "postcss",
+    "postcss-plugin",
+    "postcss plugin",
+    "aspect ratio"
+  ],
   "license": "MIT",
   "homepage": "https://github.com/kisenka/svg-mixer/packages/postcss-aspect-ratio-from-bg-image",
   "repository": "https://github.com/kisenka/svg-mixer/packages/postcss-aspect-ratio-from-bg-image",

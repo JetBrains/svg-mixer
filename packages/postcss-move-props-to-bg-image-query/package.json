@@ -1,13 +1,18 @@
 {
   "name": "postcss-move-props-to-bg-image-query",
   "version": "0.2.0",
-  "description": "",
+  "description": "PostCSS plugin to turn some style declarations into background image query params",
+  "keywords": [
+    "postcss",
+    "postcss-plugin",
+    "postcss plugin"
+  ],
   "license": "MIT",
   "homepage": "https://github.com/kisenka/svg-mixer/packages/postcss-move-props-to-bg-image-query",
   "repository": "https://github.com/kisenka/svg-mixer/packages/postcss-move-props-to-bg-image-query",
+  "main": "lib/plugin.js",
   "files": [
-    "lib/",
-    "index.js"
+    "lib/"
   ],
   "dependencies": {
     "merge-options": "^1.0.0",
