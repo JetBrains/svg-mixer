@@ -211,24 +211,25 @@ This plugin can be used as style generator for existing svg-mixer sprite instanc
 
 ```js
 const { writeFileSync } = require('fs');
+
 const createSprite = require('svg-mixer');
-const postcss = require('postcss');
 const postcssMixer = require('postcss-svg-mixer');
 
-createSprite('img/*.svg').then(({ sprite, filename: spriteFilename }) => {
+// Create sprite programmatically
+createSprite('img/*.svg').then(result => {
+  writeFileSync(result.filename, result.content);
+
   /**
    * Generate CSS code like
-   * .img1 {background: url(img/img1.svg)}
-   * .img2 {background: url(img/img2.svg)}
+   * .img1 {background: url(img/img1.svg);}
+   * .img2 {background: url(img/img2.svg);}
    */
-  const input = sprite.symbols
-    .map(s => `.${s.id} {background: url(${s.image.path})`);
+  const cssInput = result.sprite.symbols
+    .map(s => `.${s.id} {background: url(${s.image.path});}`)
+    .join('\n');
 
-  return postcss()
-    .use(postcssMixer({ userSprite: sprite }))
-    .process(input)
-    .then(({ css }) => writeFileSync('output.css', css))
-    .then(() => sprite.render())
-    .then(content => writeFileSync(spriteFilename, content));
+  postcssMixer
+    .process(cssInput, { from: __filename }, { userSprite: result.sprite })
+    .then(({ css }) => writeFileSync('output.css', css));
 });
 ``` 
