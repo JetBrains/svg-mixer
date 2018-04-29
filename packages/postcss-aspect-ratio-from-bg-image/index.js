@@ -38,12 +38,13 @@ module.exports = postcss.plugin(packageName, options => {
     const decls = findCssBgImageDecls(root);
 
     const promises = decls.map(({ decl, helper }) => {
+      const query = helper.URIS[0].search();
       const url = helper.URIS[0].toString();
       const rule = decl.parent;
 
       return resolveFile(url, dirname(from))
         .then(absPath =>
-          (!matcher(absPath)
+          (!matcher(absPath + query)
             ? Promise.reject({ code: UNMATCHED_FILE_ERROR_CODE })
             : absPath)
         )
