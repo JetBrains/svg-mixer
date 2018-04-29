@@ -69,51 +69,62 @@ module.exports = {
 ```
 
 <a id="using-with-webpack"></a>
-### With webpack (via postcss-loader)
+### With webpack
+
+> **Note:** postcss-loader 1.* or >= 2.1.4 is required for this feature.
 
 When using webpack with [postcss-loader](https://github.com/postcss/postcss-loader)
-this plugin can automatically create sprite asset in compilation. To do this 
-you'll need to setup special loader for SVG files:
+this plugin can automatically create sprite asset in compilation. To achieve this 
+you'll need to do 2 things:
 
-```js
-// webpack.config.js
-module.exports = {
-  module: {
-    rules: [
-      {
-        test: /\.svg$/,
-        loader: 'postcss-svg-mixer/loader'
-      }
-    ]
-  }
-}
-```
+1. Setup special loader for SVG files:
+   ```js
+   // webpack.config.js
+   module.exports = {
+     module: {
+       rules: [
+         {
+           test: /\.svg$/,
+           loader: 'postcss-svg-mixer/loader'
+         }
+       ]
+     }
+   }
+   ```
+   **NOTE:** if you use file-loader/url-loader or similar to process svg they 
+   should be replaced with loader above. Other loaders can be used, but postcss-svg-mixer 
+   loader should be placed at the end of chain (as webpack call loaders from right to left):
+   ```js
+   // webpack.config.js
+   module.exports = {
+     module: {
+       rules: [
+         {
+           test: /\.svg$/,
+           use: [
+             'postcss-svg-mixer/loader', // Should be always in first place
+             'svg-transform-loader',
+             'svgo-loader'
+           ]
+         }
+       ]
+     }
+   }
+   ```
+2. Add postcss-svg-mixer to plugins in postcss.config.js and **pass postcss-loader 
+   context as `ctx` option to it**:
+   ```js
+   // postcss.config.js
+   const mixer = require('postcss-svg-mixer');
 
-Then add plugin to postcss.config.js as usual.
-
-**NOTE:** postcss-loader 1.\* or >= 2.1.4 is required for this feature.
-
-**NOTE 2:** if you use file-loader/url-loader or similar to process svg they 
-should be replaced with loader above. Other loaders can be used, but postcss-svg-mixer 
-loader should be placed at the end of chain (as webpack call loaders from right to left):
-
-```js
-// webpack.config.js
-module.exports = {
-  module: {
-    rules: [
-      {
-        test: /\.svg$/,
-        use: [
-          'postcss-svg-mixer/loader', // Should be always in first place
-          'svg-transform-loader',
-          'svgo-loader'
-        ]
-      }
-    ]
-  }
-}
-```
+   module.exports = ctx => {
+     return {
+       plugins: [
+         mixer({ ctx, ...restOptions })
+       ]
+     };
+   }
+   ```
 
 ## How it works
 
