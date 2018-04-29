@@ -143,6 +143,7 @@ you'll need to do 2 things:
 
 ## Configuration
 
+<a id="spriteType"></a>
 ### `spriteType`
 
 > Type: `string`<br>
@@ -157,6 +158,7 @@ Possible values:
    **[Doesn't work in Safari](https://caniuse.com/#search=svg%20fragment)** prior to 
    11.1 macOS and 11.3 iOS. Don't generate additional styles for background image positioning.
 
+<a id="match"></a>
 ### `spriteFilename`
 
 > Type: `string`<br>
@@ -164,6 +166,7 @@ Possible values:
 
 Sprite filename which used in generated styles and in result message. 
 
+<a id="match"></a>
 ### `match`
 
 > Type: `string | RegExp | Array<string | RegExp>`<br>
@@ -174,6 +177,7 @@ RegExp or array of them. Rules are tested against absolute image path. If URL
 starts with tilde `~` plugin will search image in node_modules (Node.js 
 `require.resolve` mechanism is used).
 
+<a id="selector"></a>
 ### `selector`
 
 > Type: `string`<br>
@@ -201,6 +205,7 @@ mixer({ selector: '::after' })
 }
 ```
 
+<a id="userSprite"></a>
 ### `userSprite`
 
 > Type: [`Sprite`](https://github.com/kisenka/svg-mixer/blob/master/packages/svg-mixer/lib/sprite.js) |
@@ -211,7 +216,6 @@ This plugin can be used as style generator for existing svg-mixer sprite instanc
 
 ```js
 const { writeFileSync } = require('fs');
-
 const createSprite = require('svg-mixer');
 const postcssMixer = require('postcss-svg-mixer');
 
