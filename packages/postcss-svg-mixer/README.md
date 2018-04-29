@@ -77,7 +77,8 @@ When using webpack with [postcss-loader](https://github.com/postcss/postcss-load
 this plugin can automatically create sprite asset in compilation. To achieve this 
 you'll need to do 2 things:
 
-1. Setup special loader for SVG files:
+1. Setup special loader for SVG files, **if you use any loader to process svg it 
+   should be replaced with this single loader**:
    ```js
    // webpack.config.js
    module.exports = {
@@ -90,9 +91,7 @@ you'll need to do 2 things:
        ]
      }
    }
-   ```
-   **NOTE:** if you use any loader to process svg it should be replaced with this
-   single loader.
+   ``` 
 2. Add postcss-svg-mixer to plugins in postcss.config.js and **pass postcss-loader 
    context as `ctx` option to it**:
    ```js
