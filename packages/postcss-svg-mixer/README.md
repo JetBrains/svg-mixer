@@ -91,26 +91,8 @@ you'll need to do 2 things:
      }
    }
    ```
-   **NOTE:** if you use file-loader/url-loader or similar to process svg they 
-   should be replaced with loader above. Other loaders can be used, but postcss-svg-mixer 
-   loader should be placed at the end of chain (as webpack call loaders from right to left):
-   ```js
-   // webpack.config.js
-   module.exports = {
-     module: {
-       rules: [
-         {
-           test: /\.svg$/,
-           use: [
-             'postcss-svg-mixer/loader', // Should be always in first place
-             'svg-transform-loader',
-             'svgo-loader'
-           ]
-         }
-       ]
-     }
-   }
-   ```
+   **NOTE:** if you use any loader to process svg it should be replaced with this
+   single loader.
 2. Add postcss-svg-mixer to plugins in postcss.config.js and **pass postcss-loader 
    context as `ctx` option to it**:
    ```js
