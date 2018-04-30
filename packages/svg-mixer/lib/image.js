@@ -1,15 +1,15 @@
-const { parse: parseSvg } = require('postsvg');
+const { parse: parseSvg, Tree } = require('postsvg');
 
 class Image {
   /**
-   * @param {string} content
+   * @param {string|PostSvgTree} content
    * @param {string} path
    */
   constructor(path, content) {
     const parts = path.split('?');
     this.path = parts[0];
     this.query = parts[1] ? `?${parts[1]}` : '';
-    this._tree = parseSvg(content.toString());
+    this._tree = content instanceof Tree ? content : parseSvg(content.toString());
   }
 
   /**

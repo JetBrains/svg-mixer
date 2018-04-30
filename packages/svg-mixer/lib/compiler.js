@@ -96,7 +96,7 @@ class Compiler {
   /**
    * @param {Object} opts
    * @param {string} opts.path
-   * @param {string} opts.content
+   * @param {string|PostSvgTree} opts.content
    * @param {string} [opts.id]
    * @return {SpriteSymbol}
    */
