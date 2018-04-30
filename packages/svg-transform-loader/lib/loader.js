@@ -13,7 +13,7 @@ function generateResult(content, raw = defaultConfig.raw) {
 }
 
 // eslint-disable-next-line func-names,consistent-return
-module.exports = function (content) {
+module.exports = function (content, map) {
   if (this.version === 1 && this.cacheable) {
     this.cacheable();
   }
@@ -29,6 +29,10 @@ module.exports = function (content) {
   postsvg()
     .use(transformPlugin(transformCfg))
     .process(content)
-    .then(({ svg }) => callback(null, generateResult(svg, loaderOpts.raw)))
+    .then(res => {
+      callback(null, generateResult(res.svg, loaderOpts.raw), map, {
+        ast: res.tree
+      });
+    })
     .catch(callback);
 };
