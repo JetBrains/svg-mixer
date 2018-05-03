@@ -1,8 +1,12 @@
 /* eslint-disable no-shadow */
+const { parse } = require('postsvg');
+
+const { getFixture, testPostSvgPlugin } = require('../../test/utils');
+
 const plugin = require('.');
 
-const t = utils.testPlugin(plugin);
-const image = utils.getFixture('twitter.svg');
+const t = testPostSvgPlugin(plugin);
+const image = getFixture('twitter.svg');
 
 describe('plugin', () => {
   it('config: String', async () => {
@@ -20,7 +24,7 @@ describe('plugin', () => {
   });
 
   it('config: Function', async () => {
-    const tree = utils.parse(image);
+    const tree = parse(image);
     const transformer = jest.fn(node => node.attrs.fill = 'red');
     const res = await t(transformer, tree, { skipParse: true });
 

@@ -1,7 +1,6 @@
 const path = require('path');
 
-const webpack = require('webpack');
-const MemoryFS = require('memory-fs');
+const { getFixture, createInMemoryWebpackCompiler } = require('../../../test/utils');
 
 const fixtureFile = 'twitter.svg';
 const imageReq = './image.svg';
@@ -11,16 +10,12 @@ const entryReq = './entry.js';
 module.exports.fixtureFile = fixtureFile;
 module.exports.imageReq = imageReq;
 
-function createCompiler(opts) {
-  const cfg = {
+async function compile(input, opts) {
+  const compiler = createInMemoryWebpackCompiler({
     context: '/',
 
     entry: {
       [entryName]: entryReq
-    },
-
-    output: {
-      filename: '[name].js'
     },
 
     module: {
@@ -33,40 +28,21 @@ function createCompiler(opts) {
               options: { name: '[name].[ext]' }
             },
             {
-              loader: path.resolve(__dirname, '../index.js'),
+              loader: require.resolve('../'),
               options: opts
             }
           ]
         }
       ]
     }
-  };
-
-  const inputFs = new MemoryFS();
-  const outputFs = new MemoryFS();
-
-  const compiler = webpack(cfg);
-
-  compiler.inputFileSystem = inputFs;
-  compiler.resolvers.normal.fileSystem = inputFs;
-  compiler.resolvers.context.fileSystem = inputFs;
-  compiler.outputFileSystem = outputFs;
-
-  return compiler;
-}
-
-module.exports.createCompiler = createCompiler;
-
-async function compile(input, opts) {
-  const compiler = createCompiler(opts);
-  const { data: fsTree } = compiler.inputFileSystem;
-
-  fsTree['entry.js'] = new Buffer(input);
-  fsTree[path.basename(imageReq)] = new Buffer(utils.getFixture(fixtureFile));
-
-  const { assets: rawAssets, errors } = await new Promise((resolve, reject) => {
-    compiler.run((err, stats) => (err ? reject(err) : resolve(stats.compilation)));
   });
+
+  const { data: fs } = compiler.inputFileSystem;
+
+  fs['entry.js'] = new Buffer(input);
+  fs[path.basename(imageReq)] = new Buffer(getFixture(fixtureFile));
+
+  const { assets: rawAssets, errors } = await compiler.run();
 
   // Convert all assets to string
   const assets = Object.keys(rawAssets).reduce((acc, name) => {

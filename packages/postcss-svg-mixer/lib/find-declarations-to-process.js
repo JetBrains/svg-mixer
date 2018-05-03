@@ -1,7 +1,7 @@
 /* eslint-disable consistent-return */
 const { dirname } = require('path');
 
-const { resolveFile, findCssBgImageDecls } = require('svg-mixer-utils');
+const { resolveFile, postcss: postcssUtils } = require('svg-mixer-utils');
 
 /**
  * TODO refactor this ugly code!
@@ -13,7 +13,7 @@ module.exports = async (root, fileMatcher) => {
   const from = root.source.input.file;
   const sourceContextPath = from ? dirname(from) : undefined;
 
-  const entries = findCssBgImageDecls(root)
+  const entries = postcssUtils.findBgDecls(root)
     .map(({ decl, helper }) => ({ decl, url: helper.URIS[0] }))
     .filter(({ url }) => (fileMatcher ? fileMatcher(url.toString()) : true))
     .map(({ decl, url }) => ({

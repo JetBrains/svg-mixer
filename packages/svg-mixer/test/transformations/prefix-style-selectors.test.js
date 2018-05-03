@@ -1,6 +1,8 @@
 const { prefixStyleSelectors } = require('svg-mixer/lib/transformations');
 
-const t = utils.testPlugin(prefixStyleSelectors);
+const { testPostSvgPlugin } = require('../../../../test/utils');
+
+const t = testPostSvgPlugin(prefixStyleSelectors);
 
 it('should prefix all <style> tag selectors', async () => {
   expect(await t(

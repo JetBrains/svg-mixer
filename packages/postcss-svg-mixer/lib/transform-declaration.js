@@ -1,6 +1,6 @@
 const postcss = require('postcss');
 const { Sprite, StackSprite } = require('svg-mixer');
-const { transformCssSelector, objectToCssDeclProps } = require('svg-mixer-utils');
+const { transformSelector, objectToDeclProps } = require('svg-mixer-utils/lib/postcss');
 
 function generateProps(position, spriteUrl, spriteType) {
   const { bgSize, bgPosition } = position;
@@ -15,7 +15,7 @@ function generateProps(position, spriteUrl, spriteType) {
     }
   };
 
-  return objectToCssDeclProps(props[spriteType]);
+  return objectToDeclProps(props[spriteType]);
 }
 
 /**
@@ -32,7 +32,7 @@ module.exports = opts => {
   const rule = decl.parent;
 
   if (typeof selector === 'string') {
-    const newSelector = transformCssSelector(rule.selector, s => `${s}${selector}`);
+    const newSelector = transformSelector(rule.selector, s => `${s}${selector}`);
     const newRule = postcss
       .rule({ selector: newSelector })
       .append(...generateProps(position, spriteUrl, spriteType));

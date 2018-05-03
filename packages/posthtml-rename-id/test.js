@@ -1,6 +1,8 @@
+const { testPostSvgPlugin } = require('../../test/utils');
+
 const plugin = require('.');
 
-const t = utils.testPlugin(plugin);
+const t = testPostSvgPlugin(plugin);
 const pattern = 'test_[id]';
 
 describe('posthtml-rename-id', () => {

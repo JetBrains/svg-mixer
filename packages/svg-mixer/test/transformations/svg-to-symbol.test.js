@@ -1,6 +1,8 @@
 const { svgToSymbol } = require('svg-mixer/lib/transformations');
 
-const t = utils.testPlugin(svgToSymbol);
+const { testPostSvgPlugin } = require('../../../../test/utils');
+
+const t = testPostSvgPlugin(svgToSymbol);
 
 it('should work!', async () => {
   expect(await t(

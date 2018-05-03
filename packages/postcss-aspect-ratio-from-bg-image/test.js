@@ -2,13 +2,15 @@ const { resolve } = require('path');
 
 const postcss = require('postcss');
 
+const { FIXTURES_DIR } = require('../../test/utils');
+
 const plugin = require('.');
 
 function exec(input, opts) {
   return postcss()
     .use(plugin(opts))
     .process(input, {
-      from: resolve(utils.fixturesDir, 'test.css')
+      from: resolve(FIXTURES_DIR, 'test.css')
     })
     .then(({ css }) => css);
 }

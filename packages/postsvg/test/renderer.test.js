@@ -1,4 +1,6 @@
-const t = utils.testPlugin();
+const { testPostSvgPlugin } = require('../../../test/utils');
+
+const t = testPostSvgPlugin();
 
 const t2 = [
   '<g><path /></g>',

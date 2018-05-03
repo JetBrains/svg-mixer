@@ -1,6 +1,8 @@
 const { moveNamespacesToRoot } = require('svg-mixer/lib/transformations');
 
-const t = utils.testPlugin(moveNamespacesToRoot);
+const { testPostSvgPlugin } = require('../../../../test/utils');
+
+const t = testPostSvgPlugin(moveNamespacesToRoot);
 
 it('should move all namespaces to root node', async () => {
   expect(await t(

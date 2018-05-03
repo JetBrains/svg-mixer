@@ -3,13 +3,12 @@ const { dirname } = require('path');
 const merge = require('merge-options');
 const postcss = require('postcss');
 const calipers = require('calipers');
+const { createMatcher, resolveFile } = require('svg-mixer-utils');
 const {
-  findCssBgImageDecls,
-  createMatcher,
-  transformCssSelector: transformSelector,
-  resolveFile,
-  objectToCssDeclProps
-} = require('svg-mixer-utils');
+  findBgDecls,
+  objectToDeclProps,
+  transformSelector
+} = require('svg-mixer-utils/lib/postcss');
 
 const { name: packageName } = require('./package.json');
 
@@ -35,7 +34,7 @@ module.exports = postcss.plugin(packageName, options => {
 
   return root => {
     const from = root.source.input.file || process.cwd();
-    const decls = findCssBgImageDecls(root);
+    const decls = findBgDecls(root);
 
     const promises = decls.map(({ decl, helper }) => {
       const query = helper.URIS[0].search();
@@ -59,7 +58,7 @@ module.exports = postcss.plugin(packageName, options => {
             selector: transformSelector(rule.selector, s => `${s}${selector}`)
           })
             .removeAll()
-            .append(...objectToCssDeclProps({
+            .append(...objectToDeclProps({
               display: 'block',
               'box-sizing': 'content-box',
               'padding-bottom': `${percentage}%`,

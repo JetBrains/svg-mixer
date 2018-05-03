@@ -1,6 +1,8 @@
 const { normalizeViewBox } = require('svg-mixer/lib/transformations');
 
-const t = utils.testPlugin(normalizeViewBox);
+const { testPostSvgPlugin } = require('../../../../test/utils');
+
+const t = testPostSvgPlugin(normalizeViewBox);
 
 it('should do nothing if viewBox presented', async () => {
   expect(await t(undefined, '<svg viewBox="0 0 0 0"></svg>'))

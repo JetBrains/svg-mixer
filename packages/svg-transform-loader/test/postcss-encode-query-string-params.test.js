@@ -6,7 +6,7 @@ async function exec(input, expected) {
   const { css } = await postcss()
     .use(encodeQuery())
     .process(input, { from: __filename });
-  return css;
+  expect(css).toEqual(expected);
 }
 
 it('should encode', async () => {
@@ -59,6 +59,6 @@ it('should encode fragment with empty query param value', async () => {
 it('should encode sharp in each param', async () => {
   await exec(
     '.a {background: url(image.svg?fill=#f0f,#qwe&stroke=#000&tralala=#00ffdd#qwe)}',
-    '.a {background: url(image.svg?fill=%23f0f,%23qwe&stroke=%23000&tralala=%2300ffdd%23qwe)}'
+    '.a {background: url(image.svg?fill=%23f0f%2C%23qwe&stroke=%23000&tralala=%2300ffdd%23qwe)}'
   );
 });

@@ -3,7 +3,7 @@ const postcss = require('postcss');
 const merge = require('merge-options');
 const {
   createMatcher,
-  findCssBgImageDecls
+  postcss: postcssUtils
 } = require('svg-mixer-utils');
 
 const { name: packageName } = require('../package.json');
@@ -29,7 +29,7 @@ module.exports = postcss.plugin(packageName, config => {
 
   return root => {
     root.walkRules(rule => {
-      const bgDecls = findCssBgImageDecls(rule);
+      const bgDecls = postcssUtils.findBgDecls(rule);
 
       const declsToMove = [];
 

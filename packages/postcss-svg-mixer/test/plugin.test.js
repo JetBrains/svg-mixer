@@ -5,11 +5,12 @@ const postcss = require('postcss');
 const mixer = require('svg-mixer');
 
 const { name: packageName } = require('../package.json');
+const { FIXTURES_DIR } = require('../../../test/utils');
 
 const plugin = require('..');
 
 const spriteDefaultConfig = mixer.Sprite.defaultConfig;
-const fixturesStylesheetPath = resolve(utils.fixturesDir, 'test.css'); // Using fixtures dir path for shortly urls
+const fixturesStylesheetPath = resolve(FIXTURES_DIR, 'test.css'); // Using fixtures dir path for shortly urls
 const defaultInput = '.a {background:url(twitter.svg)}';
 
 function findSpriteMsg(messages) {
@@ -44,7 +45,7 @@ describe('Options', () => {
     const {
       sprite,
       content: spriteContent
-    } = await mixer(resolve(utils.fixturesDir, 'twitter.svg'));
+    } = await mixer(resolve(FIXTURES_DIR, 'twitter.svg'));
 
     const res = await exec(defaultInput, { sprite });
 

@@ -5,9 +5,9 @@
   "license": "MIT",
   "homepage": "https://github.com/kisenka/svg-mixer/packages/svg-transform-loader",
   "repository": "https://github.com/kisenka/svg-mixer/packages/svg-transform-loader",
+  "main": "lib/loader.js",
   "files": [
     "lib",
-    "index.js",
     "encode-query-loader.js"
   ],
   "dependencies": {
