@@ -4,18 +4,46 @@ const { createUrlsHelper } = require('postcss-helpers');
 const BACKGROUND_DECL_NAME_REGEXP = /^background(-image)?$/i;
 const URL_FUNCTION_REGEXP = /url\([^)]*\)/ig;
 
-const defaultOpts = {
-  createHelper: true,
-  skipInvalid: true
-};
+/**
+ * @param {string} selector
+ * @param {Function} transformer
+ * @returns {string}
+ * @example
+ * transformSelector('.qwe, .qwe2', s => `${s}::after`)
+ * // => '.qwe::after, .qwe2::after'
+ */
+module.exports.transformSelector = (selector, transformer) =>
+  selector.split(',').map(s => transformer(s)).join(',');
+
+/**
+ * @param {Object} object
+ * @return {Array<{prop: string, value: string}>}
+ * @example
+ * postcss
+ *   .rule({ selector: '.qwe' })
+ *   .append(...objectToDeclProps({
+ *     color: 'red',
+ *     'background-image': '...'
+ *   }))
+ */
+module.exports.objectToDeclProps = object =>
+  Object.keys(object).map(key => ({
+    prop: key,
+    value: object[key]
+  }));
 
 /**
  * @param {postcss.Rule|postcss.Root} node
- * @param {Object} [options] {@see defaultOpts}
+ * @param {Object} [options]
+ * @param {boolean} [options.createHelper=true]
+ * @param {boolean} [options.skipInvalid=true]
  * @return {Array<postcss.Declaration>|Array<{decl: postcss.Declaration, helper: UrlsHelper|null}>}
  */
-module.exports = (node, options = {}) => {
-  const opts = merge(defaultOpts, options);
+module.exports.findBgDecls = (node, options = {}) => {
+  const opts = merge({
+    createHelper: true,
+    skipInvalid: true
+  }, options);
   const decls = [];
 
   node.walkDecls(decl => {

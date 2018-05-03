@@ -1,14 +1,16 @@
 const { parse } = require('postcss');
 
 const {
-  findCssBgImageDecls,
+  postcss,
   resolveFile,
   ResolveError
 } = require('svg-mixer-utils');
 
+const { findBgDecls } = postcss;
+
 describe('findBgImageDecls', () => {
   const t = (input, expectedCount) => {
-    const res = findCssBgImageDecls(parse(input));
+    const res = findBgDecls(parse(input));
     if (expectedCount) {
       res.length.should.eql(expectedCount);
     }
