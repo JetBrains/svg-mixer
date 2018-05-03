@@ -17,5 +17,9 @@
     "posthtml-transform": "^0.1.1",
     "postsvg": "^2.2.1",
     "svg-mixer-utils": "^0.2.3"
+  },
+  "devDependencies": {
+    "file-loader": "^1.1.11",
+    "webpack": "3"
   }
 }
