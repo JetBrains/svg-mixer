@@ -1,6 +1,6 @@
 const path = require('path');
 
-const { getFixture, createInMemoryWebpackCompiler } = require('../../../test/utils');
+const { getFixture, createWebpackCompiler } = require('../../../test/utils');
 
 const fixtureFile = 'twitter.svg';
 const imageReq = './image.svg';
@@ -11,7 +11,7 @@ module.exports.fixtureFile = fixtureFile;
 module.exports.imageReq = imageReq;
 
 async function compile(input, opts) {
-  const compiler = createInMemoryWebpackCompiler({
+  const compiler = createWebpackCompiler({
     context: '/',
 
     entry: {
@@ -35,12 +35,12 @@ async function compile(input, opts) {
         }
       ]
     }
-  });
+  }, true);
 
-  const { data: fs } = compiler.inputFileSystem;
+  const { inputFileSystem: inputFs } = compiler;
 
-  fs['entry.js'] = new Buffer(input);
-  fs[path.basename(imageReq)] = new Buffer(getFixture(fixtureFile));
+  inputFs.data[path.basename(entryReq)] = new Buffer(input);
+  inputFs.data[path.basename(imageReq)] = new Buffer(getFixture(fixtureFile));
 
   const { assets: rawAssets, errors } = await compiler.run();
 
