@@ -12,13 +12,13 @@ exports[`case: extract-css 1`] = `
 
 exports[`case: extract-css 2`] = `
 ".a {
-  background: url(sprite.svg) no-repeat 0                                      88.89%                                ;
-  background-size: 100%                                   140.50%                               ;
+  background: url(sprite.svg) no-repeat 0 88.89%;
+  background-size: 100% 140.50%;
 }
 
 .b {
-  background: url(sprite.svg) no-repeat 0                                      0                                     ;
-  background-size: 390.57%                                446%                                  ;
+  background: url(sprite.svg) no-repeat 0 0;
+  background-size: 390.57% 446%;
 }
 "
 `;
