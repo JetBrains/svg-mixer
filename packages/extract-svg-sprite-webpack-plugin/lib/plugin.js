@@ -101,10 +101,6 @@ class SvgSpritePlugin {
           done();
         });
       });
-
-      compilation.plugin('webpack-manifest-plugin-after-emit', (manifest, callback) => {
-        callback();
-      });
     });
   }
 
