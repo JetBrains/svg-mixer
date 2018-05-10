@@ -11,11 +11,15 @@ glob(`${path.resolve(__dirname, 'cases')}/*/webpack.config.js`)
     const cfg = require(cfgPath);
 
     it(`case: ${caseName}`, async () => {
-      const { assets } = await createWebpackCompiler(cfg).run();
+      const { assets: rawAssets } = await createWebpackCompiler(cfg).run();
+      const assets = {};
+
+      Object.keys(rawAssets).forEach(name => {
+        assets[name] = rawAssets[name].source().toString();
+      });
 
       Object.keys(assets).forEach(name => {
-        const content = assets[name].source().toString();
-        expect(content).toMatchSnapshot();
+        expect(assets[name]).toMatchSnapshot();
       });
     });
   });
