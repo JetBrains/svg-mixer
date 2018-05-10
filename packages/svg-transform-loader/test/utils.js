@@ -1,6 +1,6 @@
 const path = require('path');
 
-const { getFixture, createWebpackCompiler } = require('../../../test/utils');
+const { getFixture, createWebpackCompiler } = require('svg-mixer-test/utils');
 
 const fixtureFile = 'twitter.svg';
 const imageReq = './image.svg';

@@ -1,7 +1,7 @@
 /* eslint-disable no-shadow */
 const { parse } = require('postsvg');
 
-const { getFixture, testPostSvgPlugin } = require('../../test/utils');
+const { getFixture, testPostSvgPlugin } = require('svg-mixer-test/utils');
 
 const plugin = require('.');
 

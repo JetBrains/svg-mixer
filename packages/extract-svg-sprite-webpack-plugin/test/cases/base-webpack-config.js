@@ -2,7 +2,7 @@ const path = require('path');
 
 const merge = require('merge-options');
 
-const { FIXTURES_DIR } = require('../../../../test/utils');
+const { FIXTURES_DIR } = require('svg-mixer-test/utils');
 
 module.exports = (config = {}, options = {}) => {
   const plugins = config.plugins || [];

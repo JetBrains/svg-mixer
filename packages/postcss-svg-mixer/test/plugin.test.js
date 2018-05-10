@@ -3,9 +3,9 @@ const { resolve, basename } = require('path');
 
 const postcss = require('postcss');
 const mixer = require('svg-mixer');
+const { FIXTURES_DIR } = require('svg-mixer-test/utils');
 
 const { name: packageName } = require('../package.json');
-const { FIXTURES_DIR } = require('../../../test/utils');
 
 const plugin = require('..');
 

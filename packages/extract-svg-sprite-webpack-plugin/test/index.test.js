@@ -2,7 +2,7 @@ const path = require('path');
 
 const { sync: glob } = require('glob');
 
-const { createWebpackCompiler } = require('../../../test/utils');
+const { createWebpackCompiler } = require('svg-mixer-test/utils');
 
 glob(`${path.resolve(__dirname, 'cases')}/*/webpack.config.js`)
   .forEach(cfgPath => {

@@ -1,6 +1,6 @@
 const { prefixStyleSelectors } = require('svg-mixer/lib/transformations');
 
-const { testPostSvgPlugin } = require('../../../../test/utils');
+const { testPostSvgPlugin } = require('svg-mixer-test/utils');
 
 const t = testPostSvgPlugin(prefixStyleSelectors);
 

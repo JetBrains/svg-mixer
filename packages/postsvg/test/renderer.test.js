@@ -1,4 +1,4 @@
-const { testPostSvgPlugin } = require('../../../test/utils');
+const { testPostSvgPlugin } = require('svg-mixer-test/utils');
 
 const t = testPostSvgPlugin();
 
