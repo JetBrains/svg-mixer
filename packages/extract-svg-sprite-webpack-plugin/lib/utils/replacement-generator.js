@@ -1,7 +1,7 @@
 const mixer = require('svg-mixer');
 const { getHashDigest } = require('loader-utils');
 
-const { NAMESPACE, NO_SPRITE_FILENAME } = require('./config');
+const { NAMESPACE, NO_SPRITE_FILENAME } = require('../config');
 
 const TOKEN_START = '___';
 const TOKEN_END = '___';
@@ -79,20 +79,12 @@ module.exports = class Generator {
 
     // css replacements
     const replacements = [
+      Generator.symbolRequest(symbol, filename),
       Generator.bgPosLeft(request, position),
       Generator.bgPosTop(request, position),
       Generator.bgSizeWidth(request, position),
       Generator.bgSizeHeight(request, position)
-    ].map(({ value, replaceTo }) => {
-      const len = value.length - replaceTo.length;
-      const space = new Array(len).fill(' ').join('');
-      return {
-        value,
-        replaceTo: replaceTo + space
-      };
-    });
-
-    replacements.push(Generator.symbolRequest(symbol, filename));
+    ];
 
     return replacements.reduce((acc, replacement) => {
       acc[replacement.value] = replacement.replaceTo;

@@ -3,8 +3,8 @@ const merge = require('merge-options');
 const mixer = require('svg-mixer');
 const { interpolateName, getOptions } = require('loader-utils');
 
-const generator = require('./replacement-generator');
-const { getPluginFromLoader } = require('./utils');
+const generator = require('./utils/replacement-generator');
+const getPluginFromLoader = require('./utils/get-plugin-from-loader');
 
 module.exports = function (content, sourcemap, meta = {}) {
   const callback = this.async();

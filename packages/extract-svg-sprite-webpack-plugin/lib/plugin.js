@@ -1,7 +1,6 @@
 /* eslint-disable new-cap,no-param-reassign */
 const merge = require('merge-options');
 const mixer = require('svg-mixer');
-const Chunk = require('webpack/lib/Chunk');
 
 const SpriteCompiler = require('./compiler');
 const {
@@ -10,7 +9,7 @@ const {
   CSS_LOADER_PATH,
   NO_SPRITE_FILENAME
 } = require('./config');
-const Replacer = require('./replacer');
+const Replacer = require('./utils/replacer');
 
 const defaultConfig = {
   symbolId: '[name]',

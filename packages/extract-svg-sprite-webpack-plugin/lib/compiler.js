@@ -1,7 +1,7 @@
 const { interpolateName } = require('loader-utils');
 
 const { NO_SPRITE_FILENAME } = require('./config');
-const generator = require('./replacement-generator');
+const generator = require('./utils/replacement-generator');
 
 module.exports = class Compiler extends Map {
   /**

@@ -7,8 +7,8 @@ const { findBgDecls } = require('svg-mixer-utils/lib/postcss');
 const transformDecl = require('postcss-svg-mixer/lib/transform-declaration');
 
 const { LOADER_PATH } = require('./config');
-const { getPluginFromLoader } = require('./utils');
-const generator = require('./replacement-generator');
+const getPluginFromLoader = require('./utils/get-plugin-from-loader');
+const generator = require('./utils/replacement-generator');
 
 module.exports = function (content, sourcemap, meta = {}) {
   const loader = this;

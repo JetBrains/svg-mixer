@@ -1,6 +1,6 @@
-const { NAMESPACE } = require('./config');
+const { NAMESPACE } = require('../config');
 
-module.exports.getPluginFromLoader = loaderContext => {
+module.exports = loaderContext => {
   const { _compiler: compiler } = loaderContext;
 
   const parentCompiler = compiler.isChild()
