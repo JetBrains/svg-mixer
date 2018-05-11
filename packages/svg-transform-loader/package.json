@@ -8,7 +8,7 @@
   "main": "lib/loader.js",
   "files": [
     "lib",
-    "encode-query-loader.js"
+    "encode-query.js"
   ],
   "dependencies": {
     "loader-utils": "^1.1.0",
@@ -19,7 +19,10 @@
     "svg-mixer-utils": "^0.2.3"
   },
   "devDependencies": {
+    "css-loader": "^0.28.11",
+    "extract-text-webpack-plugin": "3",
     "file-loader": "^1.1.11",
+    "postcss-loader": "^2.1.5",
     "webpack": "3"
   }
 }

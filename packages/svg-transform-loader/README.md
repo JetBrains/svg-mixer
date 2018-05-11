@@ -142,25 +142,6 @@ To work around this you have several options.
 
 - **Recommended**: use PostCSS plugin postcss-move-props-to-bg-image-query. See 
   more details in [corresponding section](#postcss-move-props-to-bg-image-query).
-- Encode sharp manually. Replace `#` with `%23` directly in import:
-  ```css
-  .img {background-image: url(img.svg?fill=%23f0f)}
-  ``` 
-- Use preprocessor mixin. If style preprocessor is used, sharp encoding can be 
-  automated via mixin. Example of SCSS mixin:
-  ```scss
-  @mixin fill-background-image($url, $color) {
-    $base-color: str-slice(inspect($color), 2);
-    background-image: unquote('url("' + $url + "?fill=%23" + $base-color +'")');
-  }
-
-  /* and use it like this */
-  $hex-color: #e6e6e6;
-
-  .img {
-    @include fill-background-image('img.svg', $hex-color);
-  }
-  ```
 - Use special loader to encode sharp in CSS imports. svg-transform-loader comes 
   with special loader which can be used to encode sharp in CSS imports. This 
   loader should be defined **before** css-loader and after any other style 
@@ -181,7 +162,7 @@ To work around this you have several options.
           test: /\.scss$/,
           use: [
             'css-loader',
-            'svg-transform-loader/encode-query-loader', // loader should be defined BEFORE css-loader
+            'svg-transform-loader/encode-query', // loader should be defined BEFORE css-loader
             'sass-loader' // but AFTER any other loaders which produces CSS
           ]
         }
@@ -192,6 +173,25 @@ To work around this you have several options.
   **NOTE**: encode loader uses PostCSS under the hood, so if you already have it on 
   the project it's better to use [postcss-move-props-to-bg-image-query](#postcss-move-props-to-bg-image-query)
   to avoid double parsing and performance downgrade. 
+- Encode sharp manually. Replace `#` with `%23` directly in import:
+  ```css
+  .img {background-image: url(img.svg?fill=%23f0f)}
+  ``` 
+- Use preprocessor mixin. If style preprocessor is used, sharp encoding can be 
+  automated via mixin. Example of SCSS mixin:
+  ```scss
+  @mixin fill-background-image($url, $color) {
+    $base-color: str-slice(inspect($color), 2);
+    background-image: unquote('url("' + $url + "?fill=%23" + $base-color +'")');
+  }
+
+  /* and use it like this */
+  $hex-color: #e6e6e6;
+
+  .img {
+    @include fill-background-image('img.svg', $hex-color);
+  }
+  ```
 
 ### Usage with resolve-url-loader
 
