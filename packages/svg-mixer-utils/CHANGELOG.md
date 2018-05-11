@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.3.0"></a>
+# [0.3.0](https://github.com/kisenka/svg-mixer/packages/svg-mixer-utils/compare/svg-mixer-utils@0.2.3...svg-mixer-utils@0.3.0) (2018-05-11)
+
+
+### Features
+
+* refactor structure ([1d58d03](https://github.com/kisenka/svg-mixer/packages/svg-mixer-utils/commit/1d58d03))
+
+
+
+
 <a name="0.2.3"></a>
 ## [0.2.3](https://github.com/kisenka/svg-mixer/packages/svg-mixer-utils/compare/svg-mixer-utils@0.2.2...svg-mixer-utils@0.2.3) (2018-04-28)
 

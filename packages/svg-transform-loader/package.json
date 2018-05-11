@@ -1,6 +1,6 @@
 {
   "name": "svg-transform-loader",
-  "version": "0.2.0",
+  "version": "1.0.0",
   "description": "",
   "license": "MIT",
   "homepage": "https://github.com/kisenka/svg-mixer/packages/svg-transform-loader",
@@ -14,9 +14,9 @@
     "loader-utils": "^1.1.0",
     "merge-options": "^1.0.0",
     "postcss": "^6.0.21",
-    "posthtml-transform": "^0.1.1",
-    "postsvg": "^2.2.1",
-    "svg-mixer-utils": "^0.2.3"
+    "posthtml-transform": "^0.1.2",
+    "postsvg": "^2.2.2",
+    "svg-mixer-utils": "^0.3.0"
   },
   "devDependencies": {
     "css-loader": "^0.28.11",

@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="2.2.0"></a>
+# [2.2.0](https://github.com/kisenka/svg-mixer/packages/svg-mixer/compare/svg-mixer@2.1.0...svg-mixer@2.2.0) (2018-05-11)
+
+
+### Features
+
+* allow to pass parsed AST to image constructor ([3d82187](https://github.com/kisenka/svg-mixer/packages/svg-mixer/commit/3d82187))
+
+
+
+
 <a name="2.1.0"></a>
 # [2.1.0](https://github.com/kisenka/svg-mixer/packages/svg-mixer/compare/svg-mixer@2.0.3...svg-mixer@2.1.0) (2018-04-28)
 
