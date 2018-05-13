@@ -3,7 +3,7 @@ const { interpolateName } = require('loader-utils');
 const { NO_SPRITE_FILENAME } = require('./config');
 const generator = require('./utils/replacement-generator');
 
-module.exports = class Compiler extends Map {
+module.exports = class SpriteCompiler extends Map {
   /**
    * @return {Object<string, SpriteSymbol[]>}
    */

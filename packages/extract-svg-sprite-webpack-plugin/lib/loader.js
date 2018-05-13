@@ -11,22 +11,46 @@ module.exports = function (content, sourcemap, meta = {}) {
   const loader = this;
   const rootContext = loader.rootContext || loader.options.context;
   const plugin = getPluginFromLoader(loader);
-  const cfg = merge(plugin.config, getOptions(loader) || {});
+  const config = merge(plugin.config, getOptions(loader) || {});
   const request = loader.resourcePath + loader.resourceQuery;
 
-  const symbolId = interpolateName(loader, cfg.symbolId, {
+  const symbolId = interpolateName(loader, config.symbolId, {
     content,
     context: rootContext
   });
 
   const img = new mixer.Image(request, meta.ast || content);
-  const symbol = new cfg.symbolClass(symbolId, img);
+  const symbol = new config.symbolClass(symbolId, img);
 
-  symbol.options = cfg;
+  symbol.options = config;
   symbol.module = loader._module;
   symbol.request = request;
   plugin.addSymbol(symbol);
 
-  const replacement = generator.symbolRequest(symbol).value;
-  callback(null, `module.exports = ${JSON.stringify(replacement)}`, sourcemap, meta);
+  const requestReplacement = generator.symbolRequest(symbol).value;
+
+  const runtimeFields = {
+    id: `"${symbol.id}"`,
+    width: `${symbol.width}`,
+    height: `${symbol.height}`,
+    viewBox: `"${symbol.viewBox.join(' ')}"`,
+    url: `__webpack_public_path__ + "${requestReplacement}"`,
+    toString: `function () { return __webpack_public_path__ + "${requestReplacement}"; }`,
+
+    bgPosition: [
+      `left: "${generator.bgPosLeft(request).value}"`,
+      `top: "${generator.bgPosTop(request).value}"`
+    ].join(', '),
+
+    bgSize: [
+      `width: "${generator.bgSizeWidth(request).value}"`,
+      `height: "${generator.bgSizeHeight(request).value}"`
+    ].join(', ')
+  };
+
+  const runtime = `{
+  ${Object.keys(runtimeFields).map(name => `${name}: ${runtimeFields[name]}`)}
+}`;
+
+  callback(null, `module.exports = ${runtime}`, sourcemap, meta);
 };

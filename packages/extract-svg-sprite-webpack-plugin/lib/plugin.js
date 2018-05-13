@@ -2,7 +2,7 @@
 const merge = require('merge-options');
 const mixer = require('svg-mixer');
 
-const SpriteCompiler = require('./compiler');
+const SpriteCompiler = require('./sprite-compiler');
 const {
   NAMESPACE,
   LOADER_PATH,
@@ -17,8 +17,8 @@ const defaultConfig = {
   chunkFilename: '[name]-[hash].svg',
   emit: true,
   selector: null,
-  symbolClass: mixer.SpriteSymbol,
   spriteType: mixer.Sprite.TYPE,
+  symbolClass: mixer.SpriteSymbol,
   spriteClass: mixer.Sprite
 };
 
