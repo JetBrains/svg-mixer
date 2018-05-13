@@ -11,28 +11,67 @@ const {
 } = require('./config');
 const Replacer = require('./utils/replacer');
 
-const defaultConfig = {
-  symbolId: '[name]',
-  filename: 'sprite.svg',
-  chunkFilename: '[name]-[hash].svg',
-  emit: true,
-  selector: null,
-  spriteType: mixer.Sprite.TYPE,
-  symbolClass: mixer.SpriteSymbol,
-  spriteClass: mixer.Sprite
-};
-
 let INSTANCE_COUNTER = 0;
 
-class SvgSpritePlugin {
+/**
+ * @typedef {Object} ExtractSvgSpritePluginConfig
+ * @property {string|function} symbolId='[name]'
+ * @property {string|function} filename='sprite.svg'
+ * @property {boolean} emit=true
+ * @property {string[]} runtimeFields
+ * @property {string} selector=null
+ * @property {string} spriteType 'classic' | 'stack'
+ * @property {mixer.Sprite} spriteClass
+ * @property {mixer.SpriteSymbol} symbolClass
+ */
+
+class ExtractSvgSpritePlugin {
+  /**
+   * @return {ExtractSvgSpritePluginConfig}
+   */
+  static get defaultConfig() {
+    return {
+      symbolId: '[name]',
+      filename: 'sprite.svg',
+      emit: true,
+      runtimeFields: [
+        'id',
+        'width',
+        'height',
+        'viewBox',
+        'url',
+        'toString'
+      ],
+      selector: null,
+      spriteType: mixer.Sprite.TYPE,
+      spriteClass: mixer.Sprite,
+      symbolClass: mixer.SpriteSymbol
+    };
+  }
+
+  static extract(options) {
+    return { loader: LOADER_PATH, options };
+  }
+
+  static extractFromCss() {
+    return { loader: CSS_LOADER_PATH };
+  }
+
   constructor(cfg) {
     this.id = ++INSTANCE_COUNTER;
-    const config = merge(defaultConfig, cfg || {});
+    /**
+     * @type {ExtractSvgSpritePluginConfig}
+     */
+    const config = merge(this.constructor.defaultConfig, cfg || {});
 
     switch (config.spriteType) {
       default:
       case mixer.Sprite.TYPE:
         config.spriteClass = mixer.Sprite;
+        config.runtimeFields = config.runtimeFields.concat([
+          'bgPosition',
+          'bgSize'
+        ]);
         break;
 
       case mixer.StackSprite.TYPE:
@@ -44,24 +83,8 @@ class SvgSpritePlugin {
     this.compiler = new SpriteCompiler();
   }
 
-  static extract(options) {
-    return { loader: LOADER_PATH, options };
-  }
-
-  static extractFromCss() {
-    return { loader: CSS_LOADER_PATH };
-  }
-
   get NAMESPACE() {
     return NAMESPACE;
-  }
-
-  extract(options) {
-    return SvgSpritePlugin.extract(options);
-  }
-
-  extractFromCss() {
-    return SvgSpritePlugin.extractFromCss();
   }
 
   addSymbol(symbol) {
@@ -108,4 +131,4 @@ class SvgSpritePlugin {
   }
 }
 
-module.exports = SvgSpritePlugin;
+module.exports = ExtractSvgSpritePlugin;
