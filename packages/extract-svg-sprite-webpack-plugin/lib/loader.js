@@ -9,15 +9,14 @@ const getPluginFromLoader = require('./utils/get-plugin-from-loader');
 module.exports = function (content, sourcemap, meta = {}) {
   const callback = this.async();
   const loader = this;
-  const rootContext = loader.rootContext || loader.options.context;
+  const context = loader.rootContext || loader.options.context;
   const plugin = getPluginFromLoader(loader);
   const config = merge(plugin.config, getOptions(loader) || {});
   const request = loader.resourcePath + loader.resourceQuery;
 
-  const symbolId = interpolateName(loader, config.symbolId, {
-    content,
-    context: rootContext
-  });
+  const symbolId = typeof config.symbolId === 'function'
+    ? config.symbolId(loader.resourcePath, loader.resourceQuery)
+    : interpolateName(loader, config.symbolId, { content, context });
 
   const img = new mixer.Image(request, meta.ast || content);
   const symbol = new config.symbolClass(symbolId, img);

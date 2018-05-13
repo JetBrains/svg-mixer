@@ -15,8 +15,8 @@ let INSTANCE_COUNTER = 0;
 
 /**
  * @typedef {Object} ExtractSvgSpritePluginConfig
- * @property {string|function} symbolId='[name]'
- * @property {string|function} filename='sprite.svg'
+ * @property {string|function(path, query)} symbolId='[name]'
+ * @property {string|function(path, query)} filename='sprite.svg'
  * @property {boolean} emit=true
  * @property {string[]} runtimeFields
  * @property {string} selector=null

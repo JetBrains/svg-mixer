@@ -10,14 +10,14 @@ module.exports = class SpriteCompiler extends Map {
   groupBySpriteFileName() {
     return Array.from(this.keys()).reduce((acc, path) => {
       const symbol = this.get(path);
-      const options = symbol.options;
+      const { options, image } = symbol;
       let filename;
 
       if (!options.filename || !options.emit) {
         filename = NO_SPRITE_FILENAME;
       } else {
         filename = typeof options.filename === 'function'
-          ? options.filename(path)
+          ? options.filename(image.path, image.query)
           : options.filename;
       }
 
