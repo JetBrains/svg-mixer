@@ -1,13 +1,5 @@
 const generator = require('./replacement-generator');
 
-function bgPosition({ left, top }) {
-  return `{ left: "${left}", top: "${top}" }`;
-}
-
-function bgSize({ width, height }) {
-  return `{ width: "${width}", height: "${height}" }`;
-}
-
 module.exports = (symbol, fields) => {
   const request = symbol.image.path + symbol.image.query;
   const requestReplacement = generator.symbolRequest(symbol).value;
