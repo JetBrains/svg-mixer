@@ -109,7 +109,7 @@ class ExtractSvgSpritePlugin {
     if (compiler.hooks) {
       compiler.hooks.compilation.tap(NAMESPACE, compilation => {
         compilation.hooks.normalModuleLoader
-          .tap(NAMESPACE, loaderCtx => loaderCtx[NAMESPACE] = this);
+          .tap(NAMESPACE, loaderCtx => this.hookNormalModuleLoader(loaderCtx));
 
         compilation.hooks.additionalAssets
           .tapPromise(NAMESPACE, () => getSprites()
@@ -117,7 +117,10 @@ class ExtractSvgSpritePlugin {
       });
     } else {
       compiler.plugin('compilation', compilation => {
-        compilation.plugin('normal-module-loader', loaderCtx => loaderCtx[NAMESPACE] = this);
+        compilation.plugin(
+          'normal-module-loader',
+          loaderCtx => this.hookNormalModuleLoader(loaderCtx)
+        );
 
         compilation.plugin('additional-assets', done => getSprites().then(sprites => {
           this.hookAdditionalAssets(compilation, sprites);
