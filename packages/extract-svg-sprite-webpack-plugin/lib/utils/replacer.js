@@ -1,3 +1,5 @@
+const webpackVersion = require('webpack/package.json').version;
+
 module.exports = class Replacer {
   /**
    * @param {string} input
@@ -24,22 +26,33 @@ module.exports = class Replacer {
     return indexes;
   }
 
+  static getModuleReplaceSource(module, compilation) {
+    const cachedSource = webpackVersion >= '4.5.0'
+      ? module.source(compilation.dependencyTemplates)
+      : module.source();
+
+    const source = typeof cachedSource.replace === 'function'
+      ? cachedSource
+      : cachedSource._source;
+
+    return source;
+  }
+
   /**
    * @param {NormalModule} module
    * @param {Object<string, string>} replacements
-   * @return {NormalModule}
+   * @param {Compilation} compilation
+   * @return {void}
    */
-  static replaceInModuleSource(module, replacements) {
-    const source = module.source();
-    const content = module.originalSource().source();
+  static replaceInModuleSource(module, replacements, compilation) {
+    const replaceSource = Replacer.getModuleReplaceSource(module, compilation);
+    const originalSourceContent = module.originalSource().source();
 
     Object.keys(replacements).forEach(key => {
-      const indexes = Replacer.getAllStringOccurrences(content, key);
+      const indexes = Replacer.getAllStringOccurrences(originalSourceContent, key);
       indexes.forEach(([start, end]) => {
-        source.replace(start, end - 1, replacements[key]);
+        replaceSource.replace(start, end - 1, replacements[key]);
       });
     });
-
-    return module;
   }
 };

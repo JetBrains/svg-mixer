@@ -109,8 +109,8 @@ class ExtractSvgSpritePlugin {
 
           sprites.forEach(sprite => {
             sprite.symbols.forEach(s => {
-              Replacer.replaceInModuleSource(s.module, s.replacements);
-              Replacer.replaceInModuleSource(s.module.issuer, s.replacements);
+              Replacer.replaceInModuleSource(s.module, s.replacements, compilation);
+              Replacer.replaceInModuleSource(s.module.issuer, s.replacements, compilation);
             });
 
             if (sprite.filename !== NO_SPRITE_FILENAME) {

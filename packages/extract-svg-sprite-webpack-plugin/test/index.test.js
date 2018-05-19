@@ -1,5 +1,7 @@
 const path = require('path');
 
+const webpack = require('webpack');
+const memoryFs = require('memory-fs');
 const { sync: glob } = require('glob');
 
 const { createWebpackCompiler } = require('svg-mixer-test/utils');
@@ -11,11 +13,15 @@ glob(`${path.resolve(__dirname, 'cases')}/*/webpack.config.js`)
     const cfg = require(cfgPath);
 
     it(`case: ${caseName}`, async () => {
-      const { assets: rawAssets } = await createWebpackCompiler(cfg).run();
+      const compiler = createWebpackCompiler(cfg, {
+        webpack,
+        memoryFs
+      });
+      const { assets: rawAssets } = await compiler.run();
       const assets = {};
 
       Object.keys(rawAssets).forEach(name => {
-        assets[name] = rawAssets[name].source().toString();
+        assets[name] = rawAssets[name].source().toString().trim();
       });
 
       Object.keys(assets).forEach(name => {

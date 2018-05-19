@@ -19,6 +19,5 @@ exports[`case: extract-css 2`] = `
 .b {
   background: url(sprite.svg) no-repeat 0 0;
   background-size: 390.57% 446%;
-}
-"
+}"
 `;
