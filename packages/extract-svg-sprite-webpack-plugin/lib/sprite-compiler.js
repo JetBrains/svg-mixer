@@ -3,13 +3,23 @@ const { interpolateName } = require('loader-utils');
 const { NO_SPRITE_FILENAME } = require('./config');
 const generator = require('./utils/replacement-generator');
 
-module.exports = class SpriteCompiler extends Map {
+module.exports = class SpriteCompiler {
+  constructor(config) {
+    this.config = config;
+    this.symbols = new Map();
+  }
+
+  addSymbol(symbol) {
+    const request = symbol.image.path + symbol.image.query;
+    this.symbols.set(request, symbol);
+  }
+
   /**
    * @return {Object<string, SpriteSymbol[]>}
    */
   groupBySpriteFileName() {
-    return Array.from(this.keys()).reduce((acc, path) => {
-      const symbol = this.get(path);
+    return Array.from(this.symbols.keys()).reduce((acc, path) => {
+      const symbol = this.symbols.get(path);
       const { options, image } = symbol;
       let filename;
 
@@ -30,7 +40,8 @@ module.exports = class SpriteCompiler extends Map {
     }, {});
   }
 
-  compile({ spriteClass, spriteConfig }) {
+  compile() {
+    const { spriteClass, spriteConfig } = this.config;
     const filenames = this.groupBySpriteFileName();
 
     const promises = Object.keys(filenames).map(name => {

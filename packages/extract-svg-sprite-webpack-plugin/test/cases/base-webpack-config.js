@@ -2,20 +2,13 @@ const path = require('path');
 
 const merge = require('merge-options');
 
-const { FIXTURES_DIR } = require('svg-mixer-test/utils');
+const { FIXTURES_DIR, RemoveAssetsWebpackPlugin } = require('svg-mixer-test/utils');
 
 module.exports = (config = {}, options = {}) => {
   const plugins = config.plugins || [];
 
   if (Array.isArray(options.remove)) {
-    plugins.push({
-      apply(compiler) {
-        compiler.plugin('emit', (compilation, done) => {
-          options.remove.forEach(filename => delete compilation.assets[filename]);
-          done();
-        });
-      }
-    })
+    plugins.push(new RemoveAssetsWebpackPlugin(options.remove))
   }
 
   return merge({

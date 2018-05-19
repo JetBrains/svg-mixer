@@ -53,8 +53,8 @@ class ExtractSvgSpritePlugin {
     return { loader: LOADER_PATH, options };
   }
 
-  static extractFromCss() {
-    return { loader: CSS_LOADER_PATH };
+  static extractFromCss(options) {
+    return { loader: CSS_LOADER_PATH, options };
   }
 
   constructor(cfg) {
@@ -80,7 +80,7 @@ class ExtractSvgSpritePlugin {
     }
 
     this.config = config;
-    this.compiler = new SpriteCompiler();
+    this.compiler = new SpriteCompiler(config);
   }
 
   get NAMESPACE() {
@@ -88,46 +88,63 @@ class ExtractSvgSpritePlugin {
   }
 
   addSymbol(symbol) {
-    this.compiler.set(symbol.id, symbol);
+    this.compiler.addSymbol(symbol);
   }
 
   apply(compiler) {
+    // TODO refactor this ugly way to avoid double compilation when using extract-text-webpack-plugin
     let prevResult;
-
-    compiler.plugin('compilation', compilation => {
-      compilation.plugin('normal-module-loader', loaderContext => {
-        loaderContext[NAMESPACE] = this;
-      });
-
-      compilation.plugin('additional-assets', done => {
-        // TODO refactor this hacky way to work with extract-text-webpack-plugin
-        (prevResult
-          ? Promise.resolve(prevResult)
-          : this.compile()
-        ).then(sprites => {
-          prevResult = sprites;
-
-          sprites.forEach(sprite => {
-            sprite.symbols.forEach(s => {
-              Replacer.replaceInModuleSource(s.module, s.replacements, compilation);
-              Replacer.replaceInModuleSource(s.module.issuer, s.replacements, compilation);
-            });
-
-            if (sprite.filename !== NO_SPRITE_FILENAME) {
-              compilation.assets[sprite.filename] = {
-                source: () => sprite.content,
-                size: () => sprite.content.length
-              };
-            }
-          });
-          done();
-        });
-      });
+    /**
+     * @return {Promise<any>}
+     */
+    const getSprites = () => (
+      prevResult
+        ? Promise.resolve(prevResult)
+        : this.compiler.compile()
+    ).then(sprites => {
+      prevResult = sprites;
+      return sprites;
     });
+
+    if (compiler.hooks) {
+      compiler.hooks.compilation.tap(NAMESPACE, compilation => {
+        compilation.hooks.normalModuleLoader
+          .tap(NAMESPACE, loaderCtx => loaderCtx[NAMESPACE] = this);
+
+        compilation.hooks.additionalAssets
+          .tapPromise(NAMESPACE, () => getSprites()
+            .then(sprites => this.hookAdditionalAssets(compilation, sprites)));
+      });
+    } else {
+      compiler.plugin('compilation', compilation => {
+        compilation.plugin('normal-module-loader', loaderCtx => loaderCtx[NAMESPACE] = this);
+
+        compilation.plugin('additional-assets', done => getSprites().then(sprites => {
+          this.hookAdditionalAssets(compilation, sprites);
+          done();
+        }));
+      });
+    }
   }
 
-  compile() {
-    return this.compiler.compile(this.config);
+  hookNormalModuleLoader(loaderContext) {
+    loaderContext[NAMESPACE] = this;
+  }
+
+  hookAdditionalAssets(compilation, sprites) {
+    sprites.forEach(sprite => {
+      sprite.symbols.forEach(s => {
+        Replacer.replaceInModuleSource(s.module, s.replacements, compilation);
+        Replacer.replaceInModuleSource(s.module.issuer, s.replacements, compilation);
+      });
+
+      if (sprite.filename !== NO_SPRITE_FILENAME) {
+        compilation.assets[sprite.filename] = {
+          source: () => sprite.content,
+          size: () => sprite.content.length
+        };
+      }
+    });
   }
 }
 

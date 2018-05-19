@@ -9,6 +9,7 @@ module.exports.getFixture =
   filepath => readFileSync(path.resolve(FIXTURES_DIR, filepath)).toString();
 
 module.exports.createWebpackCompiler = require('./create-webpack-compiler');
-module.exports.testPostSvgPlugin = require('./test-postsvg-plugin');
 module.exports.EnvironmentManager = require('./environment-manager');
+module.exports.RemoveAssetsWebpackPlugin = require('./remove-assets-webpack-plugin');
+module.exports.testPostSvgPlugin = require('./test-postsvg-plugin');
 module.exports.webpackFeatureDetector = require('./webpack-feature-detector');
