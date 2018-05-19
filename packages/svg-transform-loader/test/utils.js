@@ -35,7 +35,7 @@ async function compile(input, opts) {
         }
       ]
     }
-  }, true);
+  }, { memoryInputFs: true });
 
   const { inputFileSystem: inputFs } = compiler;
 

@@ -1,8 +1,17 @@
+/* eslint-disable new-cap */
 const path = require('path');
 
 const merge = require('merge-options');
-const webpack = require('webpack');
-const MemoryFS = require('memory-fs');
+
+let _webpack;
+let _memoryFs;
+
+try {
+  _webpack = require('webpack');
+  _memoryFs = require('memory-fs');
+} catch (e) {
+  // nothing
+}
 
 /**
  * @param {Object} [config]
@@ -10,7 +19,11 @@ const MemoryFS = require('memory-fs');
  * @return {Compiler} compiler
  * @return {Function<Promise<Compilation>>} compiler.run
  */
-module.exports = (config, memoryInputFs = false) => {
+module.exports = (config, {
+  memoryInputFs = false,
+  webpack = _webpack,
+  memoryFs = _memoryFs
+} = {}) => {
   const cfg = merge({
     output: {
       path: path.resolve(process.cwd(), 'build'),
@@ -19,10 +32,10 @@ module.exports = (config, memoryInputFs = false) => {
   }, config);
 
   const compiler = webpack(cfg);
-  compiler.outputFileSystem = new MemoryFS();
+  compiler.outputFileSystem = new memoryFs();
 
   if (memoryInputFs) {
-    const inputFs = new MemoryFS();
+    const inputFs = new memoryFs();
     compiler.inputFileSystem = inputFs;
     compiler.resolvers.normal.fileSystem = inputFs;
     compiler.resolvers.context.fileSystem = inputFs;

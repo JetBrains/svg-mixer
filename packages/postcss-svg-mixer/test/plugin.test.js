@@ -109,7 +109,7 @@ describe('Behaviour', () => {
   it('should reuse symbols with the same url', async () => {
     const input = '.a{background:url(twitter.svg)}.b{background:url(twitter.svg)}';
     const { msg } = await exec(input);
-    msg.sprite.symbols.length.should.eql(1);
+    expect(msg.sprite.symbols).toHaveLength(1);
   });
 
   it('should treat same file with different query params as separate symbols', async () => {
@@ -118,7 +118,7 @@ describe('Behaviour', () => {
 .b{background:url(twitter.svg?qwe)}
 .c{background:url(twitter.svg)}`;
     const { msg } = await exec(input);
-    msg.sprite.symbols.length.should.eql(2);
+    expect(msg.sprite.symbols).toHaveLength(2);
   });
 });
 
@@ -136,11 +136,11 @@ describe('Webpack postcss-loader interop', () => {
     const ctx = mockWebpackCtx();
 
     let res = await exec(defaultInput, { ctx, spriteConfig: { filename } });
-    res.css.should.contain(`url('twitter.svg?spriteFilename=${filename}')`);
+    expect(res.css).toMatch(`url('twitter.svg?spriteFilename=${filename}')`);
 
     // Should preserve any query params from original resource
     res = await exec('.a {background: url(twitter.svg?qwe)}', { ctx, spriteConfig: { filename } });
-    res.css.should.contain(`url('twitter.svg?qwe&spriteFilename=${filename}')`);
+    expect(res.css).toMatch(`url('twitter.svg?qwe&spriteFilename=${filename}')`);
   });
 
   it('should emit sprite file', async () => {

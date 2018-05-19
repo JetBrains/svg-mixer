@@ -20,29 +20,31 @@ function isNode(node) {
 }
 
 it('static createFromArray', () => {
-  Tree.createFromArray([]).should.be.instanceOf(Tree);
+  expect(Tree.createFromArray([])).toBeInstanceOf(Tree);
 });
 
 it('get root', () => {
-  createImage().root.should.have.property('tag').and.eql('svg');
-  createImage().toString().should.be.a('string');
+  expect(createImage().root).toHaveProperty('tag', 'svg');
+  expect(typeof createImage().toString()).toBe('string');
 });
 
 it('clone', () => {
   const img = createImage();
-  img.clone().should.be.instanceOf(Tree).and.not.equal(img);
+  const clone = img.clone();
+  expect(clone).toBeInstanceOf(Tree);
+  expect(img === clone).toBeFalsy();
 });
 
 describe('select', () => {
   it('should select nodes', () => {
     const nodes = createImage().select('path');
-    nodes.should.be.a('array');
+    expect(Array.isArray(nodes)).toBeTruthy();
     expect(isNode(nodes[0])).toBeTruthy();
   });
 
   it('should select all nodes if called without arguments', () => {
     const nodes = createImage().select();
-    expect(nodes.length).toEqual(20);
+    expect(nodes.length).toBe(20);
     expect(nodes.every(isNode)).toBeTruthy();
   });
 });

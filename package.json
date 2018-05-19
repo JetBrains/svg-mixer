@@ -16,7 +16,6 @@
     "@commitlint/core": "6.1.3",
     "@jetbrains/logos": "^1.0.0",
     "@kisenka/eslint-config": "^1.0.2",
-    "chai": "4.1.2",
     "eslint": "4.19.1",
     "husky": "0.14.3",
     "jest": "^22.4.3",
@@ -25,8 +24,7 @@
     "memory-fs": "^0.4.1",
     "merge-options": "^1.0.1",
     "mocha": "5.0.5",
-    "pretty": "^2.0.0",
-    "svg-mixer-test": "0.0.0"
+    "pretty": "^2.0.0"
   },
   "scripts": {
     "bootstrap": "lerna bootstrap",

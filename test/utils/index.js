@@ -10,3 +10,5 @@ module.exports.getFixture =
 
 module.exports.createWebpackCompiler = require('./create-webpack-compiler');
 module.exports.testPostSvgPlugin = require('./test-postsvg-plugin');
+module.exports.EnvironmentManager = require('./environment-manager');
+module.exports.webpackFeatureDetector = require('./webpack-feature-detector');

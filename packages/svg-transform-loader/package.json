@@ -23,6 +23,7 @@
     "extract-text-webpack-plugin": "3",
     "file-loader": "^1.1.11",
     "postcss-loader": "^2.1.5",
+    "svg-mixer-test": "^0.1.0",
     "webpack": "3"
   }
 }

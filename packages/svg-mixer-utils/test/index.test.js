@@ -12,7 +12,7 @@ describe('findBgImageDecls', () => {
   const t = (input, expectedCount) => {
     const res = findBgDecls(parse(input));
     if (expectedCount) {
-      res.length.should.eql(expectedCount);
+      expect(res).toHaveLength(expectedCount);
     }
     return res;
   };
