@@ -4,6 +4,7 @@ const root = __dirname;
 
 module.exports = {
   setupTestFrameworkScriptFile: resolve(root, './test/jest-setup.js'),
+  testEnvironment: 'node',
 
   testMatch: [
     resolve(root, 'packages/*/test.js'),
