@@ -11,6 +11,7 @@ glob(`${path.resolve(__dirname, 'cases')}/*/webpack.config.js`)
     const caseDir = path.dirname(cfgPath);
     const caseName = path.basename(caseDir);
     const cfg = require(cfgPath);
+    cfg.context = caseDir;
 
     it(`case: ${caseName}`, async () => {
       const compiler = createWebpackCompiler(cfg, {

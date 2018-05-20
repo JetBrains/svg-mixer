@@ -1,15 +1,10 @@
-const { webpackFeatureDetector } = require('svg-mixer-test/utils');
-
-const supports = webpackFeatureDetector(require('webpack'));
+const utils = require('svg-mixer-test/utils');
+const supports = utils.webpackFeatureDetector(require('webpack'));
 const ExtractCssPlugin = !supports.miniCssExtractPlugin && require('extract-text-webpack-plugin');
 const MiniCssExtractPlugin = supports.miniCssExtractPlugin && require('mini-css-extract-plugin');
 const SpritePlugin = require('extract-svg-sprite-webpack-plugin');
 
-const config = require('../base-webpack-config');
-
-module.exports = config({
-  context: __dirname,
-
+module.exports = utils.createBaseWebpackConfig({
   entry: './entry.css',
 
   module: {
