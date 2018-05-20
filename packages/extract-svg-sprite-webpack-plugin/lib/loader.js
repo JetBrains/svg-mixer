@@ -24,9 +24,14 @@ module.exports = function (content, sourcemap, meta = {}) {
   symbol.options = config;
   symbol.module = loader._module;
   symbol.request = request;
+
   plugin.addSymbol(symbol);
 
-  const runtime = generateRuntime(symbol, config.runtimeFields);
+  const publicPath = config.publicPath
+    ? JSON.stringify(config.publicPath)
+    : '__webpack_public_path__';
 
-  callback(null, `module.exports = ${runtime}`, sourcemap, meta);
+  const runtime = generateRuntime(symbol, config.runtimeFields, publicPath);
+
+  callback(null, runtime, sourcemap, meta);
 };

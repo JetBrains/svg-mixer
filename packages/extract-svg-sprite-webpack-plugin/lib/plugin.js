@@ -33,6 +33,7 @@ class ExtractSvgSpritePlugin {
     return {
       symbolId: '[name]',
       filename: 'sprite.svg',
+      publicPath: undefined,
       emit: true,
       runtimeFields: [
         'id',
@@ -42,7 +43,7 @@ class ExtractSvgSpritePlugin {
         'url',
         'toString'
       ],
-      selector: null,
+      selector: undefined,
       spriteType: mixer.Sprite.TYPE,
       spriteClass: mixer.Sprite,
       symbolClass: mixer.SpriteSymbol
@@ -62,7 +63,7 @@ class ExtractSvgSpritePlugin {
     /**
      * @type {ExtractSvgSpritePluginConfig}
      */
-    const config = merge(this.constructor.defaultConfig, cfg || {});
+    const config = merge(this.constructor.defaultConfig, cfg);
 
     switch (config.spriteType) {
       default:
