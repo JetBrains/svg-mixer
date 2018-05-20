@@ -12,6 +12,9 @@ module.exports = function (content, sourcemap, meta = {}) {
   const loader = this;
   const context = loader.rootContext || loader.options.context;
   const plugin = getPluginFromLoader(loader);
+  /**
+   * @type {ExtractSvgSpritePluginConfig|defaultConfig}
+   */
   const config = configure(merge(plugin.config, getOptions(loader) || {}));
   const request = loader.resourcePath + loader.resourceQuery;
 
@@ -28,17 +31,7 @@ module.exports = function (content, sourcemap, meta = {}) {
 
   plugin.addSymbol(symbol);
 
-  const publicPath = config.publicPath
-    ? JSON.stringify(config.publicPath)
-    : '__webpack_public_path__';
-
-  const runtime = generateRuntime(
-    symbol,
-    config.runtimeFields,
-    config.filename && config.emit
-      ? publicPath
-      : undefined
-  );
+  const runtime = generateRuntime(symbol, config);
 
   callback(null, runtime, sourcemap, meta);
 };

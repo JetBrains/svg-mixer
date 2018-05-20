@@ -7,6 +7,7 @@ const mixer = require('svg-mixer');
  * @property {string|function(path, query)} symbolId='[name]'
  * @property {string|function(path, query)} filename='sprite.svg'
  * @property {boolean} emit=true
+ * @property {string} publicPath
  * @property {string[]} runtimeFields
  * @property {string} selector=null
  * @property {string} spriteType 'classic' | 'stack'

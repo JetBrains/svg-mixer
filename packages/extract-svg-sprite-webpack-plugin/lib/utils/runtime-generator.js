@@ -2,7 +2,12 @@ const generator = require('./replacement-generator');
 
 const stringify = JSON.stringify;
 
-module.exports = (symbol, fields, publicPath) => {
+/**
+ * @param {mixer.SpriteSymbol} symbol
+ * @param {ExtractSvgSpritePluginConfig} config
+ * @return {string}
+ */
+module.exports = (symbol, config) => {
   const request = symbol.image.path + symbol.image.query;
   const requestReplacement = generator.symbolRequest(symbol).value;
   const bgPosLeft = generator.bgPosLeft(request).value;
@@ -10,11 +15,16 @@ module.exports = (symbol, fields, publicPath) => {
   const bgSizeWidth = generator.bgSizeWidth(request).value;
   const bgSizeHeight = generator.bgSizeHeight(request).value;
 
-  const urlExpr = symbol.config.filename
+  const publicPath = config.publicPath
+    ? stringify(config.publicPath)
+    : '__webpack_public_path__';
+
+  // Do not add public path when there is no sprite filename
+  const urlExpr = config.filename && config.emit
     ? `${publicPath} + ${stringify(requestReplacement)}`
     : `${stringify(requestReplacement)}`;
 
-  const runtimeFields = {
+  const runtimeParts = {
     id: `${stringify(symbol.id)}`,
     width: `${symbol.width}`,
     height: `${symbol.height}`,
@@ -26,11 +36,11 @@ module.exports = (symbol, fields, publicPath) => {
   };
 
   const runtime = `module.exports = {
-  ${Object.keys(runtimeFields)
-    .filter(name => (fields ? fields.includes(name) : true))
-    .map(name => `${name}: ${runtimeFields[name]}`)
+  ${Object.keys(runtimeParts)
+    .filter(name => (config.runtimeFields ? config.runtimeFields.includes(name) : true))
+    .map(name => `${name}: ${runtimeParts[name]}`)
     .join(',\n  ')}
 }`;
 
   return runtime;
-}
+};
