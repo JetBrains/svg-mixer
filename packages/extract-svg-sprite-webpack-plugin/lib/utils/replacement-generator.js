@@ -25,11 +25,12 @@ function generate(id, replacementName = '') {
 }
 
 module.exports = class Generator {
-  static symbolRequest(symbol, filename) {
-    const { config } = symbol;
+  static symbolRequest(symbol, config) {
+    const { filename, emit } = config;
+    const request = symbol.image.path + symbol.image.query;
     let replaceTo;
 
-    if (!filename || !config.emit) {
+    if (!filename || !emit) {
       replaceTo = `#${symbol.id}`;
     } else {
       replaceTo = config.spriteType === mixer.StackSprite.TYPE
@@ -38,7 +39,7 @@ module.exports = class Generator {
     }
 
     return {
-      value: generate(REPLACEMENTS.SPRITE_FILENAME, symbol.request),
+      value: generate(REPLACEMENTS.SPRITE_FILENAME, request),
       replaceTo
     };
   }
@@ -71,13 +72,12 @@ module.exports = class Generator {
     };
   }
 
-  static symbol({ symbol, sprite, filename }) {
-    const position = sprite.calculateSymbolPosition(symbol, 'percent');
-    const request = symbol.request;
+  static symbol({ symbol, position, config }) {
+    const request = symbol.image.path + symbol.image.query;
 
     // css replacements
     const replacements = [
-      Generator.symbolRequest(symbol, filename),
+      Generator.symbolRequest(symbol, config),
       Generator.bgPosLeft(request, position),
       Generator.bgPosTop(request, position),
       Generator.bgSizeWidth(request, position),

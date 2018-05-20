@@ -11,9 +11,7 @@ module.exports = utils.createBaseWebpackConfig({
     rules: [
       {
         test: /\.svg$/,
-        ...SpritePlugin.extract({
-          publicPath: 'http://loh.com/'
-        })
+        ...SpritePlugin.extract()
       },
       {
         test: /\.css$/,

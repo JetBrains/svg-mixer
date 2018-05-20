@@ -75,7 +75,11 @@ module.exports = class SpriteCompiler {
           }
 
           sprite.symbols.forEach(symbol => {
-            symbol.replacements = generator.symbol({ symbol, sprite, filename });
+            symbol.replacements = generator.symbol({
+              symbol,
+              config: this.config,
+              position: sprite.calculateSymbolPosition(symbol, 'percent')
+            });
           });
 
           return new CompiledSprite(result);
