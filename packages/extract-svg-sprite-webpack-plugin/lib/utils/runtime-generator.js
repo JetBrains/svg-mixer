@@ -8,7 +8,7 @@ const stringify = JSON.stringify;
  * @return {string}
  */
 module.exports = (symbol, config) => {
-  const request = symbol.image.path + symbol.image.query;
+  const { request } = symbol;
   const requestReplacement = generator.symbolRequest(symbol, config).value;
   const bgPosLeft = generator.bgPosLeft(request).value;
   const bgPosTop = generator.bgPosTop(request).value;

@@ -27,7 +27,6 @@ function generate(id, replacementName = '') {
 module.exports = class Generator {
   static symbolRequest(symbol, config) {
     const { filename, emit } = config;
-    const request = symbol.image.path + symbol.image.query;
     let replaceTo;
 
     if (!filename || !emit) {
@@ -39,7 +38,7 @@ module.exports = class Generator {
     }
 
     return {
-      value: generate(REPLACEMENTS.SPRITE_FILENAME, request),
+      value: generate(REPLACEMENTS.SPRITE_FILENAME, symbol.request),
       replaceTo
     };
   }
@@ -73,7 +72,7 @@ module.exports = class Generator {
   }
 
   static symbol({ symbol, position, config }) {
-    const request = symbol.image.path + symbol.image.query;
+    const { request } = symbol;
 
     // css replacements
     const replacements = [

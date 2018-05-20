@@ -16,9 +16,11 @@ module.exports = class SpriteCompiler {
     this.symbols = new Map();
   }
 
+  /**
+   * @param {mixer.SpriteSymbol} symbol
+   */
   addSymbol(symbol) {
-    const request = symbol.image.path + symbol.image.query;
-    this.symbols.set(request, symbol);
+    this.symbols.set(symbol.request, symbol);
   }
 
   /**
