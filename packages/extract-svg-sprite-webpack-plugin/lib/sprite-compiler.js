@@ -79,7 +79,7 @@ module.exports = class SpriteCompiler {
           sprite.symbols.forEach(symbol => {
             symbol.replacements = generator.symbol({
               symbol,
-              config: this.config,
+              config: symbol.config,
               position: sprite.calculateSymbolPosition(symbol, 'percent')
             });
           });
