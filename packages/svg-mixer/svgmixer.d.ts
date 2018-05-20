@@ -74,6 +74,7 @@ declare namespace svgmixer {
     get width(): number | undefined;
     get height(): number | undefined;
     get viewBox(): number[] | undefined;
+    get request(): string | undefined;
     generate(): Promise<postsvg.Tree>
     render(): Promise<string>;
   }

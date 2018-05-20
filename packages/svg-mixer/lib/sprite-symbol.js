@@ -28,6 +28,14 @@ class SpriteSymbol {
   }
 
   /**
+   * @return {string}
+   */
+  get request() {
+    const { path, query } = this.image;
+    return path + query;
+  }
+
+  /**
    * @return {Promise<PostSvgTree>}
    */
   generate() {
