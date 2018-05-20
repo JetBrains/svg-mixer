@@ -1,5 +1,7 @@
 const generator = require('./replacement-generator');
 
+const stringify = JSON.stringify;
+
 module.exports = (symbol, fields, publicPath) => {
   const request = symbol.image.path + symbol.image.query;
   const requestReplacement = generator.symbolRequest(symbol).value;
@@ -8,15 +10,19 @@ module.exports = (symbol, fields, publicPath) => {
   const bgSizeWidth = generator.bgSizeWidth(request).value;
   const bgSizeHeight = generator.bgSizeHeight(request).value;
 
+  const urlExpr = symbol.config.filename
+    ? `${publicPath} + ${stringify(requestReplacement)}`
+    : `${stringify(requestReplacement)}`;
+
   const runtimeFields = {
-    id: `"${symbol.id}"`,
+    id: `${stringify(symbol.id)}`,
     width: `${symbol.width}`,
     height: `${symbol.height}`,
-    viewBox: `"${symbol.viewBox.join(' ')}"`,
-    url: `${publicPath} + "${requestReplacement}"`,
-    toString: `function () { return ${publicPath} + "${requestReplacement}"; }`,
-    bgPosition: `{ left: "${bgPosLeft}", top: "${bgPosTop}" }`,
-    bgSize: `{ width: "${bgSizeWidth}", height: "${bgSizeHeight}" }`
+    viewBox: `${stringify(symbol.viewBox.join(' '))}`,
+    url: urlExpr,
+    toString: `function () { return ${urlExpr}; }`,
+    bgPosition: `{ left: ${stringify(bgPosLeft)}, top: ${stringify(bgPosTop)} }`,
+    bgSize: `{ width: ${stringify(bgSizeWidth)}, height: ${stringify(bgSizeHeight)} }`
   };
 
   const runtime = `module.exports = {

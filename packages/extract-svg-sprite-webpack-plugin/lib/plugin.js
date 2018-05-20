@@ -1,87 +1,27 @@
-/* eslint-disable new-cap,no-param-reassign */
-const merge = require('merge-options');
-const mixer = require('svg-mixer');
-
+const configure = require('./configurator');
 const SpriteCompiler = require('./sprite-compiler');
 const {
   NAMESPACE,
   LOADER_PATH,
-  CSS_LOADER_PATH,
-  NO_SPRITE_FILENAME
+  CSS_LOADER_PATH
 } = require('./config');
 const Replacer = require('./utils/replacer');
 
 let INSTANCE_COUNTER = 0;
 
-/**
- * @typedef {Object} ExtractSvgSpritePluginConfig
- * @property {string|function(path, query)} symbolId='[name]'
- * @property {string|function(path, query)} filename='sprite.svg'
- * @property {boolean} emit=true
- * @property {string[]} runtimeFields
- * @property {string} selector=null
- * @property {string} spriteType 'classic' | 'stack'
- * @property {mixer.Sprite} spriteClass
- * @property {mixer.SpriteSymbol} symbolClass
- */
-
 class ExtractSvgSpritePlugin {
-  /**
-   * @return {ExtractSvgSpritePluginConfig}
-   */
-  static get defaultConfig() {
-    return {
-      symbolId: '[name]',
-      filename: 'sprite.svg',
-      publicPath: undefined,
-      emit: true,
-      runtimeFields: [
-        'id',
-        'width',
-        'height',
-        'viewBox',
-        'url',
-        'toString'
-      ],
-      selector: undefined,
-      spriteType: mixer.Sprite.TYPE,
-      spriteClass: mixer.Sprite,
-      symbolClass: mixer.SpriteSymbol
-    };
-  }
-
   static extract(options) {
     return { loader: LOADER_PATH, options };
   }
 
-  static extractFromCss(options) {
-    return { loader: CSS_LOADER_PATH, options };
+  static extractFromCss() {
+    return { loader: CSS_LOADER_PATH };
   }
 
   constructor(cfg) {
     this.id = ++INSTANCE_COUNTER;
-    /**
-     * @type {ExtractSvgSpritePluginConfig}
-     */
-    const config = merge(this.constructor.defaultConfig, cfg);
-
-    switch (config.spriteType) {
-      default:
-      case mixer.Sprite.TYPE:
-        config.spriteClass = mixer.Sprite;
-        config.runtimeFields = config.runtimeFields.concat([
-          'bgPosition',
-          'bgSize'
-        ]);
-        break;
-
-      case mixer.StackSprite.TYPE:
-        config.spriteClass = mixer.StackSprite;
-        break;
-    }
-
-    this.config = config;
-    this.compiler = new SpriteCompiler(config);
+    this.config = configure(cfg);
+    this.compiler = new SpriteCompiler(this.config);
   }
 
   get NAMESPACE() {
@@ -95,17 +35,17 @@ class ExtractSvgSpritePlugin {
   apply(compiler) {
     // TODO refactor this ugly way to avoid double compilation when using extract-text-webpack-plugin
     let prevResult;
-    /**
-     * @return {Promise<any>}
-     */
-    const getSprites = () => (
-      prevResult
-        ? Promise.resolve(prevResult)
-        : this.compiler.compile()
-    ).then(sprites => {
-      prevResult = sprites;
-      return sprites;
-    });
+    // eslint-disable-next-line arrow-body-style
+    const compileSprites = () => {
+      return (
+        prevResult
+          ? Promise.resolve(prevResult)
+          : this.compiler.compile()
+      ).then(result => {
+        prevResult = result;
+        return result;
+      });
+    };
 
     if (compiler.hooks) {
       compiler.hooks.compilation.tap(NAMESPACE, compilation => {
@@ -113,8 +53,8 @@ class ExtractSvgSpritePlugin {
           .tap(NAMESPACE, loaderCtx => this.hookNormalModuleLoader(loaderCtx));
 
         compilation.hooks.additionalAssets
-          .tapPromise(NAMESPACE, () => getSprites()
-            .then(sprites => this.hookAdditionalAssets(compilation, sprites)));
+          .tapPromise(NAMESPACE, () => compileSprites()
+            .then(result => this.hookAdditionalAssets(compilation, result)));
       });
     } else {
       compiler.plugin('compilation', compilation => {
@@ -123,8 +63,8 @@ class ExtractSvgSpritePlugin {
           loaderCtx => this.hookNormalModuleLoader(loaderCtx)
         );
 
-        compilation.plugin('additional-assets', done => getSprites().then(sprites => {
-          this.hookAdditionalAssets(compilation, sprites);
+        compilation.plugin('additional-assets', done => compileSprites().then(result => {
+          this.hookAdditionalAssets(compilation, result);
           done();
         }));
       });
@@ -135,17 +75,17 @@ class ExtractSvgSpritePlugin {
     loaderContext[NAMESPACE] = this;
   }
 
-  hookAdditionalAssets(compilation, sprites) {
-    sprites.forEach(sprite => {
+  hookAdditionalAssets(compilation, result) {
+    result.forEach(({ filename, content, sprite }) => {
       sprite.symbols.forEach(s => {
         Replacer.replaceInModuleSource(s.module, s.replacements, compilation);
         Replacer.replaceInModuleSource(s.module.issuer, s.replacements, compilation);
       });
 
-      if (sprite.filename !== NO_SPRITE_FILENAME) {
-        compilation.assets[sprite.filename] = {
-          source: () => sprite.content,
-          size: () => sprite.content.length
+      if (filename) {
+        compilation.assets[filename] = {
+          source: () => content,
+          size: () => content.length
         };
       }
     });

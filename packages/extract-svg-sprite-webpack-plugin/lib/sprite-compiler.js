@@ -1,7 +1,14 @@
 const { interpolateName } = require('loader-utils');
 
-const { NO_SPRITE_FILENAME } = require('./config');
 const generator = require('./utils/replacement-generator');
+
+class CompiledSprite {
+  constructor({ sprite, content, filename }) {
+    this.filename = filename;
+    this.content = content;
+    this.sprite = sprite;
+  }
+}
 
 module.exports = class SpriteCompiler {
   constructor(config) {
@@ -15,62 +22,66 @@ module.exports = class SpriteCompiler {
   }
 
   /**
-   * @return {Object<string, SpriteSymbol[]>}
+   * @return {Array<{filename?: string, symbols: SpriteSymbol[]}>}
    */
   groupBySpriteFileName() {
-    return Array.from(this.symbols.keys()).reduce((acc, path) => {
+    const sprites = [];
+
+    Array.from(this.symbols.keys()).forEach(path => {
       const symbol = this.symbols.get(path);
-      const { options, image } = symbol;
+      const { config, image } = symbol;
+
       let filename;
+      if (config.filename) {
+        filename = typeof config.filename === 'function'
+          ? config.filename(image.path, image.query)
+          : config.filename;
+      }
 
-      if (!options.filename || !options.emit) {
-        filename = NO_SPRITE_FILENAME;
+      let sprite = sprites.find(s => s.filename === filename);
+      if (!sprite) {
+        sprite = { symbols: [symbol] };
+        if (filename) {
+          sprite.filename = filename;
+        }
+        sprites.push(sprite);
       } else {
-        filename = typeof options.filename === 'function'
-          ? options.filename(image.path, image.query)
-          : options.filename;
+        sprite.symbols.push(symbol);
       }
+    });
 
-      if (!acc[filename]) {
-        acc[filename] = [];
-      }
-
-      acc[filename].push(symbol);
-      return acc;
-    }, {});
+    return sprites;
   }
 
+  /**
+   * @return {Promise<CompiledSprite[]>}
+   */
   compile() {
     const { spriteClass, spriteConfig } = this.config;
-    const filenames = this.groupBySpriteFileName();
 
-    const promises = Object.keys(filenames).map(name => {
-      const symbols = filenames[name];
+    const promises = this.groupBySpriteFileName().map(spriteData => {
+      const { filename, symbols } = spriteData;
       // eslint-disable-next-line new-cap
       const sprite = new spriteClass(spriteConfig, symbols);
 
       return sprite.render()
-        .then(content => ({
-          sprite,
-          symbols,
-          content,
-          filename: name.includes('[hash')
-            ? interpolateName(process.cwd(), name, { content })
-            : name
-        }));
+        .then(content => {
+          const result = { sprite, content };
+
+          if (filename) {
+            result.filename = filename.includes('[hash')
+              ? interpolateName(process.cwd(), filename, { content })
+              : filename;
+          }
+
+          sprite.symbols.forEach(symbol => {
+            symbol.replacements = generator.symbol({ symbol, sprite, filename });
+          });
+
+          return new CompiledSprite(result);
+        });
     });
 
-    return Promise.all(promises).then(result => {
-      result.forEach(data => {
-        data.symbols.forEach(symbol => {
-          symbol.replacements = generator.symbol({
-            symbol,
-            sprite: data.sprite,
-            filename: data.filename
-          });
-        });
-      });
-      return result;
-    });
+    return Promise.all(promises);
   }
 };

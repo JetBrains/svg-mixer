@@ -1,7 +1,7 @@
 const mixer = require('svg-mixer');
 const { getHashDigest } = require('loader-utils');
 
-const { NAMESPACE, NO_SPRITE_FILENAME } = require('../config');
+const { NAMESPACE } = require('../config');
 
 const TOKEN_START = '___';
 const TOKEN_END = '___';
@@ -26,17 +26,15 @@ function generate(id, replacementName = '') {
 
 module.exports = class Generator {
   static symbolRequest(symbol, filename) {
-    const { options } = symbol;
+    const { config } = symbol;
     let replaceTo;
 
-    if (typeof filename !== 'undefined') {
-      if (filename === NO_SPRITE_FILENAME || !options.emit) {
-        replaceTo = `#${symbol.id}`;
-      } else {
-        replaceTo = options.spriteType === mixer.StackSprite.TYPE
-          ? `${filename}#${symbol.id}`
-          : filename;
-      }
+    if (!filename || !config.emit) {
+      replaceTo = `#${symbol.id}`;
+    } else {
+      replaceTo = config.spriteType === mixer.StackSprite.TYPE
+        ? `${filename}#${symbol.id}`
+        : filename;
     }
 
     return {
