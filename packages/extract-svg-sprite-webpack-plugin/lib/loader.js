@@ -27,7 +27,6 @@ module.exports = function (content, sourcemap, meta = {}) {
 
   symbol.config = config;
   symbol.module = loader._module;
-  symbol.request = request;
 
   plugin.addSymbol(symbol);
 
