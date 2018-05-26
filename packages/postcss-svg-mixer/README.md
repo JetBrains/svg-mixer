@@ -8,7 +8,6 @@
 - [Installation](#installation)
 - [Usage](#usage)
   - [Via postcss.config.js](#via-postcss.config.js)
-  - [With webpack](#using-with-webpack)
 - [How it works](#how-it-works)
 - [Configuration](#configuration)
   - [`spriteType`](#spriteType)
@@ -67,48 +66,6 @@ module.exports = {
   ]
 }
 ```
-
-<a id="using-with-webpack"></a>
-### With webpack
-
-> :warning: It's better to use [extract-svg-sprite-webpack-plugin](https://github.com/kisenka/svg-mixer/tree/master/packages/extract-svg-sprite-webpack-plugin).
-> which uses this plugin under the hood.
-
-> **Note:** postcss-loader 1.* or >= 2.1.4 is required for this feature.
-
-When using webpack with [postcss-loader](https://github.com/postcss/postcss-loader)
-this plugin can automatically create sprite asset in compilation. To achieve this 
-you'll need to do 2 things:
-
-1. Setup special loader for SVG files, **if you use any loader to process svg it 
-   should be replaced with this single loader**:
-   ```js
-   // webpack.config.js
-   module.exports = {
-     module: {
-       rules: [
-         {
-           test: /\.svg$/,
-           loader: 'postcss-svg-mixer/loader'
-         }
-       ]
-     }
-   }
-   ``` 
-2. Add postcss-svg-mixer to plugins in postcss.config.js and **pass postcss-loader 
-   context as `ctx` option to it**:
-   ```js
-   // postcss.config.js
-   const mixer = require('postcss-svg-mixer');
-
-   module.exports = ctx => {
-     return {
-       plugins: [
-         mixer({ ctx, ...restOptions })
-       ]
-     };
-   }
-   ```
 
 ## How it works
 
