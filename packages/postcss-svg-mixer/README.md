@@ -71,6 +71,9 @@ module.exports = {
 <a id="using-with-webpack"></a>
 ### With webpack
 
+> :warning: It's better to use [extract-svg-sprite-webpack-plugin](https://github.com/kisenka/svg-mixer/tree/master/packages/extract-svg-sprite-webpack-plugin).
+> which uses this plugin under the hood.
+
 > **Note:** postcss-loader 1.* or >= 2.1.4 is required for this feature.
 
 When using webpack with [postcss-loader](https://github.com/postcss/postcss-loader)
