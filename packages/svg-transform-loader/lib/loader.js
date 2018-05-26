@@ -23,7 +23,7 @@ module.exports = function (content, map) {
   const transformCfg = loaderOpts.transform || this.resourceQuery.replace('?', '');
 
   if (!transformCfg) {
-    return callback(null, generateResult(content, loaderOpts.raw));
+    return callback(null, content, map);
   }
 
   postsvg()
