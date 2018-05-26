@@ -52,7 +52,7 @@ module.exports = (config, {
 
           if (stats.compilation.errors.length > 0) {
             const msg = stats.compilation.errors
-              .map(e => `${e.message}\nSTACK:\n${e.stack}`)
+              .map(e => (typeof e === 'string' ? e : `${e.message}\n${e.stack}`))
               .join('\n');
             return reject(new Error(msg));
           }
