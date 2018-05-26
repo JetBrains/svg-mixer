@@ -98,9 +98,7 @@ module.exports = {
     content: string
   }
   ```
-- If used via postcss-loader with webpack - emit sprite file in compilation 
-  assets ([see details](#using-with-webpack)).
-
+  
 ## Configuration
 
 <a id="spriteType"></a>
