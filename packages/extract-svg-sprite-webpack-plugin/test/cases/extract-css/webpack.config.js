@@ -5,7 +5,7 @@ const MiniCssExtractPlugin = supports.miniCssExtractPlugin && require('mini-css-
 const SpritePlugin = require('extract-svg-sprite-webpack-plugin');
 
 module.exports = utils.createBaseWebpackConfig({
-  entry: './entry.css',
+  entry: './main.css',
 
   module: {
     rules: [

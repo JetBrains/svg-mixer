@@ -34,7 +34,7 @@ module.exports = class SpriteCompiler {
       const { config, image } = symbol;
 
       let filename;
-      if (config.filename) {
+      if (config.filename && config.emit) {
         filename = typeof config.filename === 'function'
           ? config.filename(image.path, image.query)
           : config.filename;

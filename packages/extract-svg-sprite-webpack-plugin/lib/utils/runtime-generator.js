@@ -1,6 +1,7 @@
 const generator = require('./replacement-generator');
 
 const stringify = JSON.stringify;
+const makeExport = subj => `module.exports = ${subj}`;
 
 /**
  * @param {mixer.SpriteSymbol} symbol
@@ -9,6 +10,10 @@ const stringify = JSON.stringify;
  */
 module.exports = (symbol, config) => {
   const { request } = symbol;
+  const noRuntimeFields =
+    !config.runtimeFields ||
+    Array.isArray(config.runtimeFields) && config.runtimeFields.length === 0;
+
   const requestReplacement = generator.symbolRequest(symbol, config).value;
   const bgPosLeft = generator.bgPosLeft(request).value;
   const bgPosTop = generator.bgPosTop(request).value;
@@ -24,6 +29,10 @@ module.exports = (symbol, config) => {
     ? `${publicPath} + ${stringify(requestReplacement)}`
     : `${stringify(requestReplacement)}`;
 
+  if (noRuntimeFields) {
+    return makeExport(urlExpr);
+  }
+
   const runtimeParts = {
     id: `${stringify(symbol.id)}`,
     width: `${symbol.width}`,
@@ -35,12 +44,10 @@ module.exports = (symbol, config) => {
     bgSize: `{ width: ${stringify(bgSizeWidth)}, height: ${stringify(bgSizeHeight)} }`
   };
 
-  const runtime = `module.exports = {
+  return makeExport(`{
   ${Object.keys(runtimeParts)
     .filter(name => (config.runtimeFields ? config.runtimeFields.includes(name) : true))
     .map(name => `${name}: ${runtimeParts[name]}`)
     .join(',\n  ')}
-}`;
-
-  return runtime;
+}`);
 };

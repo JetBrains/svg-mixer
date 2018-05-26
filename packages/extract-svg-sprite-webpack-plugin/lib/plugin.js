@@ -32,6 +32,24 @@ class ExtractSvgSpritePlugin {
     this.compiler.addSymbol(symbol);
   }
 
+  isExtractTextPluginCompiler(compiler) {
+    return (
+      compiler.name && compiler.name.startsWith('extract-text-webpack-plugin')
+    );
+  }
+
+  isMiniCssExtractPlugin(compiler) {
+    return (
+      compiler.name && compiler.name.startsWith('mini-css-extract-plugin')
+    );
+  }
+
+  isHtmlPluginCompiler(compiler) {
+    return (
+      compiler.name && compiler.name.startsWith('html-webpack-plugin')
+    );
+  }
+
   apply(compiler) {
     // TODO refactor this ugly way to avoid double compilation when using extract-text-webpack-plugin
     let prevResult;
@@ -48,7 +66,7 @@ class ExtractSvgSpritePlugin {
     };
 
     if (compiler.hooks) {
-      compiler.hooks.compilation.tap(NAMESPACE, compilation => {
+      compiler.hooks.thisCompilation.tap(NAMESPACE, compilation => {
         compilation.hooks.normalModuleLoader
           .tap(NAMESPACE, loaderCtx => this.hookNormalModuleLoader(loaderCtx));
 
@@ -56,8 +74,29 @@ class ExtractSvgSpritePlugin {
           .tapPromise(NAMESPACE, () => compileSprites()
             .then(result => this.hookAdditionalAssets(compilation, result)));
       });
+
+      compiler.hooks.compilation.tap(NAMESPACE, compilation => {
+        if (this.isMiniCssExtractPlugin(compilation.compiler)) {
+          compilation.hooks.additionalAssets
+            .tapPromise(NAMESPACE, () => compileSprites()
+              .then(result => this.hookAdditionalAssets(compilation, result)));
+        }
+
+        if (compilation.hooks.htmlWebpackPluginBeforeHtmlGeneration) {
+          compilation.hooks.htmlWebpackPluginBeforeHtmlGeneration
+            .tapAsync(NAMESPACE, (htmlPluginData, done) => compileSprites()
+              .then(result => {
+                this.hookBeforeHtmlGeneration(htmlPluginData, result);
+                done(null, htmlPluginData);
+              }));
+        }
+      });
     } else {
       compiler.plugin('compilation', compilation => {
+        if (this.isHtmlPluginCompiler(compilation.compiler)) {
+          return;
+        }
+
         compilation.plugin(
           'normal-module-loader',
           loaderCtx => this.hookNormalModuleLoader(loaderCtx)
@@ -67,6 +106,15 @@ class ExtractSvgSpritePlugin {
           this.hookAdditionalAssets(compilation, result);
           done();
         }));
+
+        compilation.plugin(
+          'html-webpack-plugin-before-html-generation',
+          (htmlPluginData, done) => compileSprites().then(result => {
+            this.hookBeforeHtmlGeneration(htmlPluginData, result);
+            done(null, htmlPluginData);
+          })
+        );
+
       });
     }
   }
@@ -89,6 +137,11 @@ class ExtractSvgSpritePlugin {
         };
       }
     });
+  }
+
+  hookBeforeHtmlGeneration(htmlPluginData, result) {
+    htmlPluginData.assets.sprites = result
+      .map(({ filename, content }) => ({ filename, content }));
   }
 }
 

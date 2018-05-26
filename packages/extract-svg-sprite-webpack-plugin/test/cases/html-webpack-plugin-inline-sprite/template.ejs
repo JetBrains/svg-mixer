@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title><%= htmlWebpackPlugin.options.title %></title>
+</head>
+<body>
+<% if (htmlWebpackPlugin.files.sprites) { %>
+  <div style="position: absolute; width: 0; height: 0; overflow: hidden;">
+    <%= htmlWebpackPlugin.files
+      .sprites.map(({ content }) => content)
+      .join('\n') %>
+  </div>
+<% } %>
+
+<svg>
+  <use xlink:href="#twitter"></use>
+</svg>
+
+<svg>
+  <use xlink:href="#appcode"></use>
+</svg>
+
+</body>
+</html>

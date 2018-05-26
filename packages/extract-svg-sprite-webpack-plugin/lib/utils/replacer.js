@@ -27,15 +27,18 @@ module.exports = class Replacer {
   }
 
   static getModuleReplaceSource(module, compilation) {
-    const cachedSource = webpackVersion >= '4.5.0'
-      ? module.source(compilation.dependencyTemplates)
-      : module.source();
+    const args = [compilation.dependencyTemplates];
 
-    const source = typeof cachedSource.replace === 'function'
+    if (webpackVersion[0] === '3') {
+      args.push(compilation.outputOptions);
+      args.push(compilation.requestShortener);
+    }
+
+    const cachedSource = module.source(...args);
+
+    return typeof cachedSource.replace === 'function'
       ? cachedSource
       : cachedSource._source;
-
-    return source;
   }
 
   /**
