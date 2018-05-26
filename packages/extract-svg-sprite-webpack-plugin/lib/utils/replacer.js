@@ -26,6 +26,11 @@ module.exports = class Replacer {
     return indexes;
   }
 
+  /**
+   * @param {NormalModule} module
+   * @param {Compilation} compilation
+   * @return {ReplaceSource}
+   */
   static getModuleReplaceSource(module, compilation) {
     const args = [compilation.dependencyTemplates];
 
@@ -48,13 +53,26 @@ module.exports = class Replacer {
    * @return {void}
    */
   static replaceInModuleSource(module, replacements, compilation) {
-    const replaceSource = Replacer.getModuleReplaceSource(module, compilation);
+    const source = Replacer.getModuleReplaceSource(module, compilation);
     const originalSourceContent = module.originalSource().source();
 
     Object.keys(replacements).forEach(key => {
       const indexes = Replacer.getAllStringOccurrences(originalSourceContent, key);
-      indexes.forEach(([start, end]) => {
-        replaceSource.replace(start, end - 1, replacements[key]);
+      const replaceTo = replacements[key];
+
+      indexes.forEach(idx => {
+        const start = idx[0];
+        const end = idx[1] - 1;
+
+        const alreadyHasReplacement = source.replacements.find(r => (
+          r[0] === start && r[1] === end && r[2] === replaceTo
+        ));
+
+        if (alreadyHasReplacement) {
+          return;
+        }
+
+        source.replace(start, end, replaceTo);
       });
     });
   }
