@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="2.3.0"></a>
+# [2.3.0](https://github.com/kisenka/svg-mixer/packages/svg-mixer/compare/svg-mixer@2.2.0...svg-mixer@2.3.0) (2018-06-13)
+
+
+### Features
+
+* add request getter to symbol ([5e0d75d](https://github.com/kisenka/svg-mixer/packages/svg-mixer/commit/5e0d75d))
+
+
+
+
 <a name="2.2.0"></a>
 # [2.2.0](https://github.com/kisenka/svg-mixer/packages/svg-mixer/compare/svg-mixer@2.1.0...svg-mixer@2.2.0) (2018-05-11)
 
