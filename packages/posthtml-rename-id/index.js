@@ -77,21 +77,35 @@ function plugin(pattern) {
           }
         }
 
+        let idObj;
+
         switch (attrName) {
           case 'href':
-          case 'xlink:href': {
+          case 'xlink:href':
             if (value.substring(0, 1) !== '#') {
               break;
             }
 
             id = value.substring(1);
-            const idObj = mappedIds[id];
+            idObj = mappedIds[id];
             if (idObj) {
               idObj.referenced = false;
               attrs[attrName] = `#${idObj.id}`;
             }
             break;
-          }
+
+          case 'for':
+            if (node.tag !== 'label') {
+              break;
+            }
+
+            id = value;
+            idObj = mappedIds[id];
+            if (idObj) {
+              idObj.referenced = false;
+              attrs[attrName] = idObj.id;
+            }
+            break;
         }
       });
 

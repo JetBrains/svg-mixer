@@ -2,7 +2,10 @@ const { testPostSvgPlugin } = require('svg-mixer-test/utils');
 
 const plugin = require('.');
 
-const t = testPostSvgPlugin(plugin);
+const t = async (options, input, expected) => {
+  const result = await testPostSvgPlugin(plugin, false)(options, input);
+  expect(result).toEqual(expected);
+};
 const pattern = 'test_[id]';
 
 describe('posthtml-rename-id', () => {
@@ -90,5 +93,11 @@ describe('posthtml-rename-id', () => {
     pattern,
     '<svg><defs><style>.a {fill: url(#ref);}</style></defs><path /><path fill="url(#ref)" /></svg>',
     '<svg><defs><style>.a {fill: url(#ref);}</style></defs><path /><path fill="url(#ref)" /></svg>'
+  ));
+
+  it('should rename label[for] attr', () => t(
+    pattern,
+    '<label for="qwe"></label><input id="qwe" />',
+    '<label for="test_qwe"></label><input id="test_qwe" />'
   ));
 });
