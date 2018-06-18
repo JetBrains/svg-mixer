@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="2.3.1"></a>
+## [2.3.1](https://github.com/kisenka/svg-mixer/packages/svg-mixer/compare/svg-mixer@2.3.0...svg-mixer@2.3.1) (2018-06-18)
+
+
+
+
+**Note:** Version bump only for package svg-mixer
+
 <a name="2.3.0"></a>
 # [2.3.0](https://github.com/kisenka/svg-mixer/packages/svg-mixer/compare/svg-mixer@2.2.0...svg-mixer@2.3.0) (2018-06-13)
 

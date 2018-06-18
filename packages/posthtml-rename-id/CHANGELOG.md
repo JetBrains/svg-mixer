@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="1.0.8"></a>
+## [1.0.8](https://github.com/kisenka/svg-mixer/packages/posthtml-rename-id/compare/posthtml-rename-id@1.0.7...posthtml-rename-id@1.0.8) (2018-06-18)
+
+
+### Bug Fixes
+
+* handle `for` attr in label tag ([769fb73](https://github.com/kisenka/svg-mixer/packages/posthtml-rename-id/commit/769fb73)), closes [#27](https://github.com/kisenka/svg-mixer/packages/posthtml-rename-id/issues/27)
+
+
+
+
 <a name="1.0.7"></a>
 ## [1.0.7](https://github.com/kisenka/svg-mixer/packages/posthtml-rename-id/compare/posthtml-rename-id@1.0.6...posthtml-rename-id@1.0.7) (2018-05-11)
 
