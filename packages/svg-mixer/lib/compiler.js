@@ -1,4 +1,5 @@
 /* eslint-disable new-cap */
+const Path = require('path');
 const { promisify } = require('util');
 
 const merge = require('merge-options');
@@ -12,7 +13,6 @@ const Sprite = require('./sprite');
 const StackSprite = require('./stack-sprite');
 const SpriteSymbol = require('./sprite-symbol');
 const SymbolsMap = require('./sprite-symbols-map');
-const { getBasename } = require('./utils');
 
 class Compiler {
   /**
@@ -32,8 +32,9 @@ class Compiler {
       spriteClass: Sprite,
       symbolClass: SpriteSymbol,
       generateSymbolId: (path, query = '') => {
+        const basename = Path.basename(path, Path.extname(path));
         const decodedQuery = decodeURIComponent(decodeURIComponent(query));
-        return slugify(`${getBasename(path)}${decodedQuery}`);
+        return slugify(`${basename}${decodedQuery}`);
       }
     };
   }
