@@ -9,6 +9,7 @@
     "index.js"
   ],
   "dependencies": {
+    "ajv": "^6.5.1",
     "anymatch": "^2.0.0",
     "memory-fs": "^0.4.1",
     "merge-options": "^1.0.0",

@@ -29,6 +29,7 @@
     "postsvg": "^2.2.3",
     "pretty": "^2.0.0",
     "query-string": "^6.0.0",
+    "svg-mixer-utils": "^0.3.1",
     "traverse": "^0.6.6",
     "url-slug": "^2.0.0"
   }

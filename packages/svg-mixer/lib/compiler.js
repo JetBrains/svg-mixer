@@ -6,6 +6,7 @@ const merge = require('merge-options');
 const glob = promisify(require('glob-all'));
 const slugify = require('url-slug');
 const { readFile } = require('fs-extra');
+const { validate } = require('svg-mixer-utils');
 
 const CompilerResult = require('./compiler-result');
 const Image = require('./image');
@@ -51,7 +52,9 @@ class Compiler {
    * @param {CompilerConfig} [config]
    */
   constructor(config = {}) {
+    /** @type CompilerConfig */
     const cfg = merge(this.constructor.defaultConfig, config);
+
     switch (cfg.spriteType) {
       default:
       case Sprite.TYPE:
@@ -63,7 +66,13 @@ class Compiler {
         break;
     }
 
-    /** @type CompilerConfig */
+    const errors = validate(require('../schemas/compiler'), cfg);
+
+    if (errors.length) {
+      console.log(errors[0].message);
+      process.exit();
+    }
+
     this.config = cfg;
     this._symbols = new SymbolsMap();
   }

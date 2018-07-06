@@ -1,0 +1,44 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "spriteType",
+    "symbolId",
+    "filename",
+    "emit",
+    "publicPath",
+    "runtimeFields",
+    "selector",
+    "spriteClass",
+    "symbolClass"
+  ],
+  "items": {
+    "spriteType": {
+      "$ref": "config-definitions.json#/definitions/spriteType"
+    },
+    "symbolId": {
+      "$ref": "config-definitions.json#/definitions/symbolId"
+    },
+    "filename": {
+      "$ref": "config-definitions.json#/definitions/filename"
+    },
+    "emit": {
+      "$ref": "config-definitions.json#/definitions/emit"
+    },
+    "publicPath": {
+      "$ref": "config-definitions.json#/definitions/publicPath"
+    },
+    "runtimeFields": {
+      "$ref": "config-definitions.json#/definitions/runtimeFields"
+    },
+    "selector": {
+      "$ref": "config-definitions.json#/definitions/selector"
+    },
+    "spriteClass": {
+      "$ref": "config-definitions.json#/definitions/spriteClass"
+    },
+    "symbolClass": {
+      "$ref": "config-definitions.json#/definitions/symbolClass"
+    }
+  }
+}

@@ -1,0 +1,53 @@
+{
+  "definitions": {
+    "spriteType": {
+      "type": "string",
+      "default": "classic",
+      "enum": [
+        "classic",
+        "stack"
+      ]
+    },
+    "symbolId": {
+      "instanceof": ["Function", "String"]
+    },
+    "filename": {
+      "type": "string"
+    },
+    "emit": {
+      "type": "boolean",
+      "default": true
+    },
+    "publicPath": {
+      "type": "string"
+    },
+    "runtimeFields": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "id",
+          "width",
+          "height",
+          "viewBox",
+          "url",
+          "toString",
+          "bgPosition",
+          "bgSize",
+          "style"
+        ]
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "selector": {
+      "type": "string"
+    },
+    "spriteClass": {
+      "instanceof": "Function"
+    },
+    "symbolClass": {
+      "instanceof": "Function"
+    }
+  }
+}
