@@ -1,11 +1,13 @@
 const postsvg = require('postsvg');
 const transformPlugin = require('posthtml-transform');
-const { getOptions } = require('loader-utils');
+const { getOptions, parseQuery } = require('loader-utils');
+const { stringify: stringifyQuery } = require('query-string');
+const isEmpty = require('lodash.isempty');
 const merge = require('merge-options');
 
 const defaultConfig = {
   raw: true,
-  transform: null
+  transformQuery: null
 };
 
 function generateResult(content, raw = defaultConfig.raw) {
@@ -20,14 +22,18 @@ module.exports = function (content, map) {
 
   const callback = this.async();
   const loaderOpts = merge(defaultConfig, getOptions(this) || {});
-  const transformCfg = loaderOpts.transform || this.resourceQuery.replace('?', '');
+  const query = this.resourceQuery ? parseQuery(this.resourceQuery) : null;
 
-  if (!transformCfg) {
-    return callback(null, content, map);
+  if (!query || isEmpty(query)) {
+    return callback(null, generateResult(content, loaderOpts.raw), map);
+  }
+
+  if (typeof loaderOpts.transformQuery === 'function') {
+    loaderOpts.transformQuery(query);
   }
 
   postsvg()
-    .use(transformPlugin(transformCfg))
+    .use(transformPlugin(stringifyQuery(query)))
     .process(content)
     .then(res => {
       callback(null, generateResult(res.svg, loaderOpts.raw), map, {

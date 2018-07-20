@@ -1,8 +1,13 @@
 const { compile, imageReq } = require('./utils');
 
 it('should not modify input if no transform params', async () => {
-  const { image } = await compile(`require('${imageReq}')`);
-  expect(image).toMatchSnapshot();
+  let res = await compile(`require('${imageReq}')`);
+  expect(res.image).toMatchSnapshot();
+
+  res = await compile(`require('${imageReq}')`, {
+    transformQuery: query => query.stroke = 'black'
+  });
+  expect(res.image).toMatchSnapshot();
 });
 
 it('raw option', async () => {
@@ -19,10 +24,12 @@ it('raw option', async () => {
   expect(res.image).toMatchSnapshot();
 });
 
-it('should allow to configure global transformer', async () => {
+it('should allow to transform query', async () => {
   const { image } = await compile(
-    `require('${imageReq}')`,
-    { transform: node => node.attrs.fill = 'red' }
+    `require('${imageReq}?fill=red')`,
+    {
+      transformQuery: query => query.stroke = 'black'
+    }
   );
   expect(image).toMatchSnapshot();
 });

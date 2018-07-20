@@ -127,6 +127,10 @@ url-loader/svg-url-loader (to inline it in CSS code). However, sometimes you
 might need to get the image as a module (like, for rendering with React). In this 
 case, you'll need to set `raw: false`.
 
+### `transformQuery`
+
+TODO
+
 <a id="notices"></a>
 ## ⚠ Important notices
 
