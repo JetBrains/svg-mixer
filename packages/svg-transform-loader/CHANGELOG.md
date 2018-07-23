@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="1.2.0"></a>
+# [1.2.0](https://github.com/kisenka/svg-mixer/packages/svg-transform-loader/compare/svg-transform-loader@1.1.0...svg-transform-loader@1.2.0) (2018-07-23)
+
+
+### Features
+
+* allow to convert colors with alpha channel ([472cf7c](https://github.com/kisenka/svg-mixer/packages/svg-transform-loader/commit/472cf7c))
+
+
+
+
 <a name="1.1.0"></a>
 # [1.1.0](https://github.com/kisenka/svg-mixer/packages/svg-transform-loader/compare/svg-transform-loader@1.0.2...svg-transform-loader@1.1.0) (2018-07-20)
 
