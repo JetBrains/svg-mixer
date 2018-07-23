@@ -40,3 +40,11 @@ it('should allow to pass transformer params as query string', async () => {
   );
   expect(image).toMatchSnapshot();
 });
+
+it('should allow to convert colors with alpha channel', async () => {
+  const { image } = await compile(
+    `require('${imageReq}?fill=${encodeURIComponent('rgba(255, 0, 0, 0.5)')}')`,
+    { convertAlphaColors: true }
+  );
+  expect(image).toMatchSnapshot();
+});

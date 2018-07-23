@@ -7,35 +7,10 @@ const merge = require('merge-options');
 
 const defaultConfig = {
   raw: true,
-  transformQuery: null,
-  convertAlphaColors: false
+  transformQuery: null
 };
 
-/**
- * @param {string} value
- * @return {{space: string, alpha: number, values: number[]}|null}
- */
-function parseColor(value) {
-  const parsed = require('color-parse')(value);
-  return parsed.space && !isEmpty(parsed.values) ? parsed : null;
-}
-
-function convertAlphaColors(query) {
-  const fillParsed = query.fill ? parseColor(query.fill) : null;
-  const strokeParsed = query.stroke ? parseColor(query.stroke) : null;
-
-  if (fillParsed && fillParsed.alpha < 1) {
-    query.fill = `${fillParsed.space}(${fillParsed.values.join(', ')})`;
-    query['fill-opacity'] = fillParsed.alpha.toString();
-  }
-
-  if (strokeParsed && strokeParsed.alpha < 1) {
-    query.stroke = `${strokeParsed.space}(${strokeParsed.values.join(', ')})`;
-    query['stroke-opacity'] = strokeParsed.alpha.toString();
-  }
-}
-
-function generateResult(content, raw = defaultConfig.raw) {
+function generateLoaderResult(content, raw = true) {
   return raw ? content : `module.exports = ${JSON.stringify(content)}`;
 }
 
@@ -46,26 +21,28 @@ module.exports = function (content, map) {
   }
 
   const callback = this.async();
-  const opts = merge(defaultConfig, getOptions(this) || {});
+
+  const {
+    raw,
+    transformQuery,
+    ...transformPluginCfg
+  } = merge(defaultConfig, getOptions(this) || {});
+
   const query = this.resourceQuery ? parseQuery(this.resourceQuery) : null;
 
   if (!query || isEmpty(query)) {
-    return callback(null, generateResult(content, opts.raw), map);
+    return callback(null, generateLoaderResult(content, raw), map);
   }
 
-  if (typeof opts.transformQuery === 'function') {
-    opts.transformQuery(query);
-  }
-
-  if (opts.convertAlphaColors && (query.fill || query.stroke)) {
-    const color = parseColor();
+  if (typeof transformQuery === 'function') {
+    transformQuery(query);
   }
 
   postsvg()
-    .use(transformPlugin(stringifyQuery(query)))
+    .use(transformPlugin(stringifyQuery(query), transformPluginCfg))
     .process(content)
     .then(res => {
-      callback(null, generateResult(res.svg, opts.raw), map, {
+      callback(null, generateLoaderResult(res.svg, raw), map, {
         ast: res.tree
       });
     })
