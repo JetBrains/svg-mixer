@@ -1,7 +1,6 @@
 # posthtml-transform
 
-[PostHTML](https://github.com/posthtml/posthtml) plugin to add/modify tags and 
-attributes.
+[PostHTML](https://github.com/posthtml/posthtml) plugin to add/modify tags attributes.
 
 ## Demo
 
@@ -73,29 +72,6 @@ transform({ attr: 'fill', value: 'red' }); // add fill="red" to all nodes
 transform({ attr: 'fill', value: 'red', selector: 'path' }); // add fill="red" only to paths
 transform({ attr: 'stroke', value: 'black', selector: '#logo' }); // add `stroke` attr to node with id="logo"
 transform({ selector: 'g', tag: 'symbol' }); // rename all <g> to <symbol>
-```
-
-### Transformer as function
-
-Transformer also can be a function or array of functions which will be invoked on each node. 
-In this case you should handle modification by yourself:
-
-```js
-// clear all <g> tags
-transform(node => {
-  if (node.tag === 'g') {
-    node.content = [];
-  }
-});
-``` 
-
-`node` is an object with following structure:
-```
-Node<{
-  tag: string,
-  attrs?: Object,
-  content?: Array<Node>
-}>
 ```
 
 ### Transformer as URL query string

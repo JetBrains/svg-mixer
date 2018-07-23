@@ -1,52 +1,49 @@
-const isPlainObject = require('is-plain-object');
+const { merge } = require('lodash');
 const { match } = require('posthtml/lib/api');
 const matchHelper = require('posthtml-match-helper');
 
 const { name: packageName } = require('../package.json');
 
-const parseQueryToTransformerParams = require('./parse-query-to-transformer-params');
+const { normalizeRules } = require('./utils');
 
-module.exports = opts => {
-  let transformers;
+const defaultConfig = {
+  skipRootTag: true,
+  convertAlphaColors: false
+};
 
-  if (typeof opts === 'string') {
-    transformers = parseQueryToTransformerParams(opts);
-  } else if (isPlainObject(opts) || typeof opts === 'function') {
-    transformers = [opts];
-  } else if (Array.isArray(opts)) {
-    transformers = opts;
-  } else {
-    throw new Error(`${packageName}: options should be Object|Array<Object|Function>|Function`);
+module.exports = (rules, config = {}) => {
+  const cfg = merge(defaultConfig, config);
+
+  if (typeof rules !== 'string' && !Array.isArray(rules)) {
+    throw new Error(`${packageName}: rules should be \`Array<Object>|string\``);
   }
 
-  return tree => {
-    transformers.forEach(transformer => {
-      const isFunc = typeof transformer === 'function';
-      // posthtml matcher, see https://github.com/posthtml/posthtml/blob/master/docs/api.md#treematchexpression-cb--function
-      const matcher = isFunc || !transformer.selector
-        ? { tag: /.*/ }
-        : matchHelper(transformer.selector);
+  const normalizedRules = normalizeRules(rules, cfg);
 
-      const nodes = [];
-      match.call(tree, matcher, node => {
-        nodes.push(node);
+  return tree => {
+    const root = tree.find(n => n.tag && Array.isArray(n.content));
+    const nodes = cfg.skipRootTag ? root.content : tree;
+
+    normalizedRules.forEach(rule => {
+      // posthtml matcher, see https://github.com/posthtml/posthtml/blob/master/docs/api.md#treematchexpression-cb--function
+      const matcher = !rule.selector ? { tag: /.*/ } : matchHelper(rule.selector);
+      const nodesToProcess = [];
+
+      match.call(nodes, matcher, node => {
+        nodesToProcess.push(node);
         return node;
       });
 
-      nodes.forEach(node => {
-        if (isFunc) {
-          transformer(node);
-        } else {
-          const { attr, value, tag } = transformer;
+      nodesToProcess.forEach(node => {
+        const { attr, value, tag } = rule;
 
-          if (tag) {
-            node.tag = tag;
-          }
+        if (tag) {
+          node.tag = tag;
+        }
 
-          if (attr && value) {
-            node.attrs = node.attrs || {};
-            node.attrs[transformer.attr] = transformer.value;
-          }
+        if (attr && value) {
+          node.attrs = node.attrs || {};
+          node.attrs[rule.attr] = rule.value;
         }
       });
     });
