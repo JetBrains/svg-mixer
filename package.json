@@ -32,6 +32,7 @@
     "lint": "eslint packages scripts test",
     "publish": "lerna publish --conventional-commits --npm-client=npm",
     "publish:dry-run": "yarn run publish --skip-git --skip-npm",
+    "release": "lerna publish --conventional-commits --npm-client=npm",
     "test": "jest"
   }
 }
