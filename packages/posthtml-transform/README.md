@@ -79,8 +79,8 @@ transform({ selector: 'g', tag: 'symbol' }); // rename all <g> to <symbol>
 It is also possible to pass URL query params string to plugin. It will be parsed and converted to transformer params, e.g:
 
 ```js
-transform('?fill=red'); // => { attr: 'fill', value: 'red' }
-transform('?fill=red&20path'); // => { attr: 'fill', value: 'red, selector: 'path' }
+transform('fill=red'); // => { attr: 'fill', value: 'red' }
+transform('fill=red&20path'); // => { attr: 'fill', value: 'red, selector: 'path' }
 ```
 
 Parameter value has following syntax: `attr_name=attr_value optional_selector`.
@@ -88,9 +88,9 @@ Parameters can be combined, eg `fill=red&stroke=black`.
 
 Examples:
 ```
-?fill=red
-?fill=red path
-?fill=red .class
-?fill=red #id, black .class
-?fill=red #id&stroke=black .class
+fill=red
+fill=red path
+fill=red .class
+fill=red #id, black .class
+fill=red #id&stroke=black .class
 ```

@@ -70,11 +70,9 @@ function normalizeRules(rules, options = {}) {
 
   // Parse query string to rules
   if (typeof rules === 'string') {
-    if (!rules || rules === '?') {
-      return [];
-    }
-
-    const parsedQuery = parseQuery(rules);
+    // Append ? to the beginning so parseQuery able to parse
+    const query = rules.substr(0, 1) !== '?' ? `?${rules}` : rules;
+    const parsedQuery = parseQuery(query);
 
     normalized = Object.keys(parsedQuery).reduce((rules, attr) => {
       const value = parsedQuery[attr];
