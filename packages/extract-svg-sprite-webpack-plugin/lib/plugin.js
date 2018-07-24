@@ -10,11 +10,11 @@ const Replacer = require('./utils/replacer');
 let INSTANCE_COUNTER = 0;
 
 class ExtractSvgSpritePlugin {
-  static extract(options) {
+  static loader(options) {
     return { loader: LOADER_PATH, options };
   }
 
-  static extractFromCss() {
+  static cssLoader() {
     return { loader: CSS_LOADER_PATH };
   }
 
