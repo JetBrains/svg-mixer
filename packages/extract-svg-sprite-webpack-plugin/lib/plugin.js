@@ -28,10 +28,6 @@ class ExtractSvgSpritePlugin {
     return NAMESPACE;
   }
 
-  addSymbol(symbol) {
-    this.compiler.addSymbol(symbol);
-  }
-
   apply(compiler) {
     // TODO refactor this ugly way to avoid double compilation when using extract-text-webpack-plugin
     let prevResult;

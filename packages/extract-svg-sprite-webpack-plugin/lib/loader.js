@@ -28,7 +28,7 @@ module.exports = function (content, sourcemap, meta = {}) {
   symbol.config = config;
   symbol.module = loader._module;
 
-  plugin.addSymbol(symbol);
+  plugin.compiler.addSymbol(symbol);
 
   const runtime = generateRuntime(symbol, config);
 
