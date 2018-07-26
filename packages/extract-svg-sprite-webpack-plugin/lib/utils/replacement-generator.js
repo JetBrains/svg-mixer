@@ -3,9 +3,6 @@ const { getHashDigest } = require('loader-utils');
 
 const { NAMESPACE } = require('../config');
 
-const TOKEN_START = '___';
-const TOKEN_END = '___';
-
 const Replacements = {
   PUBLIC_PATH: 'public_path',
   SPRITE_FILENAME: 'sprite_filename',
@@ -25,12 +22,12 @@ function generateToken(id) {
     id
   ].filter(Boolean).join('');
 
-  return `${TOKEN_START}${getHashDigest(value)}${TOKEN_END}`;
+  return `___${getHashDigest(value)}___`;
 }
 
 class Replacement {
   constructor(token, replaceTo) {
-    this.value = generateToken(token);
+    this.token = generateToken(token);
     this.replaceTo = replaceTo;
   }
 }

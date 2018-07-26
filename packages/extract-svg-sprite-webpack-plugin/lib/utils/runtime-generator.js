@@ -14,14 +14,14 @@ module.exports = (symbol, config) => {
     !config.runtimeFields ||
     Array.isArray(config.runtimeFields) && config.runtimeFields.length === 0;
 
-  const requestReplacement = generator.symbolUrl(symbol, config).value;
-  const bgPosLeft = generator.bgPosLeft(request).value;
-  const bgPosTop = generator.bgPosTop(request).value;
-  const bgSizeWidth = generator.bgSizeWidth(request).value;
-  const bgSizeHeight = generator.bgSizeHeight(request).value;
+  const requestReplacement = generator.symbolUrl(symbol, config).token;
+  const bgPosLeft = generator.bgPosLeft(request).token;
+  const bgPosTop = generator.bgPosTop(request).token;
+  const bgSizeWidth = generator.bgSizeWidth(request).token;
+  const bgSizeHeight = generator.bgSizeHeight(request).token;
 
   const publicPath = config.publicPath
-    ? stringify(generator.publicPath(config.publicPath).value)
+    ? stringify(generator.publicPath(config.publicPath).token)
     : '__webpack_public_path__';
 
   // Do not add public path when there is no sprite filename

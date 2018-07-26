@@ -64,12 +64,12 @@ module.exports = function (content, sourcemap, meta = {}) {
         selector,
         position: {
           bgPosition: {
-            left: generator.bgPosLeft(request).value,
-            top: generator.bgPosTop(request).value
+            left: generator.bgPosLeft(request).token,
+            top: generator.bgPosTop(request).token
           },
           bgSize: {
-            width: generator.bgSizeWidth(request).value,
-            height: generator.bgSizeHeight(request).value
+            width: generator.bgSizeWidth(request).token,
+            height: generator.bgSizeHeight(request).token
           }
         }
       };
