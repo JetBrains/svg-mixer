@@ -32,24 +32,6 @@ class ExtractSvgSpritePlugin {
     this.compiler.addSymbol(symbol);
   }
 
-  isExtractTextPluginCompiler(compiler) {
-    return (
-      compiler.name && compiler.name.startsWith('extract-text-webpack-plugin')
-    );
-  }
-
-  isMiniCssExtractPlugin(compiler) {
-    return (
-      compiler.name && compiler.name.startsWith('mini-css-extract-plugin')
-    );
-  }
-
-  isHtmlPluginCompiler(compiler) {
-    return (
-      compiler.name && compiler.name.startsWith('html-webpack-plugin')
-    );
-  }
-
   apply(compiler) {
     // TODO refactor this ugly way to avoid double compilation when using extract-text-webpack-plugin
     let prevResult;
@@ -76,7 +58,10 @@ class ExtractSvgSpritePlugin {
       });
 
       compiler.hooks.compilation.tap(NAMESPACE, compilation => {
-        if (this.isMiniCssExtractPlugin(compilation.compiler)) {
+        if (
+          compilation.compiler.name &&
+          compilation.compiler.name.startsWith('mini-css-extract-plugin')
+        ) {
           compilation.hooks.additionalAssets
             .tapPromise(NAMESPACE, () => compileSprites(compilation)
               .then(result => this.hookAdditionalAssets(compilation, result)));
@@ -93,7 +78,10 @@ class ExtractSvgSpritePlugin {
       });
     } else {
       compiler.plugin('compilation', compilation => {
-        if (this.isHtmlPluginCompiler(compilation.compiler)) {
+        if (
+          compilation.compiler.name &&
+          compilation.compiler.name.startsWith('html-webpack-plugin')
+        ) {
           return;
         }
 
