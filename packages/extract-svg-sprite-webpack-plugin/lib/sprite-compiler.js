@@ -81,7 +81,7 @@ module.exports = class SpriteCompiler {
             const { config, request } = symbol;
             const position = sprite.calculateSymbolPosition(symbol, 'percent');
 
-            const replacements = [
+            symbol.replacements = [
               generator.symbolUrl(symbol, {
                 filename: result.filename,
                 emit: config.emit,
@@ -96,16 +96,11 @@ module.exports = class SpriteCompiler {
 
               generator.bgSizeHeight(request, position),
 
-              config.publicPath && generator.publicPath(
+              config.publicPath && new generator.Replacement(
                 config.publicPath,
                 compilation.getPath(config.publicPath)
               )
             ].filter(Boolean);
-
-            symbol.replacements = replacements.reduce((acc, replacement) => {
-              acc[replacement.value] = replacement.replaceTo;
-              return acc;
-            }, {});
           });
 
           return new CompiledSprite(result);

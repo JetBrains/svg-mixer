@@ -62,6 +62,11 @@ class ReplacementGenerator {
     );
   }
 
+  /**
+   * @param {string} symbolUrl
+   * @param {SpriteSymbolPosition} position
+   * @return {Replacement}
+   */
   static bgPosLeft(symbolUrl, position) {
     return new Replacement(
       `${Replacements.SYMBOL_BG_POSITION_LEFT}:${symbolUrl}`,
@@ -69,6 +74,11 @@ class ReplacementGenerator {
     );
   }
 
+  /**
+   * @param {string} symbolUrl
+   * @param {SpriteSymbolPosition} position
+   * @return {Replacement}
+   */
   static bgPosTop(symbolUrl, position) {
     return new Replacement(
       `${Replacements.SYMBOL_BG_POSITION_TOP}:${symbolUrl}`,
@@ -76,6 +86,11 @@ class ReplacementGenerator {
     );
   }
 
+  /**
+   * @param {string} symbolUrl
+   * @param {SpriteSymbolPosition} position
+   * @return {Replacement}
+   */
   static bgSizeWidth(symbolUrl, position) {
     return new Replacement(
       `${Replacements.SYMBOL_BG_SIZE_WIDTH}:${symbolUrl}`,
@@ -83,15 +98,16 @@ class ReplacementGenerator {
     );
   }
 
+  /**
+   * @param {string} symbolUrl
+   * @param {SpriteSymbolPosition} position
+   * @return {Replacement}
+   */
   static bgSizeHeight(symbolUrl, position) {
     return new Replacement(
       `${Replacements.SYMBOL_BG_SIZE_HEIGHT}:${symbolUrl}`,
       position ? position.bgSize.height : undefined
     );
-  }
-
-  static publicPath(url, path) {
-    return new Replacement(`${Replacements.PUBLIC_PATH}:${url}`, path);
   }
 }
 
