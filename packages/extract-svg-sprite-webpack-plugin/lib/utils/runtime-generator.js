@@ -14,7 +14,7 @@ module.exports = (symbol, config) => {
     !config.runtimeFields ||
     Array.isArray(config.runtimeFields) && config.runtimeFields.length === 0;
 
-  const requestReplacement = generator.symbolRequest(symbol, config).value;
+  const requestReplacement = generator.symbolUrl(symbol, config).value;
   const bgPosLeft = generator.bgPosLeft(request).value;
   const bgPosTop = generator.bgPosTop(request).value;
   const bgSizeWidth = generator.bgSizeWidth(request).value;

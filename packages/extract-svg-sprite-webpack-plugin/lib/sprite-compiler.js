@@ -82,7 +82,7 @@ module.exports = class SpriteCompiler {
             const position = sprite.calculateSymbolPosition(symbol, 'percent');
 
             const replacements = [
-              generator.symbolRequest(symbol, {
+              generator.symbolUrl(symbol, {
                 filename: result.filename,
                 emit: config.emit,
                 spriteType: config.spriteType
