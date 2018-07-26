@@ -11,7 +11,7 @@ module.exports = utils.createBaseWebpackConfig({
     rules: [
       {
         test: /\.svg$/,
-        ...SpritePlugin.extract()
+        ...SpritePlugin.loader()
       },
       {
         test: /\.css$/,
@@ -19,11 +19,11 @@ module.exports = utils.createBaseWebpackConfig({
           ? [
             MiniCssExtractPlugin.loader,
             'css-loader',
-            SpritePlugin.extractFromCss()
+            SpritePlugin.cssLoader()
           ]
           : ExtractCssPlugin.extract({use: [
               'css-loader',
-              SpritePlugin.extractFromCss()
+              SpritePlugin.cssLoader()
             ]
           })
       }

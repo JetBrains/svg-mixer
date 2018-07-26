@@ -1,7 +1,6 @@
 # posthtml-transform
 
-[PostHTML](https://github.com/posthtml/posthtml) plugin to add/modify tags and 
-attributes.
+[PostHTML](https://github.com/posthtml/posthtml) plugin to add/modify tags attributes.
 
 ## Demo
 
@@ -75,36 +74,13 @@ transform({ attr: 'stroke', value: 'black', selector: '#logo' }); // add `stroke
 transform({ selector: 'g', tag: 'symbol' }); // rename all <g> to <symbol>
 ```
 
-### Transformer as function
-
-Transformer also can be a function or array of functions which will be invoked on each node. 
-In this case you should handle modification by yourself:
-
-```js
-// clear all <g> tags
-transform(node => {
-  if (node.tag === 'g') {
-    node.content = [];
-  }
-});
-``` 
-
-`node` is an object with following structure:
-```
-Node<{
-  tag: string,
-  attrs?: Object,
-  content?: Array<Node>
-}>
-```
-
 ### Transformer as URL query string
 
 It is also possible to pass URL query params string to plugin. It will be parsed and converted to transformer params, e.g:
 
 ```js
-transform('?fill=red'); // => { attr: 'fill', value: 'red' }
-transform('?fill=red&20path'); // => { attr: 'fill', value: 'red, selector: 'path' }
+transform('fill=red'); // => { attr: 'fill', value: 'red' }
+transform('fill=red&20path'); // => { attr: 'fill', value: 'red, selector: 'path' }
 ```
 
 Parameter value has following syntax: `attr_name=attr_value optional_selector`.
@@ -112,9 +88,9 @@ Parameters can be combined, eg `fill=red&stroke=black`.
 
 Examples:
 ```
-?fill=red
-?fill=red path
-?fill=red .class
-?fill=red #id, black .class
-?fill=red #id&stroke=black .class
+fill=red
+fill=red path
+fill=red .class
+fill=red #id, black .class
+fill=red #id&stroke=black .class
 ```

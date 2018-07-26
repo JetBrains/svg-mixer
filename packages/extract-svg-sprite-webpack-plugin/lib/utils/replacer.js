@@ -48,7 +48,7 @@ module.exports = class Replacer {
 
   /**
    * @param {NormalModule} module
-   * @param {Object<string, string>} replacements
+   * @param {Replacement[]} replacements
    * @param {Compilation} compilation
    * @return {void}
    */
@@ -56,9 +56,8 @@ module.exports = class Replacer {
     const source = Replacer.getModuleReplaceSource(module, compilation);
     const originalSourceContent = module.originalSource().source();
 
-    Object.keys(replacements).forEach(key => {
-      const indexes = Replacer.getAllStringOccurrences(originalSourceContent, key);
-      const replaceTo = replacements[key];
+    replacements.forEach(({ token, replaceTo }) => {
+      const indexes = Replacer.getAllStringOccurrences(originalSourceContent, token);
 
       indexes.forEach(idx => {
         const start = idx[0];

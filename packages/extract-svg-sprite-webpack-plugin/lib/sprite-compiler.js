@@ -56,9 +56,10 @@ module.exports = class SpriteCompiler {
   }
 
   /**
+   * @param {Compilation} compilation
    * @return {Promise<CompiledSprite[]>}
    */
-  compile() {
+  compile(compilation) {
     const { spriteClass, spriteConfig } = this.config;
 
     const promises = this.groupBySpriteFileName().map(spriteData => {
@@ -77,11 +78,29 @@ module.exports = class SpriteCompiler {
           }
 
           sprite.symbols.forEach(symbol => {
-            symbol.replacements = generator.symbol({
-              symbol,
-              config: symbol.config,
-              position: sprite.calculateSymbolPosition(symbol, 'percent')
-            });
+            const { config, request: symbolUrl } = symbol;
+            const position = sprite.calculateSymbolPosition(symbol, 'percent');
+
+            symbol.replacements = [
+              generator.symbolUrl(symbol, {
+                filename: result.filename,
+                emit: config.emit,
+                spriteType: config.spriteType
+              }),
+
+              generator.bgPosLeft(symbolUrl, position),
+
+              generator.bgPosTop(symbolUrl, position),
+
+              generator.bgSizeWidth(symbolUrl, position),
+
+              generator.bgSizeHeight(symbolUrl, position),
+
+              config.publicPath && new generator.Replacement(
+                config.publicPath,
+                compilation.getPath(config.publicPath)
+              )
+            ].filter(Boolean);
           });
 
           return new CompiledSprite(result);

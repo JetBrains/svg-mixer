@@ -8,8 +8,10 @@ fill, stroke and other manipulations with image imported from CSS/SCSS/LESS/Styl
 - [Webpack config](#webpack-config)
 - [How to pass transform parameters](#how-to-pass-transform-parameters)
 - [Configuration](#configuration)
-- [Usage with css-loader](#usage-with-css-loader)
-- [Usage with resolve-url-loader](#usage-with-resolve-url-loader)
+- ⚠[Important notices](#notices)
+  - [Usage with css-loader](#usage-with-css-loader)
+  - [Usage with resolve-url-loader](#usage-with-resolve-url-loader)
+  - [Usage with file-loader](#usage-with-file-loader)
 
 ## Demo
 
@@ -73,7 +75,7 @@ module.exports = {
 
 This loader leaves any further SVG processing to your choice. You can use:
 - url-loader/svg-url-loader to inline the SVG into CSS.
-- file-loader to save SVG as a file.
+- file-loader to save SVG as a file (read the notice).
 
 ## How to pass transform parameters
 
@@ -125,7 +127,14 @@ url-loader/svg-url-loader (to inline it in CSS code). However, sometimes you
 might need to get the image as a module (like, for rendering with React). In this 
 case, you'll need to set `raw: false`.
 
-## Usage with css-loader
+### `transformQuery`
+
+TODO
+
+<a id="notices"></a>
+## ⚠ Important notices
+
+### Usage with css-loader
 
 Note that when using css-loader to handle CSS, sharp `#` symbol in image query 
 params should be encoded, because css-loader will treat it as 
@@ -145,7 +154,9 @@ To work around this you have several options.
 - Use special loader to encode sharp in CSS imports. svg-transform-loader comes 
   with special loader which can be used to encode sharp in CSS imports. This 
   loader should be defined **before** css-loader and after any other style 
-  loaders (webpack call loaders from right to left):
+  loaders (webpack call loaders from right to left). Please note that css-loader
+  [`importLoaders`](https://github.com/webpack-contrib/css-loader#importloaders) 
+  option should be set to `1` or higher:
   ```js
   // webpack.config.js
   module.exports = {
@@ -161,7 +172,12 @@ To work around this you have several options.
         {
           test: /\.scss$/,
           use: [
-            'css-loader',
+            {
+              loader: 'css-loader',
+              options: {
+                importLoaders: 1 // This option should be set to work with encode-query loader
+              }
+            },
             'svg-transform-loader/encode-query', // loader should be defined BEFORE css-loader
             'sass-loader' // but AFTER any other loaders which produces CSS
           ]
@@ -170,7 +186,7 @@ To work around this you have several options.
     }
   }
   ```
-  **NOTE**: encode loader uses PostCSS under the hood, so if you already have it on 
+  Encode loader uses PostCSS under the hood, so if you already have it on 
   the project it's better to use [postcss-move-props-to-bg-image-query](#postcss-move-props-to-bg-image-query)
   to avoid double parsing and performance downgrade. 
 - Encode sharp manually. Replace `#` with `%23` directly in import:
@@ -193,7 +209,7 @@ To work around this you have several options.
   }
   ```
 
-### Usage with resolve-url-loader
+#### Usage with resolve-url-loader
 
 If you're using resolve-url-loader for rewriting paths in SCSS/LESS/etc, keep in 
 mind that it will remove query string by default and svg-transform-loader will 
@@ -215,3 +231,8 @@ option to `true`:
   ]
 }
 ```
+
+#### Usage with file-loader
+
+Keep in mind that you should use `[hash]` token in [file-loader name option](https://github.com/webpack-contrib/file-loader#name), 
+otherwise webpack will create only 1 file per SVG image.
