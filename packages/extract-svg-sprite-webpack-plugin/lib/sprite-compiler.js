@@ -78,7 +78,7 @@ module.exports = class SpriteCompiler {
           }
 
           sprite.symbols.forEach(symbol => {
-            const { config, request } = symbol;
+            const { config, request: symbolUrl } = symbol;
             const position = sprite.calculateSymbolPosition(symbol, 'percent');
 
             symbol.replacements = [
@@ -88,13 +88,13 @@ module.exports = class SpriteCompiler {
                 spriteType: config.spriteType
               }),
 
-              generator.bgPosLeft(request, position),
+              generator.bgPosLeft(symbolUrl, position),
 
-              generator.bgPosTop(request, position),
+              generator.bgPosTop(symbolUrl, position),
 
-              generator.bgSizeWidth(request, position),
+              generator.bgSizeWidth(symbolUrl, position),
 
-              generator.bgSizeHeight(request, position),
+              generator.bgSizeHeight(symbolUrl, position),
 
               config.publicPath && new generator.Replacement(
                 config.publicPath,
