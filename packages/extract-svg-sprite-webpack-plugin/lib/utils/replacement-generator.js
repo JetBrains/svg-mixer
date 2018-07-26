@@ -7,6 +7,7 @@ const TOKEN_START = '___';
 const TOKEN_END = '___';
 
 const REPLACEMENTS = {
+  PUBLIC_PATH: 'public_path',
   SPRITE_FILENAME: 'sprite_filename',
   SYMBOL_BG_POSITION_LEFT: 'symbol_bg_position_left',
   SYMBOL_BG_POSITION_TOP: 'symbol_bg_position_top',
@@ -71,22 +72,11 @@ module.exports = class Generator {
     };
   }
 
-  static symbol({ symbol, position, config }) {
-    const { request } = symbol;
-
-    // css replacements
-    const replacements = [
-      Generator.symbolRequest(symbol, config),
-      Generator.bgPosLeft(request, position),
-      Generator.bgPosTop(request, position),
-      Generator.bgSizeWidth(request, position),
-      Generator.bgSizeHeight(request, position)
-    ];
-
-    return replacements.reduce((acc, replacement) => {
-      acc[replacement.value] = replacement.replaceTo;
-      return acc;
-    }, {});
+  static publicPath(request, path) {
+    return {
+      value: generate(REPLACEMENTS.PUBLIC_PATH, request),
+      replaceTo: path
+    };
   }
 };
 

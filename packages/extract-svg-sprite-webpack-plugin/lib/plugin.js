@@ -54,11 +54,11 @@ class ExtractSvgSpritePlugin {
     // TODO refactor this ugly way to avoid double compilation when using extract-text-webpack-plugin
     let prevResult;
     // eslint-disable-next-line arrow-body-style
-    const compileSprites = () => {
+    const compileSprites = compilation => {
       return (
         prevResult
           ? Promise.resolve(prevResult)
-          : this.compiler.compile()
+          : this.compiler.compile(compilation)
       ).then(result => {
         prevResult = result;
         return result;
@@ -71,20 +71,20 @@ class ExtractSvgSpritePlugin {
           .tap(NAMESPACE, loaderCtx => this.hookNormalModuleLoader(loaderCtx));
 
         compilation.hooks.additionalAssets
-          .tapPromise(NAMESPACE, () => compileSprites()
+          .tapPromise(NAMESPACE, () => compileSprites(compilation)
             .then(result => this.hookAdditionalAssets(compilation, result)));
       });
 
       compiler.hooks.compilation.tap(NAMESPACE, compilation => {
         if (this.isMiniCssExtractPlugin(compilation.compiler)) {
           compilation.hooks.additionalAssets
-            .tapPromise(NAMESPACE, () => compileSprites()
+            .tapPromise(NAMESPACE, () => compileSprites(compilation)
               .then(result => this.hookAdditionalAssets(compilation, result)));
         }
 
         if (compilation.hooks.htmlWebpackPluginBeforeHtmlGeneration) {
           compilation.hooks.htmlWebpackPluginBeforeHtmlGeneration
-            .tapAsync(NAMESPACE, (htmlPluginData, done) => compileSprites()
+            .tapAsync(NAMESPACE, (htmlPluginData, done) => compileSprites(compilation)
               .then(result => {
                 this.hookBeforeHtmlGeneration(htmlPluginData, result);
                 done(null, htmlPluginData);
@@ -102,14 +102,14 @@ class ExtractSvgSpritePlugin {
           loaderCtx => this.hookNormalModuleLoader(loaderCtx)
         );
 
-        compilation.plugin('additional-assets', done => compileSprites().then(result => {
+        compilation.plugin('additional-assets', done => compileSprites(compilation).then(result => {
           this.hookAdditionalAssets(compilation, result);
           done();
         }));
 
         compilation.plugin(
           'html-webpack-plugin-before-html-generation',
-          (htmlPluginData, done) => compileSprites().then(result => {
+          (htmlPluginData, done) => compileSprites(compilation).then(result => {
             this.hookBeforeHtmlGeneration(htmlPluginData, result);
             done(null, htmlPluginData);
           })
@@ -131,7 +131,7 @@ class ExtractSvgSpritePlugin {
       });
 
       if (filename) {
-        compilation.assets[filename] = {
+        compilation.assets[filename.split('?')[0]] = {
           source: () => content,
           size: () => content.length
         };

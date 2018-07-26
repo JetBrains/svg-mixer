@@ -21,7 +21,7 @@ module.exports = (symbol, config) => {
   const bgSizeHeight = generator.bgSizeHeight(request).value;
 
   const publicPath = config.publicPath
-    ? stringify(config.publicPath)
+    ? stringify(generator.publicPath(config.publicPath).value)
     : '__webpack_public_path__';
 
   // Do not add public path when there is no sprite filename
