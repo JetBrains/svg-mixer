@@ -12,6 +12,7 @@
   "repository": "https://github.com/kisenka/svg-mixer/packages/svg-mixer",
   "files": [
     "lib/",
+    "schemas/",
     "index.js",
     "namespaces.js",
     "svgmixer.d.ts"

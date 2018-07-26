@@ -69,8 +69,7 @@ class Compiler {
     const errors = validate(require('../schemas/compiler'), cfg);
 
     if (errors.length) {
-      console.log(errors[0].message);
-      process.exit();
+      throw new Error(errors.join('\n - '));
     }
 
     this.config = cfg;

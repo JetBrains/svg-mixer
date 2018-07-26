@@ -1,3 +1,5 @@
+const { validate } = require('svg-mixer-utils');
+
 const configure = require('./configurator');
 const SpriteCompiler = require('./sprite-compiler');
 const {
@@ -21,6 +23,13 @@ class ExtractSvgSpritePlugin {
   constructor(cfg) {
     this.id = ++INSTANCE_COUNTER;
     this.config = configure(cfg);
+
+    const errors = validate(require('../schemas/plugin'), this.config);
+
+    if (errors.length) {
+      throw new Error(errors.join('\n'));
+    }
+
     this.compiler = new SpriteCompiler(this.config);
   }
 

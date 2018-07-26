@@ -16,20 +16,17 @@ const mixer = require('svg-mixer');
  */
 
 module.exports = {
-  NAMESPACE: fs.realpathSync(__dirname),
-  LOADER_PATH: require.resolve('./loader'),
   CSS_LOADER_PATH: require.resolve('./css-loader'),
-  NO_SPRITE_FILENAME: '_',
+  LOADER_PATH: require.resolve('./loader'),
+  NAMESPACE: fs.realpathSync(__dirname),
 
   /**
    * @return {ExtractSvgSpritePluginConfig}
    */
   get plugin() {
     return {
-      spriteType: mixer.Sprite.TYPE,
-      symbolId: '[name]',
-      filename: 'sprite.svg',
       emit: true,
+      filename: 'sprite.svg',
       publicPath: undefined,
       runtimeFields: [
         'id',
@@ -40,9 +37,11 @@ module.exports = {
         'toString'
       ],
       selector: undefined,
-      spriteConfig: undefined,
       spriteClass: mixer.Sprite,
-      symbolClass: mixer.SpriteSymbol
+      spriteConfig: undefined,
+      spriteType: mixer.Sprite.TYPE,
+      symbolClass: mixer.SpriteSymbol,
+      symbolId: '[name]'
     };
   }
 };
