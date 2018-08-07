@@ -47,7 +47,7 @@ describe('Options', () => {
       content: spriteContent
     } = await mixer(resolve(FIXTURES_DIR, 'twitter.svg'));
 
-    const res = await exec(defaultInput, { sprite });
+    const res = await exec(defaultInput, { userSprite: sprite });
 
     expect(res.css).toMatchSnapshot();
     expect(res.msg.content).toEqual(spriteContent);

@@ -47,13 +47,17 @@ module.exports = (jsonSchema, data) => {
     // eslint-disable-next-line default-case
     switch (error.keyword) {
       case 'instanceOf':
-        message = `should be a ${error.schema.map(t => t.toLowerCase()).join(' or ')}`;
+        message = `should be ${error.schema.join(' or ')}`;
         break;
 
       case 'required':
         if (!field && error.params.missingProperty) {
           message = `${error.params.missingProperty} is required`;
         }
+        break;
+
+      case 'additionalProperties':
+        message = `should not have additional property ${error.params.additionalProperty}`;
         break;
     }
 
