@@ -28,7 +28,5 @@ module.exports = (cfg = {}) => {
       break;
   }
 
-  console.log(config.runtimeFields);
-
   return config;
 };
