@@ -57,7 +57,6 @@ module.exports = (jsonSchema, data) => {
         break;
     }
 
-    message = field ? `${field} ${message}` : message;
-    return new Error(message);
+    return field ? `\`${field}\` ${message}` : message;
   });
 };
