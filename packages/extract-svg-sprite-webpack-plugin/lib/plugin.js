@@ -1,43 +1,60 @@
 const { validate } = require('svg-mixer-utils');
 
+const { name: packageName } = require('../package.json');
+const schemas = require('../schemas');
+
+const config = require('./config');
 const configure = require('./configurator');
-const SpriteCompiler = require('./sprite-compiler');
-const {
-  NAMESPACE,
-  LOADER_PATH,
-  CSS_LOADER_PATH
-} = require('./config');
 const Replacer = require('./utils/replacer');
+const SpriteCompiler = require('./sprite-compiler');
 
 let INSTANCE_COUNTER = 0;
 
 class ExtractSvgSpritePlugin {
   static loader(options) {
-    return { loader: LOADER_PATH, options };
+    if (options) {
+      const errors = validate(schemas.loader, options);
+
+      if (errors.length) {
+        throw new Error(`${packageName}: ${errors.join('\n')}`);
+      }
+    }
+
+    return { loader: config.LOADER_PATH, options };
   }
 
-  static cssLoader() {
-    return { loader: CSS_LOADER_PATH };
+  static cssLoader(options) {
+    if (options) {
+      const errors = validate(schemas.cssLoader, options);
+
+      if (errors.length) {
+        throw new Error(`${packageName}: ${errors.join('\n')}`);
+      }
+    }
+
+    return { loader: config.CSS_LOADER_PATH };
   }
 
   constructor(cfg) {
     this.id = ++INSTANCE_COUNTER;
     this.config = configure(cfg);
 
-    const errors = validate(require('../schemas/plugin'), this.config);
+    const errors = validate(schemas.plugin, this.config);
 
     if (errors.length) {
-      throw new Error(errors.join('\n'));
+      throw new Error(`${packageName}: ${errors.join('\n')}`);
     }
 
     this.compiler = new SpriteCompiler(this.config);
   }
 
   get NAMESPACE() {
-    return NAMESPACE;
+    return config.NAMESPACE;
   }
 
   apply(compiler) {
+    const { NAMESPACE } = config;
+
     // TODO refactor this ugly way to avoid double compilation when using extract-text-webpack-plugin
     let prevResult;
     // eslint-disable-next-line arrow-body-style
@@ -113,7 +130,7 @@ class ExtractSvgSpritePlugin {
   }
 
   hookNormalModuleLoader(loaderContext) {
-    loaderContext[NAMESPACE] = this;
+    loaderContext[config.NAMESPACE] = this;
   }
 
   hookAdditionalAssets(compilation, result) {

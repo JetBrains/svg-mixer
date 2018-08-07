@@ -1,5 +1,5 @@
 /* eslint-disable func-names,consistent-this,new-cap */
-const merge = require('merge-options');
+const merge = require('lodash.merge');
 const RuleSet = require('webpack/lib/RuleSet');
 const { urlToRequest } = require('loader-utils');
 const postcss = require('postcss');
@@ -55,7 +55,7 @@ module.exports = function (content, sourcemap, meta = {}) {
       }
 
       const svgLoaderOpts = svgLoaderRule ? svgLoaderRule.value.options : {};
-      const { spriteType, selector } = merge(plugin.config, svgLoaderOpts);
+      const { spriteType, selector } = merge({}, plugin.config, svgLoaderOpts);
 
       const transformOpts = {
         decl,

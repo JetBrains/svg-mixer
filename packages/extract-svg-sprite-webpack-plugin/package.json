@@ -11,7 +11,7 @@
   "dependencies": {
     "ajv": "^6.5.1",
     "loader-utils": "^1.1.0",
-    "merge-options": "^1.0.0",
+    "lodash.merge": "^4.6.1",
     "postcss": "^6.0.22",
     "postcss-svg-mixer": "^0.3.5",
     "svg-mixer": "^2.3.2",

@@ -1,4 +1,4 @@
-const merge = require('merge-options');
+const merge = require('lodash.merge');
 const mixer = require('svg-mixer');
 
 const { plugin: defaultConfig } = require('./config');
@@ -8,7 +8,7 @@ const { plugin: defaultConfig } = require('./config');
  * @return {ExtractSvgSpritePluginConfig}
  */
 module.exports = (cfg = {}) => {
-  const config = merge(defaultConfig, cfg);
+  const config = merge({}, defaultConfig, cfg);
 
   switch (config.spriteType) {
     default:
@@ -27,6 +27,8 @@ module.exports = (cfg = {}) => {
       config.spriteClass = mixer.StackSprite;
       break;
   }
+
+  console.log(config.runtimeFields);
 
   return config;
 };

@@ -1,5 +1,5 @@
 /* eslint-disable func-names,consistent-this,new-cap */
-const merge = require('merge-options');
+const merge = require('lodash.merge');
 const mixer = require('svg-mixer');
 const { interpolateName, getOptions } = require('loader-utils');
 
@@ -15,7 +15,7 @@ module.exports = function (content, sourcemap, meta = {}) {
   /**
    * @type {ExtractSvgSpritePluginConfig|defaultConfig}
    */
-  const config = configure(merge(plugin.config, getOptions(loader) || {}));
+  const config = configure(merge({}, plugin.config, getOptions(loader) || {}));
   const request = loader.resourcePath + loader.resourceQuery;
 
   const symbolId = typeof config.symbolId === 'function'

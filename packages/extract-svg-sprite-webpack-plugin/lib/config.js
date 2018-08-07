@@ -1,5 +1,7 @@
 const fs = require('fs');
 
+const { merge } = require('lodash');
+
 const mixer = require('svg-mixer');
 
 /**
@@ -23,25 +25,23 @@ module.exports = {
   /**
    * @return {ExtractSvgSpritePluginConfig}
    */
-  get plugin() {
-    return {
-      emit: true,
-      filename: 'sprite.svg',
-      publicPath: undefined,
-      runtimeFields: [
-        'id',
-        'width',
-        'height',
-        'viewBox',
-        'url',
-        'toString'
-      ],
-      selector: undefined,
-      spriteClass: mixer.Sprite,
-      spriteConfig: undefined,
-      spriteType: mixer.Sprite.TYPE,
-      symbolClass: mixer.SpriteSymbol,
-      symbolId: '[name]'
-    };
+  plugin: {
+    emit: true,
+    filename: 'sprite.svg',
+    publicPath: undefined,
+    runtimeFields: [
+      'id',
+      'width',
+      'height',
+      'viewBox',
+      'url',
+      'toString'
+    ],
+    selector: undefined,
+    spriteClass: mixer.Sprite,
+    spriteConfig: undefined,
+    spriteType: mixer.Sprite.TYPE,
+    symbolClass: mixer.SpriteSymbol,
+    symbolId: '[name]'
   }
 };
