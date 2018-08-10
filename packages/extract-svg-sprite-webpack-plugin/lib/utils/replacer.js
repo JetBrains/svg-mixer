@@ -1,4 +1,4 @@
-const webpackVersion = require('webpack/package.json').version;
+const webpackVersion = parseInt(require('webpack/package.json').version, 10);
 
 module.exports = class Replacer {
   /**
@@ -34,7 +34,8 @@ module.exports = class Replacer {
   static getModuleReplaceSource(module, compilation) {
     const args = [compilation.dependencyTemplates];
 
-    if (webpackVersion[0] === '3') {
+    // eslint-disable-next-line no-magic-numbers
+    if (webpackVersion <= 3) {
       args.push(compilation.outputOptions);
       args.push(compilation.requestShortener);
     }

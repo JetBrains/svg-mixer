@@ -6,14 +6,14 @@ const { interpolateName, getOptions } = require('loader-utils');
 const {
   configurator: configure,
   runtimeGenerator: generateRuntime,
-  getPluginFromLoaderContext
+  helpers
 } = require('./utils');
 
 module.exports = function (content, sourcemap, meta = {}) {
   const callback = this.async();
   const loader = this;
   const context = loader.rootContext || loader.options.context;
-  const plugin = getPluginFromLoaderContext(loader);
+  const plugin = helpers.getPluginFromLoaderContext(loader);
   /**
    * @type {ExtractSvgSpritePluginConfig|defaultConfig}
    */

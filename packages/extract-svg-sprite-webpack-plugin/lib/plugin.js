@@ -6,6 +6,10 @@ const schemas = require('../schemas');
 const config = require('./config');
 const SpriteCompiler = require('./sprite-compiler');
 const { configurator: configure, Replacer } = require('./utils');
+const {
+  isHtmlPluginCompilation,
+  isMiniExtractCompilation
+} = require('./utils').helpers;
 
 let INSTANCE_COUNTER = 0;
 
@@ -79,10 +83,7 @@ class ExtractSvgSpritePlugin {
       });
 
       compiler.hooks.compilation.tap(NAMESPACE, compilation => {
-        if (
-          compilation.compiler.name &&
-          compilation.compiler.name.startsWith('mini-css-extract-plugin')
-        ) {
+        if (isMiniExtractCompilation(compilation)) {
           compilation.hooks.additionalAssets
             .tapPromise(NAMESPACE, () => compileSprites(compilation)
               .then(result => this.hookAdditionalAssets(compilation, result)));
@@ -99,10 +100,7 @@ class ExtractSvgSpritePlugin {
       });
     } else {
       compiler.plugin('compilation', compilation => {
-        if (
-          compilation.compiler.name &&
-          compilation.compiler.name.startsWith('html-webpack-plugin')
-        ) {
+        if (isHtmlPluginCompilation(compilation)) {
           return;
         }
 
@@ -133,6 +131,7 @@ class ExtractSvgSpritePlugin {
   }
 
   hookAdditionalAssets(compilation, result) {
+
     result.forEach(({ filename, content, sprite }) => {
       sprite.symbols.forEach(s => {
         Replacer.replaceInModuleSource(s.module, s.replacements, compilation);

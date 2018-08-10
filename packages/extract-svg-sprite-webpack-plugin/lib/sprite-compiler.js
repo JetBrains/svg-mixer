@@ -1,6 +1,6 @@
 const { interpolateName } = require('loader-utils');
 
-const generator = require('./utils/replacement-generator');
+const { ReplacementGenerator: generator, helpers } = require('./utils');
 
 class CompiledSprite {
   constructor({ sprite, content, filename }) {

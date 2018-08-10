@@ -8,7 +8,7 @@ const transformDecl = require('postcss-svg-mixer/lib/transform-declaration');
 
 const { LOADER_PATH } = require('./config');
 const {
-  getPluginFromLoaderContext,
+  helpers,
   ReplacementGenerator: generator
 } = require('./utils');
 
@@ -35,7 +35,7 @@ module.exports = function (content, sourcemap, meta = {}) {
       .then(() => ({ decl, helper }));
   });
 
-  const plugin = getPluginFromLoaderContext(loader);
+  const plugin = helpers.getPluginFromLoaderContext(loader);
   const ruleMatcher = new RuleSet(loader._compiler.options.module.rules);
 
   Promise.all(resolvePromises).then(data => {
