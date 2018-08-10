@@ -4,7 +4,7 @@ module.exports = class Replacer {
   /**
    * @param {string} input
    * @param {string} needle
-   * @return {Array}
+   * @return {Array<number>[]}
    */
   static getAllStringOccurrences(input, needle) {
     const indexes = [];
