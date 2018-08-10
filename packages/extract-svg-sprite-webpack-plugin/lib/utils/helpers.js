@@ -67,6 +67,18 @@ function isMiniExtractCompilation(compilation) {
 module.exports.isMiniExtractCompilation = isMiniExtractCompilation;
 
 /**
+ * @param {Compilation} compilation
+ * @return {Compilation}
+ */
+function getRootCompilation(compilation) {
+  return compilation.compiler.isChild()
+    ? compilation.compiler.parentCompilation
+    : compilation;
+}
+
+module.exports.getRootCompilation = getRootCompilation;
+
+/**
  * @param {Object} loaderContext
  * @return {ExtractSvgSpritePlugin}
  */

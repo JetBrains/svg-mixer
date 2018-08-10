@@ -4,7 +4,7 @@ const { name: packageName } = require('../package.json');
 const schemas = require('../schemas');
 
 const config = require('./config');
-const SpriteCompiler = require('./sprite-compiler');
+const SpriteCompiler = require('./utils/sprite-compiler');
 const { configurator: configure, Replacer } = require('./utils');
 const {
   isHtmlPluginCompilation,
@@ -74,15 +74,15 @@ class ExtractSvgSpritePlugin {
 
     if (compiler.hooks) {
       compiler.hooks.thisCompilation.tap(NAMESPACE, compilation => {
-        compilation.hooks.normalModuleLoader
-          .tap(NAMESPACE, loaderCtx => this.hookNormalModuleLoader(loaderCtx));
-
         compilation.hooks.additionalAssets
           .tapPromise(NAMESPACE, () => compileSprites(compilation)
             .then(result => this.hookAdditionalAssets(compilation, result)));
       });
 
       compiler.hooks.compilation.tap(NAMESPACE, compilation => {
+        compilation.hooks.normalModuleLoader
+          .tap(NAMESPACE, loaderCtx => this.hookNormalModuleLoader(loaderCtx));
+
         if (isMiniExtractCompilation(compilation)) {
           compilation.hooks.additionalAssets
             .tapPromise(NAMESPACE, () => compileSprites(compilation)

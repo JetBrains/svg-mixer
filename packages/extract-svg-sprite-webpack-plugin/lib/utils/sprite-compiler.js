@@ -1,6 +1,6 @@
 const { interpolateName } = require('loader-utils');
 
-const { ReplacementGenerator: generator, helpers } = require('./utils');
+const generator = require('./replacement-generator');
 
 class CompiledSprite {
   constructor({ sprite, content, filename }) {
@@ -64,6 +64,7 @@ module.exports = class SpriteCompiler {
 
     const promises = this.groupBySpriteFileName().map(spriteData => {
       const { filename, symbols } = spriteData;
+
       // eslint-disable-next-line new-cap
       const sprite = new spriteClass(spriteConfig, symbols);
 
