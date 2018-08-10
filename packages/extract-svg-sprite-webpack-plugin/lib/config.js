@@ -1,7 +1,5 @@
 const fs = require('fs');
 
-const { merge } = require('lodash');
-
 const mixer = require('svg-mixer');
 
 /**

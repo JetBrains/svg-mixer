@@ -1,7 +1,7 @@
 const merge = require('lodash.merge');
 const mixer = require('svg-mixer');
 
-const { plugin: defaultConfig } = require('./config');
+const { plugin: defaultConfig } = require('../config');
 
 /**
  * @param {ExtractSvgSpritePluginConfig} cfg

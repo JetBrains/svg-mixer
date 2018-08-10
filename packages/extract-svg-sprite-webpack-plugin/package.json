@@ -9,7 +9,6 @@
     "lib/"
   ],
   "dependencies": {
-    "ajv": "^6.5.1",
     "loader-utils": "^1.1.0",
     "lodash.merge": "^4.6.1",
     "postcss": "^6.0.22",

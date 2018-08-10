@@ -4,9 +4,8 @@ const { name: packageName } = require('../package.json');
 const schemas = require('../schemas');
 
 const config = require('./config');
-const configure = require('./configurator');
-const Replacer = require('./utils/replacer');
 const SpriteCompiler = require('./sprite-compiler');
+const { configurator: configure, Replacer } = require('./utils');
 
 let INSTANCE_COUNTER = 0;
 

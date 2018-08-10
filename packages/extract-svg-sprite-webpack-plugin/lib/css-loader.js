@@ -7,8 +7,10 @@ const { findBgDecls } = require('svg-mixer-utils/lib/postcss');
 const transformDecl = require('postcss-svg-mixer/lib/transform-declaration');
 
 const { LOADER_PATH } = require('./config');
-const getPluginFromLoader = require('./utils/get-plugin-from-loader');
-const generator = require('./utils/replacement-generator');
+const {
+  getPluginFromLoaderContext,
+  ReplacementGenerator: generator
+} = require('./utils');
 
 module.exports = function (content, sourcemap, meta = {}) {
   const loader = this;
@@ -33,7 +35,7 @@ module.exports = function (content, sourcemap, meta = {}) {
       .then(() => ({ decl, helper }));
   });
 
-  const plugin = getPluginFromLoader(loader);
+  const plugin = getPluginFromLoaderContext(loader);
   const ruleMatcher = new RuleSet(loader._compiler.options.module.rules);
 
   Promise.all(resolvePromises).then(data => {

@@ -3,15 +3,17 @@ const merge = require('lodash.merge');
 const mixer = require('svg-mixer');
 const { interpolateName, getOptions } = require('loader-utils');
 
-const configure = require('./configurator');
-const generateRuntime = require('./utils/runtime-generator');
-const getPluginFromLoader = require('./utils/get-plugin-from-loader');
+const {
+  configurator: configure,
+  runtimeGenerator: generateRuntime,
+  getPluginFromLoaderContext
+} = require('./utils');
 
 module.exports = function (content, sourcemap, meta = {}) {
   const callback = this.async();
   const loader = this;
   const context = loader.rootContext || loader.options.context;
-  const plugin = getPluginFromLoader(loader);
+  const plugin = getPluginFromLoaderContext(loader);
   /**
    * @type {ExtractSvgSpritePluginConfig|defaultConfig}
    */
