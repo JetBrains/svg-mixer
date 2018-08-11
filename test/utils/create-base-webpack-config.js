@@ -19,8 +19,6 @@ module.exports = (config = {}, options = {}) => {
       filename: '[name].js'
     },
 
-    mode: 'development',
-
     devtool: false,
 
     resolve: {
