@@ -55,7 +55,13 @@ module.exports = class Replacer {
    */
   static replaceInModuleSource(module, replacements, compilation) {
     const source = Replacer.getModuleReplaceSource(module, compilation);
-    const originalSourceContent = module.originalSource().source();
+    const originalSource = module.originalSource();
+
+    if (originalSource === null) {
+      return;
+    }
+
+    const originalSourceContent = originalSource.source();
 
     replacements.forEach(({ token, replaceTo }) => {
       const indexes = Replacer.getAllStringOccurrences(originalSourceContent, token);

@@ -27,11 +27,10 @@ module.exports = class SpriteCompiler {
   }
 
   /**
-   * @param {string} key
    * @param {SpriteSymbol} symbol
    */
-  addSymbol(key, symbol) {
-    this._symbols.set(key, symbol);
+  addSymbol(symbol) {
+    this._symbols.set(symbol.key, symbol);
   }
 
   /**
@@ -90,10 +89,26 @@ module.exports = class SpriteCompiler {
     return result;
   }
 
+  addIfNotExists(sprites, filename, symbol) {
+    let sprite = sprites.find(s => s.filename === filename);
+
+    if (!sprite) {
+      sprite = { symbols: [symbol] };
+      if (filename) {
+        sprite.filename = filename;
+      }
+      sprites.push(sprite);
+    } else {
+      sprite.symbols.push(symbol);
+    }
+  }
+
   /**
-   * @return {Array<{filename?: string, symbols: SpriteSymbol[]}>}
+   * TODO simplify
+   * @return {Promise<Array<{filename?: string, symbols: SpriteSymbol[]}>>}
    */
   groupBySpriteFileName(compilation) {
+    const sprites = [];
     const filenames = {};
     const leadingSlashRegex = /^\//;
     const fileExtensionRegex = /\..*$/;
@@ -129,34 +144,94 @@ module.exports = class SpriteCompiler {
             .replace(TOKENS.CHUNK_NAME, withoutExt)
             .replace(TOKENS.CHUNK_HASH, chunk.renderedHash);
 
-          if (!filenames[chunkName]) {
-            filenames[chunkName] = [];
-          }
-
-          filenames[chunkName].push(symbol);
+          this.addIfNotExists(sprites, chunkName, symbol);
         });
       } else {
-        if (!filenames[filename]) {
-          filenames[filename] = [];
-        }
-
-        filenames[filename].push(symbol);
+        this.addIfNotExists(sprites, filename, symbol);
       }
     });
 
-    return filenames;
+    // const uniqueSymbolsPromises = Object.keys(filenames).map(filename => {
+    //   const symbols = filenames[filename];
+    //   const uniqueSymbolsMap = new Map();
+    //
+    //   const promises = symbols.map(s => s.render().then(content => {
+    //     uniqueSymbolsMap.set(content, s);
+    //   }));
+    //
+    //   return Promise.all(promises).then(() => {
+    //     filenames[filename] = Array.from(uniqueSymbolsMap.values());
+    //   });
+    // });
+    // return Promise.all(uniqueSymbolsPromises).then(() => filenames);
+
+    return sprites;
   }
 
   /**
    * @param {Compilation} compilation
    * @return {Promise<CompiledSprite[]>}
    */
-  compile(compilation) {
+  async compile(compilation) {
     const { spriteClass, spriteConfig } = this.config;
-    const filenames = this.groupBySpriteFileName(compilation);
 
-    const promises = Object.keys(filenames).map(filename => {
-      const symbols = filenames[filename];
+    const sprites = this.groupBySpriteFileName(compilation);
+    const result = [];
+
+    for (const { symbols, filename } of sprites) {
+      // eslint-disable-next-line new-cap
+      const sprite = new spriteClass(spriteConfig, symbols);
+
+      const content = await sprite.render();
+
+      const r = { sprite, content };
+      let resultFileName = filename;
+
+      if (filename.match(TOKENS.SPRITE_HASH)) {
+        resultFileName = interpolateName(
+          process.cwd(),
+          filename.replace('[contenthash', '[hash'),
+          { content }
+        );
+      }
+
+      r.filename = resultFileName;
+
+      sprite.filename = resultFileName;
+      sprite.symbols.forEach(symbol => {
+        const { config, request: symbolUrl } = symbol;
+        const position = sprite.calculateSymbolPosition(symbol, 'percent');
+
+        symbol.replacements = [
+          generator.symbolUrl(symbol, {
+            filename: r.filename,
+            emit: config.emit,
+            spriteType: config.spriteType
+          }),
+
+          generator.bgPosLeft(symbolUrl, position),
+
+          generator.bgPosTop(symbolUrl, position),
+
+          generator.bgSizeWidth(symbolUrl, position),
+
+          generator.bgSizeHeight(symbolUrl, position),
+
+          config.publicPath && new generator.Replacement(
+            config.publicPath,
+            compilation.getPath(config.publicPath)
+          )
+        ].filter(Boolean);
+
+      });
+
+      result.push(new CompiledSprite(r));
+    }
+
+    return result;
+
+    const resultPromises = sprites.map(spriteData => {
+      const { symbols, filename } = spriteData;
 
       // eslint-disable-next-line new-cap
       const sprite = new spriteClass(spriteConfig, symbols);
@@ -177,9 +252,16 @@ module.exports = class SpriteCompiler {
 
           result.filename = resultFileName;
 
+          sprite.filename = resultFileName;
           sprite.symbols.forEach(symbol => {
             const { config, request: symbolUrl } = symbol;
             const position = sprite.calculateSymbolPosition(symbol, 'percent');
+
+            const r = generator.symbolUrl(symbol, {
+              filename: result.filename,
+              emit: config.emit,
+              spriteType: config.spriteType
+            });
 
             symbol.replacements = [
               generator.symbolUrl(symbol, {
@@ -201,12 +283,13 @@ module.exports = class SpriteCompiler {
                 compilation.getPath(config.publicPath)
               )
             ].filter(Boolean);
+
           });
 
           return new CompiledSprite(result);
         });
     });
 
-    return Promise.all(promises.filter(Boolean));
+    return Promise.all(resultPromises);
   }
 };

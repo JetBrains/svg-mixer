@@ -13,7 +13,7 @@ class SpriteSymbolsMap extends Map {
    * @param {Array<SpriteSymbol>} [symbols]
    */
   constructor(symbols = []) {
-    super(symbols.map(s => [s.id, s]));
+    super(symbols.map(s => [s.key || s.id, s]));
   }
 
   /**
@@ -21,7 +21,7 @@ class SpriteSymbolsMap extends Map {
    * @return {SpriteSymbolsMap}
    */
   add(symbol) {
-    return this.set(symbol.id, symbol);
+    return this.set(symbol.key || symbol.id, symbol);
   }
 
   /**

@@ -122,12 +122,12 @@ class ExtractSvgSpritePlugin {
         done();
       });
     } else {
-      compiler.plugin('this-compilation', compilation => {
-        compilation.plugin('additional-assets', done => compileSprites(compilation).then(result => {
-          this.hookAdditionalAssets(compilation, result);
-          done();
-        }));
-      });
+      // compiler.plugin('this-compilation', compilation => {
+      //   compilation.plugin('additional-assets', done => compileSprites(compilation).then(result => {
+      //     this.hookAdditionalAssets(compilation, result);
+      //     done();
+      //   }));
+      // });
 
       compiler.plugin('compilation', compilation => {
         if (isHtmlPluginCompilation(compilation)) {
@@ -147,10 +147,10 @@ class ExtractSvgSpritePlugin {
           this.hookAfterOptimizeChunkIds(chunks, compilation);
         });
 
-        // compilation.plugin('additional-assets', done => compileSprites(compilation).then(result => {
-        //   this.hookAdditionalAssets(compilation, result);
-        //   done();
-        // }));
+        compilation.plugin('additional-assets', done => compileSprites(compilation).then(result => {
+          this.hookAdditionalAssets(compilation, result);
+          done();
+        }));
 
         compilation.plugin(
           'html-webpack-plugin-before-html-generation',
@@ -197,10 +197,14 @@ class ExtractSvgSpritePlugin {
       return;
     }
 
+    // const replacements = this.compiler.getReplacements();
+
     result.forEach(({ filename, content, sprite }) => {
       sprite.symbols.forEach(s => {
-        // Replacer.replaceInModuleSource(s.module, s.replacements, compilation);
-        // Replacer.replaceInModuleSource(s.module.issuer, s.replacements, compilation);
+        const f = filename;
+        const ss = sprite;
+        Replacer.replaceInModuleSource(s.module, s.replacements, compilation);
+        Replacer.replaceInModuleSource(s.module.issuer, s.replacements, compilation);
       });
 
       if (filename) {

@@ -29,15 +29,11 @@ module.exports = function (content, sourcemap, meta = {}) {
   const img = new mixer.Image(request, meta.ast || content);
   const symbol = new config.symbolClass(symbolId, img);
 
-  const symbolKey = helpers.isChildCompilation(this._compilation)
-    ? `${module.request}___${module.issuer.request}`
-    : module.request;
-
   symbol.config = config;
   symbol.module = module;
-  symbol.key = symbolKey;
+  symbol.key = `${module.request}___${module.issuer.request}`;
 
-  plugin.compiler.addSymbol(symbolKey, symbol);
+  plugin.compiler.addSymbol(symbol);
 
   callback(null, generateRuntime(symbol, config), sourcemap, meta);
 };
