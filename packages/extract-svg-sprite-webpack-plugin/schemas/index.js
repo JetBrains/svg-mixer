@@ -11,7 +11,7 @@ const emit = {
 };
 
 const filename = {
-  type: 'string'
+  instanceof: ['String', 'Function']
 };
 
 const publicPath = {

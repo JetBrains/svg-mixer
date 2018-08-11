@@ -1,6 +1,7 @@
 const { interpolateName } = require('loader-utils');
 
 const generator = require('./replacement-generator');
+const helpers = require('./helpers');
 
 class CompiledSprite {
   constructor({ sprite, content, filename }) {
@@ -35,17 +36,24 @@ module.exports = class SpriteCompiler {
   /**
    * @return {Array<{filename?: string, symbols: SpriteSymbol[]}>}
    */
-  groupBySpriteFileName() {
+  groupBySpriteFileName(compilation) {
     const sprites = [];
 
     Array.from(this.symbols.keys()).forEach(path => {
       const symbol = this.symbols.get(path);
-      const { config, image } = symbol;
+      const { config, module } = symbol;
+
+      const compilationContext = helpers.getRootCompilation(compilation)
+        .compiler.context;
 
       let filename;
       if (config.filename && config.emit) {
+        const issuerPath = module.issuer.resource
+          .replace(compilationContext, '')
+          .replace(/^\//, '');
+
         filename = typeof config.filename === 'function'
-          ? config.filename(image.path, image.query)
+          ? config.filename(module, issuerPath)
           : config.filename;
       }
 
@@ -71,7 +79,7 @@ module.exports = class SpriteCompiler {
   compile(compilation) {
     const { spriteClass, spriteConfig } = this.config;
 
-    const promises = this.groupBySpriteFileName().map(spriteData => {
+    const promises = this.groupBySpriteFileName(compilation).map(spriteData => {
       const { filename, symbols } = spriteData;
 
       // eslint-disable-next-line new-cap
