@@ -19,6 +19,10 @@ module.exports = (config = {}, options = {}) => {
       filename: '[name].js'
     },
 
+    mode: 'development',
+
+    devtool: false,
+
     resolve: {
       alias: {
         fixtures: path.resolve(__dirname, '../fixtures')
