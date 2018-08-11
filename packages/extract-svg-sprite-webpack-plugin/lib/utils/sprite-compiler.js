@@ -1,3 +1,5 @@
+const Path = require('path');
+
 const { interpolateName } = require('loader-utils');
 
 const generator = require('./replacement-generator');
@@ -48,13 +50,19 @@ module.exports = class SpriteCompiler {
 
       let filename;
       if (config.filename && config.emit) {
-        const issuerPath = module.issuer.resource
-          .replace(compilationContext, '')
-          .replace(/^\//, '');
-
         filename = typeof config.filename === 'function'
-          ? config.filename(module, issuerPath)
+          ? config.filename(module)
           : config.filename;
+
+        if (filename.includes('[issuer-name]')) {
+          filename = filename.replace(
+            '[issuer-name]',
+            module.issuer.resource
+              .replace(compilationContext, '')
+              .replace(Path.extname(module.issuer.resource), '')
+              .replace(/^\//, '')
+          );
+        }
       }
 
       let sprite = sprites.find(s => s.filename === filename);
