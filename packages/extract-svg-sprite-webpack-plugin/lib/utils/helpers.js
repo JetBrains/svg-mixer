@@ -96,6 +96,16 @@ module.exports.getWebpackMajorVersion = getWebpackMajorVersion;
  * @param {Compilation} compilation
  * @return {boolean}
  */
+function isChildCompilation(compilation) {
+  return compilation.compiler.isChild();
+}
+
+module.exports.isChildCompilation = isChildCompilation;
+
+/**
+ * @param {Compilation} compilation
+ * @return {boolean}
+ */
 function isHtmlPluginCompilation(compilation) {
   return (
     compilation.compiler.name &&
@@ -123,7 +133,7 @@ module.exports.isMiniExtractCompilation = isMiniExtractCompilation;
  * @return {Compilation}
  */
 function getRootCompilation(compilation) {
-  return compilation.compiler.isChild()
+  return isChildCompilation(compilation)
     ? compilation.compiler.parentCompilation
     : compilation;
 }

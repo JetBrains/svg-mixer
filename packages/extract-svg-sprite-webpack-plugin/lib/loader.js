@@ -13,6 +13,8 @@ module.exports = function (content, sourcemap, meta = {}) {
   const callback = this.async();
   const loader = this;
   const context = loader.rootContext || loader.options.context;
+  const module = this._module;
+  // const request = loader.resourcePath + loader.resourceQuery;
   const plugin = helpers.getPluginFromLoaderContext(loader);
   /**
    * @type {ExtractSvgSpritePluginConfig|defaultConfig}
@@ -21,18 +23,21 @@ module.exports = function (content, sourcemap, meta = {}) {
   const request = loader.resourcePath + loader.resourceQuery;
 
   const symbolId = typeof config.symbolId === 'function'
-    ? config.symbolId(loader.resourcePath, loader.resourceQuery)
+    ? config.symbolId(module)
     : interpolateName(loader, config.symbolId, { content, context });
 
   const img = new mixer.Image(request, meta.ast || content);
   const symbol = new config.symbolClass(symbolId, img);
 
+  const symbolKey = helpers.isChildCompilation(this._compilation)
+    ? `${module.request}___${module.issuer.request}`
+    : module.request;
+
   symbol.config = config;
-  symbol.module = loader._module;
+  symbol.module = module;
+  symbol.key = symbolKey;
 
-  plugin.compiler.addSymbol(symbol);
+  plugin.compiler.addSymbol(symbolKey, symbol);
 
-  const runtime = generateRuntime(symbol, config);
-
-  callback(null, runtime, sourcemap, meta);
+  callback(null, generateRuntime(symbol, config), sourcemap, meta);
 };

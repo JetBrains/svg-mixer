@@ -19,6 +19,13 @@ module.exports = {
   CSS_LOADER_PATH: require.resolve('./css-loader'),
   LOADER_PATH: require.resolve('./loader'),
   NAMESPACE: fs.realpathSync(__dirname),
+  GHOST_SPRITE_FILENAME: '*',
+  TOKENS: {
+    CHUNK_NAME: /(\[name])/ig,
+    CHUNK_HASH: /(\[(?:(\w+):)?chunkhash(?::([a-z]+\d*))?(?::(\d+))?\])/ig,
+    COMPILATION_HASH: /(\[(?:(\w+):)?hash(?::([a-z]+\d*))?(?::(\d+))?\])/ig,
+    SPRITE_HASH: /(\[(?:(\w+):)?contenthash(?::([a-z]+\d*))?(?::(\d+))?\])/ig
+  },
 
   /**
    * @return {ExtractSvgSpritePluginConfig}
