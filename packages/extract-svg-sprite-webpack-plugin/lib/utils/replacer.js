@@ -51,7 +51,7 @@ module.exports = class Replacer {
    * @param {NormalModule} module
    * @param {Replacement[]} replacements
    * @param {Compilation} compilation
-   * @return {void}
+   * @return {NormalModule}
    */
   static replaceInModuleSource(module, replacements, compilation) {
     const source = Replacer.getModuleReplaceSource(module, compilation);
@@ -75,5 +75,7 @@ module.exports = class Replacer {
         source.replace(start, end, replaceTo);
       });
     });
+
+    return module;
   }
 };

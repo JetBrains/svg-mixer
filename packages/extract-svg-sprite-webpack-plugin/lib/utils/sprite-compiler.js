@@ -24,6 +24,15 @@ module.exports = class SpriteCompiler {
   }
 
   /**
+   * @return {Replacement[]}
+   */
+  getReplacements() {
+    return Array.from(this.symbols.values())
+      .map(s => s.replacements)
+      .reduce((acc, r) => acc.concat(r), []);
+  }
+
+  /**
    * @return {Array<{filename?: string, symbols: SpriteSymbol[]}>}
    */
   groupBySpriteFileName() {
