@@ -14,6 +14,10 @@ function encoder(url) {
   });
 }
 
+function escapeRegExp(str) {
+  return str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"); // $& means the whole matched string
+}
+
 /**
  * @param {NodeList} nodes
  * @param {string} startsWith
@@ -75,6 +79,6 @@ export default function (svg, references, startsWith, replaceWith) {
     return attList.indexOf(localName) !== -1 && value.indexOf(`url(${startsWithEncoded}`) !== -1;
   });
 
-  attrs.forEach(attr => attr.value = attr.value.replace(startsWithEncoded, replaceWithEncoded));
+  attrs.forEach(attr => attr.value = attr.value.replace(new RegExp(escapeRegExp(startsWithEncoded), 'g'), replaceWithEncoded));
   updateReferences(references, startsWithEncoded, replaceWithEncoded);
 }

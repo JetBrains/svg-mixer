@@ -174,5 +174,21 @@ describe('svg-mixer-runtime/utils', () => {
         ]
       });
     });
+
+    it('should handle multiple urls in the same attribute', () => {
+      const input = '<linearGradient id="id"></linearGradient><path style="fill: url(#id); mask: url(#id2);"></path><use xlink:href="#id"></use><use xlink:href="#id2"></use>';
+      const expected = '<linearGradient id="id"></linearGradient><path style="fill: url(/prefix#id); mask: url(/prefix#id2);"></path><use xlink:href="/prefix#id"></use><use xlink:href="/prefix#id2"></use>';
+      const doc = wrapInSvgAndParse(input);
+
+      test({
+        input: doc,
+        expected,
+        args: [
+          doc.querySelectorAll('use'),
+          '#',
+          '/prefix#'
+        ]
+      });
+    });
   });
 });
