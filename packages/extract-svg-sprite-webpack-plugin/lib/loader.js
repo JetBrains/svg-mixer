@@ -29,6 +29,7 @@ module.exports = function (content, sourcemap, meta = {}) {
 
   symbol.config = config;
   symbol.module = loader._module;
+  symbol.key = `${loader._module.request}___${loader._module.issuer.request}`;
 
   plugin.compiler.addSymbol(symbol);
 

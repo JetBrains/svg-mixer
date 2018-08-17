@@ -23,7 +23,7 @@ module.exports = class SpriteCompiler {
    * @param {mixer.SpriteSymbol} symbol
    */
   addSymbol(symbol) {
-    this.symbols.set(symbol.request, symbol);
+    this.symbols.set(symbol.key || symbol.request, symbol);
   }
 
   /**
@@ -54,9 +54,9 @@ module.exports = class SpriteCompiler {
           ? config.filename(module)
           : config.filename;
 
-        if (filename.includes('[issuer-name]')) {
+        if (filename.includes('[issuer-path]')) {
           filename = filename.replace(
-            '[issuer-name]',
+            '[issuer-path]',
             module.issuer.resource
               .replace(compilationContext, '')
               .replace(Path.extname(module.issuer.resource), '')
@@ -95,12 +95,14 @@ module.exports = class SpriteCompiler {
 
       return sprite.render()
         .then(content => {
-          const result = { sprite, content };
+          const result = { sprite, content, filename };
 
-          if (filename) {
-            result.filename = filename.includes('[hash')
-              ? interpolateName(process.cwd(), filename, { content })
-              : filename;
+          if (filename && filename.includes('[contenthash')) {
+            result.filename = interpolateName(
+              process.cwd(),
+              filename.replace('[contenthash', '[hash'),
+              { content }
+            );
           }
 
           sprite.symbols.forEach(symbol => {
