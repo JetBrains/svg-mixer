@@ -1,6 +1,6 @@
 {
   "name": "svg-mixer",
-  "version": "2.3.2",
+  "version": "2.3.3",
   "description": "Library for generating and transforming SVG sprites in modern way",
   "keywords": [
     "svg",
@@ -30,7 +30,7 @@
     "postsvg": "^2.2.3",
     "pretty": "^2.0.0",
     "query-string": "^6.0.0",
-    "svg-mixer-utils": "^0.3.1",
+    "svg-mixer-utils": "^0.3.2",
     "traverse": "^0.6.6",
     "url-slug": "^2.0.0"
   }

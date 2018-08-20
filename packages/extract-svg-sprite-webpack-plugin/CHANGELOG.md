@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.3.0"></a>
+# [0.3.0](https://github.com/kisenka/svg-mixer/packages/extract-svg-sprite-webpack-plugin/compare/extract-svg-sprite-webpack-plugin@0.2.2...extract-svg-sprite-webpack-plugin@0.3.0) (2018-08-20)
+
+
+### Bug Fixes
+
+* interpolate [hash] in publicPath ([49000a6](https://github.com/kisenka/svg-mixer/packages/extract-svg-sprite-webpack-plugin/commit/49000a6))
+
+
+### Features
+
+* add ability to provide [issuer-path] token in filename ([1a1c7fb](https://github.com/kisenka/svg-mixer/packages/extract-svg-sprite-webpack-plugin/commit/1a1c7fb))
+* allow to use filename as a function ([2164e85](https://github.com/kisenka/svg-mixer/packages/extract-svg-sprite-webpack-plugin/commit/2164e85))
+* allow to use filename as a function ([b0b4f70](https://github.com/kisenka/svg-mixer/packages/extract-svg-sprite-webpack-plugin/commit/b0b4f70))
+
+
+
+
 <a name="0.2.2"></a>
 ## [0.2.2](https://github.com/kisenka/svg-mixer/packages/extract-svg-sprite-webpack-plugin/compare/extract-svg-sprite-webpack-plugin@0.2.1...extract-svg-sprite-webpack-plugin@0.2.2) (2018-07-20)
 

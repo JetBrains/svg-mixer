@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.2.4"></a>
+## [0.2.4](https://github.com/kisenka/svg-mixer/packages/postcss-move-props-to-bg-image-query/compare/postcss-move-props-to-bg-image-query@0.2.3...postcss-move-props-to-bg-image-query@0.2.4) (2018-08-20)
+
+
+
+
+**Note:** Version bump only for package postcss-move-props-to-bg-image-query
+
 <a name="0.2.3"></a>
 ## [0.2.3](https://github.com/kisenka/svg-mixer/packages/postcss-move-props-to-bg-image-query/compare/postcss-move-props-to-bg-image-query@0.2.2...postcss-move-props-to-bg-image-query@0.2.3) (2018-06-13)
 
