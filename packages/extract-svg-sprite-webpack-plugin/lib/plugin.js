@@ -14,28 +14,12 @@ const {
 let INSTANCE_COUNTER = 0;
 
 class ExtractSvgSpritePlugin {
-  static loader(options) {
-    if (options) {
-      const errors = validate(schemas.loader, options);
-
-      if (errors.length) {
-        throw new Error(`${packageName}: ${errors.join('\n')}`);
-      }
-    }
-
-    return { loader: config.LOADER_PATH, options };
+  static get loader() {
+    return config.LOADER_PATH;
   }
 
-  static cssLoader(options) {
-    if (options) {
-      const errors = validate(schemas.cssLoader, options);
-
-      if (errors.length) {
-        throw new Error(`${packageName}: ${errors.join('\n')}`);
-      }
-    }
-
-    return { loader: config.CSS_LOADER_PATH };
+  static get cssLoader() {
+    return config.CSS_LOADER_PATH;
   }
 
   constructor(cfg) {

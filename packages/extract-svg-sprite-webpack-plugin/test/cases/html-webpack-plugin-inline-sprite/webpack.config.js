@@ -7,7 +7,7 @@ module.exports = utils.createBaseWebpackConfig({
     rules: [
       {
         test: /\.svg$/,
-        ...SpritePlugin.loader()
+        loader: SpritePlugin.loader
       }
     ]
   },

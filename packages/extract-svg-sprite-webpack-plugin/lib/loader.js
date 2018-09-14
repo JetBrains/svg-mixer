@@ -1,7 +1,11 @@
-/* eslint-disable func-names,consistent-this,new-cap */
+/* eslint-disable func-names,consistent-this,new-cap,consistent-return */
 const merge = require('lodash.merge');
 const mixer = require('svg-mixer');
-const { interpolateName, getOptions } = require('loader-utils');
+const { validate } = require('svg-mixer-utils');
+const { interpolateName, getOptions: getLoaderOptions } = require('loader-utils');
+
+const { name: packageName } = require('../package.json');
+const schemas = require('../schemas');
 
 const {
   configurator: configure,
@@ -14,10 +18,17 @@ module.exports = function (content, sourcemap, meta = {}) {
   const loader = this;
   const context = loader.rootContext || loader.options.context;
   const plugin = helpers.getPluginFromLoaderContext(loader);
-  /**
-   * @type {ExtractSvgSpritePluginConfig|defaultConfig}
-   */
-  const config = configure(merge({}, plugin.config, getOptions(loader) || {}));
+
+  const config = configure(
+    merge({}, plugin.config, getLoaderOptions(loader) || {})
+  );
+
+  const errors = validate(schemas.loader, config);
+  if (errors.length) {
+    const err = new Error(`${packageName}: ${errors.join('\n')}`);
+    return callback(err, content, sourcemap, meta);
+  }
+
   const request = loader.resourcePath + loader.resourceQuery;
 
   const symbolId = typeof config.symbolId === 'function'
