@@ -32,3 +32,7 @@ To setup the project install dependencies:
 ```sh
 yarn install
 ```
+
+## License 
+
+Apache 2.0
