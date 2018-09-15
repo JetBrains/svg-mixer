@@ -6,9 +6,26 @@ const {
   postcss: postcssUtils
 } = require('svg-mixer-utils');
 
-const { name: packageName } = require('../package.json');
+const { name: packageName } = require('./package.json');
 
-const transformDeclsToQuery = require('./utils/transform-declarations-to-query');
+/**
+ * @param {postcss.Declaration[]} decls
+ * @param {function(decl: postcss.Declaration): {name: string, value: string}} transformer
+ * @return {Object<string, string>}
+ */
+function declsToObject(decls, transformer) {
+  return decls.reduce((acc, decl) => {
+    const { name, value } = transformer({
+      name: decl.prop,
+      value: decl.value
+    });
+    // eslint-disable-next-line no-param-reassign
+    acc = Object.assign(acc, {
+      [name]: value
+    });
+    return acc;
+  }, {});
+}
 
 /**
  * @typedef {Object} PluginConfig
@@ -43,7 +60,7 @@ module.exports = postcss.plugin(packageName, config => {
         return;
       }
 
-      const query = transformDeclsToQuery(declsToMove, cfg.transform);
+      const query = declsToObject(declsToMove, cfg.transform);
 
       bgDecls.forEach(({ decl, helper }) => {
         helper.URIS.forEach(url => url.setSearch(query));

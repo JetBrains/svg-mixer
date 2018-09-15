@@ -10,9 +10,8 @@
   "license": "MIT",
   "homepage": "https://github.com/kisenka/svg-mixer/packages/postcss-move-props-to-bg-image-query",
   "repository": "https://github.com/kisenka/svg-mixer/packages/postcss-move-props-to-bg-image-query",
-  "main": "lib/plugin.js",
   "files": [
-    "lib/"
+    "index.js"
   ],
   "dependencies": {
     "merge-options": "^1.0.0",
