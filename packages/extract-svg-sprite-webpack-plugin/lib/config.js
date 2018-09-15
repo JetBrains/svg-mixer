@@ -2,13 +2,15 @@ const fs = require('fs');
 
 const mixer = require('svg-mixer');
 
+const RuntimeGenerator = require('./utils/runtime-generator');
+
 /**
  * @typedef {Object} ExtractSvgSpritePluginConfig
  * @property {string|function(path, query)} symbolId='[name]'
  * @property {string|function(path, query)} filename='sprite.svg'
  * @property {boolean} emit=true
  * @property {string} publicPath
- * @property {string[]} runtimeFields
+ * @property {RuntimeGenerator} runtimeGenerator
  * @property {string} selector=null
  * @property {string} spriteType 'classic' | 'stack'
  * @property {mixer.Sprite} spriteClass
@@ -27,15 +29,8 @@ module.exports = {
     emit: true,
     filename: 'sprite.svg',
     publicPath: undefined,
-    runtimeFields: [
-      'id',
-      'width',
-      'height',
-      'viewBox',
-      'url',
-      'toString'
-    ],
-    selector: undefined,
+    runtimeGenerator: RuntimeGenerator,
+    selector: '',
     spriteClass: mixer.Sprite,
     spriteConfig: undefined,
     spriteType: mixer.Sprite.TYPE,

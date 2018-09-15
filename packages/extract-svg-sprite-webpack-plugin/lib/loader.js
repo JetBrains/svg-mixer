@@ -7,11 +7,7 @@ const { interpolateName, getOptions: getLoaderOptions } = require('loader-utils'
 const { name: packageName } = require('../package.json');
 const schemas = require('../schemas');
 
-const {
-  configurator: configure,
-  runtimeGenerator: generateRuntime,
-  helpers
-} = require('./utils');
+const { configurator: configure, helpers } = require('./utils');
 
 module.exports = function (content, sourcemap, meta = {}) {
   const callback = this.async();
@@ -44,7 +40,7 @@ module.exports = function (content, sourcemap, meta = {}) {
 
   plugin.compiler.addSymbol(symbol);
 
-  const runtime = generateRuntime(symbol, config);
+  const runtime = new config.runtimeGenerator(symbol, config).generate();
 
   callback(null, runtime, sourcemap, meta);
 };

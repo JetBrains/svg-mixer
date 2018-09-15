@@ -14,13 +14,6 @@ module.exports = (cfg = {}) => {
     default:
     case mixer.Sprite.TYPE:
       config.spriteClass = mixer.Sprite;
-
-      if (typeof cfg.runtimeFields === 'undefined') {
-        config.runtimeFields = config.runtimeFields.concat([
-          'bgPosition',
-          'bgSize'
-        ]);
-      }
       break;
 
     case mixer.StackSprite.TYPE:
