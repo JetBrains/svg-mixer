@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.2.5"></a>
+## [0.2.5](https://github.com/kisenka/svg-mixer/packages/postcss-move-props-to-bg-image-query/compare/postcss-move-props-to-bg-image-query@0.2.4...postcss-move-props-to-bg-image-query@0.2.5) (2018-09-15)
+
+
+### Bug Fixes
+
+* encode param values once (fixes [#34](https://github.com/kisenka/svg-mixer/packages/postcss-move-props-to-bg-image-query/issues/34)) ([79c83e1](https://github.com/kisenka/svg-mixer/packages/postcss-move-props-to-bg-image-query/commit/79c83e1))
+
+
+
+
 <a name="0.2.4"></a>
 ## [0.2.4](https://github.com/kisenka/svg-mixer/packages/postcss-move-props-to-bg-image-query/compare/postcss-move-props-to-bg-image-query@0.2.3...postcss-move-props-to-bg-image-query@0.2.4) (2018-08-20)
 
