@@ -117,14 +117,14 @@ class RuntimeGenerator {
       .map(field => `${field}: ${fields[field]}`)
       .join(',\n  ');
 
-    return `module.exports = {\n  ${body}\n}`;
+    return `{\n  ${body}\n}`;
   }
 
   /**
    * @return {string}
    */
   generate() {
-    return this.generateWrapper({
+    const runtime = this.generateWrapper({
       id: this.id(),
       url: this.url(),
       width: this.width(),
@@ -134,6 +134,8 @@ class RuntimeGenerator {
       backgroundSize: this.backgroundSize(),
       backgroundPosition: this.backgroundPosition()
     });
+
+    return `module.exports = ${runtime}`;
   }
 }
 
