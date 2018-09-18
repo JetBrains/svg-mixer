@@ -49,12 +49,10 @@ module.exports = class Compiler {
   }
 
   async runAndGetAssets() {
-    return this.run().then(({ assets: rawAssets }) => {
-      const assets = {};
-      Object.keys(rawAssets).forEach(name => {
-        assets[name] = rawAssets[name].source().toString().trim();
-      });
-      return assets;
-    });
+    const { assets } = await this.run();
+    return Object.keys(assets).reduce((acc, name) => {
+      acc[name] = assets[name].source().toString().trim();
+      return acc;
+    }, {});
   }
 };

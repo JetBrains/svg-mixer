@@ -1,20 +1,28 @@
-/* eslint-disable new-cap,no-magic-numbers */
+/* eslint-disable new-cap,no-magic-numbers,func-names,func-names,prefer-arrow-callback */
 const { resolve } = require('path');
+const fs = require('fs');
 
 let MemoryFs;
+let NodeJsInputFileSystem;
+let CachedInputFileSystem;
 
 try {
   MemoryFs = require('memory-fs');
+  NodeJsInputFileSystem = require('enhanced-resolve/lib/NodeJsInputFileSystem');
+  CachedInputFileSystem = require('enhanced-resolve/lib/CachedInputFileSystem');
 } catch (e) {
   // nothing
 }
 
-const NodeJsInputFileSystem = require('enhanced-resolve/lib/NodeJsInputFileSystem');
-const CachedInputFileSystem = require('enhanced-resolve/lib/CachedInputFileSystem');
-
 const Compiler = require('./compiler');
 
 module.exports = class MemoryCompiler extends Compiler {
+  /**
+   *
+   * @param {Object} options
+   * @param {Object} options.config Webpack config
+   * @param {Object<string, string>} options.files
+   */
   constructor(options) {
     const {
       memoryFs = MemoryFs,
@@ -22,7 +30,7 @@ module.exports = class MemoryCompiler extends Compiler {
       config
     } = options;
 
-    if (files && config.plugins) {
+    if (files && config.plugins && NodeJsInputFileSystem && CachedInputFileSystem) {
       const loaderResolverFs = new CachedInputFileSystem(
         new NodeJsInputFileSystem(),
         60000
@@ -40,10 +48,10 @@ module.exports = class MemoryCompiler extends Compiler {
     super(options);
     const { _compiler } = this;
 
-    _compiler.outputFileSystem = new memoryFs();
+    _compiler.outputFileSystem = MemoryCompiler.wrapMemoryFs(new memoryFs());
 
     if (files) {
-      const inputFs = new memoryFs();
+      const inputFs = MemoryCompiler.wrapMemoryFs(new memoryFs());
 
       Object.keys(files).forEach(file => {
         // Prefix with webpack context
@@ -60,8 +68,8 @@ module.exports = class MemoryCompiler extends Compiler {
     }
   }
 
-  static createFile(path, content, fs) {
-    const data = fs.data;
+  static createFile(path, content, _fs) {
+    const data = _fs.data;
     const keys = path.replace(/^\//, '').split('/');
 
     if (keys.length > 1 && typeof data[''] === 'undefined') {
@@ -76,5 +84,32 @@ module.exports = class MemoryCompiler extends Compiler {
     );
 
     res[last] = !Buffer.isBuffer(content) ? Buffer.from(content) : content;
+  }
+
+  static wrapMemoryFs(memoryFs) {
+    const statOrig = memoryFs.stat.bind(memoryFs);
+    const readFileOrig = memoryFs.readFile.bind(memoryFs);
+
+    memoryFs.stat = function (_path, cb) {
+      statOrig(_path, function (err, result) {
+        if (err) {
+          return fs.stat(_path, cb);
+        } else {
+          return cb(err, result);
+        }
+      });
+    };
+
+    memoryFs.readFile = function (path, cb) {
+      readFileOrig(path, function (err, result) {
+        if (err) {
+          return fs.readFile(path, cb);
+        } else {
+          return cb(err, result);
+        }
+      });
+    };
+
+    return memoryFs;
   }
 };

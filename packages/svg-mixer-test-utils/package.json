@@ -1,0 +1,16 @@
+{
+  "name": "svg-mixer-test-utils",
+  "version": "0.2.2",
+  "private": true,
+  "main": "lib/index.js",
+  "files": [
+    "lib"
+  ],
+  "dependencies": {
+    "glob": "^7.1.2",
+    "merge-options": "^1.0.1",
+    "postsvg": "^2.2.3",
+    "pretty": "^2.0.0",
+    "shelljs": "^0.8.2"
+  }
+}

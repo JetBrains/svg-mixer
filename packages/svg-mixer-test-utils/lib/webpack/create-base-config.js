@@ -2,14 +2,8 @@ const path = require('path');
 
 const merge = require('merge-options');
 
-const RemoveAssetsWebpackPlugin = require('./remove-assets-webpack-plugin');
-
-module.exports = (config = {}, options = {}) => {
+module.exports = (config = {}) => {
   const plugins = config.plugins || [];
-
-  if (Array.isArray(options.remove)) {
-    plugins.push(new RemoveAssetsWebpackPlugin(options.remove));
-  }
 
   return merge({
     entry: './main',
@@ -23,8 +17,14 @@ module.exports = (config = {}, options = {}) => {
 
     resolve: {
       alias: {
-        fixtures: path.resolve(__dirname, '../fixtures')
+        fixtures: path.resolve(__dirname, '../../fixtures')
       }
+    },
+
+    module: {
+      rules: [
+
+      ]
     },
 
     plugins
