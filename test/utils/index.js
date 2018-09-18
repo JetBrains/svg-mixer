@@ -10,6 +10,8 @@ module.exports.getFixture =
 
 module.exports.createBaseWebpackConfig = require('./create-base-webpack-config');
 module.exports.createWebpackCompiler = require('./create-webpack-compiler');
+module.exports.Compiler = require('./compiler');
+module.exports.MemoryCompiler = require('./memory-compiler');
 module.exports.EnvironmentManager = require('./environment-manager');
 module.exports.RemoveAssetsWebpackPlugin = require('./remove-assets-webpack-plugin');
 module.exports.testPostSvgPlugin = require('./test-postsvg-plugin');
