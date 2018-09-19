@@ -23,7 +23,8 @@
     "semver": "^5.5.1",
     "svg-mixer-test-utils": "^0.2.2",
     "vm2": "^3.6.3",
-    "webpack-manifest-plugin": "^2.0.2"
+    "webpack-manifest-plugin": "^2.0.2",
+    "webpack-merge": "^4.1.4"
   },
   "scripts": {
     "env:webpack-3": "node scripts/install-env webpack-3",

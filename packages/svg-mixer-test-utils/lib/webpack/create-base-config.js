@@ -1,10 +1,8 @@
 const path = require('path');
 
-const merge = require('merge-options');
+const merge = require('webpack-merge');
 
 module.exports = (config = {}) => {
-  const plugins = config.plugins || [];
-
   return merge({
     entry: './main',
 
@@ -22,11 +20,7 @@ module.exports = (config = {}) => {
     },
 
     module: {
-      rules: [
-
-      ]
-    },
-
-    plugins
+      rules: []
+    }
   }, config);
 };

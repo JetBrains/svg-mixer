@@ -42,5 +42,5 @@ module.exports = function (content, sourcemap, meta = {}) {
 
   const runtime = new config.runtimeGenerator(symbol, config).generate();
 
-  callback(null, runtime, sourcemap, meta);
+  callback(null, `module.exports = ${runtime}`, sourcemap, meta);
 };

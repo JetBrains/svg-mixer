@@ -44,12 +44,13 @@ declare namespace svgmixer {
   }
 
   class Image {
+    static fromFile(path: string): Promise<Image>;
     constructor(path: string, content: string);
     path: string;
     query: string;
-    get viewBox(): number[] | undefined;
-    get width(): number | undefined;
-    get height(): number | undefined;
+    get viewBox(): number[];
+    get width(): number;
+    get height(): number;
     get content(): string;
     get tree(): postsvg.Tree;
     toString(): string;
@@ -70,11 +71,12 @@ declare namespace svgmixer {
   }
 
   class SpriteSymbol {
+    static fromFile(id: string, path: string): Promise<SpriteSymbol>;
     constructor(public id: string, public image: Image);
-    get width(): number | undefined;
-    get height(): number | undefined;
-    get viewBox(): number[] | undefined;
-    get request(): string | undefined;
+    get width(): number;
+    get height(): number;
+    get viewBox(): number[];
+    get request(): string;
     generate(): Promise<postsvg.Tree>
     render(): Promise<string>;
   }

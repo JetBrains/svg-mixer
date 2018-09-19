@@ -1,6 +1,16 @@
+const { readFile } = require('fs-extra');
 const { parse: parseSvg, Tree } = require('postsvg');
 
 class Image {
+  /**
+   * @param {string} path May contain query string, eg. image.svg?param=value
+   * @return {Promise<Image>}
+   */
+  static fromFile(path) {
+    return readFile(path.split('?')[0])
+      .then(content => new Image(path, content));
+  }
+
   /**
    * @param {string|PostSvgTree} content
    * @param {string} path

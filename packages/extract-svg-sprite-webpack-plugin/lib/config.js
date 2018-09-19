@@ -1,6 +1,7 @@
 const fs = require('fs');
 
 const mixer = require('svg-mixer');
+const merge = require('lodash.merge');
 
 const RuntimeGenerator = require('./utils/runtime-generator');
 
@@ -30,7 +31,7 @@ module.exports = {
     filename: 'sprite.svg',
     publicPath: undefined,
     runtimeGenerator: RuntimeGenerator,
-    selector: '',
+    selector: undefined,
     spriteClass: mixer.Sprite,
     spriteConfig: undefined,
     spriteType: mixer.Sprite.TYPE,

@@ -108,23 +108,11 @@ class RuntimeGenerator {
   }
 
   /**
-   * @param {Object<string, string>} fields
+   * @param {Object<string, string>} [data]
    * @return {string}
    */
-  generateWrapper(fields) {
-    const body = Object.keys(fields)
-      .filter(field => !!fields[field])
-      .map(field => `${field}: ${fields[field]}`)
-      .join(',\n  ');
-
-    return `{\n  ${body}\n}`;
-  }
-
-  /**
-   * @return {string}
-   */
-  generate() {
-    const runtime = this.generateWrapper({
+  generate(data) {
+    const fields = data || {
       id: this.id(),
       url: this.url(),
       width: this.width(),
@@ -133,9 +121,14 @@ class RuntimeGenerator {
       toString: this.toString(),
       backgroundSize: this.backgroundSize(),
       backgroundPosition: this.backgroundPosition()
-    });
+    };
 
-    return `module.exports = ${runtime}`;
+    const body = Object.keys(fields)
+      .filter(field => !!fields[field])
+      .map(field => `${field}: ${fields[field]}`)
+      .join(',\n  ');
+
+    return `{\n  ${body}\n}`;
   }
 }
 

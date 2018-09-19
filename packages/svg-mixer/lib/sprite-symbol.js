@@ -1,6 +1,20 @@
 const generateSymbolTree = require('./utils/generate-symbol-tree');
+const Image = require('./image');
 
 class SpriteSymbol {
+  /**
+   * @param {string} id
+   * @param {string} path
+   * @return {Promise<SpriteSymbol>}
+   */
+  static fromFile(id, path) {
+    return Image.fromFile(path).then(img => new SpriteSymbol(id, img));
+  }
+
+  /**
+   * @param {string} id
+   * @param {Image} image
+   */
   constructor(id, image) {
     this.id = id;
     this.image = image;
@@ -21,7 +35,7 @@ class SpriteSymbol {
   }
 
   /**
-   * @return {number}
+   * @return {Array<number>}
    */
   get viewBox() {
     return this.image.viewBox;

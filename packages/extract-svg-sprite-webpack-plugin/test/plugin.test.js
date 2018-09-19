@@ -1,13 +1,41 @@
-const { compile, compileRuntime } = require('./utils');
+const SpritePlugin = require('extract-svg-sprite-webpack-plugin');
+
+const {
+  compile,
+  createConfig: createBaseConfig,
+  exec
+} = require('./utils');
 
 describe('plugin', () => {
-  it('runtime', async () => {
-    const assets = await compile(require('./runtime/default/webpack.config'));
-    const runtime = compileRuntime(assets['main.js']);
+  it('css-loader', async () => {
+    const input = '.a {background: url(~fixtures/twitter.svg)}';
+    const expected = '.a {background: url(sprite.svg) no-repeat 0 0;background-size: 100% 104.50%}';
 
-    expect(runtime.id).to.equal('twitter');
-    expect(runtime.url).to.equal('sprite.svg');
-    expect(runtime.width).to.equal(273.4);
+    const assets = await compile({
+      files: { 'main.css': input },
+      config: createBaseConfig({
+        entry: './main.css',
+        module: {
+          rules: [
+            {
+              test: /\.svg$/,
+              loader: SpritePlugin.loader
+            },
+            {
+              test: /\.css$/,
+              use: [
+                'css-loader',
+                SpritePlugin.cssLoader
+              ]
+            }
+          ]
+        },
+        plugins: [new SpritePlugin()]
+      })
+    });
+
+    const result = exec(assets['main.js']).toString();
+    expect(result).equal(expected);
   });
 
 });

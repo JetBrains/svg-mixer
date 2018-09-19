@@ -1,5 +1,6 @@
 const webpack = require('webpack');
 const webpackVersion = require('webpack/package.json').version;
+const mergeConfigs = require('webpack-merge');
 const semver = require('semver');
 const { VM } = require('vm2');
 
@@ -9,32 +10,26 @@ const {
 } = require('svg-mixer-test-utils/lib/webpack');
 
 module.exports = class Utils {
-  static async compile(config) {
-    const compiler = Utils.createCompiler({ config });
+  /**
+   *
+   * @param {Object} options
+   * @param {Object} options.config
+   * @param {Object} options.files
+   * @return {Promise<*>}
+   */
+  static async compile(options) {
+    const compiler = Utils.createCompiler(options);
     return await compiler.runAndGetAssets();
   }
 
   /**
    * @param {string} code
+   * @param {Object} [vmOptions] {@see https://github.com/patriksimek/vm2#nodevm}
    * @return {Object}
    */
-  static compileRuntime(code) {
-    const vm = new VM();
-    const proxy = vm.run(code);
-
-    return [
-      'id',
-      'url',
-      'width',
-      'height',
-      'viewBox',
-      'toString',
-      'backgroundSize',
-      'backgroundPosition'
-    ].reduce((acc, prop) => {
-      acc[prop] = proxy[prop];
-      return acc;
-    }, {});
+  static exec(code, vmOptions) {
+    const vm = new VM(vmOptions);
+    return vm.run(code);
   }
 
   /**
