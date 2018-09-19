@@ -10,7 +10,10 @@ const defaultConfig = {
     'class',
     'overflow',
     'stroke?(-*)',
-    'fill?(-*)'
+    'fill?(-*)',
+    'xmlns?(:*)',
+    'role',
+    'aria-*'
   ]
 };
 
