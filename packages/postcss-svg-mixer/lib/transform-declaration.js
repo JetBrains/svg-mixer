@@ -31,7 +31,7 @@ module.exports = opts => {
 
   const rule = decl.parent;
 
-  if (typeof selector === 'string') {
+  if (typeof selector === 'string' && selector !== '') {
     const newSelector = transformSelector(rule.selector, s => `${s}${selector}`);
     const newRule = postcss
       .rule({ selector: newSelector })
