@@ -55,15 +55,17 @@ class Compiler {
     /** @type CompilerConfig */
     const cfg = merge(this.constructor.defaultConfig, config);
 
-    switch (cfg.spriteType) {
-      default:
-      case Sprite.TYPE:
-        cfg.spriteClass = Sprite;
-        break;
+    if (!config.spriteClass) {
+      switch (cfg.spriteType) {
+        default:
+        case Sprite.TYPE:
+          cfg.spriteClass = Sprite;
+          break;
 
-      case StackSprite.TYPE:
-        cfg.spriteClass = StackSprite;
-        break;
+        case StackSprite.TYPE:
+          cfg.spriteClass = StackSprite;
+          break;
+      }
     }
 
     const errors = validate(require('../schemas/compiler'), cfg);

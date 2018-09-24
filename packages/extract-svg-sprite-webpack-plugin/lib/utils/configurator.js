@@ -10,15 +10,17 @@ const { plugin: defaultConfig } = require('../config');
 module.exports = (cfg = {}) => {
   const config = merge({}, defaultConfig, cfg);
 
-  switch (config.spriteType) {
-    default:
-    case mixer.Sprite.TYPE:
-      config.spriteClass = mixer.Sprite;
-      break;
+  if (!cfg.spriteClass) {
+    switch (config.spriteType) {
+      default:
+      case mixer.Sprite.TYPE:
+        config.spriteClass = mixer.Sprite;
+        break;
 
-    case mixer.StackSprite.TYPE:
-      config.spriteClass = mixer.StackSprite;
-      break;
+      case mixer.StackSprite.TYPE:
+        config.spriteClass = mixer.StackSprite;
+        break;
+    }
   }
 
   return config;
