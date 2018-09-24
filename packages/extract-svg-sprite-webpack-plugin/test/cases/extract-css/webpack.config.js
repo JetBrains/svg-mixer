@@ -18,10 +18,12 @@ module.exports = utils.createBaseWebpackConfig({
         use: supports.miniCssExtractPlugin
           ? [
             MiniCssExtractPlugin.loader,
-            'css-loader'
+            'css-loader',
+            SpritePlugin.cssLoader
           ]
           : ExtractCssPlugin.extract({use: [
-              'css-loader'
+              'css-loader',
+              SpritePlugin.cssLoader
             ]
           })
       }
@@ -33,9 +35,7 @@ module.exports = utils.createBaseWebpackConfig({
       ? new MiniCssExtractPlugin()
       : new ExtractCssPlugin('[name].css'),
 
-    new SpritePlugin({
-      spriteType: 'stack'
-    })
+    new SpritePlugin()
   ]
 }, {
   remove: ['main.js']
