@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="1.0.0"></a>
+# [1.0.0](https://github.com/kisenka/svg-mixer/packages/posthtml-transform/compare/posthtml-transform@0.2.0...posthtml-transform@1.0.0) (2018-09-26)
+
+
+### Bug Fixes
+
+* change posthtml-transform behaviour - process root node by default ([26a68e7](https://github.com/kisenka/svg-mixer/packages/posthtml-transform/commit/26a68e7))
+
+
+### BREAKING CHANGES
+
+* behaviour changed - now it processes default node by default
+
+
+
+
 <a name="0.2.0"></a>
 # [0.2.0](https://github.com/kisenka/svg-mixer/packages/posthtml-transform/compare/posthtml-transform@0.1.2...posthtml-transform@0.2.0) (2018-07-23)
 

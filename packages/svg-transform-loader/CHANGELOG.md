@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="2.0.0"></a>
+# [2.0.0](https://github.com/kisenka/svg-mixer/packages/svg-transform-loader/compare/svg-transform-loader@1.2.1...svg-transform-loader@2.0.0) (2018-09-26)
+
+
+### Bug Fixes
+
+* change posthtml-transform behaviour - process root node by default ([26a68e7](https://github.com/kisenka/svg-mixer/packages/svg-transform-loader/commit/26a68e7))
+
+
+### BREAKING CHANGES
+
+* behaviour changed - now it processes default node by default
+
+
+
+
 <a name="1.2.1"></a>
 ## [1.2.1](https://github.com/kisenka/svg-mixer/packages/svg-transform-loader/compare/svg-transform-loader@1.2.0...svg-transform-loader@1.2.1) (2018-08-20)
 
