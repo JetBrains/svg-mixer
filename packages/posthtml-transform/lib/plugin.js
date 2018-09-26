@@ -7,7 +7,7 @@ const { name: packageName } = require('../package.json');
 const { normalizeRules } = require('./utils');
 
 const defaultConfig = {
-  skipRootTag: true,
+  skipRootTag: false,
   convertAlphaColors: false
 };
 

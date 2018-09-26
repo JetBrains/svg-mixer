@@ -45,7 +45,7 @@ describe('plugin', () => {
     expect(await t(rules, image, { skipRootTag: false })).toMatchSnapshot();
   });
 
-  it.only('should convert alpha colors', async () => {
+  it('should convert alpha colors', async () => {
     const rules = [{ attr: 'fill', value: 'rgba(255, 255, 255, 0.5)' }];
     expect(await t(rules, image, { convertAlphaColors: true })).toMatchSnapshot();
   });
