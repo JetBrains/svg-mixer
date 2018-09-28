@@ -6,7 +6,8 @@
   "repository": "https://github.com/kisenka/svg-mixer/packages/extract-svg-sprite-webpack-plugin",
   "main": "lib/plugin.js",
   "files": [
-    "lib/"
+    "lib/",
+    "schemas/"
   ],
   "dependencies": {
     "loader-utils": "^1.1.0",
