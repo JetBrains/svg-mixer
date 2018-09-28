@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.3.3"></a>
+## [0.3.3](https://github.com/kisenka/svg-mixer/packages/extract-svg-sprite-webpack-plugin/compare/extract-svg-sprite-webpack-plugin@0.3.2...extract-svg-sprite-webpack-plugin@0.3.3) (2018-09-28)
+
+
+### Bug Fixes
+
+* restore missing schemas folder ([ca83654](https://github.com/kisenka/svg-mixer/packages/extract-svg-sprite-webpack-plugin/commit/ca83654))
+
+
+
+
 <a name="0.3.2"></a>
 ## [0.3.2](https://github.com/kisenka/svg-mixer/packages/extract-svg-sprite-webpack-plugin/compare/extract-svg-sprite-webpack-plugin@0.3.1...extract-svg-sprite-webpack-plugin@0.3.2) (2018-09-24)
 
