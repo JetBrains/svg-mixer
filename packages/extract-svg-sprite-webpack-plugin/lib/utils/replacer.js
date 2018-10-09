@@ -38,6 +38,8 @@ module.exports = class Replacer {
     if (webpackVersion <= 3) {
       args.push(compilation.outputOptions);
       args.push(compilation.requestShortener);
+    } else if (webpackVersion >= 4) {
+      args.push(compilation.runtimeTemplate);
     }
 
     const cachedSource = module.source(...args);
