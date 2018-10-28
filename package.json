@@ -1,7 +1,7 @@
 {
   "description": "This is root of svg-mixer monorepo",
   "private": true,
-  "license": "Apache-2.0",
+  "license": "MIT",
   "workspaces": [
     "packages/*",
     "test"
@@ -29,6 +29,7 @@
   "scripts": {
     "bootstrap": "lerna bootstrap",
     "commitmsg": "node scripts/lint-commit-msg",
+    "copy-license": "lerna exec -- cp '$LERNA_ROOT_PATH/LICENSE' '$LERNA_ROOT_PATH/packages/$LERNA_PACKAGE_NAME'",
     "lint": "eslint packages scripts test",
     "publish": "lerna publish --conventional-commits --npm-client=npm",
     "publish:dry-run": "yarn run publish --skip-git --skip-npm",
