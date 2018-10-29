@@ -2,6 +2,9 @@
   "private": true,
   "license": "MIT",
   "repository": "kisenka/svg-baker",
+  "workspaces": [
+    "packages/*"
+  ],
   "config": {
     "commitizen": {
       "path": "./node_modules/cz-lerna-changelog"
