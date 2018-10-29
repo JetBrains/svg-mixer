@@ -97,4 +97,4 @@ fill=red #id&stroke=black .class
 
 ## LICENSE
 
-[MIT](LICENSE)
+[MIT](https://github.com/JetBrains/svg-mixer/blob/master/LICENSE)

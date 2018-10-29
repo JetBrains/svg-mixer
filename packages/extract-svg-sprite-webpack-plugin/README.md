@@ -156,4 +156,4 @@ string and should return a function.
 
 ## LICENSE
 
-[MIT](LICENSE)
+[MIT](https://github.com/JetBrains/svg-mixer/blob/master/LICENSE)

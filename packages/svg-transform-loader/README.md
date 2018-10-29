@@ -239,4 +239,4 @@ otherwise webpack will create only 1 file per SVG image.
 
 ## LICENSE
 
-[MIT](LICENSE)
+[MIT](https://github.com/JetBrains/svg-mixer/blob/master/LICENSE)

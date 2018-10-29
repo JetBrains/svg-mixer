@@ -82,4 +82,4 @@ posthtml([
 
 ## LICENSE
 
-[MIT](LICENSE)
+[MIT](https://github.com/JetBrains/svg-mixer/blob/master/LICENSE)
