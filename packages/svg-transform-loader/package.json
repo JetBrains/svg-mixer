@@ -3,8 +3,9 @@
   "version": "2.0.1",
   "description": "",
   "license": "MIT",
-  "homepage": "https://github.com/kisenka/svg-mixer/packages/svg-transform-loader",
-  "repository": "https://github.com/kisenka/svg-mixer/packages/svg-transform-loader",
+  "author": "JetBrains",
+  "homepage": "https://github.com/JetBrains/svg-mixer/tree/master/packages/svg-transform-loader",
+  "repository": "https://github.com/JetBrains/svg-mixer",
   "main": "lib/loader.js",
   "files": [
     "lib",

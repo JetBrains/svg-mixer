@@ -8,8 +8,9 @@
     "postcss plugin"
   ],
   "license": "MIT",
-  "homepage": "https://github.com/kisenka/svg-mixer/packages/postcss-move-props-to-bg-image-query",
-  "repository": "https://github.com/kisenka/svg-mixer/packages/postcss-move-props-to-bg-image-query",
+  "author": "JetBrains",
+  "homepage": "https://github.com/JetBrains/svg-mixer/tree/master/packages/postcss-move-props-to-bg-image-query",
+  "repository": "https://github.com/JetBrains/svg-mixer",
   "files": [
     "index.js"
   ],

@@ -8,8 +8,9 @@
     "svg stack"
   ],
   "license": "MIT",
-  "homepage": "https://github.com/kisenka/svg-mixer/packages/svg-mixer",
-  "repository": "https://github.com/kisenka/svg-mixer/packages/svg-mixer",
+  "author": "JetBrains",
+  "homepage": "https://github.com/JetBrains/svg-mixer/tree/master/packages/svg-mixer",
+  "repository": "https://github.com/JetBrains/svg-mixer",
   "files": [
     "lib/",
     "schemas/",

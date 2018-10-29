@@ -2,8 +2,9 @@
   "name": "extract-svg-sprite-webpack-plugin",
   "version": "0.3.5",
   "license": "MIT",
-  "homepage": "https://github.com/kisenka/svg-mixer/packages/extract-svg-sprite-webpack-plugin",
-  "repository": "https://github.com/kisenka/svg-mixer/packages/extract-svg-sprite-webpack-plugin",
+  "author": "JetBrains",
+  "homepage": "https://github.com/JetBrains/svg-mixer/tree/master/packages/extract-svg-sprite-webpack-plugin",
+  "repository": "https://github.com/JetBrains/svg-mixer",
   "main": "lib/plugin.js",
   "files": [
     "lib/",

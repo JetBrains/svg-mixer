@@ -7,8 +7,9 @@
     "posthtml plugin"
   ],
   "license": "MIT",
-  "homepage": "https://github.com/kisenka/svg-mixer/packages/posthtml-rename-id",
-  "repository": "https://github.com/kisenka/svg-mixer/packages/posthtml-rename-id",
+  "author": "JetBrains",
+  "homepage": "https://github.com/JetBrains/svg-mixer/tree/master/packages/posthtml-rename-id",
+  "repository": "https://github.com/JetBrains/svg-mixer",
   "files": [
     "index.js"
   ],

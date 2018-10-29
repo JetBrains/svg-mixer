@@ -7,8 +7,9 @@
     "posthtml plugin"
   ],
   "license": "MIT",
-  "homepage": "https://github.com/kisenka/svg-mixer/packages/posthtml-transform",
-  "repository": "https://github.com/kisenka/svg-mixer/packages/posthtml-transform",
+  "author": "JetBrains",
+  "homepage": "https://github.com/JetBrains/svg-mixer/tree/master/packages/posthtml-transform",
+  "repository": "https://github.com/JetBrains/svg-mixer",
   "main": "lib/plugin.js",
   "files": [
     "lib"
