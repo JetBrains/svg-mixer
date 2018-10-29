@@ -3,7 +3,8 @@
   "version": "1.0.2",
   "description": "",
   "license": "MIT",
-  "repository": "https://github.com/kisenka/svg-baker/packages/posthtml-svg-mode",
+  "author": "JetBrains",
+  "repository": "https://github.com/JetBrains/svg-mixer/tree/v1/posthtml-svg-mode",
   "main": "lib/processor.js",
   "files": [
     "lib/",
