@@ -6,6 +6,7 @@ fill, stroke and other manipulations with image imported from CSS/SCSS/LESS/Styl
 - [Demo](#demo)
 - [Installation](#installation)
 - [Webpack config](#webpack-config)
+  - [Further SVG handling](#further-svg-handling)
 - [How to pass transform parameters](#how-to-pass-transform-parameters)
 - [Configuration](#configuration)
 - ⚠[Important notices](#notices)
