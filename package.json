@@ -31,8 +31,7 @@
     "lerna": "lerna",
     "lint": "lerna exec --concurrency 1 -- yarn lint",
     "postinstall": "lerna bootstrap",
-    "release": "lerna-semantic-release pre && lerna-semantic-release post && lerna-semantic-release perform",
-    "release:dry-run": "lerna-semantic-release pre && lerna-semantic-release post",
+    "publish": "lerna publish --conventional-commits --npm-client=npm",
     "test": "lerna exec --concurrency 1 -- yarn test",
     "verify": "yarn lint && yarn test",
     "upload-coverage": "cat ./coverage/lcov.info | coveralls"
