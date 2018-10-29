@@ -79,3 +79,7 @@ posthtml([
   renameId((id) => { c++; return 'elem_' + c; })
 ]);
 ```
+
+## LICENSE
+
+[MIT](LICENSE)

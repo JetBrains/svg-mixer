@@ -236,3 +236,7 @@ option to `true`:
 
 Keep in mind that you should use `[hash]` token in [file-loader name option](https://github.com/webpack-contrib/file-loader#name), 
 otherwise webpack will create only 1 file per SVG image.
+
+## LICENSE
+
+[MIT](LICENSE)

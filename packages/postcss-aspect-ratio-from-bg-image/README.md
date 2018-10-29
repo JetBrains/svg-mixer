@@ -118,3 +118,7 @@ and create corresponding rule to match only imports with `?ratio` param:
 // 
 aspectRatio({ match: /\.svg\?ratio$/ });
 ```
+
+## LICENSE
+
+[MIT](LICENSE)

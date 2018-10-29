@@ -80,3 +80,7 @@ Declaration-to-query param transform function. Accepts an object with `name` and
 `value` fields and should return object with the same structure. By default strips 
 `-svg-` in declaration name, eg. `-svg-fill: red` turns into `?fill=red`. Declaration 
 value will be URL encoded.
+
+## LICENSE
+
+[MIT](LICENSE)

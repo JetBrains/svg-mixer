@@ -195,3 +195,7 @@ The code above will generate sprite with 2 symbols - original image and filled w
 In this example adding images and generating sprite performed manually, but when 
 using svg-mixer [adapters](#adapters) you'll need only to pass custom implementation 
 to adapter config.
+
+## LICENSE
+
+[MIT](LICENSE)

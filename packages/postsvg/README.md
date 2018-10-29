@@ -51,3 +51,7 @@ Node<{
   content?: Array<Node>
 }>
 ```
+
+## LICENSE
+
+[MIT](LICENSE)

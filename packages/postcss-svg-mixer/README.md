@@ -195,3 +195,7 @@ createSprite('img/*.svg').then(result => {
     .then(({ css }) => writeFileSync('output.css', css));
 });
 ``` 
+
+## LICENSE
+
+[MIT](LICENSE)

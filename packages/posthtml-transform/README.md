@@ -94,3 +94,7 @@ fill=red .class
 fill=red #id, black .class
 fill=red #id&stroke=black .class
 ```
+
+## LICENSE
+
+[MIT](LICENSE)

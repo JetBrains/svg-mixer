@@ -153,3 +153,7 @@ Custom symbol class. Docs will be ASAP.
 How `<symbol id>` attribute should be named. All patterns from [loader-utils#interpolateName](https://github.com/webpack/loader-utils#interpolatename)
 are supported. Also can be a function which accepts 2 args - file path and query 
 string and should return a function.
+
+## LICENSE
+
+[MIT](LICENSE)

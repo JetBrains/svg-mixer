@@ -78,3 +78,7 @@ gulp.src('img/*.svg')
   }))
   .pipe(gulp.dest('build'));
 ```
+
+## LICENSE
+
+[MIT](LICENSE)
