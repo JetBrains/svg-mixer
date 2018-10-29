@@ -33,7 +33,6 @@
     "commitmsg": "validate-commit-msg",
     "lerna": "lerna",
     "lint": "lerna exec --concurrency 1 -- yarn lint",
-    "postinstall": "lerna bootstrap",
     "publish": "lerna publish --conventional-commits --npm-client=npm",
     "test": "lerna exec --concurrency 1 -- yarn test",
     "verify": "yarn lint && yarn test",
