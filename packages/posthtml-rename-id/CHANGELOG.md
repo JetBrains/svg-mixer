@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="1.0.10"></a>
+## [1.0.10](https://github.com/JetBrains/svg-mixer/compare/posthtml-rename-id@1.0.9...posthtml-rename-id@1.0.10) (2018-10-29)
+
+
+
+
+**Note:** Version bump only for package posthtml-rename-id
+
 <a name="1.0.9"></a>
 ## [1.0.9](https://github.com/kisenka/svg-mixer/packages/posthtml-rename-id/compare/posthtml-rename-id@1.0.8...posthtml-rename-id@1.0.9) (2018-10-29)
 

@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="2.2.5"></a>
+## [2.2.5](https://github.com/JetBrains/svg-mixer/compare/postsvg@2.2.4...postsvg@2.2.5) (2018-10-29)
+
+
+
+
+**Note:** Version bump only for package postsvg
+
 <a name="2.2.4"></a>
 ## [2.2.4](https://github.com/kisenka/svg-mixer/packages/postsvg/compare/postsvg@2.2.3...postsvg@2.2.4) (2018-10-29)
 

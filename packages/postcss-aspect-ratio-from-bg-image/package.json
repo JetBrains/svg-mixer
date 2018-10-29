@@ -1,6 +1,6 @@
 {
   "name": "postcss-aspect-ratio-from-bg-image",
-  "version": "0.2.5",
+  "version": "0.2.6",
   "description": "PostCSS plugin to generate styles for maintaining block aspect ratio of referenced background image",
   "keywords": [
     "postcss",
@@ -22,6 +22,6 @@
     "calipers-svg": "^2.0.0",
     "merge-options": "^1.0.0",
     "postcss": "^6.0.1",
-    "svg-mixer-utils": "^0.3.3"
+    "svg-mixer-utils": "^0.3.4"
   }
 }

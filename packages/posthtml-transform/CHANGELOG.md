@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="1.0.2"></a>
+## [1.0.2](https://github.com/JetBrains/svg-mixer/compare/posthtml-transform@1.0.1...posthtml-transform@1.0.2) (2018-10-29)
+
+
+
+
+**Note:** Version bump only for package posthtml-transform
+
 <a name="1.0.1"></a>
 ## [1.0.1](https://github.com/kisenka/svg-mixer/packages/posthtml-transform/compare/posthtml-transform@1.0.0...posthtml-transform@1.0.1) (2018-10-29)
 
