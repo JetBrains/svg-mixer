@@ -1,6 +1,6 @@
 {
   "name": "posthtml-rename-id",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "PostHTML plugin to rename id attributes and it's references",
   "keywords": [
     "posthtml",

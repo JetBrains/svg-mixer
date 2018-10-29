@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.2.9"></a>
+## [0.2.9](https://github.com/kisenka/svg-mixer/packages/gulp-svg-mixer/compare/gulp-svg-mixer@0.2.8...gulp-svg-mixer@0.2.9) (2018-10-29)
+
+
+### Bug Fixes
+
+* refer to license file in readme ([e34a289](https://github.com/kisenka/svg-mixer/packages/gulp-svg-mixer/commit/e34a289))
+
+
+
+
 <a name="0.2.8"></a>
 ## [0.2.8](https://github.com/kisenka/svg-mixer/packages/gulp-svg-mixer/compare/gulp-svg-mixer@0.2.7...gulp-svg-mixer@0.2.8) (2018-09-24)
 

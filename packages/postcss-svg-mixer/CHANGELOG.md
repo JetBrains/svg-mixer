@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.3.8"></a>
+## [0.3.8](https://github.com/kisenka/svg-mixer/packages/postcss-svg-mixer/compare/postcss-svg-mixer@0.3.7...postcss-svg-mixer@0.3.8) (2018-10-29)
+
+
+### Bug Fixes
+
+* refer to license file in readme ([e34a289](https://github.com/kisenka/svg-mixer/packages/postcss-svg-mixer/commit/e34a289))
+
+
+
+
 <a name="0.3.7"></a>
 ## [0.3.7](https://github.com/kisenka/svg-mixer/packages/postcss-svg-mixer/compare/postcss-svg-mixer@0.3.6...postcss-svg-mixer@0.3.7) (2018-09-24)
 

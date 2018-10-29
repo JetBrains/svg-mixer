@@ -1,6 +1,6 @@
 {
   "name": "extract-svg-sprite-webpack-plugin",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "license": "MIT",
   "homepage": "https://github.com/kisenka/svg-mixer/packages/extract-svg-sprite-webpack-plugin",
   "repository": "https://github.com/kisenka/svg-mixer/packages/extract-svg-sprite-webpack-plugin",
@@ -13,9 +13,9 @@
     "loader-utils": "^1.1.0",
     "lodash.merge": "^4.6.1",
     "postcss": "^6.0.22",
-    "postcss-svg-mixer": "^0.3.7",
-    "svg-mixer": "^2.3.4",
-    "svg-mixer-utils": "^0.3.2"
+    "postcss-svg-mixer": "^0.3.8",
+    "svg-mixer": "^2.3.5",
+    "svg-mixer-utils": "^0.3.3"
   },
   "devDependencies": {
     "css-loader": "^0.28.11",

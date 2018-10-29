@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.3.4"></a>
+## [0.3.4](https://github.com/kisenka/svg-mixer/packages/extract-svg-sprite-webpack-plugin/compare/extract-svg-sprite-webpack-plugin@0.3.3...extract-svg-sprite-webpack-plugin@0.3.4) (2018-10-29)
+
+
+### Bug Fixes
+
+* refer to license file in readme ([e34a289](https://github.com/kisenka/svg-mixer/packages/extract-svg-sprite-webpack-plugin/commit/e34a289))
+
+
+
+
 <a name="0.3.3"></a>
 ## [0.3.3](https://github.com/kisenka/svg-mixer/packages/extract-svg-sprite-webpack-plugin/compare/extract-svg-sprite-webpack-plugin@0.3.2...extract-svg-sprite-webpack-plugin@0.3.3) (2018-09-28)
 

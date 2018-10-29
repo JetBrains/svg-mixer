@@ -1,6 +1,6 @@
 {
   "name": "gulp-svg-mixer",
-  "version": "0.2.8",
+  "version": "0.2.9",
   "description": "Gulp plugin for creating SVG sprites",
   "keywords": [
     "gulp",
@@ -18,8 +18,8 @@
     "merge-options": "^1.0.0",
     "postcss": "^6.0.21",
     "postcss-prettify": "^0.3.4",
-    "postcss-svg-mixer": "^0.3.7",
-    "svg-mixer": "^2.3.4",
+    "postcss-svg-mixer": "^0.3.8",
+    "svg-mixer": "^2.3.5",
     "through2": "2.0.3",
     "vinyl": "^2.1.0"
   },
