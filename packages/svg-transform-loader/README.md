@@ -6,7 +6,7 @@ fill, stroke and other manipulations with image imported from CSS/SCSS/LESS/Styl
 - [Demo](#demo)
 - [Installation](#installation)
 - [Webpack config](#webpack-config)
-  - [Further SVG handling](#further-svg-handling)
+- [Further SVG handling](#further-svg-handling)
 - [How to pass transform parameters](#how-to-pass-transform-parameters)
 - [Configuration](#configuration)
 - ⚠[Important notices](#notices)
@@ -72,11 +72,12 @@ module.exports = {
 }
 ```
 
-### Further SVG handling
+## Further SVG handling
 
-This loader leaves any further SVG processing to your choice. You can use:
+Don't forget that this loader leaves any further SVG processing to your choice.
+You can use:
 - url-loader/svg-url-loader to inline the SVG into CSS.
-- file-loader to save SVG as a file (read the notice).
+- file-loader to save SVG as a file ([read the notice](#usage-with-file-loader)).
 
 ## How to pass transform parameters
 
