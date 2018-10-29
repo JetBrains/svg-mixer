@@ -211,7 +211,7 @@ To work around this you have several options.
   }
   ```
 
-#### Usage with resolve-url-loader
+### Usage with resolve-url-loader
 
 If you're using resolve-url-loader for rewriting paths in SCSS/LESS/etc, keep in 
 mind that it will remove query string by default and svg-transform-loader will 
@@ -234,7 +234,7 @@ option to `true`:
 }
 ```
 
-#### Usage with file-loader
+### Usage with file-loader
 
 Keep in mind that you should use `[hash]` token in [file-loader name option](https://github.com/webpack-contrib/file-loader#name), 
 otherwise webpack will create only 1 file per SVG image.
