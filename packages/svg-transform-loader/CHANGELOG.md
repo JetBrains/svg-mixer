@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="2.0.3"></a>
+## [2.0.3](https://github.com/JetBrains/svg-mixer/compare/svg-transform-loader@2.0.2...svg-transform-loader@2.0.3) (2018-12-05)
+
+
+
+
+**Note:** Version bump only for package svg-transform-loader
+
 <a name="2.0.2"></a>
 ## [2.0.2](https://github.com/JetBrains/svg-mixer/compare/svg-transform-loader@2.0.1...svg-transform-loader@2.0.2) (2018-10-29)
 

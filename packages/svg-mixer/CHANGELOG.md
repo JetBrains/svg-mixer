@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="2.3.7"></a>
+## [2.3.7](https://github.com/JetBrains/svg-mixer/compare/svg-mixer@2.3.6...svg-mixer@2.3.7) (2018-12-05)
+
+
+### Bug Fixes
+
+* add missing clone dependency ([a1558f3](https://github.com/JetBrains/svg-mixer/commit/a1558f3)), closes [#45](https://github.com/JetBrains/svg-mixer/issues/45)
+
+
+
+
 <a name="2.3.6"></a>
 ## [2.3.6](https://github.com/JetBrains/svg-mixer/compare/svg-mixer@2.3.5...svg-mixer@2.3.6) (2018-10-29)
 

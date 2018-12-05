@@ -1,6 +1,6 @@
 {
   "name": "postcss-move-props-to-bg-image-query",
-  "version": "0.2.7",
+  "version": "0.2.8",
   "description": "PostCSS plugin to turn some style declarations into background image query params",
   "keywords": [
     "postcss",
