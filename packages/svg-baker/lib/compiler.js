@@ -48,18 +48,19 @@ class Compiler {
     const request = new FileRequest(path);
     const options = { id, request, content, factory };
 
-    const existing = symbols.find(s => s.request.equals(request));
-    const existingIndex = existing ? symbols.indexOf(existing) : -1;
-    const allExceptCurrent = symbols
-      .filter(s => s.request.fileEquals(request) && !s.request.queryEquals(request))
-      .map(symbol => ({ symbol, index: symbols.indexOf(symbol) }));
-
     return SpriteSymbol.create(options).then((newSymbol) => {
+      const existing = symbols.find(s => s.request.equals(request));
+
       if (!existing) {
         symbols.push(newSymbol);
         Compiler.sortSymbols(symbols);
         return newSymbol;
       }
+
+      const existingIndex = existing ? symbols.indexOf(existing) : -1;
+      const allExceptCurrent = symbols
+        .filter(s => s.request.fileEquals(request) && !s.request.queryEquals(request))
+        .map(symbol => ({ symbol, index: symbols.indexOf(symbol) }));
 
       symbols[existingIndex] = newSymbol;
       Compiler.sortSymbols(symbols);
