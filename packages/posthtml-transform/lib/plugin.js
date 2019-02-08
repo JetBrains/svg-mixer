@@ -8,7 +8,7 @@ const { normalizeRules } = require('./utils');
 
 const defaultConfig = {
   skipRootTag: false,
-  convertAlphaColors: false
+  convertAlphaColors: true
 };
 
 module.exports = (rules, config = {}) => {
