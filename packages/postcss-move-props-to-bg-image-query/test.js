@@ -27,8 +27,8 @@ const cases = [
   },
   {
     name: 'should encode functions properly',
-    input: '.a {background: url(1.png); -svg-fill: rgba(39, 40, 44, 0.05);}',
-    expected: `.a {background: url(1.png?fill=rgba%2839%2C%2040%2C%2044%2C%200.05%29);}`
+    input: '.a {background: url(1.png); -svg-fill: rgba(255, 0, 0, 0.5);}',
+    expected: `.a {background: url(1.png?fill=rgba%28255%2C%200%2C%200%2C%200.5%29);}`
   },
   {
     name: 'should preserve if any query params already there',
