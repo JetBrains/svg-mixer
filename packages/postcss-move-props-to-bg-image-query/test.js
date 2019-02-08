@@ -26,6 +26,11 @@ const cases = [
     expected: '.a {background: url(1.png?fill=%23fff);}'
   },
   {
+    name: 'should encode functions properly',
+    input: '.a {background: url(1.png); -svg-fill: rgba(39, 40, 44, 0.05);}',
+    expected: `.a {background: url(1.png?fill=rgba%2839%2C%2040%2C%2044%2C%200.05%29);}`
+  },
+  {
     name: 'should preserve if any query params already there',
     input: '.a {background: url(1.png?qwe); -svg-fill: red}',
     expected: '.a {background: url(1.png?qwe&fill=red)}'

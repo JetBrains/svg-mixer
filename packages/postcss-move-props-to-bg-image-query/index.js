@@ -69,7 +69,10 @@ module.exports = postcss.plugin(packageName, config => {
         const query = declsToObject(declsToMove, cfg.transform);
 
         bgDecls.forEach(({ decl, helper }) => {
-          helper.URIS.forEach(url => url.setSearch(query));
+          helper.URIS.forEach(url => {
+            url.setSearch(query);
+            url._parts.query = url._parts.query.replace(/\+/g, '%20');
+          });
           decl.value = helper.getModifiedRule();
         });
 
