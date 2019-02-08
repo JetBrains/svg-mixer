@@ -1,7 +1,4 @@
-const postcss = require('postcss');
-
-const CUSTOM_PROPERTY_DECL_REGEXP = /^--[A-z][\w-]*$/;
-const CUSTOM_PROPERTY_REGEXP = /(^|[^\w-])var\([\W\w]+\)/;
+const Result = require('postcss/lib/result')
 
 /**
  * @param {postcss.Declaration[]} decls
@@ -26,15 +23,15 @@ module.exports.declsToObject = declsToObject;
 
 /**
  * @param {postcss.Declaration[]} decls
- * @param {postcss.Root} tree
- * @param {postcss.PluginInitializer} computer
+ * @param {postcss.Result} computer
+ * @param {postcss.Processor} result
  * @return {Promise<postcss.Declaration[]>}
  */
-async function computeCustomProps(decls, tree, computer, from) {
+async function computeCustomProps(decls, result, processor) {
   const map = new Map();
-  const clonedTree = tree.clone();
+  const clonedRoot = result.root.clone();
 
-  clonedTree.walkDecls(clonedDecl => {
+  clonedRoot.walkDecls(clonedDecl => {
     const sourceDecl = decls.find(decl => (
       decl.source.start.column === clonedDecl.source.start.column &&
       decl.source.start.line === clonedDecl.source.start.line &&
@@ -47,9 +44,11 @@ async function computeCustomProps(decls, tree, computer, from) {
     }
   });
 
-  const { root } = await postcss()
-    .use(computer)
-    .process(clonedTree.toResult(), { from });
+  // FIXME bad idea to use private API but this way prevents double parsing
+  await processor.process(
+    new Result(processor, clonedRoot),
+    { from: result.opts.from }
+  );
 
   for (const [decl, clonedDecl] of map.entries()) {
     decl.value = clonedDecl.value;

@@ -17,7 +17,7 @@ const {
  * @typedef {Object} PluginConfig
  * @property {RegExp|string|Array<RegExp|string>} match Which props (declarations) should be processed. Glob wildcard can be used, e.g. 'stroke-*'.
  * @property {Function<(postcss.Declaration): { name: string, value: string }>} transform How prop name & value should be transformed to become a query string parameter.
- * @property {boolean|postcss.PluginInitializer} computeCustomProps=false
+ * @property {boolean|postcss.Processor} computeCustomProps=false
  */
 const defaultConfig = {
   match: '-svg-*',
@@ -32,11 +32,11 @@ module.exports = postcss.plugin(packageName, config => {
   const cfg = merge(defaultConfig, config);
   const declNameMatcher = createMatcher(cfg.match);
 
-  let valuesComputer;
+  let processor;
   if (cfg.computeCustomProps === true || typeof cfg.computeCustomProps === 'function') {
-    valuesComputer = typeof cfg.computeCustomProps === 'function'
+    processor = typeof cfg.computeCustomProps === 'function'
       ? cfg.computeCustomProps
-      : postcssCustomProps({ preserve: false });
+      : postcss([postcssCustomProps({ preserve: false })]);
   }
 
   return async (root, result) => {
@@ -58,12 +58,7 @@ module.exports = postcss.plugin(packageName, config => {
         }
 
         if (cfg.computeCustomProps) {
-          await computeCustomProps(
-            declsToMove,
-            root,
-            valuesComputer,
-            result.opts.from
-          );
+          await computeCustomProps(declsToMove, result, processor);
         }
 
         const query = declsToObject(declsToMove, cfg.transform);
@@ -71,6 +66,7 @@ module.exports = postcss.plugin(packageName, config => {
         bgDecls.forEach(({ decl, helper }) => {
           helper.URIS.forEach(url => {
             url.setSearch(query);
+            // TODO use humane URL parsing lib
             url._parts.query = url._parts.query.replace(/\+/g, '%20');
           });
           decl.value = helper.getModifiedRule();
