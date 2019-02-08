@@ -33,16 +33,24 @@ const cases = [
   {
     name: 'should allow to override default props',
     input: '.a {background: url(1.png); -svg-fill: red; color: blue}',
-    options: { match: ['color'] },
-    expected: '.a {background: url(1.png?color=blue); -svg-fill: red}'
+    expected: '.a {background: url(1.png?color=blue); -svg-fill: red}',
+    options: { match: ['color'] }
   },
   {
     name: 'should allow to use custom transformer',
     input: '.a {background: url(1.png); -svg-fill: red;}',
+    expected: '.a {background: url(1.png?-SVG-FILL=red);}',
     options: {
       transform: ({ name, value }) => ({ name: name.toUpperCase(), value })
-    },
-    expected: '.a {background: url(1.png?-SVG-FILL=red);}'
+    }
+  },
+  {
+    name: 'should compute custom properties',
+    input: ':root {--color: red} .a {background: url(1.png); -svg-fill: var(--color)}',
+    expected: ':root {--color: red} .a {background: url(1.png?fill=red)}',
+    options: {
+      computeCustomProps: true
+    }
   }
 ];
 
