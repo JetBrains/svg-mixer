@@ -1,6 +1,6 @@
 {
   "name": "postcss-aspect-ratio-from-bg-image",
-  "version": "0.2.7",
+  "version": "0.2.8",
   "description": "PostCSS plugin to generate styles for maintaining block aspect ratio of referenced background image",
   "keywords": [
     "postcss",

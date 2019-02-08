@@ -1,6 +1,6 @@
 {
   "name": "postsvg",
-  "version": "2.2.6",
+  "version": "2.2.7",
   "description": "A tiny wrapper over posthml with the same API optimized for working with SVG",
   "keywords": [
     "posthtml",

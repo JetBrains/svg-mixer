@@ -1,6 +1,6 @@
 {
   "name": "extract-svg-sprite-webpack-plugin",
-  "version": "0.3.7",
+  "version": "0.3.8",
   "license": "MIT",
   "author": "JetBrains",
   "homepage": "https://github.com/JetBrains/svg-mixer/tree/master/packages/extract-svg-sprite-webpack-plugin",
@@ -14,8 +14,8 @@
     "loader-utils": "^1.1.0",
     "lodash.merge": "^4.6.1",
     "postcss": "^7.0.14",
-    "postcss-svg-mixer": "^0.3.10",
-    "svg-mixer": "^2.3.7",
+    "postcss-svg-mixer": "^0.3.11",
+    "svg-mixer": "^2.3.8",
     "svg-mixer-utils": "^0.3.4"
   },
   "devDependencies": {

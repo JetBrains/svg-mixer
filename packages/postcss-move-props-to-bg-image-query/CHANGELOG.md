@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.3.0"></a>
+# [0.3.0](https://github.com/JetBrains/svg-mixer/compare/postcss-move-props-to-bg-image-query@0.2.8...postcss-move-props-to-bg-image-query@0.3.0) (2019-02-08)
+
+
+### Features
+
+* add ability to compute CSS custom properties ([f13564b](https://github.com/JetBrains/svg-mixer/commit/f13564b))
+
+
+
+
 <a name="0.2.8"></a>
 ## [0.2.8](https://github.com/JetBrains/svg-mixer/compare/postcss-move-props-to-bg-image-query@0.2.7...postcss-move-props-to-bg-image-query@0.2.8) (2018-12-05)
 

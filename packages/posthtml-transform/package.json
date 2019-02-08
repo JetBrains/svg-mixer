@@ -1,6 +1,6 @@
 {
   "name": "posthtml-transform",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "PostHTML plugin to add/modify tags and attributes",
   "keywords": [
     "posthtml",
@@ -24,6 +24,6 @@
     "slashes": "^1.0.5"
   },
   "devDependencies": {
-    "postsvg": "^2.2.6"
+    "postsvg": "^2.2.7"
   }
 }

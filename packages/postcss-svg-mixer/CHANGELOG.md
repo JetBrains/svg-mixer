@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.3.11"></a>
+## [0.3.11](https://github.com/JetBrains/svg-mixer/compare/postcss-svg-mixer@0.3.10...postcss-svg-mixer@0.3.11) (2019-02-08)
+
+
+
+
+**Note:** Version bump only for package postcss-svg-mixer
+
 <a name="0.3.10"></a>
 ## [0.3.10](https://github.com/JetBrains/svg-mixer/compare/postcss-svg-mixer@0.3.9...postcss-svg-mixer@0.3.10) (2018-12-05)
 
