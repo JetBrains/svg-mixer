@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="1.0.0"></a>
+# [1.0.0](https://github.com/JetBrains/svg-mixer/compare/postcss-move-props-to-bg-image-query@0.3.1...postcss-move-props-to-bg-image-query@1.0.0) (2019-02-08)
+
+
+### Bug Fixes
+
+* prevent double parsing in custom when compute custom props ([a3c04ab](https://github.com/JetBrains/svg-mixer/commit/a3c04ab))
+
+
+### Chores
+
+* change default props transformer ([c1cb3ba](https://github.com/JetBrains/svg-mixer/commit/c1cb3ba))
+
+
+### BREAKING CHANGES
+
+* change default prop to move from `-svg-*` to `-svg-mixer-*`
+
+
+
+
 <a name="0.3.1"></a>
 ## [0.3.1](https://github.com/JetBrains/svg-mixer/compare/postcss-move-props-to-bg-image-query@0.3.0...postcss-move-props-to-bg-image-query@0.3.1) (2019-02-08)
 

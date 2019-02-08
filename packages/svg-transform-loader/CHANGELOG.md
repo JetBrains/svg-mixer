@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="2.0.6"></a>
+## [2.0.6](https://github.com/JetBrains/svg-mixer/compare/svg-transform-loader@2.0.5...svg-transform-loader@2.0.6) (2019-02-08)
+
+
+### Bug Fixes
+
+* decode param value before usage ([ee54ebe](https://github.com/JetBrains/svg-mixer/commit/ee54ebe))
+
+
+
+
 <a name="2.0.5"></a>
 ## [2.0.5](https://github.com/JetBrains/svg-mixer/compare/svg-transform-loader@2.0.4...svg-transform-loader@2.0.5) (2019-02-08)
 
