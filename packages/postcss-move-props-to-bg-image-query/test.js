@@ -17,41 +17,41 @@ const cases = [
   },
   {
     name: 'should move only -svg-* props by default',
-    input: '.a {background: url(1.png); -svg-fill: red}',
+    input: '.a {background: url(1.png); -svg-mixer-fill: red}',
     expected: '.a {background: url(1.png?fill=red)}'
   },
   {
     name: 'should encode param value',
-    input: '.a {background: url(1.png); -svg-fill: #fff;}',
+    input: '.a {background: url(1.png); -svg-mixer-fill: #fff;}',
     expected: '.a {background: url(1.png?fill=%23fff);}'
   },
   {
     name: 'should encode functions properly',
-    input: '.a {background: url(1.png); -svg-fill: rgba(255, 0, 0, 0.5);}',
+    input: '.a {background: url(1.png); -svg-mixer-fill: rgba(255, 0, 0, 0.5);}',
     expected: `.a {background: url(1.png?fill=rgba%28255%2C%200%2C%200%2C%200.5%29);}`
   },
   {
     name: 'should preserve if any query params already there',
-    input: '.a {background: url(1.png?qwe); -svg-fill: red}',
+    input: '.a {background: url(1.png?qwe); -svg-mixer-fill: red}',
     expected: '.a {background: url(1.png?qwe&fill=red)}'
   },
   {
     name: 'should allow to override default props',
-    input: '.a {background: url(1.png); -svg-fill: red; color: blue}',
-    expected: '.a {background: url(1.png?color=blue); -svg-fill: red}',
+    input: '.a {background: url(1.png); -svg-mixer-fill: red; color: blue}',
+    expected: '.a {background: url(1.png?color=blue); -svg-mixer-fill: red}',
     options: { match: ['color'] }
   },
   {
     name: 'should allow to use custom transformer',
-    input: '.a {background: url(1.png); -svg-fill: red;}',
-    expected: '.a {background: url(1.png?-SVG-FILL=red);}',
+    input: '.a {background: url(1.png); -svg-mixer-fill: red;}',
+    expected: '.a {background: url(1.png?-SVG-MIXER-FILL=red);}',
     options: {
       transform: ({ name, value }) => ({ name: name.toUpperCase(), value })
     }
   },
   {
     name: 'should compute custom properties',
-    input: ':root {--color: red} .a {background: url(1.png); -svg-fill: var(--color)}',
+    input: ':root {--color: red} .a {background: url(1.png); -svg-mixer-fill: var(--color)}',
     expected: ':root {--color: red} .a {background: url(1.png?fill=red)}',
     options: {
       computeCustomProps: true
