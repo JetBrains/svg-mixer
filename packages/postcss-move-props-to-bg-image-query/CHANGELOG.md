@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.3.1"></a>
+## [0.3.1](https://github.com/JetBrains/svg-mixer/compare/postcss-move-props-to-bg-image-query@0.3.0...postcss-move-props-to-bg-image-query@0.3.1) (2019-02-08)
+
+
+### Bug Fixes
+
+* encode css functions properly ([b8f8681](https://github.com/JetBrains/svg-mixer/commit/b8f8681))
+
+
+
+
 <a name="0.3.0"></a>
 # [0.3.0](https://github.com/JetBrains/svg-mixer/compare/postcss-move-props-to-bg-image-query@0.2.8...postcss-move-props-to-bg-image-query@0.3.0) (2019-02-08)
 

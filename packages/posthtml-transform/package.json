@@ -1,6 +1,6 @@
 {
   "name": "posthtml-transform",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "PostHTML plugin to add/modify tags and attributes",
   "keywords": [
     "posthtml",

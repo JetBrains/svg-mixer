@@ -1,6 +1,6 @@
 {
   "name": "svg-transform-loader",
-  "version": "2.0.4",
+  "version": "2.0.5",
   "description": "",
   "license": "MIT",
   "author": "JetBrains",
@@ -16,7 +16,7 @@
     "lodash.isempty": "^4.4.0",
     "merge-options": "^1.0.0",
     "postcss": "^7.0.14",
-    "posthtml-transform": "^1.0.4",
+    "posthtml-transform": "^1.0.5",
     "postsvg": "^2.2.7",
     "query-string": "^6.1.0",
     "svg-mixer-utils": "^0.3.4"
