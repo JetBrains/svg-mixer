@@ -38,6 +38,10 @@ module.exports = function (content, map) {
     transformQuery(query);
   }
 
+  Object.keys(query).forEach(param => {
+    query[param] = decodeURIComponent(query[param]);
+  });
+
   postsvg()
     .use(transformPlugin(stringifyQuery(query), transformPluginCfg))
     .process(content)
