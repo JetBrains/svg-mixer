@@ -21,7 +21,7 @@
     "calipers-png": "^2.0.0",
     "calipers-svg": "^2.0.0",
     "merge-options": "^1.0.0",
-    "postcss": "^6.0.1",
+    "postcss": "^7.0.14",
     "svg-mixer-utils": "^0.3.4"
   }
 }
