@@ -37,16 +37,25 @@ describe('plugin', () => {
 
   it('should rename tag', async () => {
     const rules = [{ selector: 'svg', tag: 'symbol' }];
-    expect(await t(rules, image, { skipRootTag: false })).toMatchSnapshot();
+    const res = await t(rules, image, { skipRootTag: false });
+    expect(res).toMatchSnapshot();
   });
 
   it('should allow to use multiple value in 1 rule', async () => {
     const rules = [{ attr: 'fill', value: 'red path, green svg' }];
-    expect(await t(rules, image, { skipRootTag: false })).toMatchSnapshot();
+    const res = await t(rules, image, { skipRootTag: false });
+    expect(res).toMatchSnapshot();
+  });
+
+  it('should allow to use rule value with quotes', async () => {
+    const rules = [{ attr: 'fill', value: '"red"', selector: '"path"' }];
+    const res = await t(rules, image);
+    expect(res).toMatchSnapshot();
   });
 
   it('should convert alpha colors', async () => {
     const rules = [{ attr: 'fill', value: 'rgba(255, 255, 255, 0.5)' }];
-    expect(await t(rules, image, { convertAlphaColors: true })).toMatchSnapshot();
+    const res = await t(rules, image);
+    expect(res).toMatchSnapshot();
   });
 });

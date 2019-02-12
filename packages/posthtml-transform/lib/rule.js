@@ -1,11 +1,13 @@
 const valuesParser = require('postcss-values-parser');
 const { strip: stripSlashes } = require('slashes');
+const unquote = require('unquote');
 
-const CSS_VALUE_TYPE_REGEXP = /^(word|func|number)$/;
+const CSS_VALUE_TYPE_REGEXP = /^(word|func|number|string)$/;
 
 module.exports = class Rule {
-  static parseValue(value) {
-    const root = valuesParser(stripSlashes(value)).parse();
+  static parseValue(val) {
+    const value = unquote(stripSlashes(val));
+    const root = valuesParser(value).parse();
     const values = [];
     let counter = 0;
 
@@ -14,7 +16,8 @@ module.exports = class Rule {
         if (!values[counter]) {
           values[counter] = [];
         }
-        values[counter].push(node.toString().trim());
+        const value = unquote(node.toString()).trim();
+        values[counter].push(value);
       } else if (node.type === 'comma') {
         counter++;
       }
@@ -33,10 +36,10 @@ module.exports = class Rule {
 
     if (isSingleValue) {
       this.value = parsedVal[0][0];
-      this.selector = selector || parsedVal[0][1]; // Override selector from second value part
+      this.selector = unquote(selector) || parsedVal[0][1]; // Override selector from second value part
     } else {
       this.value = parsedVal;
-      this.selector = selector;
+      this.selector = unquote(selector);
     }
 
     this.isMultiple = isMultipleVal;
