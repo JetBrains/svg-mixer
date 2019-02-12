@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="1.0.6"></a>
+## [1.0.6](https://github.com/JetBrains/svg-mixer/compare/posthtml-transform@1.0.5...posthtml-transform@1.0.6) (2019-02-12)
+
+
+### Bug Fixes
+
+* allow pass quoted values ([33b0de9](https://github.com/JetBrains/svg-mixer/commit/33b0de9)), closes [#50](https://github.com/JetBrains/svg-mixer/issues/50)
+* select node value properly ([c80eb05](https://github.com/JetBrains/svg-mixer/commit/c80eb05))
+
+
+
+
 <a name="1.0.5"></a>
 ## [1.0.5](https://github.com/JetBrains/svg-mixer/compare/posthtml-transform@1.0.4...posthtml-transform@1.0.5) (2019-02-08)
 
