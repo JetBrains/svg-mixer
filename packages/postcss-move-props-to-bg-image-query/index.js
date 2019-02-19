@@ -20,10 +20,10 @@ const {
  * @property {boolean|postcss.Processor} computeCustomProps=false
  */
 const defaultConfig = {
-  match: '-svg-mixer-*',
+  match: '-svg-*',
   computeCustomProps: false,
   transform: ({ name, value }) => ({
-    name: name.replace(/^-svg-mixer-/, ''),
+    name: name.replace(/^-svg-/, ''),
     value
   })
 };
