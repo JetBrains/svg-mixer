@@ -7,8 +7,7 @@ const config = require('./config');
 const SpriteCompiler = require('./utils/sprite-compiler');
 const { configurator: configure, Replacer } = require('./utils');
 const {
-  isHtmlPluginCompilation,
-  isMiniExtractCompilation
+  isHtmlPluginCompilation
 } = require('./utils').helpers;
 
 let INSTANCE_COUNTER = 0;
@@ -58,6 +57,20 @@ class ExtractSvgSpritePlugin {
 
     if (compiler.hooks) {
       compiler.hooks.thisCompilation.tap(NAMESPACE, compilation => {
+        compilation.hooks.optimizeTree
+          .tapPromise(NAMESPACE, () => compileSprites(compilation)
+            .then(result => {
+              result.forEach(({ sprite }) => {
+                sprite.symbols.forEach(s => {
+                  if (s.cssModules && s.cssModules.length) {
+                    s.cssModules.forEach(m => {
+                      Replacer.replaceInModuleSource(m, s.replacements, compilation);
+                    });
+                  }
+                });
+              });
+            }));
+
         compilation.hooks.additionalAssets
           .tapPromise(NAMESPACE, () => compileSprites(compilation)
             .then(result => this.hookAdditionalAssets(compilation, result)));
@@ -66,12 +79,6 @@ class ExtractSvgSpritePlugin {
       compiler.hooks.compilation.tap(NAMESPACE, compilation => {
         compilation.hooks.normalModuleLoader
           .tap(NAMESPACE, loaderCtx => this.hookNormalModuleLoader(loaderCtx));
-
-        if (isMiniExtractCompilation(compilation)) {
-          compilation.hooks.additionalAssets
-            .tapPromise(NAMESPACE, () => compileSprites(compilation)
-              .then(result => this.hookAdditionalAssets(compilation, result)));
-        }
 
         if (compilation.hooks.htmlWebpackPluginBeforeHtmlGeneration) {
           compilation.hooks.htmlWebpackPluginBeforeHtmlGeneration

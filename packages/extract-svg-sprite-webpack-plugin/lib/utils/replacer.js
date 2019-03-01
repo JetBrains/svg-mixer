@@ -1,5 +1,7 @@
 const webpackVersion = parseInt(require('webpack/package.json').version, 10);
 
+const MINI_EXTRACT_MODULE_TYPE = 'css/mini-extract';
+
 module.exports = class Replacer {
   /**
    * @param {string} input
@@ -38,6 +40,7 @@ module.exports = class Replacer {
     if (webpackVersion <= 3) {
       args.push(compilation.outputOptions);
       args.push(compilation.requestShortener);
+      // eslint-disable-next-line no-magic-numbers
     } else if (webpackVersion >= 4) {
       args.push(compilation.runtimeTemplate);
     }
@@ -56,6 +59,19 @@ module.exports = class Replacer {
    * @return {NormalModule}
    */
   static replaceInModuleSource(module, replacements, compilation) {
+    if (module.type === MINI_EXTRACT_MODULE_TYPE) {
+      replacements.forEach(({ token, replaceTo }) => {
+        if (module.content.indexOf(token) < 0) {
+          return;
+        }
+
+        const regExp = new RegExp(token, 'g');
+
+        module.content = module.content.replace(regExp, replaceTo);
+      });
+      return module;
+    }
+
     const source = Replacer.getModuleReplaceSource(module, compilation);
     const originalSourceContent = module.originalSource().source();
 
