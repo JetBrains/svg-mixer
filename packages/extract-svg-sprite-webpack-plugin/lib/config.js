@@ -32,7 +32,9 @@ module.exports = {
     runtimeGenerator: RuntimeGenerator,
     selector: '',
     spriteClass: mixer.Sprite,
-    spriteConfig: undefined,
+    spriteConfig: {
+      usageIdSuffix: '-usage'
+    },
     spriteType: mixer.Sprite.TYPE,
     symbolClass: mixer.SpriteSymbol,
     symbolId: '[name]'
