@@ -39,6 +39,7 @@ module.exports = function (content, sourcemap, meta = {}) {
   symbol.key = `${loader._module.request}___${loader._module.issuer.request}`;
 
   plugin.compiler.addSymbol(symbol);
+  plugin.prevResult = null;
 
   const runtime = new config.runtimeGenerator(symbol, config).generate();
 
