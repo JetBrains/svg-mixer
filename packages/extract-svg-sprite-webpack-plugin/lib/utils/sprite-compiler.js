@@ -5,6 +5,8 @@ const { interpolateName } = require('loader-utils');
 const generator = require('./replacement-generator');
 const helpers = require('./helpers');
 
+const MINI_EXTRACT_MODULE_TYPE = 'css/mini-extract';
+
 class CompiledSprite {
   constructor({ sprite, content, filename }) {
     this.filename = filename;
@@ -109,11 +111,15 @@ module.exports = class SpriteCompiler {
             const { config, request: symbolUrl } = symbol;
             const position = sprite.calculateSymbolPosition(symbol, 'percent');
 
+            symbol.cssModules = symbol.issuers
+              .map(issuer => compilation.modules
+                .find(m => m.type === MINI_EXTRACT_MODULE_TYPE &&
+                  m.issuer.request.includes(issuer.request)));
+
             symbol.replacements = [
               generator.symbolUrl(symbol, {
-                filename: result.filename,
-                emit: config.emit,
-                spriteType: config.spriteType
+                ...config,
+                filename: result.filename
               }),
 
               generator.bgPosLeft(symbolUrl, position),
@@ -128,7 +134,7 @@ module.exports = class SpriteCompiler {
                 config.publicPath,
                 compilation.getPath(config.publicPath)
               )
-            ].filter(Boolean);
+            ].filter(replacement => replacement && replacement.replaceTo);
           });
 
           return new CompiledSprite(result);
