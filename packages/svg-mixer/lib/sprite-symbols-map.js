@@ -13,7 +13,12 @@ class SpriteSymbolsMap extends Map {
    * @param {Array<SpriteSymbol>} [symbols]
    */
   constructor(symbols = []) {
-    super(symbols.map(s => [s.id, s]));
+    super(symbols.map(s => {
+      if (!s.issuers) {
+        s.issuers = symbols.filter(sb => sb.id === s.id).map(sb => sb.module && sb.module.issuer);
+      }
+      return [s.id, s];
+    }));
   }
 
   /**
