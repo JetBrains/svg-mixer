@@ -33,7 +33,7 @@ module.exports = {
     selector: '',
     spriteClass: mixer.Sprite,
     spriteConfig: {
-      usageIdSuffix: '-usage'
+      usageIdSuffix: ''
     },
     spriteType: mixer.Sprite.TYPE,
     symbolClass: mixer.SpriteSymbol,
