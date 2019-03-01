@@ -42,15 +42,14 @@ class ExtractSvgSpritePlugin {
     const { NAMESPACE } = config;
 
     // TODO refactor this ugly way to avoid double compilation when using extract-text-webpack-plugin
-    let prevResult;
     // eslint-disable-next-line arrow-body-style
     const compileSprites = compilation => {
       return (
-        prevResult
-          ? Promise.resolve(prevResult)
+        this.prevResult
+          ? Promise.resolve(this.prevResult)
           : this.compiler.compile(compilation)
       ).then(result => {
-        prevResult = result;
+        this.prevResult = result;
         return result;
       });
     };
