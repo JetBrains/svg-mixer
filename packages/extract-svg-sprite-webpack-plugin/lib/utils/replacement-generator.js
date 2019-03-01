@@ -42,14 +42,14 @@ class ReplacementGenerator {
    * @return {Replacement}
    */
   static symbolUrl(symbol, config) {
-    const { filename, emit, spriteType } = config;
+    const { filename, emit, spriteType, sriteConfig } = config;
     let replaceTo;
 
     if (!filename || !emit) {
       replaceTo = `#${symbol.id}`;
     } else {
       replaceTo = spriteType === mixer.StackSprite.TYPE
-        ? `${filename}#${symbol.id}`
+        ? `${filename}#${symbol.id}${sriteConfig.usageIdSuffix}`
         : filename;
     }
 
