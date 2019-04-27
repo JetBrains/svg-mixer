@@ -41,7 +41,7 @@ function createTestFactory(func) {
   };
 }
 
-describe('svg-baker-runtime/utils', () => {
+describe('svg-mixer-runtime/utils', () => {
   describe('dispatchCustomEvent()', () => {
     it('should dispatch', (done) => {
       const eventName = 'qwe';
@@ -171,6 +171,22 @@ describe('svg-baker-runtime/utils', () => {
           doc.querySelectorAll('use'),
           '#',
           'inbox/33(popup:compose)?q=123{}#'
+        ]
+      });
+    });
+
+    it('should handle multiple urls in the same attribute', () => {
+      const input = '<linearGradient id="id"></linearGradient><path style="fill: url(#id); mask: url(#id2);"></path><use xlink:href="#id"></use><use xlink:href="#id2"></use>';
+      const expected = '<linearGradient id="id"></linearGradient><path style="fill: url(/prefix#id); mask: url(/prefix#id2);"></path><use xlink:href="/prefix#id"></use><use xlink:href="/prefix#id2"></use>';
+      const doc = wrapInSvgAndParse(input);
+
+      test({
+        input: doc,
+        expected,
+        args: [
+          doc.querySelectorAll('use'),
+          '#',
+          '/prefix#'
         ]
       });
     });
