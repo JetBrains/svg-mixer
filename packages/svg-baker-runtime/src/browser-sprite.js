@@ -69,7 +69,7 @@ export default class BrowserSprite extends Sprite {
         moveGradientsOutsideSymbol(symbolNode.parentNode);
       }
 
-      if (browser.isIE || browser.isEdge) {
+      if (browser.isIE() || browser.isEdge()) {
         evalStylesIEWorkaround(symbolNode);
       }
     });
@@ -102,7 +102,7 @@ export default class BrowserSprite extends Sprite {
     }
 
     if (typeof cfg.moveGradientsOutsideSymbol === 'undefined') {
-      config.moveGradientsOutsideSymbol = browser.isFirefox;
+      config.moveGradientsOutsideSymbol = browser.isFirefox();
     }
   }
 
