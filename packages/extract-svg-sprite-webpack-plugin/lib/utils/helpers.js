@@ -86,7 +86,7 @@ module.exports.getModuleChunk = getModuleChunk;
  * @return {number}
  */
 function getWebpackMajorVersion() {
-  const v = require('webpack/package.json').version.split('.')[0];
+  const v = require.main.require('webpack/package.json').version.split('.')[0];
   return parseInt(v, 10);
 }
 
