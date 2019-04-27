@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="1.4.2"></a>
+## [1.4.2](https://github.com/JetBrains/svg-mixer/tree/v1/packages/svg-baker-runtime/compare/svg-baker-runtime@1.4.1...svg-baker-runtime@1.4.2) (2019-04-27)
+
+
+
+
+**Note:** Version bump only for package svg-baker-runtime
+
 <a name="1.4.1"></a>
 ## [1.4.1](https://github.com/JetBrains/svg-mixer/tree/v1/packages/svg-baker-runtime/compare/svg-baker-runtime@1.4.0...svg-baker-runtime@1.4.1) (2019-04-27)
 
