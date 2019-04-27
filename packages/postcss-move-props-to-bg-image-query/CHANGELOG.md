@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="1.0.1"></a>
+## [1.0.1](https://github.com/JetBrains/svg-mixer/compare/postcss-move-props-to-bg-image-query@1.0.0...postcss-move-props-to-bg-image-query@1.0.1) (2019-04-27)
+
+
+
+
+**Note:** Version bump only for package postcss-move-props-to-bg-image-query
+
 <a name="1.0.0"></a>
 # [1.0.0](https://github.com/JetBrains/svg-mixer/compare/postcss-move-props-to-bg-image-query@0.3.1...postcss-move-props-to-bg-image-query@1.0.0) (2019-02-08)
 

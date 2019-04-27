@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.4.1"></a>
+## [0.4.1](https://github.com/JetBrains/svg-mixer/compare/extract-svg-sprite-webpack-plugin@0.4.0...extract-svg-sprite-webpack-plugin@0.4.1) (2019-04-27)
+
+
+### Bug Fixes
+
+* detecting webpack version properly ([db1b488](https://github.com/JetBrains/svg-mixer/commit/db1b488))
+
+
+
+
 <a name="0.4.0"></a>
 # [0.4.0](https://github.com/JetBrains/svg-mixer/compare/extract-svg-sprite-webpack-plugin@0.3.8...extract-svg-sprite-webpack-plugin@0.4.0) (2019-04-27)
 
