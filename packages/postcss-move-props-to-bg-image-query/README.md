@@ -15,8 +15,8 @@ Input
 ```css
 .img {
   background: url(img.svg); 
-  -svg-fill: red;
-  -svg-stroke: #000;
+  -svg-mixer-fill: red;
+  -svg-mixer-stroke: #000;
 }
 ```
 
@@ -67,7 +67,7 @@ module.exports = {
 ### `match`
 
 > Type: `string | RegExp | Array<string | RegExp>`<br>
-> Default: `'-svg-*'`
+> Default: `'-svg-mixer-*'`
 
 Filter which declarations should be transformed. Could be a string (glob pattern), 
 RegExp or array of them.
@@ -78,7 +78,7 @@ RegExp or array of them.
 
 Declaration-to-query param transform function. Accepts an object with `name` and 
 `value` fields and should return object with the same structure. By default strips 
-`-svg-` in declaration name, eg. `-svg-fill: red` turns into `?fill=red`. Declaration 
+`-svg-` in declaration name, eg. `-svg-mixer-fill: red` turns into `?fill=red`. Declaration 
 value will be URL encoded.
 
 ## LICENSE
