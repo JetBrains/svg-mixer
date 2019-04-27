@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="1.4.1"></a>
+## [1.4.1](https://github.com/JetBrains/svg-mixer/tree/v1/packages/svg-baker-runtime/compare/svg-baker-runtime@1.4.0...svg-baker-runtime@1.4.1) (2019-04-27)
+
+
+### Bug Fixes
+
+* dont reference browser globals on init ([aabcd04](https://github.com/JetBrains/svg-mixer/tree/v1/packages/svg-baker-runtime/commit/aabcd04))
+* replace all instances of urls in attribute ([39f8aaf](https://github.com/JetBrains/svg-mixer/tree/v1/packages/svg-baker-runtime/commit/39f8aaf))
+
+
+
+
 <a name="1.4.0"></a>
 # [1.4.0](https://github.com/JetBrains/svg-mixer/tree/v1/packages/svg-baker-runtime/compare/svg-baker-runtime@1.2.99...svg-baker-runtime@1.4.0) (2018-10-29)
 
