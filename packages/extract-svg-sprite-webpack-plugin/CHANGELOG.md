@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.4.0"></a>
+# [0.4.0](https://github.com/JetBrains/svg-mixer/compare/extract-svg-sprite-webpack-plugin@0.3.8...extract-svg-sprite-webpack-plugin@0.4.0) (2019-04-27)
+
+
+### Bug Fixes
+
+* replacing tokens in css/mini-extract module content ([5061847](https://github.com/JetBrains/svg-mixer/commit/5061847))
+* reset previous sprite compilation result when new symbol added ([744e28c](https://github.com/JetBrains/svg-mixer/commit/744e28c))
+* set default usageIdSuffix to empty string ([68db6df](https://github.com/JetBrains/svg-mixer/commit/68db6df))
+
+
+### Features
+
+* add usageIdSuffix for usages ([1ca9db4](https://github.com/JetBrains/svg-mixer/commit/1ca9db4))
+
+
+
+
 <a name="0.3.8"></a>
 ## [0.3.8](https://github.com/JetBrains/svg-mixer/compare/extract-svg-sprite-webpack-plugin@0.3.7...extract-svg-sprite-webpack-plugin@0.3.8) (2019-02-08)
 
