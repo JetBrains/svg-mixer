@@ -32,11 +32,9 @@ module.exports = postcss.plugin(packageName, config => {
   const cfg = merge(defaultConfig, config);
   const declNameMatcher = createMatcher(cfg.match);
 
-  let processor;
-  if (cfg.computeCustomProps === true || typeof cfg.computeCustomProps === 'function') {
-    processor = typeof cfg.computeCustomProps === 'function'
-      ? cfg.computeCustomProps
-      : postcss([postcssCustomProps({ preserve: false })]);
+  let processor = cfg.computeCustomProps;
+  if (cfg.computeCustomProps === true) {
+    processor = postcss([postcssCustomProps({ preserve: false })]);
   }
 
   return async (root, result) => {
