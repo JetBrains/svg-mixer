@@ -22,7 +22,7 @@
     "svg-mixer-utils": "^0.3.4"
   },
   "devDependencies": {
-    "css-loader": "^0.28.11",
+    "css-loader": "^3.0.0",
     "extract-text-webpack-plugin": "3",
     "file-loader": "^1.1.11",
     "postcss-loader": "^2.1.5",

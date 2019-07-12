@@ -4,6 +4,6 @@
   "private": true,
   "dependencies": {
     "glob": "^7.1.2",
-    "shelljs": "^0.8.2"
+    "shelljs": "^0.8.3"
   }
 }
