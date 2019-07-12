@@ -23,7 +23,6 @@
     "lerna": "2",
     "memory-fs": "^0.4.1",
     "merge-options": "^1.0.1",
-    "mocha": "^6.1.4",
     "pretty": "^2.0.0"
   },
   "husky": {
