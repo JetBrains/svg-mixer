@@ -12,7 +12,7 @@
   ],
   "dependencies": {
     "loader-utils": "^1.1.0",
-    "lodash.merge": "^4.6.1",
+    "lodash.merge": "^4.6.2",
     "postcss": "^7.0.14",
     "postcss-svg-mixer": "^0.3.12",
     "svg-mixer": "^2.3.9",
