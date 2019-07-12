@@ -12,23 +12,27 @@
     }
   },
   "devDependencies": {
-    "@commitlint/config-conventional": "6.1.3",
-    "@commitlint/core": "6.1.3",
+    "@commitlint/cli": "^8.0.0",
+    "@commitlint/config-conventional": "^8.0.0",
     "@jetbrains/logos": "1.0.0",
     "@kisenka/eslint-config": "^1.0.2",
     "eslint": "4.19.1",
-    "husky": "0.14.3",
+    "husky": "^3.0.0",
     "jest": "^22.4.3",
     "jest-extended": "^0.6.0",
-    "lerna": "^2.11.0",
+    "lerna": "2",
     "memory-fs": "^0.4.1",
     "merge-options": "^1.0.1",
     "mocha": "^6.1.4",
     "pretty": "^2.0.0"
   },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  },
   "scripts": {
     "bootstrap": "lerna bootstrap",
-    "commitmsg": "node scripts/lint-commit-msg",
     "copy-license": "lerna exec -- cp '$LERNA_ROOT_PATH/LICENSE' '$LERNA_ROOT_PATH/packages/$LERNA_PACKAGE_NAME'",
     "lint": "eslint packages scripts test",
     "publish": "lerna publish --conventional-commits --npm-client=npm",
