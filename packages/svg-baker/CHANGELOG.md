@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="1.5.0"></a>
+# [1.5.0](https://github.com/JetBrains/svg-mixer/tree/v1/compare/svg-baker@1.4.0...svg-baker@1.5.0) (2020-01-24)
+
+
+### Features
+
+* add clipPath & mask to "move-from-symbol-to-root" transform defaults ([#61](https://github.com/JetBrains/svg-mixer/tree/v1/issues/61)) ([cbad9e8](https://github.com/JetBrains/svg-mixer/tree/v1/commit/cbad9e8))
+
+
+
+
 <a name="1.4.1"></a>
 ## [1.4.1](https://github.com/JetBrains/svg-mixer/tree/v1/compare/svg-baker@1.4.0...svg-baker@1.4.1) (2019-04-27)
 
