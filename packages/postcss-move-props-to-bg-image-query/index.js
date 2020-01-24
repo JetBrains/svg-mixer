@@ -1,7 +1,6 @@
 /* eslint-disable no-param-reassign */
 const postcss = require('postcss');
 const merge = require('merge-options');
-const postcssCustomProps = require('postcss-custom-properties');
 const {
   createMatcher,
   postcss: postcssUtils
@@ -32,11 +31,6 @@ module.exports = postcss.plugin(packageName, config => {
   const cfg = merge(defaultConfig, config);
   const declNameMatcher = createMatcher(cfg.match);
 
-  let processor = cfg.computeCustomProps;
-  if (cfg.computeCustomProps === true) {
-    processor = postcss([postcssCustomProps({ preserve: false })]);
-  }
-
   return async (root, result) => {
     const promisees = [];
 
@@ -56,7 +50,7 @@ module.exports = postcss.plugin(packageName, config => {
         }
 
         if (cfg.computeCustomProps) {
-          await computeCustomProps(declsToMove, result, processor);
+          await computeCustomProps(declsToMove, result, cfg.computeCustomProps);
         }
 
         const query = declsToObject(declsToMove, cfg.transform);

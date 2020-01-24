@@ -1,5 +1,3 @@
-const Result = require('postcss/lib/result')
-
 /**
  * @param {postcss.Declaration[]} decls
  * @param {function(decl: postcss.Declaration): {name: string, value: string}} transformer
@@ -23,11 +21,11 @@ module.exports.declsToObject = declsToObject;
 
 /**
  * @param {postcss.Declaration[]} decls
- * @param {postcss.Result} computer
- * @param {postcss.Processor} result
+ * @param {postcss.Result} root
+ * @param {postcss.Plugin} plugin
  * @return {Promise<postcss.Declaration[]>}
  */
-async function computeCustomProps(decls, result, processor) {
+async function computeCustomProps(decls, result, plugin) {
   const map = new Map();
   const clonedRoot = result.root.clone();
 
@@ -44,11 +42,7 @@ async function computeCustomProps(decls, result, processor) {
     }
   });
 
-  // FIXME bad idea to use private API but this way prevents double parsing
-  await processor.process(
-    new Result(processor, clonedRoot),
-    { from: result.opts.from }
-  );
+  await plugin(clonedRoot, { from: result.opts.from });
 
   for (const [decl, clonedDecl] of map.entries()) {
     decl.value = clonedDecl.value;

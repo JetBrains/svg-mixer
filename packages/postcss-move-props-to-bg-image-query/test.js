@@ -1,4 +1,5 @@
 const postcss = require('postcss');
+const postcssCustomProps = require('postcss-custom-properties');
 
 const plugin = require('.');
 
@@ -54,7 +55,9 @@ const cases = [
     input: ':root {--color: red} .a {background: url(1.png); -svg-mixer-fill: var(--color)}',
     expected: ':root {--color: red} .a {background: url(1.png?fill=red)}',
     options: {
-      computeCustomProps: true
+      computeCustomProps: postcssCustomProps({
+        preserve: false
+      })
     }
   }
 ];
