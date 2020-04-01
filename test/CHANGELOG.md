@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.5](https://github.com/JetBrains/svg-mixer/compare/svg-mixer-test@0.2.2...svg-mixer-test@0.2.5) (2020-04-01)
+
+**Note:** Version bump only for package svg-mixer-test
+
+
+
+
+
 ## [0.2.4](https://github.com/JetBrains/svg-mixer/compare/svg-mixer-test@0.2.2...svg-mixer-test@0.2.4) (2020-04-01)
 
 **Note:** Version bump only for package svg-mixer-test
