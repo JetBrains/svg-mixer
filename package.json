@@ -28,7 +28,9 @@
   "scripts": {
     "copy-license": "lerna exec -- cp '$LERNA_ROOT_PATH/LICENSE' '$LERNA_ROOT_PATH/packages/$LERNA_PACKAGE_NAME'",
     "lint": "eslint packages scripts test",
-    "release": "yarn run copy-license && lerna version && lerna publish from-git",
+    "publish": "yarn run copy-license && lerna publish from-git",
+    "release": "yarn run update-versions && yarn run publish",
+    "update-versions": "lerna version",
     "update-versions:dry-run": "lerna version --no-push --no-git-tag-version",
     "test": "jest"
   }
