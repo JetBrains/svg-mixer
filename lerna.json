@@ -1,14 +1,24 @@
 {
-  "lerna": "2.11.0",
+  "lerna": "3.20.2",
   "version": "independent",
   "npmClient": "yarn",
   "useWorkspaces": true,
-  "packages": [
-    "packages/*"
-  ],
-  "commands": {
+  "command": {
     "publish": {
-      "message": "chore(release): publish"
+      "npmClient": "npm"
+    },
+    "version": {
+      "message": "chore(release): publish :rocket:",
+      "conventionalCommits": true,
+      "allowBranch": [
+        "master",
+        "update-lerna"
+      ],
+      "yes": true,
+      "ignoreChanges": [
+        "**/*.md",
+        "*/*/test/*"
+      ]
     }
   }
 }

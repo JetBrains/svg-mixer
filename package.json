@@ -20,7 +20,7 @@
     "husky": "^3.0.0",
     "jest": "^22.4.3",
     "jest-extended": "^0.6.0",
-    "lerna": "2",
+    "lerna": "^3.20.2",
     "memory-fs": "^0.4.1",
     "merge-options": "^1.0.1",
     "pretty": "^2.0.0"
@@ -31,12 +31,11 @@
     }
   },
   "scripts": {
-    "bootstrap": "lerna bootstrap",
     "copy-license": "lerna exec -- cp '$LERNA_ROOT_PATH/LICENSE' '$LERNA_ROOT_PATH/packages/$LERNA_PACKAGE_NAME'",
     "lint": "eslint packages scripts test",
-    "publish": "lerna publish --conventional-commits --npm-client=npm",
-    "publish:dry-run": "yarn run publish --skip-git --skip-npm",
-    "release": "lerna publish --conventional-commits --npm-client=npm",
+    "release": "yarn run copy-license && yarn run update-versions && lerna publish from-git",
+    "update-versions": "lerna version",
+    "update-versions:dry-run": "lerna version --no-push --no-git-tag-version",
     "test": "jest"
   }
 }
