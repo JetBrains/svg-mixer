@@ -6,6 +6,7 @@ export default {
   attrs: {
     [svg.name]: svg.uri,
     [xlink.name]: xlink.uri,
-    style: ['position: absolute', 'width: 0', 'height: 0'].join('; ')
+    style: ['position: absolute', 'width: 0', 'height: 0'].join('; '),
+    'aria-hidden': 'true'
   }
 };
