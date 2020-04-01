@@ -6,11 +6,6 @@
     "packages/*",
     "test"
   ],
-  "config": {
-    "commitizen": {
-      "path": "./node_modules/cz-lerna-changelog"
-    }
-  },
   "devDependencies": {
     "@commitlint/cli": "^8.0.0",
     "@commitlint/config-conventional": "^8.0.0",
