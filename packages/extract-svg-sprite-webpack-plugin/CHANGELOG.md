@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.6.0](https://github.com/JetBrains/svg-mixer/compare/extract-svg-sprite-webpack-plugin@0.3.8...extract-svg-sprite-webpack-plugin@0.6.0) (2020-04-01)
+
+
+### Bug Fixes
+
+* detecting webpack version properly ([db1b488](https://github.com/JetBrains/svg-mixer/commit/db1b4889a530222f27cdba57c4ba0c1ef3f860c0))
+* replacing tokens in css/mini-extract module content ([5061847](https://github.com/JetBrains/svg-mixer/commit/5061847a1b740dda183795611f4ada17d1e4cfd1))
+* reset previous sprite compilation result when new symbol added ([744e28c](https://github.com/JetBrains/svg-mixer/commit/744e28cdffd2056c719db50d0d5137f3021be4f8))
+* set default usageIdSuffix to empty string ([68db6df](https://github.com/JetBrains/svg-mixer/commit/68db6dfa57911b302fb1e3500550f04648bcb2ed))
+* typo ([#69](https://github.com/JetBrains/svg-mixer/issues/69)) ([b46535f](https://github.com/JetBrains/svg-mixer/commit/b46535f93ecb06a8eb6bf5b43e4ac046182aaace))
+* upgrade lodash.merge to fix security vulnerability ([70943f3](https://github.com/JetBrains/svg-mixer/commit/70943f3f186fe39a38960ec9dd7fb4cde1b389b9))
+
+
+### Features
+
+* add usageIdSuffix for usages ([1ca9db4](https://github.com/JetBrains/svg-mixer/commit/1ca9db4ba3f1337025eaff95a90a101b602f7095))
+
+
+
+
+
 <a name="0.5.0"></a>
 # [0.5.0](https://github.com/JetBrains/svg-mixer/compare/extract-svg-sprite-webpack-plugin@0.3.8...extract-svg-sprite-webpack-plugin@0.5.0) (2020-01-24)
 

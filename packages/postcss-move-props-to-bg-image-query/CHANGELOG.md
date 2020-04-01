@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.0.0](https://github.com/JetBrains/svg-mixer/compare/postcss-move-props-to-bg-image-query@1.0.0...postcss-move-props-to-bg-image-query@3.0.0) (2020-04-01)
+
+
+### Bug Fixes
+
+* detect PostCSS processor properly ([c2c3bec](https://github.com/JetBrains/svg-mixer/commit/c2c3beccb81b83a13d8c2a6a0cd3e300f81d57d2))
+
+
+### Features
+
+* `computeCustomProps` now accepts only PostCSS plugin instance instead of boolean ([35c3a81](https://github.com/JetBrains/svg-mixer/commit/35c3a813099ec5d0c6314691523c18d7accd070c))
+
+
+### BREAKING CHANGES
+
+* `computeCustomProps` now accepts only PostCSS plugin instance instead of boolean
+
+
+
+
+
 <a name="2.0.0"></a>
 # [2.0.0](https://github.com/JetBrains/svg-mixer/compare/postcss-move-props-to-bg-image-query@1.0.0...postcss-move-props-to-bg-image-query@2.0.0) (2020-01-24)
 

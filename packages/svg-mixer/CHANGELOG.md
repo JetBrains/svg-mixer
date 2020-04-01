@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.3.11](https://github.com/JetBrains/svg-mixer/compare/svg-mixer@2.3.8...svg-mixer@2.3.11) (2020-04-01)
+
+**Note:** Version bump only for package svg-mixer
+
+
+
+
+
 <a name="2.3.10"></a>
 ## [2.3.10](https://github.com/JetBrains/svg-mixer/compare/svg-mixer@2.3.8...svg-mixer@2.3.10) (2020-01-24)
 
