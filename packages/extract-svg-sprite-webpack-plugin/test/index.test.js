@@ -26,7 +26,7 @@ glob(`${path.resolve(__dirname, 'cases')}/*/webpack.config.js`)
       });
 
       Object.keys(assets).forEach(name => {
-        expect(assets[name]).toMatchSnapshot();
+        expect(assets[name]).toMatchSnapshot(name);
       });
     });
   });
