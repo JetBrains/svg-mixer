@@ -1,0 +1,7 @@
+.a {
+  background: url(~fixtures/twitter.svg);
+}
+
+.b {
+  background-image: url(../../../../node_modules/@jetbrains/logos/appcode/appcode.svg);
+}
