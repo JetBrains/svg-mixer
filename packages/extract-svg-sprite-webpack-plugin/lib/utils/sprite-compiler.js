@@ -112,9 +112,10 @@ module.exports = class SpriteCompiler {
             const position = sprite.calculateSymbolPosition(symbol, 'percent');
 
             symbol.cssModules = symbol.issuers
-              .map(issuer => compilation.modules
-                .find(m => m.type === MINI_EXTRACT_MODULE_TYPE &&
-                  m.issuer.request.includes(issuer.request)));
+              .map(issuer => compilation.modules.find(m =>
+                m.type === MINI_EXTRACT_MODULE_TYPE &&
+                m.issuer.request.includes(issuer.request)))
+              .filter(Boolean);
 
             symbol.replacements = [
               generator.symbolUrl(symbol, {
