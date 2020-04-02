@@ -1,6 +1,6 @@
 {
   "name": "extract-svg-sprite-webpack-plugin",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "license": "MIT",
   "author": "JetBrains",
   "homepage": "https://github.com/JetBrains/svg-mixer/tree/master/packages/extract-svg-sprite-webpack-plugin",
