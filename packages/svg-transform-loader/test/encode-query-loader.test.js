@@ -1,8 +1,8 @@
-const { createWebpackCompiler } = require('svg-mixer-test/utils');
+const { createCompiler } = require('svg-mixer-test').webpack;
 
 it('should work!', async () => {
   const cfg = require('./encode-query-loader/webpack.config');
-  const c = await createWebpackCompiler(cfg).run();
+  const c = await createCompiler(cfg).run();
   const image = c.assets['twitter.svg'].source().toString();
   expect(image).toMatchSnapshot();
 });

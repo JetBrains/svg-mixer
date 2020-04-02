@@ -2,7 +2,7 @@ const path = require('path');
 
 const merge = require('merge-options');
 
-const RemoveAssetsWebpackPlugin = require('./remove-assets-webpack-plugin');
+const RemoveAssetsWebpackPlugin = require('./remove-assets-plugin');
 
 module.exports = (config = {}, options = {}) => {
   const plugins = config.plugins || [];
@@ -23,7 +23,7 @@ module.exports = (config = {}, options = {}) => {
 
     resolve: {
       alias: {
-        fixtures: path.resolve(__dirname, '../fixtures')
+        fixtures: path.resolve(__dirname, '../../fixtures')
       }
     },
 

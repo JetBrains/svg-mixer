@@ -1,7 +1,7 @@
 const path = require('path');
 
 const ExtractPlugin = require('extract-text-webpack-plugin');
-const { FIXTURES_DIR } = require('svg-mixer-test/utils');
+const { FIXTURES_DIR } = require('svg-mixer-test');
 
 module.exports = {
   context: __dirname,

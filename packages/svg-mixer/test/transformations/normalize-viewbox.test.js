@@ -1,6 +1,6 @@
 const { normalizeViewBox } = require('svg-mixer/lib/transformations');
 
-const { testPostSvgPlugin } = require('svg-mixer-test/utils');
+const { testPostSvgPlugin } = require('svg-mixer-test');
 
 const t = testPostSvgPlugin(normalizeViewBox);
 

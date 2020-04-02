@@ -1,6 +1,6 @@
 const chai = require('chai');
 
-const utils = require('./utils');
+const utils = require('./lib');
 
 chai.should();
 

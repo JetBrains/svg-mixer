@@ -8,7 +8,7 @@ module.exports = {
 
   testMatch: [
     resolve(root, 'packages/*/test.js'),
-    resolve(root, './packages/*/test/{*,**/*}.test.js')
+    resolve(root, './packages/*/test/{*,**/*}?(\.)test.js')
   ],
   testPathIgnorePatterns: [
     '<rootDir>/node_modules/',

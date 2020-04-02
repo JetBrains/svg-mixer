@@ -1,6 +1,7 @@
 const path = require('path');
 
-const { getFixture, createWebpackCompiler } = require('svg-mixer-test/utils');
+const { getFixture } = require('svg-mixer-test');
+const { createCompiler } = require('svg-mixer-test').webpack;
 
 const fixtureFile = 'twitter.svg';
 const imageReq = './image.svg';
@@ -11,7 +12,7 @@ module.exports.fixtureFile = fixtureFile;
 module.exports.imageReq = imageReq;
 
 async function compile(input, opts) {
-  const compiler = createWebpackCompiler({
+  const compiler = createCompiler({
     context: '/',
 
     entry: {

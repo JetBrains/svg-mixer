@@ -1,8 +1,9 @@
-const utils = require('svg-mixer-test/utils');
+const { createBaseConfig } = require('svg-mixer-test').webpack;
 const HtmlPlugin = require('html-webpack-plugin');
 const SpritePlugin = require('extract-svg-sprite-webpack-plugin');
 
-module.exports = utils.createBaseWebpackConfig({
+module.exports = createBaseConfig({
+  context: __dirname,
   module: {
     rules: [
       {
