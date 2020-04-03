@@ -1,6 +1,6 @@
 {
   "name": "postcss-svg-mixer",
-  "version": "0.3.15",
+  "version": "0.3.16",
   "description": "PostCSS plugin for creating SVG sprites",
   "keywords": [
     "postcss",
@@ -22,7 +22,7 @@
   "dependencies": {
     "postcss": "^7.0.14",
     "query-string": "^6.0.0",
-    "svg-mixer": "^2.3.12",
+    "svg-mixer": "^2.3.13",
     "svg-mixer-utils": "^0.3.4"
   }
 }

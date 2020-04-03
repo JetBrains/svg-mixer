@@ -1,6 +1,6 @@
 {
   "name": "svg-transform-loader",
-  "version": "2.0.10",
+  "version": "2.0.11",
   "description": "",
   "license": "MIT",
   "author": "JetBrains",
@@ -16,7 +16,7 @@
     "lodash.isempty": "^4.4.0",
     "merge-options": "^1.0.0",
     "postcss": "^7.0.14",
-    "posthtml-transform": "^1.0.9",
+    "posthtml-transform": "^1.0.10",
     "postsvg": "^2.2.7",
     "query-string": "^6.1.0",
     "svg-mixer-utils": "^0.3.4"
@@ -26,7 +26,7 @@
     "extract-text-webpack-plugin": "3",
     "file-loader": "^1.1.11",
     "postcss-loader": "^2.1.5",
-    "svg-mixer-test": "^0.2.5",
+    "svg-mixer-test": "^0.2.6",
     "webpack": "3"
   }
 }

@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.17](https://github.com/JetBrains/svg-mixer/compare/gulp-svg-mixer@0.2.16...gulp-svg-mixer@0.2.17) (2020-04-03)
+
+**Note:** Version bump only for package gulp-svg-mixer
+
+
+
+
+
 ## [0.2.16](https://github.com/JetBrains/svg-mixer/compare/gulp-svg-mixer@0.2.12...gulp-svg-mixer@0.2.16) (2020-04-01)
 
 **Note:** Version bump only for package gulp-svg-mixer
