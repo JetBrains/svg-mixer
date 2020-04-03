@@ -20,6 +20,7 @@ module.exports = (config = {}, options = {}) => {
     },
 
     devtool: false,
+    mode: 'development',
 
     resolve: {
       alias: {
