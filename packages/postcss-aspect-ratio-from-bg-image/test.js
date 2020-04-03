@@ -2,7 +2,7 @@ const { resolve } = require('path');
 
 const postcss = require('postcss');
 
-const { FIXTURES_DIR } = require('svg-mixer-test/utils');
+const { FIXTURES_DIR } = require('svg-mixer-test');
 
 const plugin = require('.');
 

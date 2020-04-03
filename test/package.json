@@ -2,6 +2,11 @@
   "name": "svg-mixer-test",
   "version": "0.2.5",
   "private": true,
+  "main": "lib/index.js",
+  "files": [
+    "lib",
+    "lib/webpack-utils"
+  ],
   "dependencies": {
     "glob": "^7.1.2",
     "shelljs": "^0.8.3"
