@@ -1,6 +1,7 @@
 {
   "extends": [
-    "@kisenka/eslint-config"
+    "@kisenka/eslint-config",
+    "plugin:prettier/recommended"
   ],
   "env": {
     "node": true
