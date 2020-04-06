@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.7.3](https://github.com/JetBrains/svg-mixer/compare/extract-svg-sprite-webpack-plugin@0.7.2...extract-svg-sprite-webpack-plugin@0.7.3) (2020-04-06)
+
+
+### Bug Fixes
+
+* ignore module if it don't have source to replace ([7805e02](https://github.com/JetBrains/svg-mixer/commit/7805e0287e1cef249f41fa6689f79f8010e687f6)), closes [#48](https://github.com/JetBrains/svg-mixer/issues/48)
+
+
+
+
+
 ## [0.7.2](https://github.com/JetBrains/svg-mixer/compare/extract-svg-sprite-webpack-plugin@0.7.1...extract-svg-sprite-webpack-plugin@0.7.2) (2020-04-03)
 
 

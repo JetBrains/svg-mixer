@@ -1,6 +1,6 @@
 {
   "name": "svg-mixer-test",
-  "version": "0.2.6",
+  "version": "0.2.7",
   "private": true,
   "main": "lib/index.js",
   "files": [
