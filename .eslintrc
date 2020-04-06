@@ -7,6 +7,7 @@
     "node": true
   },
   "rules": {
+    "import/no-commonjs": "off",
     "no-magic-numbers": ["error", { "ignore": [-1, 0, 1, 2, 100, 1000] }]
   },
   "overrides": [
