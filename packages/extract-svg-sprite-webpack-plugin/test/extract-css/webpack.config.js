@@ -38,6 +38,4 @@ module.exports = webpack.createBaseConfig({
 
     new SpritePlugin()
   ]
-}, {
-  remove: ['main.js']
 });

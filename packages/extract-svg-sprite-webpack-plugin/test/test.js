@@ -1,36 +1,38 @@
-const webpack = require('webpack');
-const memoryFs = require('memory-fs');
-const { createCompiler, getAssets } = require('svg-mixer-test').webpack;
+const { runScript, compile } = require('./utils');
+
+it('should generate proper runtime', async () => {
+  let cfg = require('./runtime/webpack.config');
+  let assets = await compile(cfg);
+  let svgModule = runScript(assets['main.js']).default;
+
+  expect(svgModule).toMatchSnapshot('main.js');
+  expect(assets['sprite.svg']).toMatchSnapshot('sprite.svg');
+
+  // with require.context
+  cfg = Object.assign({ entry: './require-context' }, cfg);
+  assets = await compile(cfg);
+  svgModule = runScript(assets['main.js']).default;
+
+  expect(svgModule).toMatchSnapshot('main.js with require.context');
+});
 
 it('should works with extracted CSS', async () => {
-  const compiler = createCompiler(
-    require('./extract-css/webpack.config'),
-    { webpack, memoryFs }
-  );
-  const compilation = await compiler.run();
-
-  getAssets(compilation).forEach(({ name, content }) => {
-    expect(content).toMatchSnapshot(name);
-  });
+  const assets = await compile(require('./extract-css/webpack.config'));
+  expect(assets['main.css']).toMatchSnapshot('main.css');
+  expect(assets['sprite.svg']).toMatchSnapshot('sprite.svg');
 });
 
 it('should share sprite data with html-webpack-plugin', async () => {
-  const compiler = createCompiler(
-    require('./html-webpack-plugin-inline-sprite/webpack.config'),
-    { webpack, memoryFs }
+  const assets = await compile(
+    require('./html-webpack-plugin-inline-sprite/webpack.config')
   );
-  const compilation = await compiler.run();
-
-  getAssets(compilation).forEach(({ name, content }) => {
-    expect(content).toMatchSnapshot(name);
-  });
+  expect(assets['index.html']).toMatchSnapshot('index.html');
 });
 
 it('should warn when symbols with duplicate ids exists', async () => {
-  const compiler = createCompiler(
+  const { warnings } = await compile(
     require('./symbols-with-duplicate-ids/webpack.config'),
-    { webpack, memoryFs }
+    false
   );
-
-  expect((await compiler.run()).warnings).toHaveLength(1);
+  expect(warnings).toHaveLength(1);
 });

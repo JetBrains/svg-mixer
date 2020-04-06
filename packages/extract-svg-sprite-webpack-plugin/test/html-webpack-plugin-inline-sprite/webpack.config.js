@@ -17,6 +17,4 @@ module.exports = createBaseConfig({
     new HtmlPlugin({ template: './template.ejs' }),
     new SpritePlugin({ emit: false })
   ]
-}, {
-  remove: ['main.js']
 });
