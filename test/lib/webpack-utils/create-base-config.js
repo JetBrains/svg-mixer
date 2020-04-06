@@ -2,32 +2,25 @@ const path = require('path');
 
 const merge = require('merge-options');
 
-const RemoveAssetsWebpackPlugin = require('./remove-assets-plugin');
+module.exports = (config = {}) => {
+  return merge(
+    {
+      entry: './main',
 
-module.exports = (config = {}, options = {}) => {
-  const plugins = config.plugins || [];
+      output: {
+        path: path.resolve(config.context || process.cwd(), 'build'),
+        filename: '[name].js'
+      },
 
-  if (Array.isArray(options.remove)) {
-    plugins.push(new RemoveAssetsWebpackPlugin(options.remove));
-  }
+      devtool: false,
+      mode: 'development',
 
-  return merge({
-    entry: './main',
-
-    output: {
-      path: path.resolve(config.context || process.cwd(), 'build'),
-      filename: '[name].js'
-    },
-
-    devtool: false,
-    mode: 'development',
-
-    resolve: {
-      alias: {
-        fixtures: path.resolve(__dirname, '../../fixtures')
+      resolve: {
+        alias: {
+          fixtures: path.resolve(__dirname, '../../fixtures')
+        }
       }
     },
-
-    plugins
-  }, config);
+    config
+  );
 };
