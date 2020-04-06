@@ -73,6 +73,11 @@ module.exports = class Replacer {
     }
 
     const source = Replacer.getModuleReplaceSource(module, compilation);
+
+    if (!source) {
+      return module;
+    }
+
     const originalSourceContent = module.originalSource().source();
 
     replacements.forEach(({ token, replaceTo }) => {
