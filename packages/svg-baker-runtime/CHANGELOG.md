@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="1.4.5"></a>
+## [1.4.5](https://github.com/JetBrains/svg-mixer/tree/v1/packages/svg-baker-runtime/compare/svg-baker-runtime@1.4.0...svg-baker-runtime@1.4.5) (2020-04-08)
+
+
+### Bug Fixes
+
+* add aria-hidden attribute to SVG sprites ([d9a2a11](https://github.com/JetBrains/svg-mixer/tree/v1/packages/svg-baker-runtime/commit/d9a2a11)), closes [JetBrains/svg-sprite-loader#315](https://github.com/JetBrains/svg-mixer/tree/v1/packages/svg-baker-runtime/issues/315)
+* dont reference browser globals on init ([aabcd04](https://github.com/JetBrains/svg-mixer/tree/v1/packages/svg-baker-runtime/commit/aabcd04))
+* replace all instances of urls in attribute ([39f8aaf](https://github.com/JetBrains/svg-mixer/tree/v1/packages/svg-baker-runtime/commit/39f8aaf))
+* **typecheck:** fixed wrong check for angular on window ([670a06b](https://github.com/JetBrains/svg-mixer/tree/v1/packages/svg-baker-runtime/commit/670a06b))
+
+
+
+
 <a name="1.4.4"></a>
 ## [1.4.4](https://github.com/JetBrains/svg-mixer/tree/v1/packages/svg-baker-runtime/compare/svg-baker-runtime@1.4.0...svg-baker-runtime@1.4.4) (2020-04-01)
 
