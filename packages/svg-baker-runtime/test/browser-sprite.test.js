@@ -114,7 +114,7 @@ describe('svg-baker-runtime/browser-sprite', () => {
       delete window.angular;
     });
 
-    it.only('should not call locationChangeAngularEmitter if window.angular is a getter', () => {
+    it('should not call locationChangeAngularEmitter if window.angular is a getter', () => {
       const prop = 'locationChangeAngularEmitter';
       let config;
 
