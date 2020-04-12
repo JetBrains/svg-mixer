@@ -6,6 +6,7 @@
   "license": "MIT",
   "repository": "https://github.com/JetBrains/svg-mixer/tree/v1/packages/svg-baker-runtime",
   "main": "browser-sprite.js",
+  "browser": "browser-sprite.js",
   "module": "src/browser-sprite.js",
   "files": [
     "src/",
