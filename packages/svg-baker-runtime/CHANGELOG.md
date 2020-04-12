@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="1.4.6"></a>
+## [1.4.6](https://github.com/JetBrains/svg-mixer/tree/v1/packages/svg-baker-runtime/compare/svg-baker-runtime@1.4.5...svg-baker-runtime@1.4.6) (2020-04-12)
+
+
+### Bug Fixes
+
+* refer to transpiled code for webpack ([b139b21](https://github.com/JetBrains/svg-mixer/tree/v1/packages/svg-baker-runtime/commit/b139b21)), closes [#385](https://github.com/JetBrains/svg-mixer/tree/v1/packages/svg-baker-runtime/issues/385)
+
+
+
+
 <a name="1.4.5"></a>
 ## [1.4.5](https://github.com/JetBrains/svg-mixer/tree/v1/packages/svg-baker-runtime/compare/svg-baker-runtime@1.4.0...svg-baker-runtime@1.4.5) (2020-04-08)
 
