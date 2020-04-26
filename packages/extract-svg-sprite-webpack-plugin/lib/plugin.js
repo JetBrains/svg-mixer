@@ -42,6 +42,7 @@ class ExtractSvgSpritePlugin {
     const { NAMESPACE } = config;
 
     // TODO refactor this ugly way to avoid double compilation when using extract-text-webpack-plugin
+    // TODO remove this when drop webpack 3 support
     // eslint-disable-next-line arrow-body-style
     const compileSprites = compilation => {
       return (

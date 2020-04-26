@@ -41,6 +41,14 @@ module.exports = (config, {
     compiler.resolvers.context.fileSystem = inputFs;
   }
 
+  /**
+   * In webpack >= 4.29.0 reading assets after emitting is no longer allowed
+   * @see https://github.com/gajus/write-file-webpack-plugin/issues/74
+   * @see https://github.com/webpack/webpack/releases/tag/v4.29.0
+   * TODO:
+   *  refactor this to gather assets content before compilation finishes?
+   *  or find out another way to get assets contents in webpack 5
+   */
   return {
     ...compiler,
     run() {
