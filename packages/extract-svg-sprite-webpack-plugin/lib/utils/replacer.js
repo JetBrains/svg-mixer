@@ -1,5 +1,3 @@
-const webpackVersion = parseInt(require('webpack/package.json').version, 10);
-
 const MINI_EXTRACT_MODULE_TYPE = 'css/mini-extract';
 
 module.exports = class Replacer {
@@ -34,15 +32,37 @@ module.exports = class Replacer {
    * @return {ReplaceSource}
    */
   static getModuleReplaceSource(module, compilation) {
-    const args = [compilation.dependencyTemplates];
+    const {
+      dependencyTemplates,
+      outputOptions,
+      requestShortener,
+      runtimeTemplate,
+      moduleGraph,
+      chunkGraph
+    } = compilation;
 
-    // eslint-disable-next-line no-magic-numbers
-    if (webpackVersion <= 3) {
-      args.push(compilation.outputOptions);
-      args.push(compilation.requestShortener);
-      // eslint-disable-next-line no-magic-numbers
-    } else if (webpackVersion >= 4) {
-      args.push(compilation.runtimeTemplate);
+    const args = [];
+
+    // webpack 5
+    if (moduleGraph && chunkGraph) {
+      args.push({
+        dependencyTemplates,
+        runtimeTemplate,
+        moduleGraph,
+        chunkGraph
+      });
+    } else {
+      args.push(dependencyTemplates);
+
+      // webpack 3
+      if (!runtimeTemplate) {
+        args.push(outputOptions);
+        args.push(requestShortener);
+      }
+      // webpack 4
+      else {
+        args.push(runtimeTemplate);
+      }
     }
 
     const cachedSource = module.source(...args);
@@ -81,15 +101,24 @@ module.exports = class Replacer {
     const originalSourceContent = module.originalSource().source();
 
     replacements.forEach(({ token, replaceTo }) => {
-      const indexes = Replacer.getAllStringOccurrences(originalSourceContent, token);
+      const indexes = Replacer.getAllStringOccurrences(
+        originalSourceContent,
+        token
+      );
 
       indexes.forEach(idx => {
         const start = idx[0];
         const end = idx[1] - 1;
 
-        const alreadyHasReplacement = source.replacements.find(r => (
-          r[0] === start && r[1] === end && r[2] === replaceTo
-        ));
+        /**
+         * source.replacements in webpack <= 4
+         * source._replacements in webpack 5
+         */
+        const sourceReplacements = source.replacements || source._replacements;
+
+        const alreadyHasReplacement = sourceReplacements.find(
+          r => r[0] === start && r[1] === end && r[2] === replaceTo
+        );
 
         if (alreadyHasReplacement) {
           return;
