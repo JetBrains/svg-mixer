@@ -28,6 +28,7 @@
   },
   "scripts": {
     "env:webpack-3": "node scripts/install-env webpack-3",
-    "env:webpack-4": "node scripts/install-env webpack-4"
+    "env:webpack-4": "node scripts/install-env webpack-4",
+    "env:webpack-5": "node scripts/install-env webpack-5"
   }
 }
