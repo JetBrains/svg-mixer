@@ -5,7 +5,14 @@ const clone = require('clone');
 
 // Fixes Firefox bug https://bugzilla.mozilla.org/show_bug.cgi?id=353575
 const defaultConfig = {
-  tags: ['linearGradient', 'radialGradient', 'pattern', 'filter']
+  tags: [
+    'linearGradient',
+    'radialGradient',
+    'pattern',
+    'filter',
+    'clipPath',
+    'mask'
+  ]
 };
 
 module.exports = function moveNodesOutsideSymbol(config) {

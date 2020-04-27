@@ -1,10 +1,22 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Move all gradients, patterns and filters outside symbol 1`] = `
+exports[`Move all gradients, patterns, filters, clipMask & mask outside symbol 1`] = `
 "<svg>
   <symbol>
-    <defs></defs>
+    <defs>
+
+
+
+
+
+
+    </defs>
   </symbol>
   <linearGradient></linearGradient>
+  <radialGradient></radialGradient>
+  <pattern></pattern>
+  <filter></filter>
+  <clipPath></clipPath>
+  <mask></mask>
 </svg>"
 `;
