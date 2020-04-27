@@ -2,11 +2,15 @@ const vm = require('vm');
 
 const webpack = require('webpack');
 const memoryFs = require('memory-fs');
-const { createCompiler, getAssets } = require('svg-mixer-test').webpack;
+const { createCompiler } = require('svg-mixer-test').webpack;
 
 function runScript(source) {
   const vmScript = new vm.Script(source, { filename: 'foo.js' });
-  return vmScript.runInContext(vm.createContext());
+  return vmScript.runInContext(
+    vm.createContext({
+      module
+    })
+  );
 }
 
 module.exports.runScript = runScript;
@@ -21,8 +25,8 @@ async function compile(cfg, returnAssets = true) {
     webpack,
     memoryFs
   });
-  const compilation = await compiler.run();
-  return returnAssets ? getAssets(compilation) : compilation;
+  const result = await compiler.run();
+  return returnAssets ? result.assets : result;
 }
 
 module.exports.compile = compile;

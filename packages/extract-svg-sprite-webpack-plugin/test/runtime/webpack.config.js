@@ -5,7 +5,7 @@ module.exports = createBaseConfig({
   entry: './main',
   context: __dirname,
   output: {
-    libraryTarget: 'var'
+    libraryTarget: 'commonjs2',
   },
   module: {
     rules: [
