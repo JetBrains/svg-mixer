@@ -14,22 +14,57 @@ try {
 }
 
 /**
+ * In webpack >= 4.29.0 reading assets after emitting is no longer allowed
+ * This plugin collects assets before compiler ends
+ * @see https://github.com/webpack/webpack/releases/tag/v4.29.0
+ */
+class CollectAssetsPlugin {
+  apply(compiler) {
+    function handler(c, done) {
+      this.assets = Object.keys(c.assets).reduce((acc, name) => {
+        acc[name] = c.assets[name].source().toString().trim();
+        return acc;
+      }, {});
+      done();
+    }
+
+    if (compiler.hooks) {
+      compiler.hooks.emit.tapAsync(
+        CollectAssetsPlugin.constructor.name,
+        handler.bind(this)
+      );
+    } else {
+      compiler.plugin('emit', handler.bind(this));
+    }
+  }
+}
+
+/**
  * @param {Object} [config]
  * @param {MemoryFileSystem} [inputFs]
  * @return {Compiler} compiler
  * @return {Function<Promise<Compilation>>} compiler.run
  */
-module.exports = (config, {
-  memoryInputFs = false,
-  webpack = _webpack,
-  memoryFs = _memoryFs
-} = {}) => {
-  const cfg = merge({
-    output: {
-      path: path.resolve(process.cwd(), 'build'),
-      filename: '[name].js'
-    }
-  }, config);
+module.exports = (
+  config,
+  { memoryInputFs = false, webpack = _webpack, memoryFs = _memoryFs } = {}
+) => {
+  const cfg = merge(
+    {
+      output: {
+        path: path.resolve(process.cwd(), 'build'),
+        filename: '[name].js'
+      }
+    },
+    config
+  );
+
+  if (!cfg.plugins) {
+    cfg.plugins = [];
+  }
+
+  const collectAssetsPlugin = new CollectAssetsPlugin();
+  cfg.plugins.push(collectAssetsPlugin);
 
   const compiler = webpack(cfg);
   compiler.outputFileSystem = new memoryFs();
@@ -41,14 +76,6 @@ module.exports = (config, {
     compiler.resolvers.context.fileSystem = inputFs;
   }
 
-  /**
-   * In webpack >= 4.29.0 reading assets after emitting is no longer allowed
-   * @see https://github.com/gajus/write-file-webpack-plugin/issues/74
-   * @see https://github.com/webpack/webpack/releases/tag/v4.29.0
-   * TODO:
-   *  refactor this to gather assets content before compilation finishes?
-   *  or find out another way to get assets contents in webpack 5
-   */
   return {
     ...compiler,
     run() {
@@ -60,12 +87,21 @@ module.exports = (config, {
 
           if (stats.compilation.errors.length > 0) {
             const msg = stats.compilation.errors
-              .map(e => (typeof e === 'string' ? e : `${e.message}\n${e.stack}`))
+              .map(e =>
+                typeof e === 'string' ? e : `${e.message}\n${e.stack}`
+              )
               .join('\n');
             return reject(new Error(msg));
           }
 
-          return resolve(stats.compilation);
+          const assets = collectAssetsPlugin.assets;
+          const { errors, warnings } = stats.compilation;
+
+          return resolve({
+            assets,
+            errors,
+            warnings
+          });
         });
       });
     }
