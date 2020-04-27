@@ -1,1 +1,2 @@
 - Share symbol meta info with next loader
+- html-webpack-plugin@4 compat via option (see https://github.com/waysact/webpack-subresource-integrity/blob/master/index.js#L322)
