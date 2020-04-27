@@ -1,6 +1,6 @@
 {
   "name": "svg-transform-loader",
-  "version": "2.0.12",
+  "version": "2.0.13",
   "description": "",
   "license": "MIT",
   "author": "JetBrains",
@@ -26,7 +26,7 @@
     "extract-text-webpack-plugin": "3",
     "file-loader": "^1.1.11",
     "postcss-loader": "^2.1.5",
-    "svg-mixer-test": "^0.2.7",
+    "svg-mixer-test": "^0.2.8",
     "webpack": "3"
   }
 }
