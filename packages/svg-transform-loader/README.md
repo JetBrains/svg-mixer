@@ -37,8 +37,8 @@ it is possible to specify transform parameters as usual CSS declarations:
 ```css
 .img {
   background-image: url('./img.svg');
-  -svg-fill: red;
-  -svg-stroke: black;
+  -svg-mixer-fill: red;
+  -svg-mixer-stroke: black;
 }
 ```
 
@@ -104,8 +104,8 @@ plugin will turn them into background image query params:
 ```css
 .img {
   background-image: url('./img.svg');
-  -svg-fill: #ffffff path, blue circle;
-  -svg-stroke: #ede;
+  -svg-mixer-fill: #ffffff path, blue circle;
+  -svg-mixer-stroke: #ede;
 }
 
 /* turns into */
