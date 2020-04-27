@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.3.14](https://github.com/JetBrains/svg-mixer/compare/svg-mixer@2.3.13...svg-mixer@2.3.14) (2020-04-27)
+
+
+### Bug Fixes
+
+* add clipMask & mask to list of elements which should be moved outside symbol ([261930e](https://github.com/JetBrains/svg-mixer/commit/261930efdf974cb78bd824b7642cb591cd3193bf))
+
+
+
+
+
 ## [2.3.13](https://github.com/JetBrains/svg-mixer/compare/svg-mixer@2.3.12...svg-mixer@2.3.13) (2020-04-03)
 
 **Note:** Version bump only for package svg-mixer

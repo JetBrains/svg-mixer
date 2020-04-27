@@ -1,6 +1,6 @@
 {
   "name": "svg-mixer",
-  "version": "2.3.13",
+  "version": "2.3.14",
   "description": "Library for generating and transforming SVG sprites in modern way",
   "keywords": [
     "svg",
