@@ -43,13 +43,7 @@ async function compile(input, opts) {
   inputFs.data[path.basename(entryReq)] = new Buffer(input);
   inputFs.data[path.basename(imageReq)] = new Buffer(getFixture(fixtureFile));
 
-  const { assets: rawAssets, errors } = await compiler.run();
-
-  // Convert all assets to string
-  const assets = Object.keys(rawAssets).reduce((acc, name) => {
-    acc[name] = rawAssets[name].source().toString();
-    return acc;
-  }, {});
+  const { assets, errors } = await compiler.run();
 
   const image = assets[path.basename(imageReq)];
   const entry = assets[`${entryName}.js`];
