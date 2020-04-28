@@ -114,6 +114,23 @@ describe('svg-mixer-runtime/browser-sprite', () => {
       delete window.angular;
     });
 
+    
+    it('should not call locationChangeAngularEmitter if window.angular is a getter', () => {
+      const prop = 'locationChangeAngularEmitter';
+      let config;
+
+      config = new Sprite(opts).config;
+      config[prop].should.be.false;
+
+      window.angular = Object.defineProperty(window, "angular", {
+        get: function() {},
+        configurable: true
+      });
+      config = new Sprite(opts).config;
+      config[prop].should.be.false;
+      delete window.angular;
+    });
+
     it('should detect when Firefox gradients fix needed', () => {
       // TODO
     });
