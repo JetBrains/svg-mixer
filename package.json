@@ -28,6 +28,10 @@
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
     }
   },
+   "repository": {
+    "type": "git",
+    "url": "https://github.com/JetBrains/svg-mixer.git"
+  },
   "scripts": {
     "copy-license": "lerna exec -- cp '$LERNA_ROOT_PATH/LICENSE' '$LERNA_ROOT_PATH/packages/$LERNA_PACKAGE_NAME'",
     "lint": "eslint packages scripts test",
