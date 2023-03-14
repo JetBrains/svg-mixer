@@ -95,8 +95,9 @@ Stack sprite also has following options:
 
 > Type: `function(path: string, query: string = '') => string`
 
-Function to generate `<symbol id>` attribute. By default file name without extension is used.
+Function to generate `<symbol id>` attribute. 
 Accepts 2 arguments: absolute path to file and optional query string.
+Default implementation generates a [url slug](https://www.npmjs.com/package/url-slug) using filename (without extension) and query string.
 
 <a id="prettify"></a>
 ### `prettify`
