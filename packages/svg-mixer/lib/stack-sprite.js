@@ -42,10 +42,12 @@ class StackSprite extends Sprite {
 
         return generateSpriteTree({
           attrs: config.attrs,
-          defs: [{
-            tag: 'style',
-            content: config.styles
-          }],
+          defs: [
+            {
+              tag: 'style',
+              content: this.styles
+            }
+          ],
           content: symbolsTrees
         });
       });
