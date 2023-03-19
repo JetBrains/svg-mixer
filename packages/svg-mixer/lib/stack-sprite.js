@@ -12,18 +12,17 @@ class StackSprite extends Sprite {
    */
   static get defaultConfig() {
     return merge(super.defaultConfig, {
-      usageClassName: 'sprite-symbol-usage',
-      get styles() {
-        return [
-          `.${this.usageClassName} {display: none;}`,
-          `.${this.usageClassName}:target {display: inline;}`
-        ].join('\n');
-      }
+      usageClassName: 'sprite-symbol-usage'
     });
   }
 
   static get TYPE() {
     return 'stack';
+  }
+
+  get styles() {
+    const { usageClassName } = this.config;
+    return `.${usageClassName} { display: none; } .${usageClassName}:target { display: inline; }`;
   }
 
   /**
