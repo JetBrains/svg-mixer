@@ -1,3 +1,5 @@
+[![obsolete JetBrains project](https://jb.gg/badges/obsolete.svg)](https://confluence.jetbrains.com/display/ALL/JetBrains+on+GitHub)
+
 # SVG Mixer
 
 Node.js toolset for generating & transforming SVG images and sprites in modern way. 
