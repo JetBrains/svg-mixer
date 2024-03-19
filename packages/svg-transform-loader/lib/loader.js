@@ -28,7 +28,8 @@ module.exports = function (content, map) {
     ...transformPluginCfg
   } = merge(defaultConfig, getOptions(this) || {});
 
-  const query = this.resourceQuery ? parseQuery(this.resourceQuery) : null;
+  // in webpack >= 5, the fragment part of the query was seperated into it's own property (resourceFragment). for webpack < 5 it is undefined
+  const query = this.resourceQuery ? parseQuery(this.resourceQuery + (this.resourceFragment || '')) : null;
 
   if (!query || isEmpty(query)) {
     return callback(null, generateLoaderResult(content, raw), map);
